@@ -3,7 +3,38 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Welcome to Astro.">
-	<main>
-		<p class="text-3xl font-bold underline">HELLO WORLD</p>
+	<div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+		<h1 class="text-white text-4xl font-bold">WIP</h1>
+	</div>
+
+	<main class="w-full max-w-6xl gap-2 grid md:grid-cols-4 h-full max-h-[700px] text-gray-200">
+		<div class="bg-red-900 md:col-span-3 border border-white/20 rounded-xl p-4 cursor-pointer">
+			<h1 class="font-bold">Hi, I'm Rustam</h1>
+		</div>
+
+		<div class="bg-green-900 md:col-span-1 border border-white/20 rounded-xl p-4 cursor-pointer">
+			<h1 class="font-bold">About me</h1>
+		</div>
+
+		<div class="bg-purple-900 md:col-span-2 border border-white/20 rounded-xl p-4 cursor-pointer">
+			<h1 class="font-bold">Projects</h1>
+		</div>
+
+		<div class="bg-orange-900 md:col-span-2 border border-white/20 rounded-xl p-4 cursor-pointer">
+			<h1 class="font-bold">NOW</h1>
+		</div>
+
+		<div class="bg-blue-900 md:col-span-1 border border-white/20 rounded-xl p-4 cursor-pointer">
+			<h1 class="font-bold">Socials</h1>
+		</div>
+
+		<div class="bg-yellow-900 md:col-span-1 border border-white/20 rounded-xl p-4 cursor-pointer">
+			<h1 class="font-bold">Timezone</h1>
+		</div>
+
+		<div class="bg-pink-900 md:col-span-2 border border-white/20 rounded-xl p-4 cursor-pointer">
+			<h1 class="font-bold">Blog <span class="line-through">brain dump</span></h1>
+		</div>
 	</main>
+	<div>THEME</div>
 </Layout>
