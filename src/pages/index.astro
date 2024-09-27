@@ -1,4 +1,7 @@
 ---
+import GithubLogo from '../components/github-logo.astro';
+import LinkedinLogo from '../components/linkedin-logo.astro';
+import XLogo from '../components/x-logo.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
@@ -7,34 +10,58 @@ import Layout from '../layouts/Layout.astro';
 		<h1 class="text-white text-4xl font-bold">WIP</h1>
 	</div>
 
-	<main class="w-full max-w-6xl gap-2 grid md:grid-cols-4 h-full max-h-[700px] text-gray-200">
-		<div class="bg-red-900 md:col-span-3 border border-white/20 rounded-xl p-4 cursor-pointer">
-			<h1 class="font-bold">Hi, I'm Rustam</h1>
+	<main class="w-full max-w-6xl gap-1 md:md:gap-2 grid md:grid-cols-8 md:row-span-10 h-full max-h-[700px] text-gray-200 [&>div]:transition-colors [&>div]:duration-300">
+		<div tabindex="0" class="focus:outline-none focus:ring-1 focus:ring-red-600 md:col-span-6 md:row-span-6 flex flex-col justify-start border border-white/20 rounded-xl p-4 md:p-6 cursor-pointer hover:border-red-600" role="button" aria-label="Hi, I'm Rustam">
+			<p class="font-thin text-gray-400">welcome</p>
+
+			<div class="flex flex-col gap-2 justify-between flex-1">
+				<h1 class="text-lg">Hey, I'm <strong>Rustam Ashurmatov</strong> full-stack software developer, with strong interest for pretty much everything</h1>
+
+				<div class="flex gap-4">
+					<a href="https://github.com/frixaco" target="_blank" class="focus:outline-none focus:text-red-600 shadow-solid shadow-red-600 hover:text-red-600 active:shadow-none active:translate-x-[2px] active:translate-y-[2px] w-14 h-10 flex justify-center items-center gap-2 text-2xl border border-red-600 rounded-lg">
+						<GithubLogo />
+					</a>
+
+					<a href="https://www.linkedin.com/in/frixaco/" target="_blank" class="focus:outline-none focus:text-red-600 shadow-solid shadow-red-600 hover:text-red-600 active:shadow-none active:translate-x-[2px] active:translate-y-[2px] w-14 h-10 flex justify-center items-center gap-2 text-2xl border border-red-600 rounded-lg">
+						<LinkedinLogo />
+					</a>
+
+					<a href="https://x.com/frixaco" target="_blank" class="focus:outline-none focus:text-red-600 shadow-solid shadow-red-600 hover:text-red-600 active:shadow-none active:translate-x-[2px] active:translate-y-[2px] w-14 h-10 flex justify-center items-center gap-2 text-2xl border border-red-600 rounded-lg">
+						<XLogo />
+					</a>
+				</div>
+
+			</div>
+
 		</div>
 
-		<div class="bg-green-900 md:col-span-1 border border-white/20 rounded-xl p-4 cursor-pointer">
+		<div tabindex="0" class="focus:outline-none focus:ring-1 focus:ring-blue-600 md:col-span-2 md:row-span-8 border border-white/20 rounded-xl p-4 cursor-pointer hover:border-blue-600" role="button" aria-label="About me">
 			<h1 class="font-bold">About me</h1>
 		</div>
 
-		<div class="bg-purple-900 md:col-span-2 border border-white/20 rounded-xl p-4 cursor-pointer">
-			<h1 class="font-bold">Projects</h1>
-		</div>
-
-		<div class="bg-orange-900 md:col-span-2 border border-white/20 rounded-xl p-4 cursor-pointer">
-			<h1 class="font-bold">NOW</h1>
-		</div>
-
-		<div class="bg-blue-900 md:col-span-1 border border-white/20 rounded-xl p-4 cursor-pointer">
+		<div tabindex="0" class="focus:outline-none focus:ring-1 focus:ring-green-600 md:col-span-2 md:row-span-4 border border-white/20 rounded-xl p-4 cursor-pointer hover:border-green-600" role="button" aria-label="Socials">
 			<h1 class="font-bold">Socials</h1>
 		</div>
 
-		<div class="bg-yellow-900 md:col-span-1 border border-white/20 rounded-xl p-4 cursor-pointer">
+		<div tabindex="0" class="focus:outline-none focus:ring-1 focus:ring-purple-600 md:col-span-4 md:row-span-2 border border-white/20 rounded-xl p-4 cursor-pointer hover:border-purple-600" role="button" aria-label="Projects">
+			<h1 class="font-bold">Projects</h1>
+		</div>
+
+		<div tabindex="0" class="focus:outline-none focus:ring-1 focus:ring-cyan-600 md:col-span-2 md:row-span-2 border border-white/20 rounded-xl p-4 cursor-pointer hover:border-cyan-600" role="button" aria-label="NOW">
+			<h1 class="font-bold">NOW</h1>
+		</div>
+
+		<div tabindex="0" class="focus:outline-none focus:ring-1 focus:ring-gray-600 md:col-span-1 md:row-span-1 border border-white/20 rounded-xl p-4 cursor-pointer hover:border-gray-400" role="button" aria-label="Timezone">
 			<h1 class="font-bold">Timezone</h1>
 		</div>
 
-		<div class="bg-pink-900 md:col-span-2 border border-white/20 rounded-xl p-4 cursor-pointer">
-			<h1 class="font-bold">Blog <span class="line-through">brain dump</span></h1>
+		<div tabindex="0" class="focus:outline-none focus:ring-1 focus:ring-pink-600 md:col-span-3 md:row-span-2 border border-white/20 rounded-xl p-4 cursor-pointer hover:border-pink-600" role="button" aria-label="Blog">
+			<h1 class="font-bold">Blog</h1>
+		</div>
+
+		<!-- THIS WILL BE A THEME SWITCHER BUTTON -->
+		<div tabindex="0" class="focus:outline-none focus:ring-1 focus:ring-emerald-600 md:col-span-1 md:row-span-1 border border-white/20 rounded-xl p-4 cursor-pointer hover:border-emerald-600" role="button" aria-label="THEME">
+			<h1 class="font-bold">THEME</h1>
 		</div>
 	</main>
-	<div>THEME</div>
 </Layout>
