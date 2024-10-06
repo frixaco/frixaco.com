@@ -6,7 +6,13 @@ export default {
       boxShadow: {
         solid: "2px 2px 0",
       },
+      dropShadow: {
+        "solid": "2px 2px 0px hsl(0, 0%, 0%)"
+      },
+      colors: {
+        "primary": "hsl(0deg 0% 9.02%)"
+      }
     },
   },
   plugins: [],
-};
+}
