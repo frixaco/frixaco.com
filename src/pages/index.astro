@@ -3,6 +3,7 @@ import GithubLogo from '../components/github-logo.astro'
 import LinkedinLogo from '../components/linkedin-logo.astro'
 import XLogo from '../components/x-logo.astro'
 import Layout from '../layouts/Layout.astro'
+import '../globals.css'
 ---
 
 <script>
@@ -43,9 +44,24 @@ import Layout from '../layouts/Layout.astro'
   <main
     class='relative grid size-full max-h-[700px] max-w-6xl gap-1 text-gray-200 md:row-span-10 md:grid-cols-8 md:md:gap-2'
   >
-    <span class='absolute -bottom-6 right-0 font-mono text-sm'
-      >Press [?] to toggle shortcuts</span
+    <script is:inline>
+      let shortcutsEnabled = true
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '?') {
+          console.log('?')
+          shortcutsEnabled = !shortcutsEnabled
+          document.getElementById('shortcuts-toggle-label').textContent =
+            shortcutsEnabled ? 'enable' : 'disable'
+        }
+      })
+    </script>
+    <label
+      for='shortcuts-toggle'
+      class='absolute -bottom-6 right-0 font-mono text-sm'
     >
+      Press [?] to <strong id='shortcuts-toggle-label'>disable</strong> shortcuts
+      <input type='checkbox' name='shortcuts-toggle' class='hidden' />
+    </label>
 
     <div
       tabindex='0'
