@@ -3,15 +3,18 @@
  * @type {import("prettier").Config}
  */
 module.exports = {
-  ...require("prettier-config-standard"),
-  bracketSameLine: false,
-  plugins: ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
-  overrides: [
-    {
-      files: "*.astro",
-      options: {
-        parser: "astro",
-      },
-    },
-  ],
-};
+	bracketSameLine: true,
+	useTabs: true,
+	printWidth: 120,
+	semi: false,
+	singleQuote: false,
+	plugins: ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
+	overrides: [
+		{
+			files: "*.astro",
+			options: {
+				parser: "astro",
+			},
+		},
+	],
+}
