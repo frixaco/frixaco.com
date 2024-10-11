@@ -4,6 +4,9 @@ import LinkedinLogo from '../components/linkedin-logo.astro'
 import XLogo from '../components/x-logo.astro'
 import Layout from '../layouts/Layout.astro'
 import '../globals.css'
+import TelegramLogo from '../components/telegram-logo.astro'
+import EmaillLogo from '../components/emaill-logo.astro'
+import DiscordLogo from '../components/discord-logo.astro'
 ---
 
 <script>
@@ -37,9 +40,9 @@ import '../globals.css'
 </script>
 
 <Layout title='Rustam @frixaco | Full-stack software developer'>
-  <div class='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
+  <!-- <div class='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
     <h1 class='text-4xl font-bold text-white'>WIP</h1>
-  </div>
+  </div> -->
 
   <main
     class='relative grid size-full max-h-[700px] max-w-6xl gap-1 text-gray-200 md:grid-cols-8 md:grid-rows-12 md:md:gap-4'
@@ -47,6 +50,10 @@ import '../globals.css'
     <script is:inline>
       let shortcutsEnabled = true
       document.addEventListener('keydown', (e) => {
+        if (e.altKey || e.ctrlKey || e.metaKey) {
+          // shift key allowed
+          return
+        }
         if (e.key === '?') {
           console.log('?')
           shortcutsEnabled = !shortcutsEnabled
@@ -71,7 +78,8 @@ import '../globals.css'
           Hi, I'm <strong
             class='drop-shadow-solid group-hover:text-red-500 group-focus:text-red-500'
             >Rustam Ashurmatov</strong
-          > full-stack software developer, with strong interest for pretty much everything
+          >, full-stack developer, with strong interest for pretty much
+          everything
         </h1>
 
         <div
@@ -82,7 +90,7 @@ import '../globals.css'
               <a
                 href='https://github.com/frixaco'
                 target='_blank'
-                class='flex h-10 w-14 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-solid shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none'
+                class='flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-solid shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none'
               >
                 <GithubLogo />
               </a>
@@ -93,7 +101,7 @@ import '../globals.css'
               <a
                 href='https://www.linkedin.com/in/frixaco/'
                 target='_blank'
-                class='flex h-10 w-14 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-solid shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none'
+                class='flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-solid shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none'
               >
                 <LinkedinLogo />
               </a>
@@ -104,7 +112,7 @@ import '../globals.css'
               <a
                 href='https://x.com/frixaco'
                 target='_blank'
-                class='flex h-10 w-14 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-solid shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none'
+                class='flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-solid shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none'
               >
                 <XLogo />
               </a>
@@ -123,15 +131,45 @@ import '../globals.css'
 
     <div
       tabindex='0'
-      class='group relative flex cursor-pointer flex-col rounded-xl border border-white/20 bg-primary px-5 py-4 hover:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 md:col-span-2 md:row-span-8'
+      class='group relative flex cursor-pointer flex-col gap-2 rounded-xl border border-white/20 bg-primary px-5 py-4 hover:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 md:col-span-2 md:row-span-8'
       role='button'
       aria-label='About me'
     >
-      <h1 class='font-bold group-hover:text-blue-400 group-focus:text-blue-400'>
+      <h1
+        class='text-lg font-bold group-hover:text-blue-400 group-focus:text-blue-400'
+      >
         About me
       </h1>
 
-      <div class='flex-1'></div>
+      <div class='flex-1 text-xs font-thin'>
+        <p class='pb-3'>
+          Self-taught full-stack dev from Uzbekistan. I've got a love-hate
+          relationship with JavaScript world. Live inside my terminal & Neovim.
+        </p>
+
+        <p>Comfortable with:</p>
+
+        <ul class='list-disc pl-5'>
+          <li>Languages: JavaScript/TypeScript, Go, Python</li>
+          <li>Frameworks/Libs: Next.js, React and its ecosystem</li>
+          <li>Cloud & DevOps: AWS, Docker, Railway</li>
+        </ul>
+
+        <p class='pb-3'>
+          The JS world changes daily. Staying updated is my duty.
+        </p>
+
+        <p class='pb-3'>
+          Beyond coding pet projects, I also learn/practice 3D modeling in
+          Blender and music production in Reaper.
+        </p>
+
+        <p class='pb-1 md:pb-0'>
+          I play games! Favorites: Sekiro, Monster Hunter World, Elden Ring,
+          Lies of P. But osu! is my true love - aiming to be 4-digit player at
+          the moment.
+        </p>
+      </div>
 
       <span class='text-right font-mono text-sm font-thin text-gray-400'
         >[a]</span
@@ -140,17 +178,86 @@ import '../globals.css'
 
     <div
       tabindex='0'
-      class='group flex cursor-pointer flex-col rounded-xl border border-white/20 bg-primary px-5 py-4 hover:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600 md:col-span-2 md:row-span-6'
+      class='group flex cursor-pointer flex-col gap-2 rounded-xl border border-white/20 bg-primary px-5 py-4 hover:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600 md:col-span-2 md:row-span-6'
       role='button'
       aria-label='Socials'
     >
       <h1
-        class='font-bold group-hover:text-green-400 group-focus:text-green-400'
+        class='text-lg font-bold group-hover:text-green-400 group-focus:text-green-400'
       >
         Socials
       </h1>
 
-      <div class='flex-1'></div>
+      <p class='pb-2 text-sm'>Let's talk about anything!</p>
+
+      <div class='flex flex-1 flex-col justify-center gap-2 text-sm font-thin'>
+        <script is:inline>
+          document.addEventListener('keydown', (e) => {
+            if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+              return
+            }
+            if (e.key === 'e') {
+              // Show a tooltip when copy
+              const email = 'rr.ashurmatov.21@gmail.com'
+              navigator.clipboard.writeText(email)
+            }
+          })
+        </script>
+        <p class='flex items-center gap-2 active:text-green-600'>
+          <!-- Show a tooltip when copy -->
+          <EmaillLogo />
+          <span class='hover:text-gray-400 active:text-green-600'
+            >rr.ashurmatov.21@gmail.com</span
+          >
+          <span class='font-mono text-gray-400'>[e]</span>
+        </p>
+        <hr class='my-2' />
+        <a
+          href='https://github.com/frixaco'
+          target='_blank'
+          class='flex items-center gap-2'
+        >
+          <GithubLogo />
+          <span class='hover:text-gray-400'>Github</span>
+          <span class='font-mono text-gray-400'>[g]</span>
+        </a>
+        <a
+          href='https://www.linkedin.com/in/frixaco/'
+          target='_blank'
+          class='flex items-center gap-2'
+        >
+          <LinkedinLogo />
+          <span class='hover:text-gray-400'>Linkedin</span>
+          <span class='font-mono text-gray-400'>[l]</span>
+        </a>
+        <a
+          href='https://x.com/frixaco'
+          target='_blank'
+          class='flex items-center gap-2'
+        >
+          <XLogo />
+          <span class='hover:text-gray-400'>X</span>
+          <span class='font-mono text-gray-400'>[x]</span>
+        </a>
+        <a
+          href='https://t.me/frixaco'
+          target='_blank'
+          class='flex items-center gap-2'
+        >
+          <TelegramLogo />
+          <span class='hover:text-gray-400'>Telegram</span>
+          <span class='font-mono text-gray-400'>[t]</span>
+        </a>
+        <a
+          href='https://discord.gg/frixaco'
+          target='_blank'
+          class='flex items-center gap-2'
+        >
+          <DiscordLogo />
+          <span class='hover:text-gray-400'>Discord</span>
+          <span class='font-mono text-gray-400'>[d]</span>
+        </a>
+      </div>
     </div>
 
     <div
@@ -160,7 +267,7 @@ import '../globals.css'
       aria-label='Projects'
     >
       <h1
-        class='font-bold group-hover:text-purple-400 group-focus:text-purple-400'
+        class='text-lg font-bold group-hover:text-purple-400 group-focus:text-purple-400'
       >
         Projects
       </h1>
@@ -178,7 +285,9 @@ import '../globals.css'
       role='button'
       aria-label='Blog'
     >
-      <h1 class='font-bold group-hover:text-pink-400 group-focus:text-pink-400'>
+      <h1
+        class='text-lg font-bold group-hover:text-pink-400 group-focus:text-pink-400'
+      >
         Blog
       </h1>
 
@@ -195,7 +304,9 @@ import '../globals.css'
       role='button'
       aria-label='NOW'
     >
-      <h1 class='font-bold group-hover:text-cyan-400 group-focus:text-cyan-400'>
+      <h1
+        class='text-lg font-bold group-hover:text-cyan-400 group-focus:text-cyan-400'
+      >
         NOW
       </h1>
 
@@ -221,5 +332,3 @@ import '../globals.css'
     </label>
   </div>
 </Layout>
-
-<!-- class='absolute -bottom-6 right-0 font-mono text-sm' -->
