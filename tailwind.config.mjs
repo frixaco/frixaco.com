@@ -1,8 +1,14 @@
+import defaultTheme from "tailwindcss/defaultTheme"
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
 	theme: {
 		extend: {
+			fontFamily: {
+				// sans: ["Manrope", ...defaultTheme.fontFamily.sans],
+				sans: ["Plus Jakarta Sans", ...defaultTheme.fontFamily.sans],
+			},
 			boxShadow: {
 				solid: "2px 2px 0",
 			},
