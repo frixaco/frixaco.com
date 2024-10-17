@@ -6,16 +6,24 @@ import LinkedinLogo from "./linkedin-logo.astro"
 import TelegramLogo from "./telegram-logo.astro"
 import Tooltip from "./tooltip"
 import XLogo from "./x-logo.astro"
+
+const { class: className } = Astro.props
 ---
 
-<div class="flex flex-1 flex-col justify-center gap-2 text-sm font-thin">
+<div class:list={["flex flex-col justify-center gap-2 text-sm font-thin", className]}>
 	<Tooltip client:load>
-		<p class="flex items-center gap-2 active:text-green-600">
+		<div class="flex flex-col items-start gap-2 active:text-green-600">
 			<!-- Show a tooltip when copy -->
-			<EmaillLogo />
-			<span class="text-xs hover:text-gray-400 active:text-green-600">rr.ashurmatov.21@gmail.com</span>
-			<span class="font-mono text-gray-400">[e]</span>
-		</p>
+			<span class="flex items-center gap-2">
+				<EmaillLogo /> Email:
+			</span>
+			<div class="flex w-full items-center gap-2">
+				<span class="scrollbar-hide overflow-scroll hover:text-gray-400 active:text-green-600">
+					rr.ashurmatov.21@gmail.com
+				</span>
+				<span class="font-mono text-gray-400">[e]</span>
+			</div>
+		</div>
 	</Tooltip>
 
 	<hr class="my-2 h-px w-full border-t border-gray-600" />
