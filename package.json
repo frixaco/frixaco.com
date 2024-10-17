@@ -15,6 +15,7 @@
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
+		"@astrojs/mdx": "^3.1.8",
 		"@astrojs/solid-js": "^4.4.2",
 		"@astrojs/tailwind": "^5.1.2",
 		"@fontsource/manrope": "^5.1.0",
