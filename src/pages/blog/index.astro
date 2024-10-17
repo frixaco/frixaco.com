@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content"
+import Layout from "../../layouts/Layout.astro"
+
+const posts = await getCollection("posts")
+---
+
+<Layout title="Blog">
+	<h1 transition:name="blog" transition:animate="fade">Blog</h1>
+
+	<main>
+		{
+			posts.map((post) => {
+				return (
+					<a href={`/blog/${post.slug}`}>
+						<h2>{post.data.title}</h2>
+						<span>{post.data.date}</span>
+					</a>
+				)
+			})
+		}
+	</main>
+</Layout>

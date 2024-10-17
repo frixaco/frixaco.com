@@ -1,0 +1,74 @@
+---
+import DiscordLogo from "./discord-logo.astro"
+import EmaillLogo from "./emaill-logo.astro"
+import GithubLogo from "./github-logo.astro"
+import LinkedinLogo from "./linkedin-logo.astro"
+import TelegramLogo from "./telegram-logo.astro"
+import Tooltip from "./tooltip"
+import XLogo from "./x-logo.astro"
+---
+
+<div class="flex flex-1 flex-col justify-center gap-2 text-sm font-thin">
+	<Tooltip client:load>
+		<p class="flex items-center gap-2 active:text-green-600">
+			<!-- Show a tooltip when copy -->
+			<EmaillLogo />
+			<span class="text-xs hover:text-gray-400 active:text-green-600">rr.ashurmatov.21@gmail.com</span>
+			<span class="font-mono text-gray-400">[e]</span>
+		</p>
+	</Tooltip>
+
+	<hr class="my-2 h-px w-full border-t border-gray-600" />
+
+	<a href="https://github.com/frixaco" target="_blank" class="flex w-fit cursor-pointer items-center gap-2">
+		<GithubLogo />
+		<span class="hover:text-gray-400">Github</span>
+		<span class="font-mono text-gray-400">[g]</span>
+	</a>
+	<a href="https://www.linkedin.com/in/frixaco/" target="_blank" class="flex w-fit cursor-pointer items-center gap-2">
+		<LinkedinLogo />
+		<span class="hover:text-gray-400">Linkedin</span>
+		<span class="font-mono text-gray-400">[l]</span>
+	</a>
+	<a href="https://x.com/frixaco" target="_blank" class="flex w-fit cursor-pointer items-center gap-2">
+		<XLogo />
+		<span class="hover:text-gray-400">X</span>
+		<span class="font-mono text-gray-400">[x]</span>
+	</a>
+	<a href="https://t.me/frixaco" target="_blank" class="flex w-fit cursor-pointer items-center gap-2">
+		<TelegramLogo />
+		<span class="hover:text-gray-400">Telegram</span>
+		<span class="font-mono text-gray-400">[t]</span>
+	</a>
+	<a
+		href="https://discordapp.com/users/497957331112427540"
+		target="_blank"
+		class="flex w-fit cursor-pointer items-center gap-2">
+		<DiscordLogo />
+		<span class="hover:text-gray-400">Discord</span>
+		<span class="font-mono text-gray-400">[d]</span>
+	</a>
+
+	<script>
+		document.addEventListener("keydown", (e) => {
+			if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+				return
+			}
+			if (e.key === "e") {
+				// TODO: Show a tooltip when copy
+				const email = "rr.ashurmatov.21@gmail.com"
+				navigator.clipboard.writeText(email)
+				console.log("copied to clipboard: ", email)
+			}
+			if (e.key == "x") {
+				window.open("https://x.com/frixaco", "_blank")
+			}
+			if (e.key == "t") {
+				window.open("https://t.me/frixaco", "_blank")
+			}
+			if (e.key == "d") {
+				window.open("https://discordapp.com/users/497957331112427540", "_blank")
+			}
+		})
+	</script>
+</div>
