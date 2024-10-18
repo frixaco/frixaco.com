@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content"
+import Layout from "../../layouts/Layout.astro"
 
 export async function getStaticPaths() {
 	const postsEntries = await getCollection("posts")
@@ -12,6 +13,20 @@ const { entry } = Astro.props
 const { Content } = await entry.render()
 ---
 
-<h1>{entry.data.title}</h1>
-<span>{entry.data.date}</span>
-<Content />
+<Layout title={entry.data.title}>
+	<main class="flex size-full max-w-4xl flex-col pt-24">
+		<div class="flex flex-col gap-2 pb-8">
+			<h1 class="text-2xl font-bold" transition:animate="fade" transition:name={`blog-${entry.slug}`}>
+				{entry.data.title}
+			</h1>
+			<span class="text-sm text-gray-400">
+				{entry.data.date.toLocaleString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+			</span>
+		</div>
+
+		<article
+			class="prose-invert prose-headings:pb-4 prose-headings:font-bold prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-a:text-pink-500 prose-a:underline">
+			<Content />
+		</article>
+	</main>
+</Layout>

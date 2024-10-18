@@ -20,6 +20,7 @@
 		"@astrojs/tailwind": "^5.1.2",
 		"@fontsource/manrope": "^5.1.0",
 		"@fontsource/plus-jakarta-sans": "^5.1.0",
+		"@tailwindcss/typography": "^0.5.15",
 		"astro": "^4.16.0",
 		"solid-devtools": "^0.30.1",
 		"solid-js": "^1.9.2",
