@@ -5,7 +5,6 @@ import XLogo from "../components/x-logo.astro"
 import Layout from "../layouts/Layout.astro"
 import "../globals.css"
 import Socials from "../components/socials.astro"
-import MadeWithIcons from "../components/made-with.astro"
 ---
 
 <Layout title="Rustam @frixaco | Full-stack software developer">
@@ -13,7 +12,7 @@ import MadeWithIcons from "../components/made-with.astro"
 		<h1 class="text-4xl font-bold text-white">WIP</h1>
 	</div>
 
-	<main class="relative grid size-full max-h-[700px] max-w-6xl gap-2 md:grid-cols-8 md:grid-rows-12 md:md:gap-4">
+	<main class="relative grid size-full max-h-[700px] max-w-6xl gap-2 md:grid-cols-8 md:grid-rows-12 md:gap-4">
 		<script>
 			import { navigate } from "astro:transitions/client"
 
@@ -58,6 +57,12 @@ import MadeWithIcons from "../components/made-with.astro"
 						navigate("/blog")
 					})
 
+					const aboutDiv = document.getElementById("about")
+					aboutDiv!.addEventListener("click", () => {
+						console.log("aboutDiv clicked")
+						navigate("/about")
+					})
+
 					let shortcutsEnabled = true
 
 					document.addEventListener("keydown", (e) => {
@@ -77,12 +82,12 @@ import MadeWithIcons from "../components/made-with.astro"
 
 		<div
 			tabindex="0"
-			class="group flex flex-col justify-start rounded-xl border border-white/20 bg-primary hover:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 md:col-span-6 md:row-span-6 md:flex-row"
+			class="group flex flex-col justify-start gap-4 rounded-xl border border-white/10 bg-primary hover:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 md:col-span-6 md:row-span-6 md:flex-row"
 			aria-label="Hi, I'm Rustam">
 			<div class="flex flex-col justify-between gap-2 px-6 py-5 md:col-span-1 md:row-span-2">
 				<p class="text-sm font-thin text-gray-400">welcome</p>
 
-				<h1 class="flex-1 text-lg">
+				<h1 class="flex-1 text-xl">
 					Hi, I'm <strong class="drop-shadow-solid group-hover:text-red-500 group-focus:text-red-500"
 						>Rustam Ashurmatov</strong
 					>, full-stack developer, with strong interest for pretty much everything
@@ -126,13 +131,14 @@ import MadeWithIcons from "../components/made-with.astro"
 			<img
 				src="profile_pic.png"
 				alt="artwork"
-				class="w-72 place-self-end self-center md:col-span-1 md:row-span-3 md:size-full md:max-w-80"
+				class="max-h-80 w-full max-w-80 place-self-end self-center overflow-hidden md:col-span-1 md:row-span-3 md:self-end"
 			/>
 		</div>
 
 		<div
+			id="about"
 			tabindex="0"
-			class="group relative flex cursor-pointer flex-col gap-2 rounded-xl border border-white/20 bg-primary px-5 py-4 hover:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 md:col-span-2 md:row-span-8"
+			class="group relative flex cursor-pointer flex-col gap-4 rounded-xl border border-white/10 bg-primary px-6 py-5 hover:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 md:col-span-2 md:row-span-9"
 			aria-label="About me">
 			<h1
 				class="text-lg font-bold group-hover:text-blue-400 group-focus:text-blue-400"
@@ -141,7 +147,7 @@ import MadeWithIcons from "../components/made-with.astro"
 				About me
 			</h1>
 
-			<div class="scrollbar-hide flex-1 overflow-scroll text-xs font-thin">
+			<div class="scrollbar-hidden flex-1 overflow-scroll text-[0.8em] font-light leading-normal">
 				<p class="pb-3">
 					Self-taught full-stack dev from Uzbekistan. I've got a love-hate relationship with JavaScript world. Live
 					inside my terminal & Neovim.
@@ -149,10 +155,10 @@ import MadeWithIcons from "../components/made-with.astro"
 
 				<p>Comfortable with:</p>
 
-				<ul class="list-disc pl-5">
-					<li>Languages: JavaScript/TypeScript, Go, Python</li>
-					<li>Frameworks/Libs: Next.js, React and its ecosystem</li>
-					<li>Cloud & DevOps: AWS, Docker, Railway</li>
+				<ul class="list-disc pb-3 pl-5">
+					<li>JavaScript/TypeScript, Go, Python</li>
+					<li>Next.js, React and its ecosystem, Astro</li>
+					<li>AWS (CFN, Lambda, Cognito, ...), Docker</li>
 				</ul>
 
 				<p class="pb-3">The JS world changes daily. Staying updated is my duty.</p>
@@ -187,7 +193,7 @@ import MadeWithIcons from "../components/made-with.astro"
 
 		<div
 			tabindex="0"
-			class="group flex flex-col gap-2 rounded-xl border border-white/20 bg-primary px-5 py-4 hover:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600 md:col-span-2 md:row-span-6"
+			class="group flex flex-col gap-4 rounded-xl border border-white/10 bg-primary px-6 py-5 hover:border-green-600 focus:outline-none focus:ring-1 focus:ring-green-600 md:col-span-2 md:row-span-6"
 			aria-label="Socials">
 			<h1 class="text-lg font-bold group-hover:text-green-400 group-focus:text-green-400">Socials</h1>
 
@@ -197,7 +203,7 @@ import MadeWithIcons from "../components/made-with.astro"
 		<div
 			id="projects"
 			tabindex="0"
-			class="group flex cursor-pointer flex-col rounded-xl border border-white/20 bg-primary px-5 py-4 hover:border-purple-600 focus:outline-none focus:ring-1 focus:ring-purple-600 md:col-span-4 md:row-span-3"
+			class="group flex cursor-pointer flex-col gap-4 rounded-xl border border-white/10 bg-primary px-6 py-5 hover:border-purple-600 focus:outline-none focus:ring-1 focus:ring-purple-600 md:col-span-4 md:row-span-3"
 			role="button"
 			aria-label="Projects">
 			<h1
@@ -213,37 +219,45 @@ import MadeWithIcons from "../components/made-with.astro"
 		</div>
 
 		<div
-			id="blog"
 			tabindex="0"
-			class="group flex cursor-pointer flex-col rounded-xl border border-white/20 bg-primary px-5 py-4 hover:border-pink-600 focus:outline-none focus:ring-1 focus:ring-pink-600 md:col-span-2 md:row-span-4"
-			role="button"
-			aria-label="Blog">
-			<h1
-				class="text-lg font-bold group-hover:text-pink-400 group-focus:text-pink-400"
-				transition:name="blog"
-				transition:animate="fade">
-				Blog
-			</h1>
-
-			<div class="flex-1"></div>
-
-			<span class="text-right font-mono text-sm font-thin text-gray-400">[b]</span>
-		</div>
-
-		<div
-			tabindex="0"
-			class="group flex flex-col rounded-xl border border-white/20 bg-primary px-5 py-4 hover:border-cyan-600 focus:outline-none focus:ring-1 focus:ring-cyan-600 md:col-span-3 md:row-span-3"
+			class="group flex flex-col gap-4 rounded-xl border border-white/10 bg-primary px-6 py-5 hover:border-cyan-600 focus:outline-none focus:ring-1 focus:ring-cyan-600 md:col-span-3 md:row-span-3"
 			aria-label="NOW">
 			<h1 class="text-lg font-bold group-hover:text-cyan-400 group-focus:text-cyan-400">NOW</h1>
 
 			<div class="flex-1"></div>
 		</div>
 
-		<div
+		<!-- <div
 			tabindex="0"
-			class="grid place-items-center rounded-xl border border-white/20 bg-primary p-4 focus:outline-none focus:ring-1 focus:ring-white/40 md:col-span-1 md:row-span-3"
+			class="grid place-items-center rounded-xl border border-white/10 bg-primary p-3 hover:border-white/40 focus:outline-none focus:ring-1 focus:ring-white/50 md:col-span-1 md:row-span-3"
 			aria-label="Tech Stack">
 			<MadeWithIcons class="" />
+		</div> -->
+
+		<div
+			id="blog"
+			tabindex="0"
+			class="group flex cursor-pointer flex-col gap-4 rounded-xl border border-white/10 bg-primary px-6 py-5 hover:border-pink-600 focus:outline-none focus:ring-1 focus:ring-pink-600 md:col-span-3 md:row-span-3"
+			role="button"
+			aria-label="Blog">
+			<div class="flex items-center justify-between gap-2" transition:name="blog" transition:animate="fade">
+				<h1 class="text-lg font-bold group-hover:text-pink-400 group-focus:text-pink-400">Blog</h1>
+
+				<svg
+					class="-translate-x-1.5 translate-y-1.5 -rotate-45 text-white transition-transform group-hover:translate-x-0 group-hover:translate-y-0 group-hover:text-pink-400"
+					xmlns="http://www.w3.org/2000/svg"
+					width="1.2em"
+					height="1.2em"
+					viewBox="0 0 24 24"
+					><path
+						fill="currentColor"
+						d="m16.172 11l-5.364-5.364l1.414-1.414L20 12l-7.778 7.778l-1.414-1.414L16.172 13H4v-2z"></path></svg
+				>
+			</div>
+
+			<div class="flex-1"></div>
+
+			<span class="text-right font-mono text-sm font-thin text-gray-400">[b]</span>
 		</div>
 	</main>
 

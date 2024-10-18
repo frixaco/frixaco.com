@@ -1,4 +1,5 @@
-import defaultTheme from "tailwindcss/defaultTheme"
+// import defaultTheme from "tailwindcss/defaultTheme"
+import typography from "@tailwindcss/typography"
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -7,7 +8,7 @@ export default {
 		extend: {
 			fontFamily: {
 				// sans: ["Manrope", ...defaultTheme.fontFamily.sans],
-				sans: ["Plus Jakarta Sans", ...defaultTheme.fontFamily.sans],
+				// sans: ["Plus Jakarta Sans", ...defaultTheme.fontFamily.sans],
 			},
 			boxShadow: {
 				solid: "2px 2px 0",
@@ -20,5 +21,5 @@ export default {
 			},
 		},
 	},
-	plugins: [],
+	plugins: [typography],
 }

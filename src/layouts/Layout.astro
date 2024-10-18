@@ -2,7 +2,7 @@
 import { ViewTransitions } from "astro:transitions"
 
 // import "@fontsource/manrope"
-import "@fontsource/plus-jakarta-sans"
+// import "@fontsource/plus-jakarta-sans"
 
 interface Props {
 	title: string
@@ -23,7 +23,7 @@ const { title } = Astro.props
 
 		<ViewTransitions />
 	</head>
-	<body class="flex h-screen flex-col items-center bg-black/95 p-2 text-gray-200 md:justify-center">
+	<body class="flex h-screen flex-col items-center bg-black/95 p-8 text-gray-200 md:justify-center md:p-4">
 		<slot />
 	</body>
 </html>

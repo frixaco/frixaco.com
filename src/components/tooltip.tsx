@@ -35,10 +35,9 @@ function Tooltip(props: Props) {
 	})
 
 	return (
-		<div class="relative inline-block">
+		<div class="relative w-full">
 			<div
 				tabIndex="0"
-				class="cursor-pointer"
 				role="button"
 				onClick={() => {
 					setIsVisible(true)

@@ -11,20 +11,20 @@ const { class: className } = Astro.props
 ---
 
 <div class:list={["flex flex-col justify-center gap-2 text-sm font-thin", className]}>
-	<Tooltip client:load>
-		<div class="flex flex-col items-start gap-2 active:text-green-600">
+	<div class="flex flex-col items-start gap-2">
+		<Tooltip client:load>
 			<!-- Show a tooltip when copy -->
 			<span class="flex items-center gap-2">
 				<EmaillLogo /> Email:
 			</span>
-			<div class="flex w-full items-center gap-2">
-				<span class="scrollbar-hide overflow-scroll hover:text-gray-400 active:text-green-600">
+			<div class="flex cursor-pointer items-center gap-2 active:text-green-600">
+				<span class="scrollbar-hidden overflow-scroll hover:text-gray-400 active:text-green-600">
 					rr.ashurmatov.21@gmail.com
 				</span>
 				<span class="font-mono text-gray-400">[e]</span>
 			</div>
-		</div>
-	</Tooltip>
+		</Tooltip>
+	</div>
 
 	<hr class="my-2 h-px w-full border-t border-gray-600" />
 
