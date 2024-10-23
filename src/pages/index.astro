@@ -227,10 +227,22 @@ import Socials from "../components/socials.astro"
 			<div class="flex-1">
 				<p id="last-event"></p>
 				<script>
-					const response = await fetch("http://localhost:3000/latest-event")
-					const data: { text: string } = await response.json()
-					console.log("data: ", data)
-					document.getElementById("last-event")!.textContent = data.text
+					async function getLastEvent() {
+						const response = await fetch("http://localhost:3000/latest-event")
+						const data: { text: string } = await response.json()
+						console.log("data: ", data)
+						document.getElementById("last-event")!.textContent = data.text
+					}
+
+					let timer: number
+
+					document.addEventListener("astro:page-load", () => {
+						timer = setInterval(getLastEvent, 15 * 60 * 1000)
+					})
+
+					document.addEventListener("astro:before-preparation", () => {
+						clearInterval(timer)
+					})
 				</script>
 			</div>
 		</div>
