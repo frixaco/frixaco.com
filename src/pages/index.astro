@@ -224,7 +224,15 @@ import Socials from "../components/socials.astro"
 			aria-label="NOW">
 			<h1 class="text-lg font-bold group-hover:text-cyan-400 group-focus:text-cyan-400">NOW</h1>
 
-			<div class="flex-1"></div>
+			<div class="flex-1">
+				<p id="last-event"></p>
+				<script>
+					const response = await fetch("http://localhost:3000/latest-event")
+					const data: { text: string } = await response.json()
+					console.log("data: ", data)
+					document.getElementById("last-event")!.textContent = data.text
+				</script>
+			</div>
 		</div>
 
 		<!-- <div
