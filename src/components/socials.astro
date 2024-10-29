@@ -4,7 +4,7 @@ import EmaillLogo from "./emaill-logo.astro"
 import GithubLogo from "./github-logo.astro"
 import LinkedinLogo from "./linkedin-logo.astro"
 import TelegramLogo from "./telegram-logo.astro"
-import Tooltip from "./tooltip"
+import Tooltip from "./tooltip.astro"
 import XLogo from "./x-logo.astro"
 
 const { class: className } = Astro.props
@@ -12,12 +12,14 @@ const { class: className } = Astro.props
 
 <div class:list={["flex flex-col justify-center gap-2 text-sm font-thin", className]}>
 	<div class="flex flex-col items-start gap-2">
-		<Tooltip client:load>
+		<Tooltip>
 			<!-- Show a tooltip when copy -->
 			<span class="flex items-center gap-2">
 				<EmaillLogo /> Email:
 			</span>
-			<div class="flex cursor-pointer items-center gap-2 active:text-green-600">
+			<div
+				tabindex="0"
+				class="flex cursor-pointer items-center gap-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-green-500 active:text-green-600">
 				<span class="scrollbar-hidden overflow-scroll hover:text-gray-400 active:text-green-600">
 					rr.ashurmatov.21@gmail.com
 				</span>
@@ -28,22 +30,34 @@ const { class: className } = Astro.props
 
 	<hr class="my-2 h-px w-full border-t border-gray-600" />
 
-	<a href="https://github.com/frixaco" target="_blank" class="flex w-fit cursor-pointer items-center gap-2">
+	<a
+		href="https://github.com/frixaco"
+		target="_blank"
+		class="flex w-fit cursor-pointer items-center gap-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-green-500">
 		<GithubLogo />
 		<span class="hover:text-gray-400">Github</span>
 		<span class="font-mono text-gray-400">[g]</span>
 	</a>
-	<a href="https://www.linkedin.com/in/frixaco/" target="_blank" class="flex w-fit cursor-pointer items-center gap-2">
+	<a
+		href="https://www.linkedin.com/in/frixaco/"
+		target="_blank"
+		class="flex w-fit cursor-pointer items-center gap-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-green-500">
 		<LinkedinLogo />
 		<span class="hover:text-gray-400">Linkedin</span>
 		<span class="font-mono text-gray-400">[l]</span>
 	</a>
-	<a href="https://x.com/frixaco" target="_blank" class="flex w-fit cursor-pointer items-center gap-2">
+	<a
+		href="https://x.com/frixaco"
+		target="_blank"
+		class="flex w-fit cursor-pointer items-center gap-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-green-500">
 		<XLogo />
 		<span class="hover:text-gray-400">X</span>
 		<span class="font-mono text-gray-400">[x]</span>
 	</a>
-	<a href="https://t.me/frixaco" target="_blank" class="flex w-fit cursor-pointer items-center gap-2">
+	<a
+		href="https://t.me/frixaco"
+		target="_blank"
+		class="flex w-fit cursor-pointer items-center gap-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-green-500">
 		<TelegramLogo />
 		<span class="hover:text-gray-400">Telegram</span>
 		<span class="font-mono text-gray-400">[t]</span>
@@ -51,7 +65,7 @@ const { class: className } = Astro.props
 	<a
 		href="https://discordapp.com/users/497957331112427540"
 		target="_blank"
-		class="flex w-fit cursor-pointer items-center gap-2">
+		class="flex w-fit cursor-pointer items-center gap-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-green-500">
 		<DiscordLogo />
 		<span class="hover:text-gray-400">Discord</span>
 		<span class="font-mono text-gray-400">[d]</span>
