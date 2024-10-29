@@ -2,13 +2,7 @@
 
 ## TODO
 
-- [x] Fix event listeners duplication on navigation
-- [x] Add support for markdown files in about and blog pages
-- [x] Add initial UI for routes
-- [x] Write smth for about page
-- [x] Make the UI for each blog post
-- [x] Write markdown blog post(s)
-- [x] Make real-time cross-platform activity tracker (whatmedoin)
-- [ ] Deploy and create a GIF for Anitrack, saas-boilerplate, yays, whatmedoin
+- [ ] Prepare projects for showcase
 - [ ] Add some visuals to projects block in home page
 - [ ] Make the UI for projects page
+- [ ] Add some visuals to blog page
