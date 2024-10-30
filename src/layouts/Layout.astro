@@ -27,5 +27,17 @@ const { title } = Astro.props
 	<body class="flex h-screen flex-col items-center bg-black/95 p-8 text-gray-200 md:justify-center md:p-4">
 		<slot />
 		<VercelSpeedInsights />
+
+		<script>
+			document.addEventListener("astro:page-load", () => {
+				document.addEventListener("keydown", (e) => {
+					if (e.key === "Backspace") {
+						history.back()
+					}
+				})
+			})
+		</script>
+
+		<span class="absolute bottom-4 left-4 font-mono text-sm"> Press [Backspace] to go back </span>
 	</body>
 </html>
