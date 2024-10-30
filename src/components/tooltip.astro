@@ -15,24 +15,26 @@
 </div>
 
 <script>
-	document.getElementById("tooltip-trigger")!.addEventListener("click", () => {
-		document.getElementById("tooltip")!.classList.toggle("hidden")
-
-		setTimeout(() => {
+	document.addEventListener("astro:page-load", () => {
+		document.getElementById("tooltip-trigger")!.addEventListener("click", () => {
 			document.getElementById("tooltip")!.classList.toggle("hidden")
-		}, 1000)
-	})
 
-	const handleKeyDown = (e: KeyboardEvent) => {
-		console.log("keydown: ", e.key)
-		if (e.key === "e") {
-			navigator.clipboard.writeText("rr.ashurmatov.21@gmail.com")
-			document.getElementById("tooltip")!.classList.toggle("hidden")
 			setTimeout(() => {
 				document.getElementById("tooltip")!.classList.toggle("hidden")
 			}, 1000)
-		}
-	}
+		})
 
-	document.addEventListener("keydown", handleKeyDown)
+		const handleKeyDown = (e: KeyboardEvent) => {
+			console.log("keydown: ", e.key)
+			if (e.key === "e") {
+				navigator.clipboard.writeText("rr.ashurmatov.21@gmail.com")
+				document.getElementById("tooltip")!.classList.toggle("hidden")
+				setTimeout(() => {
+					document.getElementById("tooltip")!.classList.toggle("hidden")
+				}, 1000)
+			}
+		}
+
+		document.addEventListener("keydown", handleKeyDown)
+	})
 </script>
