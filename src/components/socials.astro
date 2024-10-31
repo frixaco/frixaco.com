@@ -76,18 +76,21 @@ const { class: className } = Astro.props
 			if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
 				return
 			}
+
+			if (document.getElementById("shortcuts-toggle-label")!.textContent === "enable") {
+				return
+			}
+
 			if (e.key === "e") {
-				// TODO: Show a tooltip when copy
 				const email = "rr.ashurmatov.21@gmail.com"
 				navigator.clipboard.writeText(email)
 				console.log("copied to clipboard: ", email)
 			}
-			if (e.key == "x") {
-				window.open("https://x.com/frixaco", "_blank")
-			}
+
 			if (e.key == "t") {
 				window.open("https://t.me/frixaco", "_blank")
 			}
+
 			if (e.key == "d") {
 				window.open("https://discordapp.com/users/497957331112427540", "_blank")
 			}

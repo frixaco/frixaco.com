@@ -8,9 +8,9 @@ import Socials from "../components/socials.astro"
 ---
 
 <Layout title="Rustam @frixaco | Full-stack software developer">
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+	<!-- <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
 		<h1 class="text-4xl font-bold text-white">WIP</h1>
-	</div>
+	</div> -->
 
 	<main class="relative grid size-full max-h-[700px] max-w-6xl gap-2 md:grid-cols-8 md:grid-rows-12 md:gap-4">
 		<script>
@@ -21,6 +21,10 @@ import Socials from "../components/socials.astro"
 					document.addEventListener("keydown", (e) => {
 						console.log("navigation button handler fired: ", e.key)
 						if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+							return
+						}
+
+						if (document.getElementById("shortcuts-toggle-label")!.textContent === "enable") {
 							return
 						}
 
@@ -72,8 +76,8 @@ import Socials from "../components/socials.astro"
 							return
 						}
 						if (e.key === "?") {
-							shortcutsEnabled = !shortcutsEnabled
 							document.getElementById("shortcuts-toggle-label")!.textContent = shortcutsEnabled ? "enable" : "disable"
+							shortcutsEnabled = !shortcutsEnabled
 						}
 					})
 				}
@@ -228,7 +232,7 @@ import Socials from "../components/socials.astro"
 			aria-label="NOW">
 			<h1 class="text-lg font-bold group-hover:text-cyan-400 group-focus:text-cyan-400">NOW</h1>
 
-			<div class="flex-1">
+			<div class="flex items-center gap-2">
 				<div class="size-4 animate-pulse rounded-full bg-green-400"></div>
 				<p id="activity">...</p>
 				<script>
