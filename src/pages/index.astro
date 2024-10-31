@@ -235,6 +235,7 @@ import Socials from "../components/socials.astro"
 			<div class="flex items-center gap-2">
 				<div class="size-4 animate-pulse rounded-full bg-green-400"></div>
 				<p id="activity">...</p>
+
 				<script>
 					document.addEventListener("astro:page-load", async () => {
 						async function updateActivity() {
@@ -242,51 +243,51 @@ import Socials from "../components/socials.astro"
 							const data: { platform: string; title: string; url: string; date: string } = await response.json()
 
 							if (Date.now() - new Date(data.date).getTime() > 1000 * 60 * 30) {
-								document.getElementById("activity")!.textContent = "I'm offline right now. AFK."
+								document.getElementById("activity")!.textContent = "I'm offline right now. AFK..."
 								return
 							}
 
 							if (data.platform === "mobile") {
-								document.getElementById("activity")!.textContent = "I'm on my phone right now."
+								document.getElementById("activity")!.textContent = "I'm on my phone right now..."
 								return
 							}
 
 							if (["WezTerm"].includes(data.title)) {
-								document.getElementById("activity")!.textContent = "I'm coding right now, using WezTerm."
+								document.getElementById("activity")!.textContent = "I'm coding right now, using WezTerm..."
 								return
 							}
 
 							if (["Cursor", "pwsh"].includes(data.title)) {
 								document.getElementById("activity")!.textContent =
-									"I'm coding right now, either working or doing personal projects."
+									"I'm coding right now, either working or doing personal projects..."
 								return
 							}
 
 							if (["Slack"].includes(data.title)) {
-								document.getElementById("activity")!.textContent = "I'm at work right now (in Slack)."
+								document.getElementById("activity")!.textContent = "I'm at work right now (in Slack)..."
 								return
 							}
 
 							if (["Anki"].includes(data.title)) {
 								document.getElementById("activity")!.textContent =
-									"I'm learning Japanese right now (learning new words)."
+									"I'm learning Japanese right now (learning new words)..."
 								return
 							}
 
 							if (["Heptabase"].includes(data.title)) {
 								document.getElementById("activity")!.textContent =
-									"I'm in Heptabase right now. Either doing Japanese or writing/planning something personal."
+									"I'm in Heptabase right now. Either doing Japanese or writing/planning something personal..."
 								return
 							}
 
 							if (["osu!"].includes(data.title)) {
-								document.getElementById("activity")!.textContent = "I'm playing my favorite game, osu! right now."
+								document.getElementById("activity")!.textContent = "I'm playing my favorite game, osu! right now..."
 								return
 							}
 
 							if (["Blender"].includes(data.title)) {
 								document.getElementById("activity")!.textContent =
-									"I'm using Blender and doing some 3D modeling right now."
+									"I'm using Blender and doing some 3D modeling right now..."
 								return
 							}
 						}
@@ -301,14 +302,8 @@ import Socials from "../components/socials.astro"
 					})
 				</script>
 			</div>
+			<span class="text-xs italic text-gray-400">Updated every 10 seconds</span>
 		</div>
-
-		<!-- <div
-			tabindex="0"
-			class="grid place-items-center rounded-xl border border-white/10 bg-primary p-3 hover:border-white/40 focus:outline-none focus:ring-1 focus:ring-white/50 md:col-span-1 md:row-span-3"
-			aria-label="Tech Stack">
-			<MadeWithIcons class="" />
-		</div> -->
 
 		<div
 			id="blog"
