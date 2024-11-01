@@ -252,7 +252,7 @@ import Socials from "../components/socials.astro"
 								return
 							}
 
-							if (["WezTerm"].includes(data.title)) {
+							if (["WezTerm", "wezterm-gui"].includes(data.title)) {
 								document.getElementById("activity")!.textContent = "I'm coding right now, using WezTerm..."
 								return
 							}
@@ -268,7 +268,7 @@ import Socials from "../components/socials.astro"
 								return
 							}
 
-							if (["Anki"].includes(data.title)) {
+							if (["Anki", "anki"].includes(data.title)) {
 								document.getElementById("activity")!.textContent =
 									"I'm learning Japanese right now (learning new words)..."
 								return
