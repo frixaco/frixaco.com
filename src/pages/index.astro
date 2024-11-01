@@ -247,6 +247,22 @@ import Socials from "../components/socials.astro"
 								return
 							}
 
+							if (data.platform === "browser") {
+								if (["guidetojapanese.org", "animelon.com"].some((domain) => data.url.includes(domain))) {
+									document.getElementById("activity")!.textContent = "I'm learning Japanese right now..."
+									return
+								}
+
+								if (["youtube.com"].some((domain) => data.url.includes(domain))) {
+									if (data.url.includes("list=PLcjQUNxFpwsRJ6a2vO5EeHMkSd4ck7IbS")) {
+										document.getElementById("activity")!.textContent = "I'm listening to my Music playlist right now..."
+									} else {
+										document.getElementById("activity")!.textContent = "I'm watching YouTube right now..."
+									}
+									return
+								}
+							}
+
 							if (data.platform === "android") {
 								document.getElementById("activity")!.textContent = "I'm on my phone right now..."
 								return
