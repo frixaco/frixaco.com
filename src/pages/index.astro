@@ -150,7 +150,7 @@ import Socials from "../components/socials.astro"
 				About me
 			</h1>
 
-			<div class="scrollbar-hidden flex-1 overflow-scroll text-[0.8em] font-light leading-normal">
+			<div class="flex-1 overflow-scroll text-[0.8em] font-light leading-normal scrollbar-hidden">
 				<p class="pb-3">
 					Self-taught full-stack dev from Uzbekistan. I've got a love-hate relationship with JavaScript world. Live
 					inside my terminal & Neovim.
@@ -247,7 +247,7 @@ import Socials from "../components/socials.astro"
 							const diffInMinutes = diffInMs / 60000
 
 							if (diffInMinutes > 30) {
-								document.getElementById("activity")!.textContent = "I'm offline right now. AFK..."
+								document.getElementById("activity")!.textContent = "I'm offline right now ...or on my phone"
 								return
 							}
 
