@@ -21,5 +21,26 @@ export default {
 			},
 		},
 	},
-	plugins: [typography],
+	plugins: [
+		typography,
+		function ({ addBase, addUtilities }) {
+			// Add base styles
+			addBase({
+				"*": {
+					minWidth: "0",
+				},
+			})
+
+			// Add custom utility class
+			addUtilities({
+				".scrollbar-hidden": {
+					"&::-webkit-scrollbar": {
+						display: "none",
+					},
+					"scrollbar-width": "none",
+					"-ms-overflow-style": "none",
+				},
+			})
+		},
+	],
 }
