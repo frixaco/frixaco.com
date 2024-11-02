@@ -241,13 +241,13 @@ import Socials from "../components/socials.astro"
 							const data: { platform: string; title: string; url: string; date: string } = await response.json()
 
 							const utcDateString = data.date
-							const utcDate = new Date(utcDateString + " UTC")
+							const utcDate = new Date(utcDateString + "UTC")
 							const localDate = new Date()
 							const diffInMs = Math.abs(utcDate.getTime() - localDate.getTime())
 							const diffInMinutes = diffInMs / 60000
 
 							if (diffInMinutes > 30) {
-								document.getElementById("activity")!.textContent = "I'm offline right now ...or on my phone"
+								document.getElementById("activity")!.textContent = "I'm either AFK, on my phone or doing something else"
 								return
 							}
 
