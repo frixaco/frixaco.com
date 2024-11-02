@@ -24,7 +24,7 @@ const { title } = Astro.props
 
 		<ViewTransitions />
 	</head>
-	<body class="flex h-screen flex-col items-center bg-black/95 p-8 text-gray-200 md:justify-center md:p-4">
+	<body class="flex h-screen flex-col items-center bg-black/95 p-4 text-gray-200 md:justify-center">
 		<slot />
 		<VercelSpeedInsights />
 
@@ -38,6 +38,8 @@ const { title } = Astro.props
 			})
 		</script>
 
-		<span class="absolute bottom-4 left-4 font-mono text-sm">Press [Backspace] to go <strong>back</strong></span>
+		<span class="absolute bottom-4 left-4 hidden font-mono text-sm md:block"
+			>Press [Backspace] to go <strong>back</strong></span
+		>
 	</body>
 </html>
