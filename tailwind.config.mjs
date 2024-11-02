@@ -1,5 +1,6 @@
 // import defaultTheme from "tailwindcss/defaultTheme"
 import typography from "@tailwindcss/typography"
+import motion from "tailwindcss-motion"
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -42,5 +43,6 @@ export default {
 				},
 			})
 		},
+		motion,
 	],
 }
