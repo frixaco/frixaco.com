@@ -8,4 +8,9 @@ export default tseslint.config(
 	...tseslint.configs.recommended,
 	...eslintPluginAstro.configs.recommended,
 	...tailwindcssPlugin.configs["flat/recommended"],
+	{
+		rules: {
+			"tailwindcss/classnames-order": "off",
+		},
+	},
 )
