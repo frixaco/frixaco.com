@@ -68,9 +68,9 @@ if (["Blender"].includes(data.title)) {
 ---
 
 <Layout title="Rustam @frixaco | Full-stack software developer">
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+	<!-- <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
 		<h1 class="text-4xl font-bold text-white">WIP</h1>
-	</div>
+	</div> -->
 
 	<main class="relative grid size-full max-h-[700px] max-w-6xl gap-2 md:grid-cols-8 md:grid-rows-12 md:gap-4">
 		<script>
@@ -78,13 +78,12 @@ if (["Blender"].includes(data.title)) {
 
 			document.addEventListener("astro:page-load", () => {
 				if (window.location.pathname === "/") {
-					document.addEventListener("keydown", (e) => {
-						console.log("navigation button handler fired: ", e.key)
-						if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+					const shortcutsHandler = (e: KeyboardEvent) => {
+						if (document.getElementById("shortcuts-toggle-label")!.textContent === "enable") {
 							return
 						}
 
-						if (document.getElementById("shortcuts-toggle-label")!.textContent === "enable") {
+						if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
 							return
 						}
 
@@ -107,39 +106,41 @@ if (["Blender"].includes(data.title)) {
 						if (e.key === "x") {
 							window.open("https://x.com/frixaco", "_blank")
 						}
-					})
+					}
 
 					const projectsDiv = document.getElementById("projects")
-					projectsDiv?.addEventListener("click", () => {
+					const projectBlockHandler = () => {
 						console.log("projectsDiv clicked")
 						navigate("/projects")
-					})
+					}
 
 					const blogDiv = document.getElementById("blog")
-					blogDiv!.addEventListener("click", () => {
+					const blogBlockHandler = () => {
 						console.log("blogDiv clicked")
 						navigate("/blog")
-					})
+					}
 
 					const aboutDiv = document.getElementById("about")
-					aboutDiv!.addEventListener("click", () => {
+					const aboutBlockHandler = () => {
 						console.log("aboutDiv clicked")
 						navigate("/about")
-					})
+					}
 
-					let shortcutsEnabled = true
+					document.addEventListener("keydown", shortcutsHandler)
+					projectsDiv?.addEventListener("click", projectBlockHandler)
+					aboutDiv!.addEventListener("click", aboutBlockHandler)
+					blogDiv!.addEventListener("click", blogBlockHandler)
 
-					document.addEventListener("keydown", (e) => {
-						console.log("? handler keydown fired: ", e.key)
-						if (e.altKey || e.ctrlKey || e.metaKey) {
-							// shift + / = ?
-							return
-						}
-						if (e.key === "?") {
-							document.getElementById("shortcuts-toggle-label")!.textContent = shortcutsEnabled ? "enable" : "disable"
-							shortcutsEnabled = !shortcutsEnabled
-						}
-					})
+					document.addEventListener(
+						"astro:before-preparation",
+						() => {
+							document.removeEventListener("keydown", shortcutsHandler)
+							projectsDiv?.removeEventListener("click", projectBlockHandler)
+							aboutDiv?.removeEventListener("click", aboutBlockHandler)
+							blogDiv?.removeEventListener("click", blogBlockHandler)
+						},
+						{ once: true },
+					)
 				}
 			})
 		</script>
@@ -373,13 +374,15 @@ if (["Blender"].includes(data.title)) {
 							}
 						}
 
-						// await updateActivity()
-
 						const timer = window.setInterval(updateActivity, 1000 * 10)
 
-						document.addEventListener("astro:before-preparation", () => {
-							clearInterval(timer)
-						})
+						document.addEventListener(
+							"astro:before-preparation",
+							() => {
+								clearInterval(timer)
+							},
+							{ once: true },
+						)
 					})
 				</script>
 			</div>
@@ -411,11 +414,4 @@ if (["Blender"].includes(data.title)) {
 			<span class="hidden text-right font-mono text-sm font-thin text-gray-400 md:inline-block">[b]</span>
 		</div>
 	</main>
-
-	<div class="hidden w-full max-w-6xl text-right md:block">
-		<label for="shortcuts-toggle" class="font-mono text-sm text-gray-200">
-			Press [?] to <strong id="shortcuts-toggle-label">disable</strong> shortcuts
-			<input type="checkbox" name="shortcuts-toggle" class="hidden" />
-		</label>
-	</div>
 </Layout>

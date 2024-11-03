@@ -30,16 +30,43 @@ const { title } = Astro.props
 
 		<script>
 			document.addEventListener("astro:page-load", () => {
-				document.addEventListener("keydown", (e) => {
+				let shortcutsEnabled = true
+
+				const shortcutToggleHandler = (e: KeyboardEvent) => {
+					if (e.shiftKey && e.key === "?") {
+						document.getElementById("shortcuts-toggle-label")!.textContent = shortcutsEnabled ? "enable" : "disable"
+						shortcutsEnabled = !shortcutsEnabled
+						return
+					}
+
+					if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+						return
+					}
+
+					if (document.getElementById("shortcuts-toggle-label")!.textContent === "enable") {
+						return
+					}
+
 					if (e.key === "Backspace") {
 						history.back()
 					}
-				})
+				}
+
+				document.addEventListener("keydown", shortcutToggleHandler)
+
+				document.addEventListener(
+					"astro:before-preparation",
+					() => {
+						document.removeEventListener("keydown", shortcutToggleHandler)
+					},
+					{ once: true },
+				)
 			})
 		</script>
 
-		<span class="absolute bottom-4 left-4 hidden font-mono text-sm md:block"
-			>Press [Backspace] to go <strong>back</strong></span
-		>
+		<div class="absolute bottom-4 left-4 hidden font-mono text-sm md:flex md:flex-col md:gap-2">
+			<span>[Backspace] to go <strong>back</strong></span>
+			<span>[?] to <strong id="shortcuts-toggle-label">disable</strong> shortcuts</span>
+		</div>
 	</body>
 </html>

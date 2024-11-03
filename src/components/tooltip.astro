@@ -16,13 +16,14 @@
 
 <script>
 	document.addEventListener("astro:page-load", () => {
-		document.getElementById("tooltip-trigger")!.addEventListener("click", () => {
+		const tooltipTrigger = document.getElementById("tooltip-trigger")
+		const tooltipHandler = () => {
 			document.getElementById("tooltip")!.classList.toggle("hidden")
 
 			setTimeout(() => {
 				document.getElementById("tooltip")!.classList.toggle("hidden")
 			}, 1000)
-		})
+		}
 
 		const handleKeyDown = (e: KeyboardEvent) => {
 			console.log("keydown: ", e.key)
@@ -36,5 +37,15 @@
 		}
 
 		document.addEventListener("keydown", handleKeyDown)
+		tooltipTrigger!.addEventListener("click", tooltipHandler)
+
+		document.addEventListener(
+			"astro:before-preparation",
+			() => {
+				document.removeEventListener("keydown", handleKeyDown)
+				tooltipTrigger!.removeEventListener("click", tooltipHandler)
+			},
+			{ once: true },
+		)
 	})
 </script>
