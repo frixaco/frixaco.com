@@ -1,5 +1,5 @@
-// import defaultTheme from "tailwindcss/defaultTheme"
 import typography from "@tailwindcss/typography"
+import animate from "tailwindcss-animate"
 import motion from "tailwindcss-motion"
 
 /** @type {import('tailwindcss').Config} */
@@ -24,15 +24,13 @@ export default {
 	},
 	plugins: [
 		typography,
+		animate,
 		function ({ addBase, addUtilities }) {
-			// Add base styles
 			addBase({
 				"*": {
 					minWidth: "0",
 				},
 			})
-
-			// Add custom utility class
 			addUtilities({
 				".scrollbar-hidden": {
 					"&::-webkit-scrollbar": {

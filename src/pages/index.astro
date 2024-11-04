@@ -75,12 +75,12 @@ if (["Blender"].includes(data.title)) {
 
 	<main
 		id="home-main"
-		class="relative grid size-full max-w-6xl gap-px p-px transition-colors duration-300 md:max-h-[700px] md:grid-cols-8 md:grid-rows-12">
+		class="relative grid size-full max-w-7xl gap-px p-px transition-colors duration-300 md:max-h-[732px] md:grid-cols-8 md:grid-rows-12">
 		<script>
 			document.addEventListener("astro:page-load", () => {
 				setTimeout(() => {
 					document.getElementById("home-main")?.classList.add("bg-white/80")
-				}, 350)
+				}, 300)
 			})
 		</script>
 		<script>
@@ -157,13 +157,14 @@ if (["Blender"].includes(data.title)) {
 
 		<div
 			tabindex="0"
-			class="motion-preset-pop flex flex-col justify-start gap-4 bg-primary motion-duration-200 motion-ease-linear hover:ring-1 hover:ring-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 md:col-span-6 md:row-span-6 md:flex-row"
+			style="animation-duration: 200ms"
+			class="animate-in slide-in-from-top-24 group flex flex-col justify-start gap-4 bg-primary hover:ring-1 hover:ring-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 md:col-span-6 md:row-span-6 md:flex-row"
 			aria-label="Hi, I'm Rustam">
 			<div class="flex flex-col justify-between gap-2 px-6 py-5 md:col-span-1 md:row-span-2">
 				<p class="font-thin text-gray-400">welcome</p>
 
 				<h1 class="flex-1 text-xl">
-					Hi, I'm <strong class="drop-shadow-solid group-hover:text-red-500 group-focus:text-red-500"
+					hi, I'm <strong class="drop-shadow-solid group-hover:text-red-500 group-focus:text-red-500"
 						>Rustam Ashurmatov</strong
 					>, full-stack developer, with strong interest for pretty much everything
 				</h1>
@@ -213,13 +214,14 @@ if (["Blender"].includes(data.title)) {
 		<div
 			id="about"
 			tabindex="0"
-			class="group motion-preset-slide-left-md relative flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 motion-duration-200 motion-delay-100 motion-ease-linear hover:ring-1 hover:ring-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 md:col-span-2 md:row-span-9"
+			style="animation-duration: 200ms; animation-delay: 100ms"
+			class="animate-in slide-in-from-right-24 group flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 md:col-span-2 md:row-span-9"
 			aria-label="About me">
 			<h1
 				class="text-lg font-bold group-hover:text-blue-400 group-focus:text-blue-400"
 				transition:animate="fade"
 				transition:name="about">
-				About me
+				about me
 			</h1>
 
 			<div class="flex-1 overflow-scroll text-[0.8em] font-light leading-normal scrollbar-hidden">
@@ -272,9 +274,10 @@ if (["Blender"].includes(data.title)) {
 
 		<div
 			tabindex="0"
-			class="group motion-preset-slide-right-md flex flex-col gap-4 bg-primary px-6 py-5 motion-duration-200 motion-delay-150 motion-ease-linear hover:ring-1 hover:ring-green-600 focus:outline-none focus:ring-1 focus:ring-green-600 md:col-span-2 md:row-span-6"
+			style="animation-duration: 200ms; animation-delay: 150ms"
+			class="animate-in slide-in-from-left-24 group flex flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-green-600 focus:outline-none focus:ring-1 focus:ring-green-600 md:col-span-2 md:row-span-6"
 			aria-label="Socials">
-			<h1 class="text-lg font-bold group-hover:text-green-400 group-focus:text-green-400">Socials</h1>
+			<h1 class="text-lg font-bold group-hover:text-green-400 group-focus:text-green-400">socials</h1>
 
 			<Socials class="pb-2 pt-4" />
 		</div>
@@ -282,13 +285,14 @@ if (["Blender"].includes(data.title)) {
 		<div
 			id="projects"
 			tabindex="0"
-			class="group motion-preset-slide-up-md flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 motion-duration-200 motion-delay-200 motion-ease-linear hover:ring-1 hover:ring-purple-600 focus:outline-none focus:ring-1 focus:ring-purple-600 md:col-span-4 md:row-span-3"
+			style="animation-duration: 200ms; animation-delay: 200ms"
+			class="animate-in slide-in-from-bottom-24 group flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-purple-600 focus:outline-none focus:ring-1 focus:ring-purple-600 md:col-span-4 md:row-span-3"
 			role="button">
 			<h1
 				class="text-lg font-bold group-hover:text-purple-400 group-focus:text-purple-400"
 				transition:name="projects"
 				transition:animate="fade">
-				Projects
+				projects
 			</h1>
 
 			<div class="flex-1"></div>
@@ -298,10 +302,11 @@ if (["Blender"].includes(data.title)) {
 
 		<div
 			tabindex="0"
-			class="group motion-preset-slide-up-md flex flex-col gap-4 bg-primary px-6 py-5 motion-duration-200 motion-delay-300 motion-ease-linear hover:ring-1 hover:ring-cyan-600 focus:outline-none focus:ring-1 focus:ring-cyan-600 md:col-span-3 md:row-span-3"
+			style="animation-duration: 200ms; animation-delay: 300ms"
+			class="animate-in slide-in-from-bottom-24 group flex flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-cyan-600 focus:outline-none focus:ring-1 focus:ring-cyan-600 md:col-span-3 md:row-span-3"
 			aria-label="NOW">
 			<h1 class="flex items-center gap-2">
-				<span class="text-lg font-bold group-hover:text-cyan-400 group-focus:text-cyan-400">NOW</span>
+				<span class="text-lg font-bold group-hover:text-cyan-400 group-focus:text-cyan-400">now</span>
 			</h1>
 
 			<div class="flex items-center gap-2">
@@ -402,17 +407,18 @@ if (["Blender"].includes(data.title)) {
 
 			<div class="flex items-center gap-1">
 				<PulseIcon class:list={["group-hover:text-cyan-400"]} />
-				<span class="text-xs italic text-gray-400">Updated every 10 seconds</span>
+				<span class="text-xs italic text-gray-400">updated every 10 seconds</span>
 			</div>
 		</div>
 
 		<div
 			id="blog"
 			tabindex="0"
-			class="group motion-preset-slide-left-md flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 motion-duration-300 motion-delay-150 motion-ease-linear hover:ring-1 hover:ring-pink-600 focus:outline-none focus:ring-1 focus:ring-pink-600 md:col-span-3 md:row-span-3"
+			style="animation-duration: 200ms; animation-delay: 150ms"
+			class="animate-in slide-in-from-right-24 group flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-pink-600 focus:outline-none focus:ring-1 focus:ring-pink-600 md:col-span-3 md:row-span-3"
 			role="button">
 			<div class="flex items-center justify-between gap-2" transition:name="blog" transition:animate="fade">
-				<h1 class="text-lg font-bold group-hover:text-pink-400 group-focus:text-pink-400">Blog</h1>
+				<h1 class="text-lg font-bold group-hover:text-pink-400 group-focus:text-pink-400">blog</h1>
 
 				<svg
 					class="-translate-x-1.5 translate-y-1.5 -rotate-45 text-white transition-transform group-hover:translate-x-0 group-hover:translate-y-0 group-hover:text-pink-400"
