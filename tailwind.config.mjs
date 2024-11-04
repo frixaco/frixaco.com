@@ -1,6 +1,4 @@
 import typography from "@tailwindcss/typography"
-import animate from "tailwindcss-animate"
-import motion from "tailwindcss-motion"
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -24,7 +22,6 @@ export default {
 	},
 	plugins: [
 		typography,
-		animate,
 		function ({ addBase, addUtilities }) {
 			addBase({
 				"*": {
@@ -41,6 +38,5 @@ export default {
 				},
 			})
 		},
-		motion,
 	],
 }

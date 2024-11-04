@@ -75,14 +75,7 @@ if (["Blender"].includes(data.title)) {
 
 	<main
 		id="home-main"
-		class="relative grid size-full max-w-7xl gap-px p-px transition-colors duration-300 md:max-h-[732px] md:grid-cols-8 md:grid-rows-12">
-		<script>
-			document.addEventListener("astro:page-load", () => {
-				setTimeout(() => {
-					document.getElementById("home-main")?.classList.add("bg-white/80")
-				}, 300)
-			})
-		</script>
+		class="relative grid size-full max-w-7xl gap-px bg-white/80 p-px md:max-h-[732px] md:grid-cols-8 md:grid-rows-12">
 		<script>
 			import { navigate } from "astro:transitions/client"
 
@@ -157,8 +150,7 @@ if (["Blender"].includes(data.title)) {
 
 		<div
 			tabindex="0"
-			style="animation-duration: 200ms"
-			class="animate-in slide-in-from-top-24 group flex flex-col justify-start gap-4 bg-primary hover:ring-1 hover:ring-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 md:col-span-6 md:row-span-6 md:flex-row"
+			class="group flex flex-col justify-start gap-4 bg-primary hover:ring-1 hover:ring-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 md:col-span-6 md:row-span-6 md:flex-row"
 			aria-label="Hi, I'm Rustam">
 			<div class="flex flex-col justify-between gap-2 px-6 py-5 md:col-span-1 md:row-span-2">
 				<p class="font-thin text-gray-400">welcome</p>
@@ -214,8 +206,7 @@ if (["Blender"].includes(data.title)) {
 		<div
 			id="about"
 			tabindex="0"
-			style="animation-duration: 200ms; animation-delay: 100ms"
-			class="animate-in slide-in-from-right-24 group flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 md:col-span-2 md:row-span-9"
+			class="group flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 md:col-span-2 md:row-span-9"
 			aria-label="About me">
 			<h1
 				class="text-lg font-bold group-hover:text-blue-400 group-focus:text-blue-400"
@@ -274,8 +265,7 @@ if (["Blender"].includes(data.title)) {
 
 		<div
 			tabindex="0"
-			style="animation-duration: 200ms; animation-delay: 150ms"
-			class="animate-in slide-in-from-left-24 group flex flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-green-600 focus:outline-none focus:ring-1 focus:ring-green-600 md:col-span-2 md:row-span-6"
+			class="group flex flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-green-600 focus:outline-none focus:ring-1 focus:ring-green-600 md:col-span-2 md:row-span-6"
 			aria-label="Socials">
 			<h1 class="text-lg font-bold group-hover:text-green-400 group-focus:text-green-400">socials</h1>
 
@@ -285,8 +275,7 @@ if (["Blender"].includes(data.title)) {
 		<div
 			id="projects"
 			tabindex="0"
-			style="animation-duration: 200ms; animation-delay: 200ms"
-			class="animate-in slide-in-from-bottom-24 group flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-purple-600 focus:outline-none focus:ring-1 focus:ring-purple-600 md:col-span-4 md:row-span-3"
+			class="group flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-purple-600 focus:outline-none focus:ring-1 focus:ring-purple-600 md:col-span-4 md:row-span-3"
 			role="button">
 			<h1
 				class="text-lg font-bold group-hover:text-purple-400 group-focus:text-purple-400"
@@ -302,8 +291,7 @@ if (["Blender"].includes(data.title)) {
 
 		<div
 			tabindex="0"
-			style="animation-duration: 200ms; animation-delay: 300ms"
-			class="animate-in slide-in-from-bottom-24 group flex flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-cyan-600 focus:outline-none focus:ring-1 focus:ring-cyan-600 md:col-span-3 md:row-span-3"
+			class="group flex flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-cyan-600 focus:outline-none focus:ring-1 focus:ring-cyan-600 md:col-span-3 md:row-span-3"
 			aria-label="NOW">
 			<h1 class="flex items-center gap-2">
 				<span class="text-lg font-bold group-hover:text-cyan-400 group-focus:text-cyan-400">now</span>
@@ -414,8 +402,7 @@ if (["Blender"].includes(data.title)) {
 		<div
 			id="blog"
 			tabindex="0"
-			style="animation-duration: 200ms; animation-delay: 150ms"
-			class="animate-in slide-in-from-right-24 group flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-pink-600 focus:outline-none focus:ring-1 focus:ring-pink-600 md:col-span-3 md:row-span-3"
+			class="group flex cursor-pointer flex-col gap-4 bg-primary px-6 py-5 hover:ring-1 hover:ring-pink-600 focus:outline-none focus:ring-1 focus:ring-pink-600 md:col-span-3 md:row-span-3"
 			role="button">
 			<div class="flex items-center justify-between gap-2" transition:name="blog" transition:animate="fade">
 				<h1 class="text-lg font-bold group-hover:text-pink-400 group-focus:text-pink-400">blog</h1>

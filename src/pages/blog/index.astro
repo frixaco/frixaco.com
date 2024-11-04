@@ -6,21 +6,21 @@ const postsEntries = await getCollection("posts")
 ---
 
 <Layout title="Blog">
-	<main class="flex size-full max-w-2xl flex-col pt-24" transition:name="blog" transition:animate="fade">
-		<h1 class="pb-6 text-2xl font-bold md:pb-8">Blog</h1>
-		<ul class="flex flex-col items-center justify-start gap-2">
+	<main class="flex size-full max-w-2xl flex-col md:pt-24" transition:name="blog" transition:animate="fade">
+		<h1 class="pb-6 text-2xl font-bold md:pb-8">blog</h1>
+		<ul class="flex flex-col items-center justify-start gap-4">
 			{postsEntries.length === 0 && <p class="py-16 text-sm italic">let me cook, more posts coming soon</p>}
 			{
 				postsEntries.map((post) => (
 					<li class="flex w-full flex-col items-baseline justify-between gap-2 md:flex-row">
 						<a
-							class="text-nowrap text-lg font-semibold hover:underline"
+							class="text-lg font-semibold hover:underline"
 							href={`/blog/${post.slug}`}
 							transition:name={`blog-${post.slug}`}
 							transition:animate="fade">
 							{post.data.title}
 						</a>
-						<span class="flex-1 border-b border-dotted border-white/80" />
+						<span class="hidden flex-1 border-b border-dotted border-white/80 md:block" />
 						<time datetime={post.data.date.toISOString()}>
 							{post.data.date.toLocaleString("en-US", { month: "long", day: "numeric", year: "numeric" })}
 						</time>
