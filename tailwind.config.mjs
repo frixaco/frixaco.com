@@ -18,6 +18,21 @@ export default {
 			colors: {
 				primary: "hsl(0deg 0% 9.02%)",
 			},
+			keyframes: {
+				"pop-in": {
+					"0%": {
+						transform: "scale(0.9)",
+						opacity: "0",
+					},
+					"100%": {
+						transform: "scale(1)",
+						opacity: "1",
+					},
+				},
+			},
+			animation: {
+				pop: "pop-in 0.3s ease-in-out",
+			},
 		},
 	},
 	plugins: [
