@@ -5,11 +5,11 @@ import tailwind from "@astrojs/tailwind"
 
 import mdx from "@astrojs/mdx"
 
-import vercel from "@astrojs/vercel/serverless"
+import vercel from "@astrojs/vercel/static"
 
 // https://astro.build/config
 export default defineConfig({
-	output: "server",
+	// output: "server",
 	integrations: [tailwind(), mdx()],
 	adapter: vercel({
 		webAnalytics: { enabled: true },
