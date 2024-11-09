@@ -155,7 +155,7 @@ if (["Blender"].includes(data.title)) {
 			<div class="flex flex-col justify-between gap-2 px-6 py-5 md:col-span-1 md:row-span-2">
 				<p class="font-thin text-gray-400">welcome</p>
 
-				<h1 class="animate-pop flex-1 text-xl">
+				<h1 class="flex-1 animate-pop text-xl">
 					hi, I'm <strong class="drop-shadow-solid group-hover:text-red-500 group-focus:text-red-500"
 						>Rustam Ashurmatov</strong
 					>, full-stack developer, with strong interest for pretty much everything
@@ -215,7 +215,7 @@ if (["Blender"].includes(data.title)) {
 				about me
 			</h1>
 
-			<div class="animate-pop flex-1 overflow-scroll text-[0.8em] font-light leading-normal scrollbar-hidden">
+			<div class="flex-1 animate-pop overflow-scroll text-[0.8em] font-light leading-normal scrollbar-hidden">
 				<p class="pb-3">
 					Self-taught full-stack dev from Uzbekistan. I've got a love-hate relationship with JavaScript world. Live
 					inside my terminal & Neovim.
@@ -305,7 +305,7 @@ if (["Blender"].includes(data.title)) {
 				<script>
 					document.addEventListener("astro:page-load", async () => {
 						async function updateActivity() {
-							const response = await fetch("https://api.frixaco.com/activity")
+							const response = await fetch("https://api.whatmedoin.frixaco.com/activity")
 							const data: { platform: string; title: string; url: string; date: string } = await response.json()
 
 							const utcDateString = data.date
