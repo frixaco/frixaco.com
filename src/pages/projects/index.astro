@@ -2,15 +2,35 @@
 import Layout from "../../layouts/Layout.astro"
 
 const projects = [
-	{ name: "anitrack", url: "/projects/anitrack" },
-	{ name: "whatmedoin", url: "/projects/whatmedoin" },
-	{ name: "yays", url: "/projects/yays" },
-	{ name: "llm", url: "/projects/llm" },
+	{ name: "anitrack", url: "/projects/anitrack", shortcut: "a" },
+	{ name: "whatmedoin", url: "/projects/whatmedoin", shortcut: "w" },
+	{ name: "yays", url: "/projects/yays", shortcut: "y" },
+	{ name: "llm", url: "/projects/llm", shortcut: "l" },
 ]
 ---
 
 <Layout title="Projects">
-	<main class="flex size-full max-w-6xl flex-col md:px-24 md:pt-24">
+	<main class="flex size-full max-w-6xl flex-col md:px-24 md:pt-24" data-projects={JSON.stringify(projects)}>
+		<script>
+			import { navigate } from "astro:transitions/client"
+
+			const projects = JSON.parse(document.querySelector("[data-projects]")!.getAttribute("data-projects")!)
+
+			window.addEventListener("keydown", (e) => {
+				if (document.getElementById("shortcuts-toggle-label")!.textContent === "enable") {
+					return
+				}
+
+				if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+					return
+				}
+
+				const project = projects.find((project: { shortcut: string; url: string }) => project.shortcut === e.key)
+				if (project) {
+					navigate(project.url)
+				}
+			})
+		</script>
 		<h1 class="pb-6 text-2xl font-bold md:pb-8">projects</h1>
 
 		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -21,8 +41,11 @@ const projects = [
 			{
 				projects.map((project) => (
 					<li class="relative pl-9 before:absolute before:left-[10px] before:top-[-28px] before:h-[40px] before:border-l-2 before:border-l-gray-400 after:absolute after:left-[10px] after:top-1/2 after:w-[20px] after:border-t-2 after:border-t-gray-400">
-						<a class="hover:underline hover:decoration-dashed" href={project.url}>
-							{project.name}
+						<a
+							class="flex w-fit items-center gap-1.5 rounded-sm hover:underline hover:decoration-dashed focus:outline-none focus:ring-2 focus:ring-red-500"
+							href={project.url}>
+							<span class="pl-1 text-sm text-gray-400">[{project.shortcut}]</span>
+							<span class="pr-1">{project.name}</span>
 						</a>
 					</li>
 				))
