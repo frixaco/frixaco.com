@@ -1,5 +1,4 @@
 ---
-import { ViewTransitions } from "astro:transitions"
 import VercelSpeedInsights from "@vercel/speed-insights/astro"
 
 // import "@fontsource/manrope"
@@ -21,51 +20,40 @@ const { title } = Astro.props
 		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-
-		<ViewTransitions />
 	</head>
 	<body class="flex flex-col items-center bg-black/90 p-4 font-mono text-gray-200 md:h-screen md:justify-center">
 		<slot />
 		<VercelSpeedInsights />
 
 		<script>
-			document.addEventListener("astro:page-load", () => {
-				let shortcutsEnabled = true
+			let shortcutsEnabled = true
 
-				const shortcutToggleHandler = (e: KeyboardEvent) => {
-					if (e.shiftKey && e.key === "?") {
-						document.getElementById("shortcuts-toggle-label")!.textContent = shortcutsEnabled ? "enable" : "disable"
-						shortcutsEnabled = !shortcutsEnabled
-						return
-					}
-
-					if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
-						return
-					}
-
-					if (document.getElementById("shortcuts-toggle-label")!.textContent === "enable") {
-						return
-					}
-
-					if (e.key === "Backspace") {
-						history.back()
-					}
+			const shortcutToggleHandler = (e: KeyboardEvent) => {
+				if (e.shiftKey && e.key === "?") {
+					document.getElementById("shortcuts-toggle-label")!.textContent = shortcutsEnabled ? "enable" : "disable"
+					shortcutsEnabled = !shortcutsEnabled
+					return
 				}
 
-				document.addEventListener("keydown", shortcutToggleHandler)
+				if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+					return
+				}
 
-				document.addEventListener(
-					"astro:before-preparation",
-					() => {
-						document.removeEventListener("keydown", shortcutToggleHandler)
-					},
-					{ once: true },
-				)
-			})
+				if (document.getElementById("shortcuts-toggle-label")!.textContent === "enable") {
+					return
+				}
+
+				if (e.key === "Backspace") {
+					history.back()
+				}
+			}
+
+			window.addEventListener("keydown", shortcutToggleHandler)
 		</script>
 
 		<div class="absolute bottom-3 right-3 hidden font-mono text-xs md:flex md:flex-col md:gap-1">
-			<span>[Backspace] to go <strong>back</strong></span>
+			<span id="backspace">[Backspace] to go <strong>back</strong></span>
+
 			<span>[?] to <strong id="shortcuts-toggle-label">disable</strong> shortcuts</span>
 		</div>
 	</body>

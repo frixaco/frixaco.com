@@ -18,7 +18,7 @@ const { Content } = await entry.render()
 <Layout title={entry.data.title}>
 	<main class="flex size-full max-w-4xl flex-col pt-24">
 		<div class="flex flex-col gap-2 pb-8">
-			<h1 class="text-2xl font-bold" transition:animate="fade" transition:name={`blog-${entry.slug}`}>
+			<h1 class="text-2xl font-bold">
 				{entry.data.title}
 			</h1>
 			<span class="text-sm text-gray-400">

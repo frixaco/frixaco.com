@@ -15,6 +15,18 @@
 </div>
 
 <script>
+	const handleKeyDown = (e: KeyboardEvent) => {
+		if (e.key === "e") {
+			navigator.clipboard.writeText("rr.ashurmatov.21@gmail.com")
+			document.getElementById("tooltip")!.classList.toggle("hidden")
+			setTimeout(() => {
+				document.getElementById("tooltip")!.classList.toggle("hidden")
+			}, 1000)
+		}
+	}
+
+	window.addEventListener("keydown", handleKeyDown)
+
 	document.addEventListener("astro:page-load", () => {
 		const tooltipTrigger = document.getElementById("tooltip-trigger")
 		const tooltipHandler = () => {
@@ -25,24 +37,11 @@
 			}, 1000)
 		}
 
-		const handleKeyDown = (e: KeyboardEvent) => {
-			console.log("keydown: ", e.key)
-			if (e.key === "e") {
-				navigator.clipboard.writeText("rr.ashurmatov.21@gmail.com")
-				document.getElementById("tooltip")!.classList.toggle("hidden")
-				setTimeout(() => {
-					document.getElementById("tooltip")!.classList.toggle("hidden")
-				}, 1000)
-			}
-		}
-
-		document.addEventListener("keydown", handleKeyDown)
 		tooltipTrigger!.addEventListener("click", tooltipHandler)
 
 		document.addEventListener(
 			"astro:before-preparation",
 			() => {
-				document.removeEventListener("keydown", handleKeyDown)
 				tooltipTrigger!.removeEventListener("click", tooltipHandler)
 			},
 			{ once: true },

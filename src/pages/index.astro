@@ -78,73 +78,57 @@ if (["Blender"].includes(data.title)) {
 		<script>
 			import { navigate } from "astro:transitions/client"
 
-			document.addEventListener("astro:page-load", () => {
-				if (window.location.pathname === "/") {
-					const shortcutsHandler = (e: KeyboardEvent) => {
-						if (document.getElementById("shortcuts-toggle-label")!.textContent === "enable") {
-							return
-						}
-
-						if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
-							return
-						}
-
-						if (e.key === "p") {
-							navigate("/projects")
-						}
-						if (e.key === "b") {
-							navigate("/blog")
-						}
-
-						if (e.key === "a") {
-							navigate("/about")
-						}
-						if (e.key === "g") {
-							window.open("https://github.com/frixaco", "_blank")
-						}
-						if (e.key === "l") {
-							window.open("https://linkedin.com/in/frixaco", "_blank")
-						}
-						if (e.key === "x") {
-							window.open("https://x.com/frixaco", "_blank")
-						}
+			if (window.location.pathname === "/") {
+				const shortcutsHandler = (e: KeyboardEvent) => {
+					if (document.getElementById("shortcuts-toggle-label")!.textContent === "enable") {
+						return
 					}
 
-					const projectsDiv = document.getElementById("projects")
-					const projectBlockHandler = () => {
-						console.log("projectsDiv clicked")
+					if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+						return
+					}
+
+					if (e.key === "p") {
 						navigate("/projects")
 					}
-
-					const blogDiv = document.getElementById("blog")
-					const blogBlockHandler = () => {
-						console.log("blogDiv clicked")
+					if (e.key === "b") {
 						navigate("/blog")
 					}
 
-					const aboutDiv = document.getElementById("about")
-					const aboutBlockHandler = () => {
-						console.log("aboutDiv clicked")
+					if (e.key === "a") {
 						navigate("/about")
 					}
-
-					document.addEventListener("keydown", shortcutsHandler)
-					projectsDiv?.addEventListener("click", projectBlockHandler)
-					aboutDiv!.addEventListener("click", aboutBlockHandler)
-					blogDiv!.addEventListener("click", blogBlockHandler)
-
-					document.addEventListener(
-						"astro:before-preparation",
-						() => {
-							document.removeEventListener("keydown", shortcutsHandler)
-							projectsDiv?.removeEventListener("click", projectBlockHandler)
-							aboutDiv?.removeEventListener("click", aboutBlockHandler)
-							blogDiv?.removeEventListener("click", blogBlockHandler)
-						},
-						{ once: true },
-					)
+					if (e.key === "g") {
+						window.open("https://github.com/frixaco", "_blank")
+					}
+					if (e.key === "l") {
+						window.open("https://linkedin.com/in/frixaco", "_blank")
+					}
+					if (e.key === "x") {
+						window.open("https://x.com/frixaco", "_blank")
+					}
 				}
-			})
+				window.addEventListener("keydown", shortcutsHandler)
+
+				const projectsDiv = document.getElementById("projects")
+				const projectBlockHandler = () => {
+					navigate("/projects")
+				}
+
+				const blogDiv = document.getElementById("blog")
+				const blogBlockHandler = () => {
+					navigate("/blog")
+				}
+
+				const aboutDiv = document.getElementById("about")
+				const aboutBlockHandler = () => {
+					navigate("/about")
+				}
+
+				projectsDiv?.addEventListener("click", projectBlockHandler)
+				aboutDiv!.addEventListener("click", aboutBlockHandler)
+				blogDiv!.addEventListener("click", blogBlockHandler)
+			}
 		</script>
 
 		<div
@@ -172,7 +156,7 @@ if (["Blender"].includes(data.title)) {
 							<span class="mt-2 hidden font-mono text-sm text-gray-400 md:inline-block">[g]</span>
 						</div>
 
-						<div class="flex flex-col items-center">
+						<div id="linkedin-btn" class="flex flex-col items-center">
 							<a
 								href="https://www.linkedin.com/in/frixaco/"
 								target="_blank"
@@ -195,11 +179,11 @@ if (["Blender"].includes(data.title)) {
 				</div>
 			</div>
 
-			<!-- <img
+			<img
 				src="profile_pic.png"
 				alt="artwork"
 				class="absolute bottom-0 right-0 max-h-72 w-full max-w-72 self-center overflow-hidden opacity-75 md:self-end"
-			/> -->
+			/>
 		</div>
 
 		<div
@@ -207,12 +191,7 @@ if (["Blender"].includes(data.title)) {
 			tabindex="0"
 			class="group flex cursor-pointer flex-col gap-4 border border-dashed bg-primary px-6 py-5 transition-colors duration-100 focus-within:border-blue-500 hover:border-blue-500 focus:outline-none md:col-span-2 md:row-span-9"
 			aria-label="About me">
-			<h1
-				class="text-lg font-bold group-hover:text-blue-400 group-focus:text-blue-400"
-				transition:animate="fade"
-				transition:name="about">
-				about me
-			</h1>
+			<h1 class="text-lg font-bold group-hover:text-blue-400 group-focus:text-blue-400">about me</h1>
 
 			<div
 				class="flex flex-1 animate-pop flex-col justify-around gap-3 overflow-scroll text-[0.8em] font-light leading-normal scrollbar-hidden md:gap-1">
@@ -264,12 +243,7 @@ if (["Blender"].includes(data.title)) {
 			tabindex="0"
 			class="group flex cursor-pointer flex-col gap-4 border border-dashed bg-primary px-6 py-5 transition-colors duration-100 focus-within:border-purple-500 hover:border-purple-500 focus:outline-none md:col-span-4 md:row-span-3"
 			role="button">
-			<h1
-				class="text-lg font-bold group-hover:text-purple-400 group-focus:text-purple-400"
-				transition:name="projects"
-				transition:animate="fade">
-				projects
-			</h1>
+			<h1 class="text-lg font-bold group-hover:text-purple-400 group-focus:text-purple-400">projects</h1>
 
 			<div class="flex-1"></div>
 
@@ -391,7 +365,7 @@ if (["Blender"].includes(data.title)) {
 			tabindex="0"
 			class="group flex cursor-pointer flex-col gap-4 border border-dashed bg-primary px-6 py-5 transition-colors duration-100 focus-within:border-pink-500 hover:border-pink-500 focus:outline-none md:col-span-3 md:row-span-3"
 			role="button">
-			<div class="flex items-center justify-between gap-2" transition:name="blog" transition:animate="fade">
+			<div class="flex items-center justify-between gap-2">
 				<h1 class="text-lg font-bold group-hover:text-pink-400 group-focus:text-pink-400">blog</h1>
 
 				<svg
