@@ -1,0 +1,26 @@
+---
+const { initialActivityMessage } = Astro.props
+---
+
+<div class="flex items-center gap-2">
+	<p id="activity" class="animate-pop text-sm">
+		{initialActivityMessage}
+	</p>
+
+	<script>
+		import { getActivityMessage } from "../scripts/activity"
+
+		const timer = window.setInterval(async () => {
+			const activityMessage = await getActivityMessage()
+			document.getElementById("activity")!.textContent = activityMessage
+		}, 1000 * 10)
+
+		document.addEventListener(
+			"astro:before-preparation",
+			() => {
+				clearInterval(timer)
+			},
+			{ once: true },
+		)
+	</script>
+</div>
