@@ -42,10 +42,10 @@ const projects = [
 				projects.map((project) => (
 					<li class="relative pl-9 before:absolute before:left-[10px] before:top-[-28px] before:h-[40px] before:border-l-2 before:border-l-gray-400 after:absolute after:left-[10px] after:top-1/2 after:w-[20px] after:border-t-2 after:border-t-gray-400">
 						<a
-							class="flex w-fit items-center gap-1.5 rounded-sm hover:underline hover:decoration-dashed focus:outline-none focus:ring-2 focus:ring-red-500"
+							class="flex w-fit items-center gap-1.5 rounded-sm focus:outline-none focus:ring-2 focus:ring-red-500"
 							href={project.url}>
 							<span class="pl-1 text-sm text-gray-400">[{project.shortcut}]</span>
-							<span class="pr-1">{project.name}</span>
+							<span class="pr-1 hover:underline hover:decoration-dashed">{project.name}</span>
 						</a>
 					</li>
 				))
