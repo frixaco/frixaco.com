@@ -6,77 +6,119 @@ import Layout from "../../layouts/Layout.astro"
 	<main class="flex size-full max-w-6xl flex-col md:px-24 md:pt-24">
 		<h1 class="pb-6 text-2xl font-bold md:pb-8">anitrack</h1>
 
-		<p class="pb-6">
-			web app i made to track anime i watch. while there are already much more feature-rich alternatives out there (<a
-				class="underline"
-				target="_blank"
-				href="https://miru.watch">miru.watch</a
-			>), i wanted something worked exactly the way i wanted and had only the features i needed.
-		</p>
-
-		<div class="flex flex-col gap-8">
-			<div class="flex flex-1 flex-col gap-4">
-				<p class="font-bold">tech stack:</p>
-				<ul class="list-inside list-disc">
-					<li>
-						oauth - <a class="underline" href="https://clerk.com">clerk.com</a>
-					</li>
-					<li>next.js 15 (rsc, server actions) - <a class="underline" href="https://nextjs.org">nextjs.org</a></li>
-					<li>shadcn/ui - <a class="underline" href="https://ui.shadcn.com">ui.shadcn.com</a></li>
-					<li>tailwindcss - <a class="underline" href="https://tailwindcss.com">tailwindcss.com</a></li>
-					<li>drizzle orm - <a class="underline" href="https://orm.drizzle.team/">drizzle.dev</a></li>
-					<li>
-						<a class="underline" href="https://github.com/ikatson/rqbit">rqbit</a> hosted on <a
-							class="underline"
-							href="https://hetzner.com">hetzner.com</a
-						> - amazing bittorrent client in Rust that allows streaming video files
-					</li>
-					<li>
-						postgresql - hosted on <a class="underline" href="https://railway.app">railway.app</a>
-					</li>
-				</ul>
-			</div>
+		<div class="flex flex-col gap-6">
+			<p>
+				web app i made to track anime i watch. while there are already much more feature-rich alternatives out there (<a
+					class="underline"
+					target="_blank"
+					href="https://miru.watch">miru.watch</a
+				>), i wanted something worked exactly the way i wanted and had only the features i needed.
+			</p>
 
 			<div class="flex flex-1 flex-col gap-4">
 				<p class="font-bold">features:</p>
+
 				<ul class="list-inside list-disc">
-					<li>
-						watch on external streaming website - <a class="underline" target="_blank" href="https://hianime.to"
-							>hianime.to</a
-						>
-					</li>
+					<li>search anime, add them to watchlist</li>
+					<li>mark episodes as watched</li>
+					<li>save progress on your account with github/google oauth</li>
+					<li>watch episodes on external streaming website</li>
 					<li>
 						stream directly from torrent uploads from <a class="underline" target="_blank" href="https://subsplease.org"
 							>SubsPlease</a
-						>
+						> without downloading
 					</li>
-					<li>search anime</li>
-					<li>add releases to watchlist</li>
-					<li>mark episodes as watched</li>
-					<li>save progress on your account with github/google oauth</li>
 				</ul>
 			</div>
 
-			<h3 class="font-bold">DEMO:</h3>
+			<div class="flex flex-col gap-4">
+				<p class="font-bold">notes:</p>
 
-			<div class="flex flex-col gap-2">
-				<span class="w-[70%] self-center text-sm">sign in, watch and stream torrent:</span>
-				<video
-					class="self-center"
-					width="70%"
-					height="auto"
-					controls
-					src="https://utfs.io/f/K9h87y261VpGnKsRUVF5UfRLqQN1uXDbd0ApIeWY8E3OkPhj"></video>
+				<ul class="list-inside list-disc space-y-2">
+					<li>
+						the biggest challenge was figuring out torrent streaming. i first tried <a
+							target="_blank"
+							class="underline"
+							href="https://github.com/webtorrent/webtorrent">webtorrent</a
+						> for in-browser streaming, but browser limitations and the library itself were a pain to deal with. then decided
+						to stream the torrent from a server to frontend instead. tested
+						<a class="underline" target="_blank" href="https://github.com/anacrolix/torrent"
+							>anacrolix's torrent client in Go</a
+						>, but ran into memory leaks (skill issue) and it didn't support streaming without downloading first.
+						finally, i discovered **amazing** <a
+							target="_blank"
+							class="underline"
+							href="https://github.com/ikatson/rqbit">rqbit</a
+						>, a Rust torrent client that was exactly what i needed - it could download and stream videos
+						simultaneously, run as a server, had all the necessary api endpoints, and even came with a ui for torrent
+						management. plus, it had a ready-to-use Docker Compose file, so I just rented a VPS and deployed it there.
+					</li>
+
+					<li>
+						for the rest of the project, i went with Next.js. though i started with a separate backend and frontend (you
+						can see it in the commit history), i took a break and came back with better idea. decided to do a complete
+						rewrite using Next.js with Server Actions and hosted it for free on vercel.com. this part was pretty
+						straightforward.
+					</li>
+				</ul>
 			</div>
 
-			<div class="flex flex-col gap-2">
-				<span class="w-[70%] self-center text-sm">search and track releases:</span>
-				<video
-					class="self-center"
-					width="70%"
-					height="auto"
-					controls
-					src="https://utfs.io/f/K9h87y261VpGqA3MOxUCHWls2koNRb5BG0uc3fmEMUiYaz4w"></video>
+			<li>
+				everything else except the above part was made in Next.js. if you look at commit history, you'll see initially i
+				had a separate backend. after a short break i came back and decided to do full rewrite and used Next.js with
+				Server Actions and deploy it on <a target="_blank" class="underline" href="https://vercel.com">vercel.com</a> for
+				free. easy peasy.
+			</li>
+
+			<div class="flex flex-1 flex-col gap-4">
+				<p class="font-bold">tech stack:</p>
+
+				<ul class="list-inside list-disc">
+					<li>
+						<a target="_blank" class="underline" href="https://github.com/ikatson/rqbit">rqbit</a> hosted on <a
+							target="_blank"
+							class="underline"
+							href="https://hetzner.com">hetzner.com</a
+						> with Docker Compose
+					</li>
+					<li>
+						postgresql - hosted on <a target="_blank" class="underline" href="https://railway.app">railway.app</a>
+					</li>
+					<li>
+						<a target="_blank" class="underline" href="https://nextjs.org">nextjs</a> 15 (rsc, server actions) deployed on
+						<a target="_blank" class="underline" href="https://vercel.com">vercel.com</a>
+					</li>
+					<li><a target="_blank" class="underline" href="https://ui.shadcn.com">shadcn/ui</a></li>
+					<li><a target="_blank" class="underline" href="https://tailwindcss.com">TailwindCSS</a></li>
+					<li><a target="_blank" class="underline" href="https://orm.drizzle.team/">Drizzle ORM</a></li>
+					<li>
+						auth using <a target="_blank" class="underline" href="https://clerk.com">clerk.com</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="flex flex-col gap-4 pb-12">
+				<h3 class="font-bold">demo:</h3>
+
+				<div class="flex flex-col gap-2">
+					<span class="w-[70%] self-center text-sm">sign in, watch and stream torrent:</span>
+					<video
+						class="self-center"
+						width="70%"
+						height="auto"
+						controls
+						src="https://utfs.io/f/K9h87y261VpGnKsRUVF5UfRLqQN1uXDbd0ApIeWY8E3OkPhj"></video>
+				</div>
+
+				<div class="flex flex-col gap-2">
+					<span class="w-[70%] self-center text-sm">search releases and track unwatched episodes:</span>
+					<video
+						class="self-center"
+						width="70%"
+						height="auto"
+						controls
+						src="https://utfs.io/f/K9h87y261VpGqA3MOxUCHWls2koNRb5BG0uc3fmEMUiYaz4w"></video>
+				</div>
 			</div>
 		</div>
 	</main>

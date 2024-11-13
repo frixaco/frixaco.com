@@ -1,5 +1,9 @@
 # frixaco.com - Personal Website
 
+## Notes
+
+- Demo videos are stored in uploadthing.com
+
 ## TODO
 
 - [ ] Prepare projects for showcase
