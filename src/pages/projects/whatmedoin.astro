@@ -3,5 +3,125 @@ import Layout from "../../layouts/Layout.astro"
 ---
 
 <Layout title="whatmedoin">
-	<h1>whatmedoin</h1>
+	<main class="flex size-full max-w-6xl flex-col md:px-24 md:pt-24">
+		<h1 class="pb-6 text-2xl font-bold md:pb-8">whatmedoin</h1>
+
+		<div class="flex flex-col gap-6">
+			<p>
+				apps i made to track what i'm doing at the moment and display it in my <a
+					class="text-pink-500 hover:underline"
+					target="_blank"
+					href="https://frixaco.com">website</a
+				>'s <strong>"now"</strong> section. it tracks a set of foreground window titles and active browser tabs every 15
+				minutes and sends them to API written in Go which saves them to MongoDB database.
+			</p>
+
+			<div class="flex flex-col gap-4">
+				<p class="font-bold">features:</p>
+
+				<ul class="list-inside list-disc">
+					<li>Windows CLI app that auto-starts with on boot to track open windows</li>
+					<li>macOS system tray app that you can start on boot to track open windows</li>
+					<li>Control process and see logs for desktop apps</li>
+					<li>Chrome and Firefox browser extensions to track active tab updates</li>
+					<li>mobile apps for Android and iOS (just have to make production builds)</li>
+				</ul>
+			</div>
+
+			<div class="grid grid-cols-2 place-items-center gap-1">
+				<div>
+					<img
+						class="cursor-pointer rounded-md"
+						src="/images/whatmedoin-browser-extension.png"
+						alt="whatmedoin-browser-extension"
+					/>
+				</div>
+
+				<div>
+					<img class="cursor-pointer rounded-md" src="/images/whatmedoin-macos-app.png" alt="whatmedoin-macos-app" />
+				</div>
+
+				<div>
+					<img
+						class="cursor-pointer rounded-md"
+						src="/images/whatmedoin-windows-app.png"
+						alt="whatmedoin-windows-app"
+					/>
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-4">
+				<p class="font-bold">notes:</p>
+
+				<ul class="list-inside list-disc space-y-2">
+					<li>
+						you can see all the approaches i tried in the <a
+							class="underline"
+							target="_blank"
+							href="https://github.com/frixaco/whatmedoin/blob/main/README.md#solutions-tried">README.md</a
+						>. tldr: Tauri, x-win crate, @paymo/active-window package, Bun + C, Flutter, React Native, native Xcode app,
+						Rust CLI, Bun + Hono, Rust + Tide, Vanilla TS, Rust + WASM
+					</li>
+
+					<li>
+						initially, i really wanted to make cross-platform CLI app using either Go or Rust. however, after a lot
+						tries i decided it's not worth it because implementing background process management on Windows, macOS (and
+						Linux) required a LOT of work (like a lot). it was pain
+					</li>
+
+					<li>
+						in the end, though, i made Rust CLI app for only Windows. for macOS - native system tray app. mobile apps -
+						got them working in both Flutter and React Native, but had release/prod. build issues. so they are on pause
+						for now.
+					</li>
+
+					<li>
+						for the API, initially, i went with Bun + Hono, but realized it was using over +120MB memory. so i switched
+						to Go and now have ~13MB memory usage! this basically gets me free hosting on <a
+							class="underline"
+							target="_blank"
+							href="https://railway.com">railway.com</a
+						> while Bun + Hono would cost me $5/month.
+					</li>
+				</ul>
+			</div>
+
+			<div class="flex flex-col gap-4">
+				<p class="font-bold">tech stack:</p>
+
+				<ul class="list-inside list-disc">
+					<li>
+						Rust CLI using <a class="underline" target="_blank" href="https://github.com/clap-rs/clap">Clap</a> and <a
+							class="underline"
+							target="_blank"
+							href="https://tokio.rs">Tokio</a
+						>
+					</li>
+					<li>Xcode/Swift</li>
+					<li>Go + <a class="underline" target="_blank" href="https://echo.labstack.com">Echo</a></li>
+					<li>
+						<a class="underline" target="_blank" href="https://railway.com">railway.com</a> for hosting MongoDB database
+						and API
+					</li>
+					<li>Vanilla JS for browser extensions</li>
+				</ul>
+			</div>
+
+			<div class="flex flex-col gap-4 pb-12">
+				<h3 class="font-bold">demo:</h3>
+
+				<div class="flex flex-col gap-2">
+					<span class="w-[70%] self-center text-sm">browser extension:</span>
+					<video
+						class="self-center"
+						width="70%"
+						height="auto"
+						controls
+						src="https://utfs.io/f/K9h87y261VpGbmv16qLZ8UeKWVMlDsTwoyGPI7FCjzk6cOaL"></video>
+				</div>
+			</div>
+		</div>
+	</main>
 </Layout>
+
+<!--  -->
