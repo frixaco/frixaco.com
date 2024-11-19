@@ -10,6 +10,8 @@ import Activity from "../components/activity.astro"
 import { getActivityMessage } from "../scripts/activity"
 
 const initialActivityMessage = await getActivityMessage()
+
+export const prerender = false
 ---
 
 <Layout title="FrixaCo">
