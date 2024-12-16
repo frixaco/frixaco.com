@@ -1,5 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro"
+import { Image } from "astro:assets"
+import anitrackHome from "../../images/anitrack_home.png"
+import anitrackAdd from "../../images/anitrack_add.png"
+import anitrackTorrent from "../../images/anitrack_torrent.png"
+import anitrackStream from "../../images/anitrack_stream.png"
 ---
 
 <Layout title="anitrack">
@@ -33,16 +38,16 @@ import Layout from "../../layouts/Layout.astro"
 
 			<div class="grid grid-cols-2 place-items-center gap-1">
 				<div>
-					<img class="cursor-pointer rounded-md" src="/images/anitrack_home.png" alt="anitrack" />
+					<Image class="cursor-pointer rounded-md" src={anitrackHome} alt="anitrack" />
 				</div>
 				<div>
-					<img class="cursor-pointer rounded-md" src="/images/anitrack_add.png" alt="anitrack" />
+					<Image class="cursor-pointer rounded-md" src={anitrackAdd} alt="anitrack" />
 				</div>
 				<div>
-					<img class="cursor-pointer rounded-md" src="/images/anitrack_torrent.png" alt="anitrack" />
+					<Image class="cursor-pointer rounded-md" src={anitrackTorrent} alt="anitrack" />
 				</div>
 				<div>
-					<img class="cursor-pointer rounded-md" src="/images/anitrack_stream.png" alt="anitrack" />
+					<Image class="cursor-pointer rounded-md" src={anitrackStream} alt="anitrack" />
 				</div>
 			</div>
 

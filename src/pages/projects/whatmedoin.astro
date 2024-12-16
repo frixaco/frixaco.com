@@ -1,5 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro"
+import { Image } from "astro:assets"
+import whatmedoinBrowserExtension from "../../images/whatmedoin-browser-extension.png"
+import whatmedoinMacosApp from "../../images/whatmedoin-macos-app.png"
+import whatmedoinWindowsApp from "../../images/whatmedoin-windows-app.png"
 ---
 
 <Layout title="whatmedoin">
@@ -30,21 +34,21 @@ import Layout from "../../layouts/Layout.astro"
 
 			<div class="grid grid-cols-2 place-items-center gap-1">
 				<div>
-					<img
+					<Image
 						class="cursor-pointer rounded-md"
-						src="/images/whatmedoin-browser-extension.png"
+						src={whatmedoinBrowserExtension}
 						alt="whatmedoin-browser-extension"
 					/>
 				</div>
 
 				<div>
-					<img class="cursor-pointer rounded-md" src="/images/whatmedoin-macos-app.png" alt="whatmedoin-macos-app" />
+					<Image class="cursor-pointer rounded-md" src={whatmedoinMacosApp} alt="whatmedoin-macos-app" />
 				</div>
 
 				<div>
-					<img
+					<Image
 						class="cursor-pointer rounded-md"
-						src="/images/whatmedoin-windows-app.png"
+						src={whatmedoinWindowsApp}
 						alt="whatmedoin-windows-app"
 					/>
 				</div>
