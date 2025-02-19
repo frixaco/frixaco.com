@@ -1,1 +1,35 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@layer base {
+	* {
+		min-width: 0;
+	}
+}
+
+@utility scrollbar-hidden {
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+@theme {
+	--shadow-solid: 2px 2px 0;
+	--drop-shadow-solid: 2px 2px 0px hsl(0, 0%, 0%);
+	--color-primary: hsl(0deg 0% 9.02%);
+
+	@keyframes pop-in {
+		0% {
+			transform: scale(0.9);
+			opacity: 0;
+		}
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+
+	--animate-pop: pop-in 0.3s ease-in-out;
+}
