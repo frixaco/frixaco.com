@@ -26,12 +26,12 @@ export const prerender = false
 
 		<div
 			tabindex="0"
-			class="group relative flex flex-col justify-start gap-4 border border-dashed bg-primary transition-colors duration-100 focus-within:border-red-500 hover:border-red-500 focus:outline-none md:col-span-6 md:row-span-6 md:flex-row"
+			class="group bg-primary relative flex flex-col justify-start gap-4 border border-dashed transition-colors duration-100 focus-within:border-red-500 hover:border-red-500 focus:outline-none md:col-span-6 md:row-span-6 md:flex-row"
 			aria-label="Hi, I'm Rustam">
 			<div class="flex flex-col justify-between gap-2 px-6 py-5 md:col-span-1 md:row-span-2">
 				<p class="font-thin text-gray-400">welcome</p>
 
-				<h1 class="z-10 min-h-[200px] flex-1 animate-pop text-pretty text-xl lg:max-w-xl">
+				<h1 class="animate-pop z-10 min-h-[200px] flex-1 text-xl text-pretty lg:max-w-xl">
 					hi, I'm <strong class="drop-shadow-solid group-hover:text-red-500 group-focus:text-red-500"
 						>Rustam Ashurmatov</strong
 					>, full-stack developer, with strong interest for pretty much everything
@@ -43,7 +43,7 @@ export const prerender = false
 							<a
 								href="https://github.com/frixaco"
 								target="_blank"
-								class="flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-solid shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+								class="shadow-solid flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
 								<GithubLogo />
 							</a>
 							<span class="mt-2 hidden font-mono text-sm text-gray-400 md:inline-block">[g]</span>
@@ -53,7 +53,7 @@ export const prerender = false
 							<a
 								href="https://www.linkedin.com/in/frixaco/"
 								target="_blank"
-								class="flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-solid shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+								class="shadow-solid flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
 								<LinkedinLogo />
 							</a>
 							<span class="mt-2 hidden font-mono text-sm text-gray-400 md:inline-block">[l]</span>
@@ -63,7 +63,7 @@ export const prerender = false
 							<a
 								href="https://x.com/frixaco"
 								target="_blank"
-								class="flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-solid shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+								class="shadow-solid flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
 								<XLogo />
 							</a>
 							<span class="mt-2 hidden font-mono text-sm text-gray-400 md:inline-block">[x]</span>
@@ -75,19 +75,21 @@ export const prerender = false
 			<Image
 				src={profilePic}
 				alt="artwork"
-				class="absolute bottom-0 right-0 max-h-72 w-full max-w-72 self-center overflow-hidden opacity-75 md:self-end"
+				class="absolute right-0 bottom-0 max-h-72 w-full max-w-72 self-center overflow-hidden opacity-75 md:self-end"
 			/>
 		</div>
 
 		<div
 			id="about"
 			tabindex="0"
-			class="group flex cursor-pointer flex-col gap-4 border border-dashed bg-primary px-6 py-5 transition-colors duration-100 focus-within:border-blue-500 hover:border-blue-500 focus:outline-none md:col-span-2 md:row-span-9"
+			class="group bg-primary flex cursor-pointer flex-col gap-4 border border-dashed px-6 py-5 transition-colors duration-100 focus-within:border-blue-500 hover:border-blue-500 focus:outline-none md:col-span-2 md:row-span-9"
 			aria-label="About me">
-			<h1 class="text-lg font-bold group-hover:text-blue-400 group-focus:text-blue-400">about me</h1>
+			<h1 class="text-lg font-bold group-hover:text-blue-400 group-focus:text-blue-400">
+				<span class="font-semibold text-yellow-500">a</span>bout me
+			</h1>
 
 			<div
-				class="flex flex-1 animate-pop flex-col justify-around gap-3 overflow-scroll text-[0.8em] font-light leading-normal scrollbar-hidden md:gap-1">
+				class="animate-pop scrollbar-hidden flex flex-1 flex-col justify-around gap-3 overflow-scroll text-[0.8em] leading-normal font-light md:gap-1">
 				<p class="">- self-taught dev from Uzbekistan, live inside my terminal, Neovim-er</p>
 
 				<div class="flex flex-col gap-1">
@@ -111,7 +113,7 @@ export const prerender = false
 						<a
 							href="https://osu.ppy.sh/users/12573178"
 							target="_blank"
-							class="rounded-sm text-pink-400 hover:underline focus:outline-none focus:ring-2 focus:ring-pink-500"
+							class="rounded-sm text-pink-400 hover:underline focus:ring-2 focus:ring-pink-500 focus:outline-none"
 							>osu!</a
 						>
 					</span>
@@ -124,19 +126,21 @@ export const prerender = false
 
 		<div
 			tabindex="0"
-			class="group flex flex-col gap-4 border border-dashed bg-primary px-6 py-5 transition-colors duration-100 focus-within:border-green-500 hover:border-green-500 focus:outline-none md:col-span-2 md:row-span-6"
+			class="group bg-primary flex flex-col gap-4 border border-dashed px-6 py-5 transition-colors duration-100 focus-within:border-green-500 hover:border-green-500 focus:outline-none md:col-span-2 md:row-span-6"
 			aria-label="Socials">
 			<h1 class="text-lg font-bold group-hover:text-green-400 group-focus:text-green-400">socials</h1>
 
-			<Socials class="pb-2 pt-4" />
+			<Socials class="pt-4 pb-2" />
 		</div>
 
 		<div
 			id="projects"
 			tabindex="0"
-			class="group flex cursor-pointer flex-col gap-4 border border-dashed bg-primary px-6 py-5 transition-colors duration-100 focus-within:border-purple-500 hover:border-purple-500 focus:outline-none md:col-span-4 md:row-span-3"
+			class="group bg-primary flex cursor-pointer flex-col gap-4 border border-dashed px-6 py-5 transition-colors duration-100 focus-within:border-purple-500 hover:border-purple-500 focus:outline-none md:col-span-4 md:row-span-3"
 			role="button">
-			<h1 class="text-lg font-bold group-hover:text-purple-400 group-focus:text-purple-400">projects</h1>
+			<h1 class="text-lg font-bold group-hover:text-purple-400 group-focus:text-purple-400">
+				<span class="font-semibold text-yellow-500">p</span>rojects
+			</h1>
 
 			<div class="flex-1"></div>
 
@@ -145,7 +149,7 @@ export const prerender = false
 
 		<div
 			tabindex="0"
-			class="group flex flex-col gap-4 border border-dashed bg-primary px-6 py-5 transition-colors duration-100 focus-within:border-cyan-500 hover:border-cyan-500 focus:outline-none md:col-span-3 md:row-span-3"
+			class="group bg-primary flex flex-col gap-4 border border-dashed px-6 py-5 transition-colors duration-100 focus-within:border-cyan-500 hover:border-cyan-500 focus:outline-none md:col-span-3 md:row-span-3"
 			aria-label="NOW">
 			<h1 class="flex items-center gap-2">
 				<span class="text-lg font-bold group-hover:text-cyan-400 group-focus:text-cyan-400">now</span>
@@ -155,17 +159,19 @@ export const prerender = false
 
 			<div class="flex items-center gap-1">
 				<PulseIcon class:list={["group-hover:text-cyan-400"]} />
-				<span class="text-xs italic text-gray-400">updated every 10 seconds</span>
+				<span class="text-xs text-gray-400 italic">updated every 10 seconds</span>
 			</div>
 		</div>
 
 		<div
 			id="blog"
 			tabindex="0"
-			class="group flex cursor-pointer flex-col gap-4 border border-dashed bg-primary px-6 py-5 transition-colors duration-100 focus-within:border-pink-500 hover:border-pink-500 focus:outline-none md:col-span-3 md:row-span-3"
+			class="group bg-primary flex cursor-pointer flex-col gap-4 border border-dashed px-6 py-5 transition-colors duration-100 focus-within:border-pink-500 hover:border-pink-500 focus:outline-none md:col-span-3 md:row-span-3"
 			role="button">
 			<div class="flex items-center justify-between gap-2">
-				<h1 class="text-lg font-bold group-hover:text-pink-400 group-focus:text-pink-400">blog</h1>
+				<h1 class="text-lg font-bold group-hover:text-pink-400 group-focus:text-pink-400">
+					<span class="font-semibold text-yellow-500">b</span>log
+				</h1>
 
 				<svg
 					class="-translate-x-1.5 translate-y-1.5 -rotate-45 text-white transition-transform group-hover:translate-x-0 group-hover:translate-y-0 group-hover:text-pink-400"
