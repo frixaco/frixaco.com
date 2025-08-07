@@ -17,11 +17,15 @@ export const prerender = false
 ---
 
 <Layout title="FrixaCo">
-	<!-- <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-		<h1 class="text-4xl font-bold text-white">WIP</h1>
-	</div> -->
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+		<h1 class="text-center text-4xl font-bold text-white">
+			making some changes<br />will be back soon<br />keyboard navigation is working though
+		</h1>
+	</div>
 
-	<main id="home-main" class="relative grid size-full max-w-7xl gap-2 md:max-h-[732px] md:grid-cols-8 md:grid-rows-12">
+	<main
+		id="home-main"
+		class="relative grid size-full max-w-7xl gap-2 md:max-h-[732px] md:grid-cols-8 md:grid-rows-12">
 		<script src="../scripts/shortcuts.ts"></script>
 
 		<div
@@ -32,7 +36,8 @@ export const prerender = false
 				<p class="font-thin text-gray-400">welcome</p>
 
 				<h1 class="animate-pop z-10 min-h-[200px] flex-1 text-xl text-pretty lg:max-w-xl">
-					hi, I'm <strong class="drop-shadow-solid group-hover:text-red-500 group-focus:text-red-500"
+					hi, I'm <strong
+						class="drop-shadow-solid group-hover:text-red-500 group-focus:text-red-500"
 						>Rustam</strong
 					>, full-stack developer, with strong interest for pretty much everything
 				</h1>
@@ -46,7 +51,10 @@ export const prerender = false
 								class="shadow-solid flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
 								<GithubLogo />
 							</a>
-							<span class="mt-2 hidden font-mono text-sm text-gray-400 md:inline-block">[g]</span>
+							<span
+								class="mt-2 hidden font-mono text-sm text-gray-400 md:inline-block"
+								>[g]</span
+							>
 						</div>
 
 						<div id="linkedin-btn" class="flex flex-col items-center">
@@ -56,7 +64,10 @@ export const prerender = false
 								class="shadow-solid flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
 								<LinkedinLogo />
 							</a>
-							<span class="mt-2 hidden font-mono text-sm text-gray-400 md:inline-block">[l]</span>
+							<span
+								class="mt-2 hidden font-mono text-sm text-gray-400 md:inline-block"
+								>[l]</span
+							>
 						</div>
 
 						<div class="flex flex-col items-center">
@@ -66,7 +77,10 @@ export const prerender = false
 								class="shadow-solid flex h-10 w-16 items-center justify-center gap-2 rounded-lg border border-red-500 text-2xl shadow-red-500 hover:text-red-500 focus:text-red-500 focus:outline-none active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
 								<XLogo />
 							</a>
-							<span class="mt-2 hidden font-mono text-sm text-gray-400 md:inline-block">[x]</span>
+							<span
+								class="mt-2 hidden font-mono text-sm text-gray-400 md:inline-block"
+								>[x]</span
+							>
 						</div>
 					</div>
 				</div>
@@ -99,12 +113,16 @@ export const prerender = false
 						<li>TypeScript/JS, Go, Python</li>
 						<li>Next.js / React (same thing) and its ecosystem</li>
 						<li>
-							AWS (Amazon <strike class="text-gray-400">Pain</strike>Web Services)
+							AWS (Amazon <strike class="text-gray-400">Pain</strike>Web
+							Services)
 						</li>
 					</ul>
 				</div>
 
-				<p class="">- beyond coding projects, also do 3D modeling in Blender, music in Reaper and learn Japanese</p>
+				<p class="">
+					- beyond coding projects, also do 3D modeling in Blender, music in Reaper and
+					learn Japanese
+				</p>
 
 				<p class="md:pb-0">
 					- some favorite games: Sekiro, Monster Hunter World, Elden Ring, Lies of P. but
@@ -121,7 +139,9 @@ export const prerender = false
 				</p>
 			</div>
 
-			<span class="hidden text-right font-mono text-sm font-thin text-gray-400 md:inline-block">[a]</span>
+			<span class="hidden text-right font-mono text-sm font-thin text-gray-400 md:inline-block"
+				>[a]</span
+			>
 		</div>
 
 		<div
@@ -144,7 +164,9 @@ export const prerender = false
 
 			<div class="flex-1"></div>
 
-			<span class="hidden text-right font-mono text-sm font-thin text-gray-400 md:inline-block">[p]</span>
+			<span class="hidden text-right font-mono text-sm font-thin text-gray-400 md:inline-block"
+				>[p]</span
+			>
 		</div>
 
 		<div
@@ -152,7 +174,9 @@ export const prerender = false
 			class="group bg-primary flex flex-col gap-4 border border-dashed px-6 py-5 transition-colors duration-100 focus-within:border-cyan-500 hover:border-cyan-500 focus:outline-none md:col-span-3 md:row-span-3"
 			aria-label="NOW">
 			<h1 class="flex items-center gap-2">
-				<span class="text-lg font-bold group-hover:text-cyan-400 group-focus:text-cyan-400">now (wip)</span>
+				<span class="text-lg font-bold group-hover:text-cyan-400 group-focus:text-cyan-400"
+					>now (wip)</span
+				>
 			</h1>
 
 			<Activity initialActivityMessage={initialActivityMessage} />
@@ -181,13 +205,16 @@ export const prerender = false
 					viewBox="0 0 24 24"
 					><path
 						fill="currentColor"
-						d="m16.172 11l-5.364-5.364l1.414-1.414L20 12l-7.778 7.778l-1.414-1.414L16.172 13H4v-2z"></path></svg
+						d="m16.172 11l-5.364-5.364l1.414-1.414L20 12l-7.778 7.778l-1.414-1.414L16.172 13H4v-2z"
+					></path></svg
 				>
 			</div>
 
 			<div class="flex-1"></div>
 
-			<span class="hidden text-right font-mono text-sm font-thin text-gray-400 md:inline-block">[b]</span>
+			<span class="hidden text-right font-mono text-sm font-thin text-gray-400 md:inline-block"
+				>[b]</span
+			>
 		</div>
 	</main>
 </Layout>
