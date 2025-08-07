@@ -22,7 +22,7 @@ const { title } = Astro.props
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="flex flex-col items-center bg-black/90 p-4 font-mono text-gray-200 md:h-screen md:justify-center">
+	<body class="flex flex-col items-center bg-black/90 p-4 font-mono text-gray-200 md:h-screen">
 		<slot />
 		<VercelSpeedInsights />
 
@@ -52,7 +52,8 @@ const { title } = Astro.props
 			window.addEventListener("keydown", shortcutToggleHandler)
 		</script>
 
-		<div class="fixed right-3 bottom-3 z-50 hidden font-mono text-xs md:flex md:flex-col md:gap-1">
+		<div
+			class="bg-primary fixed right-0 bottom-3 z-50 hidden border-y border-l border-dashed border-gray-700 px-4 py-2 font-mono text-xs md:flex md:flex-col md:gap-1">
 			<span id="backspace">[Backspace] to go <strong>back</strong></span>
 			<span>[?] to <strong id="shortcuts-toggle-label">disable</strong> shortcuts</span>
 		</div>
