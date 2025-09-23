@@ -3,9 +3,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-start py-20 min-h-screen">
-      <main className="relative w-full flex items-center gap-8 max-w-4xl justify-start font-mono px-8">
-        <ModeToggle />
-
+      <main className="relative w-full flex items-start gap-8 max-w-4xl justify-between font-mono px-8">
         <div className="flex items-center justify-start gap-8 h-8">
           <h1 className="text-cyber-fg font-bold tracking-wide">rustam</h1>
 
@@ -23,6 +21,8 @@ export default function Home() {
             </h2>
           </div>
         </div>
+
+        <ModeToggle />
       </main>
     </div>
   );

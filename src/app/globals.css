@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 ::selection {
-  background-color: theme(--color-cyber-grey);
+  background-color: theme(--color-cyber-pink);
   color: theme(--color-cyber-bg);
 }
 
