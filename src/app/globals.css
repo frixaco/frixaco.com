@@ -3,6 +3,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+::selection {
+  background-color: theme(--color-cyber-grey);
+  color: theme(--color-cyber-bg);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+}
+
 @theme {
   --color-cyber-bg: #ffffff;
   --color-cyber-bg-alt: #eaeaea;
@@ -35,4 +45,25 @@
   --color-cyber-pink: #ff5ea0;
   --color-cyber-orange: #ffbd5e;
   --color-cyber-purple: #bd5eff;
+}
+
+@layer utilities {
+  @keyframes hover-wiggle {
+    0% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(-10deg);
+    }
+    60% {
+      transform: rotate(10deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  .hover\:animate-wiggle:hover {
+    animation: hover-wiggle 0.4s ease-in;
+  }
 }

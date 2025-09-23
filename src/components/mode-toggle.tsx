@@ -7,25 +7,24 @@ export function ModeToggle() {
   const { setTheme } = useTheme();
 
   return (
-    <div className="overflow-hidden flex items-center justify-start w-6 p-1 gap-1 group hover:w-[66px] bg-cyber-bg-alt transition-all ease-out rounded-full duration-300">
+    <div className="absolute top-0 -left-8 overflow-hidden cursor-pointer flex flex-col items-center justify-start w-8 h-8 p-1.5 gap-1.5 group hover:h-[82px] bg-cyber-bg-alt transition-all ease-out rounded-full duration-300">
       <button
-        // TODO: revert degree should be same as rotate degree
-        className="size-fit rounded-full hover:animate-in hover:spin-in-90 ease-out duration-500 animate-out spin-out-90 cursor-pointer text-cyber-grey hover:text-cyber-orange hover:scale-105"
+        className="size-fit rounded-full hover:animate-in hover:spin-in-90 ease-out duration-200 animate-out spin-out-90 cursor-pointer text-cyber-grey hover:text-cyber-orange hover:scale-105"
         onClick={() => setTheme("light")}
       >
-        <SunIcon size="1rem" />
+        <SunIcon size="1.2rem" />
       </button>
       <button
-        className="size-fit group-hover:animate-in ease-out scale-50 group-hover:scale-100 transition-transform duration-300 cursor-pointer text-cyber-grey hover:text-cyber-blue hover:scale-105"
+        className="size-fit rounded-full hover:rotate-0 ease-out duration-200 -rotate-90 cursor-pointer text-cyber-grey hover:text-cyber-blue scale-0 hover:scale-105 group-hover:scale-100"
         onClick={() => setTheme("dark")}
       >
-        <MoonIcon size="1rem" />
+        <MoonIcon size="1.2rem" />
       </button>
       <button
-        className="size-fit group-hover:animate-in ease-out scale-50 group-hover:scale-100 transition-transform duration-300 delay-50 animate-out fade-out-15 cursor-pointer text-cyber-grey hover:text-cyber-fg hover:scale-105"
+        className="size-fit rounded-full transition-all hover:animate-wiggle ease-out duration-200 cursor-pointer text-cyber-grey hover:text-cyber-fg scale-0 hover:scale-105 group-hover:scale-100"
         onClick={() => setTheme("system")}
       >
-        <MonitorIcon size="1rem" />
+        <MonitorIcon size="1.2rem" />
       </button>
     </div>
   );
