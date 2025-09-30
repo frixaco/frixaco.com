@@ -32,7 +32,7 @@ export function ModeToggle() {
         className={cn(
           "size-fit rounded-full hover:rotate-0 ease-out duration-200 rotate-90 cursor-pointer text-cyber-grey hover:text-cyber-orange hover:scale-105 scale-100",
           {
-            "scale-0 group-hover:scale-100": theme !== "light",
+            // "scale-0 group-hover:scale-100": theme !== "light",
           }
         )}
         onClick={() => setTheme("light")}
@@ -43,7 +43,7 @@ export function ModeToggle() {
         className={cn(
           "size-fit rounded-full hover:rotate-0 ease-out duration-200 -rotate-90 cursor-pointer text-cyber-grey hover:text-cyber-blue hover:scale-105 scale-100",
           {
-            "scale-0 group-hover:scale-100": theme !== "dark",
+            // "scale-0 group-hover:scale-100": theme !== "dark",
           }
         )}
         onClick={() => setTheme("dark")}
@@ -52,9 +52,9 @@ export function ModeToggle() {
       </button>
       <button
         className={cn(
-          "size-fit rounded-full transition-all hover:animate-wiggle ease-out duration-200 cursor-pointer text-cyber-grey hover:text-cyber-fg hover:scale-105 scale-100 delay-150",
+          "size-fit rounded-full transition-all hover:animate-wiggle ease-out duration-200 cursor-pointer text-cyber-grey hover:text-cyber-fg hover:scale-105 scale-100",
           {
-            "scale-0 group-hover:scale-100": theme !== "system",
+            // "scale-0 group-hover:scale-100 duration-400": theme !== "system",
           }
         )}
         onClick={() => setTheme("system")}
