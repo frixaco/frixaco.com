@@ -20,7 +20,7 @@ export function ModeToggle() {
   return (
     <div
       className={cn(
-        "absolute right-0 overflow-hidden cursor-pointer flex flex-col items-center w-8 h-8 p-1.5 gap-1.5 group hover:h-[82px] bg-cyber-bg-alt transition-all ease-out rounded-full duration-300",
+        "absolute right-0 overflow-hidden cursor-pointer flex flex-row-reverse items-center w-8 h-8 p-1.5 gap-1.5 group hover:w-[82px] bg-cyber-bg-alt transition-all ease-out rounded-full duration-300",
         {
           "justify-start": theme === "light",
           "justify-center": theme === "dark",
@@ -30,9 +30,9 @@ export function ModeToggle() {
     >
       <button
         className={cn(
-          "size-fit rounded-full hover:rotate-0 ease-out duration-200 rotate-90 cursor-pointer text-cyber-grey hover:text-cyber-orange hover:scale-105",
+          "size-fit rounded-full hover:rotate-0 ease-out duration-200 rotate-90 cursor-pointer text-cyber-grey hover:text-cyber-orange hover:scale-105 scale-100",
           {
-            "scale-100 group-hover:scale-100": theme !== "light",
+            "scale-0 group-hover:scale-100": theme !== "light",
           }
         )}
         onClick={() => setTheme("light")}
@@ -41,9 +41,9 @@ export function ModeToggle() {
       </button>
       <button
         className={cn(
-          "size-fit rounded-full hover:rotate-0 ease-out duration-200 -rotate-90 cursor-pointer text-cyber-grey hover:text-cyber-blue hover:scale-105",
+          "size-fit rounded-full hover:rotate-0 ease-out duration-200 -rotate-90 cursor-pointer text-cyber-grey hover:text-cyber-blue hover:scale-105 scale-100",
           {
-            "scale-100 group-hover:scale-100": theme !== "dark",
+            "scale-0 group-hover:scale-100": theme !== "dark",
           }
         )}
         onClick={() => setTheme("dark")}
@@ -52,9 +52,9 @@ export function ModeToggle() {
       </button>
       <button
         className={cn(
-          "size-fit rounded-full transition-all hover:animate-wiggle ease-out duration-200 cursor-pointer text-cyber-grey hover:text-cyber-fg hover:scale-105",
+          "size-fit rounded-full transition-all hover:animate-wiggle ease-out duration-200 cursor-pointer text-cyber-grey hover:text-cyber-fg hover:scale-105 scale-100 delay-150",
           {
-            "scale-100 group-hover:scale-100": theme !== "system",
+            "scale-0 group-hover:scale-100": theme !== "system",
           }
         )}
         onClick={() => setTheme("system")}
