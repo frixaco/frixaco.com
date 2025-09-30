@@ -22,13 +22,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  blog,
-  setup,
-}: Readonly<{
-  children: React.ReactNode;
-  blog: React.ReactNode;
-  setup: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -48,9 +42,9 @@ export default function RootLayout({
                     rustam
                   </h1>
 
-                  <span className="w-8 rounded-full h-px bg-cyber-bg-highlight"></span>
+                  <span className="w-8 rounded-full h-px bg-cyber-bg-alt"></span>
 
-                  <div className="flex gap-4 items-center justify-center">
+                  <div className="flex gap-6 items-center justify-center">
                     <h2 className="text-cyber-grey cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
                       <Link href="/">home</Link>
                     </h2>
@@ -66,7 +60,7 @@ export default function RootLayout({
                 <ModeToggle />
               </div>
 
-              <span className="w-8 rounded-full h-px bg-cyber-bg-highlight"></span>
+              <span className="w-full rounded-full h-px bg-cyber-bg-alt"></span>
 
               {children}
             </div>

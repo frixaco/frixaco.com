@@ -1,18 +1,19 @@
+const sections = ["about", "projects", "experience"];
+
 export default function Page() {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col">
-        <h3 className="text-cyber-grey">about</h3>
-        <p className=""></p>
-      </div>
-
-      <div className="flex flex-col">
-        <h3 className="text-cyber-grey">projects</h3>
-      </div>
-
-      <div className="flex flex-col">
-        <h3 className="text-cyber-grey">experience</h3>
-      </div>
+    <div className="flex flex-col gap-10 text-sm text-cyber-grey">
+      {sections.map((s) => (
+        <div className="flex flex-col items-start justify-start gap-2">
+          <h3 className="font-semibold text-xs text-cyber-bg-highlight">{s}</h3>
+          <p className="">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veritatis
+            eveniet, libero iure nobis animi tempora porro excepturi cumque
+            asperiores corrupti debitis recusandae temporibus eum aspernatur
+            odit eligendi expedita perspiciatis perferendis?
+          </p>
+        </div>
+      ))}
     </div>
   );
 }
