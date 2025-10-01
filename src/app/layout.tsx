@@ -44,14 +44,14 @@ export default function RootLayout({
 
                   <span className="w-8 rounded-full h-px bg-cyber-bg-alt"></span>
 
-                  <div className="flex gap-6 items-center justify-center">
-                    <h2 className="text-cyber-grey cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
+                  <div className="flex gap-6 items-center justify-center text-cyber-grey">
+                    <h2 className="cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
                       <Link href="/">home</Link>
                     </h2>
-                    <h2 className="text-cyber-grey cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
+                    <h2 className="cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
                       <Link href="/blog">blog</Link>
                     </h2>
-                    <h2 className="text-cyber-grey cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
+                    <h2 className="cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
                       <Link href="/setup">setup</Link>
                     </h2>
                   </div>
