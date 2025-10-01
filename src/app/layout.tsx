@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { ModeToggle } from "@/components/mode-toggle";
 import Link from "next/link";
+import { Drawer } from "@/components/drawer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="flex flex-col items-center justify-start py-12 2xl:py-20 min-h-screen font-mono">
+          <main className="overflow-hidden flex flex-col items-center justify-start py-12 2xl:py-20 min-h-screen font-mono relative">
             <div className="size-full max-w-2xl flex flex-col gap-8 px-8 md:px-0">
               <div className="flex items-start gap-8 justify-between relative">
                 <div className="flex flex-col md:flex-row md:items-center justify-start gap-8 md:h-8">
@@ -64,6 +65,8 @@ export default function RootLayout({
 
               {children}
             </div>
+
+            <Drawer isOpen={false} />
           </main>
         </ThemeProvider>
       </body>
