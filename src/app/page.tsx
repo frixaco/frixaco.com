@@ -5,7 +5,7 @@ import { Suspense } from "react";
 export const experimental_ppr = true;
 
 const FallbackActivity = () => {
-  return <span className="text-cyber-red animate-pulse">...</span>;
+  return <span className="">...</span>;
 };
 
 export default async function Page() {
