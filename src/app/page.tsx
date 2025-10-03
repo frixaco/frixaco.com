@@ -30,11 +30,92 @@ export default async function Page() {
 
       <section className="flex flex-col items-stretch justify-start gap-4">
         <h3 className="font-semibold text-xs text-cyber-fg">projects</h3>
-        <div></div>
+
+        <div className="grid grid-cols-2 grid-rows-2 gap-4">
+          <div className="flex flex-col gap-1 cursor-pointer">
+            <h4 className="text-cyber-fg">anitrack</h4>
+            <p className="text-sm">
+              Simple TUI to help me watch anime in 4k without extra steps, built
+              with my TUI library <b>letui</b>
+            </p>
+            <div className="flex gap-1">
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                letui
+              </span>
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                typescript
+              </span>
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                rust
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1 cursor-pointer">
+            <h4 className="text-cyber-fg">aitetsu</h4>
+            <p className="text-sm">
+              High performance infinite canvas note-taking and AI chat library
+            </p>
+            <div className="flex gap-1">
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                tauri
+              </span>
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                typescript
+              </span>
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                rust
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1 cursor-pointer">
+            <h4 className="text-cyber-fg">letui</h4>
+            <p className="text-sm">
+              Component-based TUI library written from scratch
+            </p>
+            <div className="flex gap-1">
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                rust
+              </span>
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                typescript
+              </span>
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                bun
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1 cursor-pointer">
+            <h4 className="text-cyber-fg">whatmedoin</h4>
+            <p className="text-sm">
+              Personal activity tracker for macOS, Windows and browser, tracks
+              open tabs and programs
+            </p>
+            <div className="flex gap-1">
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                rust
+              </span>
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                typescript
+              </span>
+              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+                bun
+              </span>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="flex flex-col items-stretch justify-start gap-4">
         <h3 className="font-semibold text-xs text-cyber-fg">experience</h3>
+
+        <h4 className="text-cyber-fg text-sm">
+          <a href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf" target="_blank">
+            PDF
+          </a>
+        </h4>
 
         <div>
           <div className="flex items-center justify-between">
@@ -47,14 +128,10 @@ export default async function Page() {
           </div>
 
           <p className="text-sm">
-            Building an all‑in‑one platform for music industry pros to
-            collaborate and monetize. Full‑stack work on everything from
-            scalable AWS microservices to realtime messaging and mobile playback
-            features.
-            {/* Building all-in-one platform for music industry people to */}
-            {/* collaborate and monetize their work. Worked on every single */}
-            {/* techinical aspect of the product and currently continuing to do */}
-            {/* fully full-stack work. */}
+            Building an all‑in‑one platform for music industry people to
+            collaborate and monetize their work. Full‑stack work on everything
+            from scalable AWS microservices to realtime messaging and mobile
+            playback features.
           </p>
         </div>
 
@@ -69,13 +146,8 @@ export default async function Page() {
           </div>
 
           <p className="text-sm">
-            Delivering AI‑powered geospatial insights through clean, intuitive
-            UIs. Built the frontend for Keycloak‑based authentication and a
+            Built the frontend for Keycloak‑based authentication and a
             multi‑account dashboard with advanced monitoring tools.
-            {/* Designing and developing intuitive UIs to bring AI-powered */}
-            {/* geospatial insights from satellite imagery to end users. Building */}
-            {/* authentication with Keycloak and developing a multi-account */}
-            {/* dashboard with advanced monitoring features on the frontend. */}
           </p>
         </div>
 
@@ -86,19 +158,13 @@ export default async function Page() {
                 Livereach
               </a>
             </h4>
-            <span className="text-sm">Nov 2021 - Apr 2023</span>
+            <span className="text-sm">Nov 2021 - Jan 2023</span>
           </div>
 
           <p className="text-sm">
-            Worked on complex feature‑rich social media aggregation platform.
             Led Angular → React migration, built lightweight state management
             for embeddable apps, and boosted quality with E2E testing and style
             standardization.
-            {/* Worked on a large-scale performant social media aggregator web */}
-            {/* platform. Lead Angular to React migration without breaking anything */}
-            {/* for end users. Designed small custom state management to optimize */}
-            {/* embeddable web app, improved code quality across multiple projects */}
-            {/* and covered everything with E2E tests. */}
           </p>
         </div>
 
@@ -116,10 +182,6 @@ export default async function Page() {
             Built payments and subscription systems for a sports insurance
             platform. Developed an internal admin dashboard and re‑architected
             PostgreSQL to support multiple backends.
-            {/* Developed core payment data systems powering a subscription‑based */}
-            {/* sport insurance platform. Built internal admin dashboard and */}
-            {/* re-architected the database to efficiently support multiple */}
-            {/* backends. */}
           </p>
         </div>
       </section>

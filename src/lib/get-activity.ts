@@ -10,7 +10,7 @@ export const getActivity = async () => {
   const diffInMinutes = diffInMs / 60000;
 
   if (diffInMinutes > 30) {
-    return "either AFK, on my phone or doing something else";
+    return "AFK";
   }
 
   if (data.platform === "browser") {
