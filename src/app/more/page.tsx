@@ -13,6 +13,10 @@ export default function Page() {
             self-taught dev, live inside my terminal, Neovim-er, embracing AI
             (before it "embraces" me)
           </li>
+          <li>
+            beyond coding projects, also do 3D modeling in Blender, music in
+            Reaper and learn Japanese
+          </li>
         </ul>
       </div>
 

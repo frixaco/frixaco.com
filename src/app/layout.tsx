@@ -24,6 +24,8 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const isWIP = false;
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -35,7 +37,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="overflow-hidden flex flex-col items-center justify-start py-12 2xl:py-20 min-h-screen font-mono relative">
+          <main className="relative overflow-hidden flex flex-col items-center justify-start py-12 2xl:py-20 min-h-screen font-mono">
             <div className="size-full max-w-2xl flex flex-col gap-8 px-8 md:px-0">
               <div className="flex items-start gap-8 justify-between relative">
                 <div className="flex flex-col md:flex-row md:items-center justify-start gap-8 md:h-8">
@@ -66,7 +68,38 @@ export default function RootLayout({
               {children}
             </div>
 
+            {isWIP && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                <h1 className="text-center text-4xl font-bold text-white">
+                  making some changes
+                  <br />
+                  will be back soon
+                  <br />
+                  keyboard navigation is working though
+                </h1>
+              </div>
+            )}
+
             <Drawer isOpen={false} />
+
+            <div className="absolute right-0 bottom-0 p-4 flex gap-4 text-sm">
+              <span>
+                <a
+                  className="hover:underline"
+                  href="https://frixaco-nncl2ucfa-frixaco-personal.vercel.app/"
+                >
+                  v1
+                </a>
+              </span>
+              <span>
+                <a
+                  className="hover:underline"
+                  href="https://frixaco-7uw1r14e8-frixaco-personal.vercel.app/"
+                >
+                  v2
+                </a>
+              </span>
+            </div>
           </main>
         </ThemeProvider>
       </body>
