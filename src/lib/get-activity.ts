@@ -36,7 +36,7 @@ export const getActivity = async () => {
   }
 
   if (["WezTerm", "wezterm-gui", "kitty"].includes(data.title)) {
-    return "in WezTerm (best terminal)";
+    return "inside my terminal (probably neovim-ing)";
   }
 
   if (["Cursor", "pwsh", "Code"].includes(data.title)) {
