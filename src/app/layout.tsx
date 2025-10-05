@@ -53,7 +53,7 @@ export default function RootLayout({
                       <Link href="/blog">blog</Link>
                     </h2>
                     <h2 className="cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
-                      <Link href="/setup">setup</Link>
+                      <Link href="/more">more</Link>
                     </h2>
                   </div>
                 </div>
