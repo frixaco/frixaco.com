@@ -42,7 +42,7 @@ export default async function Page() {
               Simple TUI to help me watch anime in 4k without extra steps, built
               with my TUI library <b>letui</b>
             </p>
-            <div className="flex gap-1">
+            <div className="flex gap-1 text-cyber-bg">
               <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
                 letui
               </span>
@@ -60,7 +60,7 @@ export default async function Page() {
             <p className="text-sm">
               High performance infinite canvas note-taking and AI chat library
             </p>
-            <div className="flex gap-1">
+            <div className="flex gap-1 text-cyber-bg">
               <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
                 tauri
               </span>
@@ -78,7 +78,7 @@ export default async function Page() {
             <p className="text-sm">
               Component-based TUI library written from scratch
             </p>
-            <div className="flex gap-1">
+            <div className="flex gap-1 text-cyber-bg">
               <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
                 rust
               </span>
@@ -97,7 +97,7 @@ export default async function Page() {
               Personal activity tracker for macOS, Windows and browser, tracks
               open tabs and programs
             </p>
-            <div className="flex gap-1">
+            <div className="flex gap-1 text-cyber-bg">
               <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
                 rust
               </span>
@@ -134,8 +134,8 @@ export default async function Page() {
           <p className="text-sm">
             Building an all‑in‑one platform for music industry people to
             collaborate and monetize their work. Full‑stack work on everything
-            from scalable AWS microservices to realtime messaging and mobile
-            playback features.
+            from scalable AWS microservices to leading Next.js web platform and
+            helping out on mobile.
           </p>
         </div>
 
@@ -151,7 +151,8 @@ export default async function Page() {
 
           <p className="text-sm">
             Built the frontend for Keycloak‑based authentication and a
-            multi‑account dashboard with advanced monitoring tools.
+            multi‑account dashboard with advanced monitoring tools. Bunch of
+            maintenance and bug fixing.
           </p>
         </div>
 
@@ -168,7 +169,7 @@ export default async function Page() {
           <p className="text-sm">
             Led Angular → React migration, built lightweight state management
             for embeddable apps, and boosted quality with E2E testing and style
-            standardization.
+            standardization across projects.
           </p>
         </div>
 
@@ -185,7 +186,7 @@ export default async function Page() {
           <p className="text-sm">
             Built payments and subscription systems for a sports insurance
             platform. Developed an internal admin dashboard and re‑architected
-            PostgreSQL to support multiple backends.
+            PostgreSQL database schema to support multiple backends.
           </p>
         </div>
       </section>
