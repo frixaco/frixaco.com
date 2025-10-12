@@ -20,7 +20,7 @@ export function ModeToggle() {
   return (
     <div
       className={cn(
-        "absolute right-0 overflow-hidden cursor-pointer flex flex-row-reverse items-center w-8 h-8 p-1.5 gap-1.5 group hover:w-[82px] bg-cyber-bg-alt transition-all ease-out rounded-full duration-300",
+        "absolute right-0 overflow-hidden cursor-pointer flex flex-row-reverse items-center w-8 h-8 p-1.5 gap-1.5 group hover:w-[81px] group-hover:justify-center bg-cyber-bg-alt transition-all ease-out rounded-full duration-300",
         {
           "justify-start": theme === "light",
           "justify-center": theme === "dark",
