@@ -8,9 +8,13 @@ const FallbackActivity = () => {
   return <span className="">...</span>;
 };
 
-export default async function Page() {
+async function ActivityWrapper() {
   const initial = await getActivity();
 
+  return <Activity initial={initial} />;
+}
+
+export default async function Page() {
   return (
     <div className="flex flex-col gap-10 text-cyber-grey">
       <section className="flex flex-col items-stretch justify-start gap-4">
@@ -18,7 +22,7 @@ export default async function Page() {
           <h3 className="font-semibold text-xs text-cyber-fg">about</h3>
 
           <Suspense fallback={<FallbackActivity />}>
-            <Activity initial={initial} />
+            <ActivityWrapper />
           </Suspense>
         </div>
 

@@ -8,7 +8,7 @@ export function Activity({ initial }: { initial: string }) {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const response = await fetch("/");
+      const response = await fetch("/api/activity");
       const data = await response.json();
       setActivity(data.activity);
     }, 10 * 1000);
