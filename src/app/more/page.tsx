@@ -1,9 +1,9 @@
 export default function Page() {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col">
-        <h3 className="text-cyber-grey">More about me</h3>
-        <ul>
+      <div className="flex flex-col gap-4">
+        <h3 className="text-cyber-grey">more about me</h3>
+        <ul className="list-disc ml-4">
           <li>
             some favorite games: Sekiro, Monster Hunter World, Elden Ring, Lies
             of P and osu!
@@ -20,9 +20,9 @@ export default function Page() {
         </ul>
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         <h3 className="text-cyber-grey">PC</h3>
-        <ul>
+        <ul className="list-disc ml-4">
           <li>CPU: AMD Ryzen 7 5800X</li>
           <li>GPU: AMD PowerColor RED DEVIL Radeon RX 9070 XT</li>
           <li>RAM: Crucial Ballistix 32GB 3600MHz DDR4 CL16</li>
@@ -41,9 +41,9 @@ export default function Page() {
         </ul>
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         <h3 className="text-cyber-grey">Laptop</h3>
-        <ul>
+        <ul className="list-disc ml-4">
           <li>M1 Macbook Air 14", 8GB RAM, 256GB SSD</li>
           <li>M2 Pro Macbook Pro 14", 16GB RAM, 512GB SSD (work)</li>
         </ul>

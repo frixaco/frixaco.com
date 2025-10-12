@@ -25,4 +25,4 @@ export function generateStaticParams() {
     .map((file) => ({ slug: file.replace(/\.mdx$/, "") }));
 }
 
-export const dynamicParams = false;
+// export const dynamicParams = false;

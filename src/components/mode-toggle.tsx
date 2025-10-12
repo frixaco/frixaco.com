@@ -37,7 +37,7 @@ export function ModeToggle() {
         )}
         onClick={() => setTheme("light")}
       >
-        <SunIcon size="19" />
+        <SunIcon size="19.2" />
       </button>
       <button
         className={cn(
@@ -48,7 +48,7 @@ export function ModeToggle() {
         )}
         onClick={() => setTheme("dark")}
       >
-        <MoonIcon size="19" />
+        <MoonIcon size="19.2" />
       </button>
       <button
         className={cn(
@@ -59,7 +59,7 @@ export function ModeToggle() {
         )}
         onClick={() => setTheme("system")}
       >
-        <MonitorIcon size="19" />
+        <MonitorIcon size="19.2" />
       </button>
     </div>
   );

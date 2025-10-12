@@ -16,10 +16,10 @@ async function ActivityWrapper() {
 
 export default async function Page() {
   return (
-    <div className="flex flex-col gap-10 text-cyber-grey">
-      <section className="flex flex-col items-stretch justify-start gap-4">
+    <div className="flex flex-col gap-8 text-cyber-grey">
+      <section className="flex flex-col items-stretch justify-start gap-6">
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-xs text-cyber-fg">about</h3>
+          <h3 className="font-semibold text-cyber-fg">about</h3>
 
           <Suspense fallback={<FallbackActivity />}>
             <ActivityWrapper />
@@ -32,94 +32,97 @@ export default async function Page() {
         </p>
       </section>
 
-      <section className="flex flex-col items-stretch justify-start gap-4">
-        <h3 className="font-semibold text-xs text-cyber-fg">projects</h3>
+      <span className="w-full rounded-full h-0.5 bg-cyber-bg-alt"></span>
 
-        <div className="grid grid-cols-2 grid-rows-2 gap-4">
-          <div className="flex flex-col gap-1 cursor-pointer">
+      <section className="flex flex-col items-stretch justify-start gap-6">
+        <h3 className="font-semibold text-cyber-fg">projects</h3>
+
+        <div className="grid grid-cols-2 grid-rows-2 gap-8">
+          <div className="flex flex-col gap-2 cursor-pointer">
             <h4 className="text-cyber-fg">anitrack</h4>
-            <p className="text-sm">
+            <p className="flex-1">
               Simple TUI to help me watch anime in 4k without extra steps, built
-              with my TUI library <b>letui</b>
+              with my TUI library - <b>letui</b>
             </p>
-            <div className="flex gap-1 text-cyber-bg">
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+            <div className="flex gap-1 text-cyber-grey text-xs">
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">
                 letui
               </span>
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">
                 typescript
               </span>
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">
                 rust
               </span>
             </div>
           </div>
 
-          <div className="flex flex-col gap-1 cursor-pointer">
+          <div className="flex flex-col gap-2 cursor-pointer">
             <h4 className="text-cyber-fg">aitetsu</h4>
-            <p className="text-sm">
-              High performance infinite canvas note-taking and AI chat library
+            <p className="flex-1">
+              High performance infinite canvas note-taking and AI chat web and
+              desktop app
             </p>
-            <div className="flex gap-1 text-cyber-bg">
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+            <div className="flex gap-1 text-cyber-grey text-xs">
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">
                 tauri
               </span>
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">
                 typescript
               </span>
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">
                 rust
               </span>
             </div>
           </div>
 
-          <div className="flex flex-col gap-1 cursor-pointer">
+          <div className="flex flex-col gap-2 cursor-pointer">
             <h4 className="text-cyber-fg">letui</h4>
-            <p className="text-sm">
+            <p className="flex-1">
               Component-based TUI library written from scratch
             </p>
-            <div className="flex gap-1 text-cyber-bg">
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+            <div className="flex gap-1 text-cyber-grey text-xs">
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">
                 rust
               </span>
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">
                 typescript
               </span>
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
-                bun
-              </span>
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">bun</span>
             </div>
           </div>
 
-          <div className="flex flex-col gap-1 cursor-pointer">
+          <div className="flex flex-col gap-2 cursor-pointer">
             <h4 className="text-cyber-fg">whatmedoin</h4>
-            <p className="text-sm">
+            <p className="flex-1">
               Personal activity tracker for macOS, Windows and browser, tracks
               open tabs and programs
             </p>
-            <div className="flex gap-1 text-cyber-bg">
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+            <div className="flex gap-1 text-cyber-grey text-xs">
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">
                 rust
               </span>
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">
                 typescript
               </span>
-              <span className="rounded-md px-1 text-xs bg-cyber-bg-highlight">
-                bun
-              </span>
+              <span className="rounded-md px-1 bg-cyber-bg-highlight">bun</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="flex flex-col items-stretch justify-start gap-4">
-        <h3 className="font-semibold text-xs text-cyber-fg">experience</h3>
+      <span className="w-full rounded-full h-0.5 bg-cyber-bg-alt"></span>
 
-        <h4 className="text-cyber-fg text-sm">
-          <a href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf" target="_blank">
-            PDF
-          </a>
-        </h4>
+      <section className="flex flex-col items-stretch justify-start gap-6">
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold text-cyber-fg">experience</h3>
+
+          <span className="text-cyber-grey hover:text-cyber-fg hover:underline font-semibold">
+            <a href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf" target="_blank">
+              PDF
+            </a>
+          </span>
+        </div>
 
         <div>
           <div className="flex items-center justify-between">
@@ -128,10 +131,10 @@ export default async function Page() {
                 VBRATO
               </a>
             </h4>
-            <span className="text-sm">May, 2023 - Present</span>
+            <span className="">May, 2023 - Present</span>
           </div>
 
-          <p className="text-sm">
+          <p className="">
             Building an all‑in‑one platform for music industry people to
             collaborate and monetize their work. Full‑stack work on everything
             from scalable AWS microservices to leading Next.js web platform and
@@ -146,10 +149,10 @@ export default async function Page() {
                 GeoAlert
               </a>
             </h4>
-            <span className="text-sm">Dec 2022 - Jun 2023</span>
+            <span className="">Dec 2022 - Jun 2023</span>
           </div>
 
-          <p className="text-sm">
+          <p className="">
             Built the frontend for Keycloak‑based authentication and a
             multi‑account dashboard with advanced monitoring tools. Bunch of
             maintenance and bug fixing.
@@ -163,10 +166,10 @@ export default async function Page() {
                 Livereach
               </a>
             </h4>
-            <span className="text-sm">Nov 2021 - Jan 2023</span>
+            <span className="">Nov 2021 - Jan 2023</span>
           </div>
 
-          <p className="text-sm">
+          <p className="">
             Led Angular → React migration, built lightweight state management
             for embeddable apps, and boosted quality with E2E testing and style
             standardization across projects.
@@ -180,10 +183,10 @@ export default async function Page() {
                 Moishlem
               </a>
             </h4>
-            <span className="text-sm">Aug 2020 - Oct 2021</span>
+            <span className="">Aug 2020 - Oct 2021</span>
           </div>
 
-          <p className="text-sm">
+          <p className="">
             Built payments and subscription systems for a sports insurance
             platform. Developed an internal admin dashboard and re‑architected
             PostgreSQL database schema to support multiple backends.

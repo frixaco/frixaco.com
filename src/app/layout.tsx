@@ -37,15 +37,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="relative overflow-hidden flex flex-col items-center justify-start py-12 2xl:py-20 min-h-screen font-mono">
+          <main className="text-sm relative overflow-hidden flex flex-col items-center justify-start py-12 2xl:py-20 min-h-screen font-mono">
             <div className="size-full max-w-2xl flex flex-col gap-8 px-8 md:px-0">
               <div className="flex items-start gap-8 justify-between relative">
                 <div className="flex flex-col md:flex-row md:items-center justify-start gap-8 md:h-8">
-                  <h1 className="text-cyber-fg font-bold tracking-wide">
-                    rustam
+                  <h1 className="text-cyber-fg font-bold tracking-wide hover:text-cyber-red">
+                    <Link href="/">rustam</Link>
                   </h1>
 
-                  <span className="w-8 rounded-full h-px bg-cyber-bg-alt"></span>
+                  <span className="w-12 rounded-full h-0.5 bg-cyber-bg-alt"></span>
 
                   <div className="flex gap-6 items-center justify-center text-cyber-grey">
                     <h2 className="cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
@@ -63,7 +63,7 @@ export default function RootLayout({
                 <ModeToggle />
               </div>
 
-              <span className="w-full rounded-full h-px bg-cyber-bg-alt"></span>
+              <span className="w-full rounded-full h-0.5 bg-cyber-bg-alt"></span>
 
               {children}
             </div>
@@ -82,7 +82,7 @@ export default function RootLayout({
 
             <Drawer isOpen={false} />
 
-            <div className="absolute right-0 bottom-0 p-4 flex gap-4 text-sm">
+            <div className="absolute right-0 bottom-0 p-4 flex gap-4">
               <span>
                 <a
                   className="hover:underline"
