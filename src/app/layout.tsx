@@ -27,9 +27,13 @@ export default function RootLayout({
   const isWIP = false;
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className="overscroll-none scroll-smooth"
+    >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-cyber-bg`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-cyber-bg antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -37,33 +41,35 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="text-sm relative overflow-hidden flex flex-col items-center justify-start py-12 2xl:py-20 min-h-screen font-mono">
-            <div className="size-full max-w-2xl flex flex-col gap-8 px-8 md:px-0">
-              <div className="flex items-start gap-8 justify-between relative">
-                <div className="flex flex-col md:flex-row md:items-center justify-start gap-8 md:h-8">
-                  <h1 className="text-cyber-fg font-bold tracking-wide hover:text-cyber-red">
-                    <Link href="/">rustam</Link>
-                  </h1>
+          <main className="relative flex min-h-screen flex-col items-center justify-start font-mono text-sm">
+            <div className="flex size-full max-w-2xl flex-col gap-2 px-8">
+              <div className="bg-cyber-bg sticky top-0 flex flex-col gap-4 pt-4">
+                <div className="flex items-start justify-between gap-8">
+                  <div className="flex h-8 flex-row items-center justify-start gap-8">
+                    <h1 className="text-cyber-fg hover:text-cyber-red font-bold tracking-wide">
+                      <Link href="/">rustam</Link>
+                    </h1>
 
-                  <span className="w-12 rounded-full h-0.5 bg-cyber-bg-alt"></span>
+                    <span className="bg-cyber-bg-alt hidden h-0.5 w-12 rounded-full md:inline-block"></span>
 
-                  <div className="flex gap-6 items-center justify-center text-cyber-grey">
-                    <h2 className="cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
-                      <Link href="/">home</Link>
-                    </h2>
-                    <h2 className="cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
-                      <Link href="/blog">blog</Link>
-                    </h2>
-                    <h2 className="cursor-pointer hover:text-cyber-fg duration-200 transition-colors">
-                      <Link href="/more">more</Link>
-                    </h2>
+                    <div className="text-cyber-grey flex items-center justify-center gap-6">
+                      <h2 className="hover:text-cyber-fg cursor-pointer transition-colors duration-200">
+                        <Link href="/">home</Link>
+                      </h2>
+                      <h2 className="hover:text-cyber-fg cursor-pointer transition-colors duration-200">
+                        <Link href="/blog">blog</Link>
+                      </h2>
+                      <h2 className="hover:text-cyber-fg cursor-pointer transition-colors duration-200">
+                        <Link href="/more">more</Link>
+                      </h2>
+                    </div>
                   </div>
+
+                  <ModeToggle />
                 </div>
 
-                <ModeToggle />
+                <span className="bg-cyber-bg-alt h-0.5 w-full rounded-full"></span>
               </div>
-
-              <span className="w-full rounded-full h-0.5 bg-cyber-bg-alt"></span>
 
               {children}
             </div>
@@ -82,10 +88,11 @@ export default function RootLayout({
 
             <Drawer isOpen={false} />
 
-            <div className="absolute right-0 bottom-0 p-4 flex gap-4">
+            <div className="absolute right-0 bottom-0 flex gap-4 p-4">
               <span>
                 <a
                   className="hover:underline"
+                  target="_blank"
                   href="https://frixaco-nncl2ucfa-frixaco-personal.vercel.app/"
                 >
                   v1
@@ -94,6 +101,7 @@ export default function RootLayout({
               <span>
                 <a
                   className="hover:underline"
+                  target="_blank"
                   href="https://frixaco-7uw1r14e8-frixaco-personal.vercel.app/"
                 >
                   v2

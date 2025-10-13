@@ -1,28 +1,27 @@
 export default function Page() {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-4">
-        <h3 className="text-cyber-grey">more about me</h3>
-        <ul className="list-disc ml-4">
+    <div className="flex flex-col gap-6 pt-6 pb-8">
+      <div className="flex flex-col gap-6">
+        <h3 className="text-cyber-fg">more about me</h3>
+        <ul className="text-cyber-grey flex list-inside list-disc flex-col gap-2">
+          <li>
+            self-taught, live inside my terminal, Neovim btw, embracing AI
+            (before it "embraces" me)
+          </li>
           <li>
             some favorite games: Sekiro, Monster Hunter World, Elden Ring, Lies
             of P and osu!
           </li>
-          <li>like anime (270+) & manga</li>
-          <li>
-            self-taught dev, live inside my terminal, Neovim-er, embracing AI
-            (before it "embraces" me)
-          </li>
-          <li>
-            beyond coding projects, also do 3D modeling in Blender, music in
-            Reaper and learn Japanese
-          </li>
+          <li>like watching anime (270+) & reading manga</li>
+          <li>learning Blender</li>
+          <li>learning Japanese</li>
+          <li>learning music production</li>
         </ul>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <h3 className="text-cyber-grey">PC</h3>
-        <ul className="list-disc ml-4">
+      <div className="flex flex-col gap-6">
+        <h3 className="text-cyber-fg">pc</h3>
+        <ul className="text-cyber-grey flex list-inside list-disc flex-col gap-2">
           <li>CPU: AMD Ryzen 7 5800X</li>
           <li>GPU: AMD PowerColor RED DEVIL Radeon RX 9070 XT</li>
           <li>RAM: Crucial Ballistix 32GB 3600MHz DDR4 CL16</li>
@@ -41,11 +40,19 @@ export default function Page() {
         </ul>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <h3 className="text-cyber-grey">Laptop</h3>
-        <ul className="list-disc ml-4">
-          <li>M1 Macbook Air 14", 8GB RAM, 256GB SSD</li>
+      <div className="flex flex-col gap-6">
+        <h3 className="text-cyber-fg">laptop</h3>
+        <ul className="text-cyber-grey flex list-inside list-disc flex-col gap-2">
+          <li>M4 Pro Macbook Pro 14", 24GB RAM, 1TB SSD</li>
           <li>M2 Pro Macbook Pro 14", 16GB RAM, 512GB SSD (work)</li>
+        </ul>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <h3 className="text-cyber-fg">other</h3>
+        <ul className="text-cyber-grey flex list-inside list-disc flex-col gap-2">
+          <li>Realme GT Neo 2, 12GB RAM, 256GB storage, Snapdragon 870</li>
+          <li>M4 iPad Pro 13", 256GB with Apple Pencil Pro</li>
         </ul>
       </div>
     </div>

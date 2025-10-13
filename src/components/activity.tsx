@@ -24,7 +24,7 @@ export function Activity({ initial }: { initial: string }) {
       <span className="">now: </span>
       <button
         className={cn({
-          "underline hover:text-cyber-pink cursor-pointer": isBroken,
+          "hover:text-cyber-pink cursor-pointer underline": isBroken,
         })}
         onClick={async () => {
           if (!isBroken) return;

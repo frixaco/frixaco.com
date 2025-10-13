@@ -20,7 +20,7 @@ export function ModeToggle() {
   return (
     <div
       className={cn(
-        "absolute right-0 overflow-hidden cursor-pointer flex flex-row-reverse items-center w-8 h-8 p-1.5 gap-1.5 group hover:w-[81px] group-hover:justify-center bg-cyber-bg-alt transition-all ease-out rounded-full duration-300",
+        "group bg-cyber-bg-alt absolute right-0 flex h-8 w-8 cursor-pointer flex-row-reverse items-center gap-1.5 overflow-hidden rounded-full p-1.5 transition-all duration-300 ease-out group-hover:justify-center hover:w-[81px]",
         {
           "justify-start": theme === "light",
           "justify-center": theme === "dark",
@@ -30,7 +30,7 @@ export function ModeToggle() {
     >
       <button
         className={cn(
-          "size-fit rounded-full hover:rotate-0 ease-out duration-200 rotate-90 cursor-pointer text-cyber-grey hover:text-cyber-orange hover:scale-105 scale-100",
+          "text-cyber-grey hover:text-cyber-orange size-fit scale-100 rotate-90 cursor-pointer rounded-full duration-200 ease-out hover:scale-105 hover:rotate-0",
           {
             // "scale-0 group-hover:scale-100": theme !== "light",
           }
@@ -41,7 +41,7 @@ export function ModeToggle() {
       </button>
       <button
         className={cn(
-          "size-fit rounded-full hover:rotate-0 ease-out duration-200 -rotate-90 cursor-pointer text-cyber-grey hover:text-cyber-blue hover:scale-105 scale-100",
+          "text-cyber-grey hover:text-cyber-blue size-fit scale-100 -rotate-90 cursor-pointer rounded-full duration-200 ease-out hover:scale-105 hover:rotate-0",
           {
             // "scale-0 group-hover:scale-100": theme !== "dark",
           }
@@ -52,7 +52,7 @@ export function ModeToggle() {
       </button>
       <button
         className={cn(
-          "size-fit rounded-full transition-all hover:animate-wiggle ease-out duration-200 cursor-pointer text-cyber-grey hover:text-cyber-fg hover:scale-105 scale-100",
+          "hover:animate-wiggle text-cyber-grey hover:text-cyber-fg size-fit scale-100 cursor-pointer rounded-full transition-all duration-200 ease-out hover:scale-105",
           {
             // "scale-0 group-hover:scale-100 duration-400": theme !== "system",
           }
