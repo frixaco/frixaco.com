@@ -18,49 +18,26 @@ export function ModeToggle() {
   }
 
   return (
-    <div
-      className={cn(
-        "group bg-cyber-bg-alt absolute right-0 flex h-8 w-8 cursor-pointer flex-row-reverse items-center gap-1.5 overflow-hidden rounded-full p-1.5 transition-all duration-300 ease-out group-hover:justify-center hover:w-[81px]",
-        {
-          "justify-start": theme === "light",
-          "justify-center": theme === "dark",
-          "justify-end": theme === "system",
-        }
-      )}
-    >
+    <div className="group bg-cyber-bg-alt absolute right-0 flex h-8 w-8 cursor-pointer flex-row-reverse items-center justify-center gap-1.5 overflow-hidden rounded-md p-1.5 transition-all duration-300 ease-out hover:w-[86px]">
       <button
-        className={cn(
-          "text-cyber-grey hover:text-cyber-orange size-fit scale-100 rotate-90 cursor-pointer rounded-full duration-200 ease-out hover:scale-105 hover:rotate-0",
-          {
-            // "scale-0 group-hover:scale-100": theme !== "light",
-          }
-        )}
+        className="text-cyber-grey hover:text-cyber-orange inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full leading-none"
         onClick={() => setTheme("light")}
       >
-        <SunIcon size="19.2" />
+        <SunIcon className="block h-5 w-5 origin-center rotate-90 transition-transform duration-200 ease-out hover:rotate-0" />
       </button>
       <button
-        className={cn(
-          "text-cyber-grey hover:text-cyber-blue size-fit scale-100 -rotate-90 cursor-pointer rounded-full duration-200 ease-out hover:scale-105 hover:rotate-0",
-          {
-            // "scale-0 group-hover:scale-100": theme !== "dark",
-          }
-        )}
+        className="text-cyber-grey hover:text-cyber-blue inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full leading-none"
         onClick={() => setTheme("dark")}
       >
-        <MoonIcon size="19.2" />
+        <MoonIcon className="block h-5 w-5 origin-center -rotate-90 transition-transform duration-200 ease-out hover:rotate-0" />
       </button>
       <button
-        className={cn(
-          "hover:animate-wiggle text-cyber-grey hover:text-cyber-fg size-fit scale-100 cursor-pointer rounded-full transition-all duration-200 ease-out hover:scale-105",
-          {
-            // "scale-0 group-hover:scale-100 duration-400": theme !== "system",
-          }
-        )}
+        className="hover:animate-wiggle text-cyber-grey hover:text-cyber-fg inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full leading-none"
         onClick={() => setTheme("system")}
       >
-        <MonitorIcon size="19.2" />
+        <MonitorIcon className="block h-5 w-5" />
       </button>
     </div>
   );
 }
+

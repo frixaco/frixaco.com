@@ -1,4 +1,5 @@
 import { Activity } from "@/components/activity";
+import { Socials } from "@/components/socials";
 import { getActivity } from "@/lib/get-activity";
 import { Suspense } from "react";
 
@@ -103,6 +104,8 @@ export default async function Page() {
           software engineer, love exploring and building cool stuff, interested
           in pretty much everything, breaking free from mediocrity
         </p>
+
+        <Socials />
       </section>
 
       <span className="bg-cyber-bg-alt h-0.5 w-full rounded-full"></span>
@@ -124,7 +127,7 @@ export default async function Page() {
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="bg-cyber-bg-highlight rounded-md px-1"
+                    className="bg-cyber-bg-highlight rounded-sm px-1"
                   >
                     {tag}
                   </span>
