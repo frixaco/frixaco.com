@@ -7,6 +7,5 @@
 ## TODO
 
 - [ ] Prepare projects for showcase
-- [ ] Add some visuals to projects block in home page
-- [ ] Make the UI for projects page
-- [ ] Tweak blog block and page
+- [ ] Add AI chat for projects (so user can ask about the project)
+- [ ] I wanted to do some <iframe> trick, remember what it was

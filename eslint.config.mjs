@@ -1,16 +1,27 @@
-import eslint from "@eslint/js"
-import tseslint from "typescript-eslint"
-import eslintPluginAstro from "eslint-plugin-astro"
-import tailwindcssPlugin from "eslint-plugin-tailwindcss"
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
 
-export default tseslint.config(
-	eslint.configs.recommended,
-	...tseslint.configs.recommended,
-	...eslintPluginAstro.configs.recommended,
-	...tailwindcssPlugin.configs["flat/recommended"],
-	{
-		rules: {
-			"tailwindcss/classnames-order": "off",
-		},
-	},
-)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  eslintConfigPrettier,
+  {
+    ignores: [
+      "node_modules/**",
+      ".next/**",
+      "out/**",
+      "build/**",
+      "next-env.d.ts",
+    ],
+  },
+];
+
+export default eslintConfig;
