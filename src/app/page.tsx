@@ -1,37 +1,8 @@
 import { Activity } from "@/components/activity";
+import { Projects } from "@/components/projects";
 import { Socials } from "@/components/socials";
 import { getActivity } from "@/lib/get-activity";
 import { Suspense } from "react";
-
-const projects = [
-  {
-    id: 1,
-    title: "anitrack",
-    tags: ["letui", "typescript", "rust"],
-    description:
-      "Simple TUI to help me watch anime in 4k without extra steps, built with my TUI library - letui",
-  },
-  {
-    id: 2,
-    title: "aitetsu",
-    tags: ["tauri", "typescript", "rust"],
-    description:
-      "High performance infinite canvas note-taking and AI chat web and desktop app",
-  },
-  {
-    id: 3,
-    title: "letui",
-    tags: ["rust", "typescript", "bun"],
-    description: "Component-based TUI library written from scratch",
-  },
-  {
-    id: 4,
-    title: "whatmedoin",
-    tags: ["rust", "typescript", "bun"],
-    description:
-      "Personal activity tracker for macOS, Windows and browser, tracks open tabs and programs",
-  },
-];
 
 const experience = [
   {
@@ -76,8 +47,6 @@ const experience = [
   },
 ];
 
-export const experimental_ppr = true;
-
 const FallbackActivity = () => {
   return <span className="">...</span>;
 };
@@ -113,29 +82,7 @@ export default async function Page() {
       <section className="flex flex-col items-stretch justify-start gap-6">
         <h3 className="text-cyber-fg font-semibold">projects</h3>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              className="group flex cursor-pointer flex-col gap-2"
-            >
-              <h4 className="text-cyber-fg group-hover:border-b-cyber-grey w-fit border-b border-b-transparent">
-                {project.title}
-              </h4>
-              <p className="">{project.description}</p>
-              <div className="text-cyber-grey flex gap-1 text-xs">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="bg-cyber-bg-highlight rounded-sm px-1"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <Projects />
       </section>
 
       <span className="bg-cyber-bg-alt h-0.5 w-full rounded-full"></span>

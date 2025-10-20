@@ -18,7 +18,16 @@ export function ModeToggle() {
   }
 
   return (
-    <div className="group bg-cyber-bg-alt absolute right-0 flex h-8 w-8 cursor-pointer flex-row-reverse items-center justify-center gap-1.5 overflow-hidden rounded-md p-1.5 transition-all duration-300 ease-out hover:w-[86px]">
+    <div
+      className={cn(
+        "group bg-cyber-bg-alt absolute right-0 flex h-8 w-8 cursor-pointer flex-row-reverse items-center gap-1.5 overflow-hidden rounded-md p-1.5 transition-all duration-300 ease-out hover:w-[86px]",
+        {
+          "justify-start": theme === "light",
+          "justify-center": theme === "dark",
+          "justify-end": theme === "system",
+        }
+      )}
+    >
       <button
         className="text-cyber-grey hover:text-cyber-orange inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full leading-none"
         onClick={() => setTheme("light")}
@@ -40,4 +49,3 @@ export function ModeToggle() {
     </div>
   );
 }
-

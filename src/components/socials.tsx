@@ -50,7 +50,7 @@ export function Socials() {
 
       const url = socialKeyMap.get(e.key.toLowerCase());
       if (url) {
-        document.open(url, "_blank", "noopener,noreferrer");
+        document.open(url, "_blank");
       }
     };
 
@@ -65,7 +65,6 @@ export function Socials() {
           key={social.id}
           href={social.url}
           target="_blank"
-          rel="noopener noreferrer"
           className="hover:text-cyber-fg"
           aria-keyshortcuts={social.key}
           title={`${social.name} (${social.key})`}
