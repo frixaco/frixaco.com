@@ -1,5 +1,5 @@
-import path from "path";
-import { readdirSync } from "fs";
+import path from "node:path";
+import { readdirSync } from "node:fs";
 import Link from "next/link";
 
 export type PostMetadata = {
@@ -12,7 +12,7 @@ export default async function Page() {
   const postsDir = path.join(process.cwd(), "src", "content");
   const files = readdirSync(postsDir);
 
-  const posts: (PostMetadata & { slug: string })[] = await Promise.all(
+  const posts: Array<PostMetadata & { slug: string }> = await Promise.all(
     files
       .filter((file) => file.endsWith(".mdx"))
       .map(async (file) => {

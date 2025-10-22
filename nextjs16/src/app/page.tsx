@@ -1,6 +1,6 @@
+import { Suspense } from "react";
 import { Activity } from "@/components/activity";
 import { getActivity } from "@/lib/get-activity";
-import { Suspense } from "react";
 
 export const experimental_ppr = true;
 
