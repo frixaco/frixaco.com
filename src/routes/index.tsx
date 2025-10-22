@@ -45,7 +45,11 @@ function App() {
           <h3 className="text-cyber-fg font-semibold">experience</h3>
 
           <span className="text-cyber-grey hover:text-cyber-fg font-semibold hover:underline">
-            <a href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf" target="_blank">
+            <a 
+              href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf" 
+              target="_blank"
+              aria-label="Download resume as PDF"
+            >
               PDF
             </a>
           </span>

@@ -24,6 +24,11 @@ export const Route = createRootRoute({
       {
         title: 'frixaco',
       },
+      {
+        name: 'description',
+        content:
+          'Rustam Ashurmatov - Software Engineer. Exploring and building cool stuff, interested in everything, breaking free from mediocrity.',
+      },
     ],
     links: [
       {
@@ -95,6 +100,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               className="hover:underline"
               target="_blank"
               href="https://frixaco-nncl2ucfa-frixaco-personal.vercel.app/"
+              aria-label="View version 1 of the website"
             >
               v1
             </a>
@@ -104,6 +110,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               className="hover:underline"
               target="_blank"
               href="https://frixaco-7uw1r14e8-frixaco-personal.vercel.app/"
+              aria-label="View version 2 of the website"
             >
               v2
             </a>

@@ -65,7 +65,7 @@ export function Projects() {
           target="_blank"
           className="group flex cursor-pointer flex-col gap-2"
           aria-keyshortcuts={project.key}
-          title={`${project.title} (${project.key})`}
+          aria-label={`View ${project.title} project on GitHub`}
         >
           <h4 className="text-cyber-fg group-hover:border-b-cyber-grey w-fit border-b border-b-transparent">
             {project.title}{' '}

@@ -48,7 +48,11 @@ export function Experience() {
         <div key={exp.id} className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <h4 className="text-cyber-fg hover:underline">
-              <a href={exp.url} target="_blank">
+              <a 
+                href={exp.url} 
+                target="_blank"
+                aria-label={`Visit ${exp.company} website`}
+              >
                 {exp.company}
               </a>
             </h4>

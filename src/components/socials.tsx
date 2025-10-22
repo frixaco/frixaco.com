@@ -65,7 +65,7 @@ export function Socials() {
           target="_blank"
           className="hover:text-cyber-fg"
           aria-keyshortcuts={social.key}
-          title={`${social.name} (${social.key})`}
+          aria-label={`Visit ${social.name.replace(/\[|\]/g, '')} profile`}
         >
           {social.name}
         </a>
