@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Await, createFileRoute } from '@tanstack/react-router'
 import { Activity } from '@/components/activity'
 import { Experience } from '@/components/experience'
 import { Projects } from '@/components/projects'
@@ -7,11 +7,13 @@ import { getActivity } from '@/lib/get-activity'
 
 export const Route = createFileRoute('/')({
   component: App,
-  loader: () => getActivity(),
+  loader: async () => ({
+    deferredActivity: getActivity(),
+  }),
 })
 
 function App() {
-  const activity = Route.useLoaderData()
+  const { deferredActivity } = Route.useLoaderData()
 
   return (
     <div className="text-cyber-grey flex flex-col gap-8 pt-6 pb-8">
@@ -19,7 +21,12 @@ function App() {
         <div className="flex items-center justify-between">
           <h3 className="text-cyber-fg font-semibold">about</h3>
 
-          <Activity initial={activity} />
+          <Await
+            promise={deferredActivity}
+            fallback={<span className="">...</span>}
+          >
+            {(initial) => <Activity initial={initial} />}
+          </Await>
         </div>
 
         <p className="">
@@ -45,8 +52,8 @@ function App() {
           <h3 className="text-cyber-fg font-semibold">experience</h3>
 
           <span className="text-cyber-grey hover:text-cyber-fg font-semibold hover:underline">
-            <a 
-              href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf" 
+            <a
+              href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf"
               target="_blank"
               aria-label="Download resume as PDF"
             >
