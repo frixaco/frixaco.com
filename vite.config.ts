@@ -6,10 +6,10 @@ import tailwindcss from '@tailwindcss/vite'
 import mdx from '@mdx-js/rollup'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
+import { nitro } from 'nitro/vite'
 
 const config = defineConfig({
   plugins: [
-    // this is the plugin that enables path aliases
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
     }),
@@ -19,6 +19,7 @@ const config = defineConfig({
     }),
     tailwindcss(),
     tanstackStart(),
+    nitro(),
     viteReact(),
   ],
 })
