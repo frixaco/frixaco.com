@@ -17,10 +17,10 @@ const config = defineConfig({
       remarkPlugins: [remarkGfm],
       rehypePlugins: [rehypeHighlight],
     }),
-    tailwindcss(),
+    viteReact(),
     tanstackStart(),
     nitro(),
-    viteReact(),
+    tailwindcss(),
   ],
 })
 
