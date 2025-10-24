@@ -13,14 +13,14 @@ const config = defineConfig({
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
     }),
+    tanstackStart(),
     mdx({
       remarkPlugins: [remarkGfm],
       rehypePlugins: [rehypeHighlight],
     }),
     viteReact(),
-    tanstackStart(),
-    nitro(),
     tailwindcss(),
+    nitro(),
   ],
 })
 

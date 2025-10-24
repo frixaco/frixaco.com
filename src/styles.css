@@ -1,6 +1,5 @@
 @import '@fontsource/ibm-plex-mono';
 @import 'tailwindcss';
-@import 'tw-animate-css';
 @plugin '@tailwindcss/typography';
 
 * {
