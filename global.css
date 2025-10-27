@@ -1,12 +1,12 @@
+@import "@fontsource/ibm-plex-mono";
 @import "tailwindcss";
-@import "tw-animate-css";
-@plugin "@tailwindcss/typography";
+@plugin '@tailwindcss/typography';
+
+* {
+  min-width: none;
+}
 
 @custom-variant dark (&:is(.dark *));
-
-/* html { */
-/*   overscroll-behavior: none; */
-/* } */
 
 ::selection {
   background-color: theme(--color-cyber-pink);
@@ -14,8 +14,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-geist);
-  --font-mono: var(--font-geist-mono);
+  --font-ibm-plex-mono: "IBM Plex Mono", monospace;
 }
 
 @theme {
