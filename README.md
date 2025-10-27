@@ -1,11 +1,32 @@
-# frixaco.com - Personal Website
+# Vanilla JS/TS Website
 
-## Notes
+A vanilla JavaScript/TypeScript implementation of my personal website using Bun, Tailwind CSS, and zero frameworks.
 
-- Demo videos are stored in uploadthing.com
+## Setup
 
-## TODO
+```bash
+bun install
+```
 
-- [ ] Prepare projects for showcase
-- [ ] Add AI chat for projects (so user can ask about the project)
-- [ ] I wanted to do some <iframe> trick, remember what it was
+## Development
+
+```bash
+bun run dev
+```
+
+Open http://localhost:3000
+
+## Build
+
+```bash
+bun run build
+```
+
+## Features
+
+- 🎨 Tailwind CSS for styling
+- 📝 TypeScript for type safety
+- ⚡ Bun for blazing fast development
+- 🌙 Dark/Light/System theme support
+- ⌨️ Keyboard navigation (press keys 1-4 for projects, g/t/l/x/d/e for socials)
+- 🎯 Zero framework dependencies

@@ -16,7 +16,7 @@ export const getActivity = async () => {
   if (data.platform === "browser") {
     if (
       ["guidetojapanese.org", "animelon.com"].some((domain) =>
-        data.url.includes(domain)
+        data.url.includes(domain),
       )
     ) {
       return "learning Japanese";
