@@ -17,21 +17,29 @@ import ModeToggle from "../components/ModeToggle.astro";
       ></span>
 
       <div class="text-cyber-grey flex items-center justify-center gap-6">
-        <h2
+        <a
+          href="/"
+          data-astro-prefetch
           class="hover:text-cyber-fg cursor-pointer transition-colors duration-200"
         >
-          <a href="/">home</a>
-        </h2>
-        <h2
+          <h2>home</h2></a
+        >
+
+        <a
+          href="/blog"
+          data-astro-prefetch
           class="hover:text-cyber-fg cursor-pointer transition-colors duration-200"
         >
-          <a href="/blog">blog</a>
-        </h2>
-        <h2
+          <h2>blog</h2>
+        </a>
+
+        <a
+          href="/more"
+          data-astro-prefetch
           class="hover:text-cyber-fg cursor-pointer transition-colors duration-200"
         >
-          <a href="/more">more</a>
-        </h2>
+          <h2>more</h2>
+        </a>
       </div>
     </nav>
 
