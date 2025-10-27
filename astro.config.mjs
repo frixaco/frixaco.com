@@ -10,12 +10,14 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   site: "https://astro.frixaco.com",
   integrations: [mdx(), sitemap()],
+  prefetch: true,
 
   vite: {
     plugins: [tailwindcss()],
   },
 
   experimental: {
+    clientPrerender: true,
     fonts: [
       {
         provider: fontProviders.google(),

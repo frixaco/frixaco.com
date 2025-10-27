@@ -93,8 +93,11 @@ import { cn } from "../lib/utils";
       system: "translate-x-[56px]",
     };
 
+    const targetClass = positions[mode];
+    if (strip.classList.contains(targetClass)) return;
+
     strip.classList.remove(...Object.values(positions));
-    strip.classList.add(positions[mode]);
+    strip.classList.add(targetClass);
   };
 
   const applyTheme = (mode) => {
@@ -116,15 +119,20 @@ import { cn } from "../lib/utils";
     applyTheme(mode);
   };
 
-  applyTheme(getTheme());
+  const initTheme = () => {
+    applyTheme(getTheme());
 
-  document
-    .getElementById("light-mode-btn")
-    ?.addEventListener("click", () => setTheme("light"));
-  document
-    .getElementById("dark-mode-btn")
-    ?.addEventListener("click", () => setTheme("dark"));
-  document
-    .getElementById("system-mode-btn")
-    ?.addEventListener("click", () => setTheme("system"));
+    document
+      .getElementById("light-mode-btn")
+      ?.addEventListener("click", () => setTheme("light"));
+    document
+      .getElementById("dark-mode-btn")
+      ?.addEventListener("click", () => setTheme("dark"));
+    document
+      .getElementById("system-mode-btn")
+      ?.addEventListener("click", () => setTheme("system"));
+  };
+
+  initTheme();
+  document.addEventListener("astro:after-swap", initTheme);
 </script>
