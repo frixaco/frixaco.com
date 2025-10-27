@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
+import { cn } from "../../lib/utils";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -17,7 +18,9 @@ const { Content } = await render(post);
 
 <MainLayout {...post.data}>
   <div
-    class="prose-invert prose-img:mx-auto prose-headings:pb-4 prose-headings:font-semibold prose-h1:text-lg prose-h2:text-base prose-a:hover:text-pink-500 prose-a:underline"
+    class={cn(
+      "prose-headings:text-cyber-fg prose-p:text-cyber-fg prose-img:mx-auto prose-headings:pb-4 prose-headings:font-semibold prose-headings:text-lg prose-a:hover:text-pink-500 prose-a:underline"
+    )}
   >
     <Content />
   </div>
