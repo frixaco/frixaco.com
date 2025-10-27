@@ -1,0 +1,130 @@
+---
+import { cn } from "../lib/utils";
+---
+
+<div
+  id="mode-toggle-container"
+  class={cn(
+    "group bg-cyber-bg-alt right-0 relative size-8 cursor-pointer overflow-hidden rounded-md p-1.5 transition-all duration-400 ease-out hover:w-[92px]"
+  )}
+>
+  <div
+    id="mode-strip"
+    class="absolute top-1.5 right-1.5 flex h-5 w-[76px] items-center gap-2 transition-transform duration-150 ease-out will-change-transform group-hover:translate-x-0"
+  >
+    <button
+      id="system-mode-btn"
+      class="hover:animate-wiggle text-cyber-grey hover:text-cyber-fg inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full leading-none"
+    >
+      <svg
+        class="block size-5"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M15 19a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2zm8-4.4a3.4 3.4 0 0 1-3.4 3.4H4.4A3.4 3.4 0 0 1 1 14.6V6.4A3.4 3.4 0 0 1 4.4 3h15.2l.175.005A3.4 3.4 0 0 1 23 6.4z"
+        ></path>
+      </svg>
+    </button>
+
+    <button
+      id="dark-mode-btn"
+      class="text-cyber-grey hover:text-cyber-blue inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full leading-none"
+    >
+      <svg
+        class="block size-5 origin-center -rotate-90 transition-transform duration-200 ease-out hover:rotate-0"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M9.272 2.406a1 1 0 0 0-1.23-1.355C6.59 1.535 5.432 2.488 4.37 3.55a11.4 11.4 0 0 0 0 16.182c4.518 4.519 11.51 4.261 15.976-.205c1.062-1.062 2.014-2.22 2.498-3.673A1 1 0 0 0 21.55 14.6c-3.59 1.322-7.675.734-10.433-2.025C8.35 9.808 7.788 5.744 9.272 2.406"
+        ></path>
+      </svg>
+    </button>
+
+    <button
+      id="light-mode-btn"
+      class="text-cyber-grey hover:text-cyber-orange inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full leading-none"
+    >
+      <svg
+        class="block size-5 origin-center rotate-90 transition-transform duration-200 ease-out hover:rotate-0"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <g fill="none">
+          <g fill="currentColor" clip-path="url(#SVGXv8lpc2Y)">
+            <path
+              d="M12 20a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1m-7.071-2.343a1 1 0 1 1 1.414 1.414l-1.414 1.414a1 1 0 0 1-1.414-1.414zm12.728 0a1 1 0 0 1 1.414 0l1.414 1.414a1 1 0 0 1-1.414 1.414l-1.414-1.414a1 1 0 0 1 0-1.414M12 6a6 6 0 1 1 0 12a6 6 0 0 1 0-12m-9 5a1 1 0 1 1 0 2H1a1 1 0 1 1 0-2zm20 0a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2zM3.515 3.515a1 1 0 0 1 1.414 0l1.414 1.414a1 1 0 1 1-1.414 1.414L3.515 4.929a1 1 0 0 1 0-1.414m15.556 0a1 1 0 0 1 1.414 1.414l-1.414 1.414a1 1 0 1 1-1.414-1.414zM12 0a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V1a1 1 0 0 1 1-1"
+            ></path>
+          </g>
+          <defs>
+            <clipPath id="SVGXv8lpc2Y">
+              <path fill="#fff" d="M0 0h24v24H0z"></path>
+            </clipPath>
+          </defs>
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  const getTheme = () => {
+    const stored = localStorage?.getItem("theme");
+    if (stored === "light" || stored === "dark") return stored;
+    return "system";
+  };
+
+  const setStripPosition = (mode) => {
+    const strip = document.getElementById("mode-strip");
+    if (!strip) return;
+
+    const positions = {
+      light: "translate-x-0",
+      dark: "translate-x-[28px]",
+      system: "translate-x-[56px]",
+    };
+
+    strip.classList.remove(...Object.values(positions));
+    strip.classList.add(positions[mode]);
+  };
+
+  const applyTheme = (mode) => {
+    const isDark =
+      mode === "dark" ||
+      (mode === "system" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+    document.documentElement.classList.toggle("dark", isDark);
+    setStripPosition(mode);
+  };
+
+  const setTheme = (mode) => {
+    if (mode === "system") {
+      localStorage.removeItem("theme");
+    } else {
+      localStorage.setItem("theme", mode);
+    }
+    applyTheme(mode);
+  };
+
+  applyTheme(getTheme());
+
+  document
+    .getElementById("light-mode-btn")
+    ?.addEventListener("click", () => setTheme("light"));
+  document
+    .getElementById("dark-mode-btn")
+    ?.addEventListener("click", () => setTheme("dark"));
+  document
+    .getElementById("system-mode-btn")
+    ?.addEventListener("click", () => setTheme("system"));
+</script>
