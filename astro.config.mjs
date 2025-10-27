@@ -6,18 +6,24 @@ import { defineConfig, fontProviders } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 
+import vercel from "@astrojs/vercel";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://astro.frixaco.com",
+  output: "server",
+
   prefetch: {
     defaultStrategy: "load",
   },
+
   integrations: [mdx(), sitemap()],
 
   vite: {
     plugins: [tailwindcss()],
   },
 
+  adapter: vercel(),
   experimental: {
     fonts: [
       {

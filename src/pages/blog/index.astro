@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import { getCollection } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
@@ -8,7 +9,8 @@ const posts = (await getCollection("blog")).sort(
 );
 ---
 
-<MainLayout>
+<MainLayout title="blog">
+  <ClientRouter slot="head" />
   <div class="text-cyber-grey flex flex-col gap-8 pb-8">
     {
       posts.map((post) => (
