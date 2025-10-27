@@ -1,14 +1,9 @@
 ---
-import { getActivity } from "../lib/get-activity";
-
-const initialActivity = await getActivity();
 ---
 
 <div class="flex items-center gap-2 hover:animate-pulse">
   <span>now: </span>
-  <button id="activity-button">
-    {initialActivity}
-  </button>
+  <button id="activity-button">...</button>
 </div>
 
 <script>
@@ -41,6 +36,7 @@ const initialActivity = await getActivity();
     }
   }
 
+  fetchActivity();
   const interval = setInterval(fetchActivity, 10 * 1000);
 
   button.addEventListener("click", async () => {
