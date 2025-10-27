@@ -1,7 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
-import { cn } from "../../lib/utils";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -17,11 +16,20 @@ const { Content } = await render(post);
 ---
 
 <MainLayout {...post.data}>
-  <div
-    class={cn(
-      "prose-headings:text-cyber-fg prose-p:text-cyber-fg prose-img:mx-auto prose-headings:pb-4 prose-headings:font-semibold prose-headings:text-lg prose-a:hover:text-pink-500 prose-a:underline"
-    )}
-  >
-    <Content />
+  <div class="flex flex-col gap-8 pb-8">
+    <h3>
+      <span
+        transition:name={`post-title-${post.id}`}
+        class="text-cyber-fg text-lg font-semibold"
+      >
+        {post.data.title}
+      </span>
+    </h3>
+    <div
+      class="prose-headings:text-cyber-fg prose-p:text-cyber-fg prose-img:mx-auto prose-headings:pb-4 prose-headings:font-semibold prose-headings:text-lg prose-a:hover:text-pink-500 prose-a:underline"
+      style="animation: fadeInDelayed 0.25s ease-in forwards; opacity: 0;"
+    >
+      <Content />
+    </div>
   </div>
 </MainLayout>

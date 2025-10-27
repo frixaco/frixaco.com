@@ -12,11 +12,16 @@ const posts = (await getCollection("blog")).sort(
   <div class="text-cyber-grey flex flex-col gap-8 pb-8">
     {
       posts.map((post) => (
-        <a href={`/blog/${post.id}/`}>
+        <a href={`/blog/${post.id}/`} data-astro-prefetch>
           <article class="group relative flex cursor-pointer flex-col gap-2 text-sm md:flex-row md:gap-12">
             <div class="flex flex-1 flex-col justify-between gap-1">
-              <h3 class="text-cyber-fg group-hover:border-b-cyber-grey line-clamp-1 w-fit truncate border-b border-b-transparent">
-                {post.data.title}
+              <h3 class="group-hover:border-b-cyber-grey line-clamp-1 w-fit truncate border-b border-b-transparent">
+                <span
+                  transition:name={`post-title-${post.id}`}
+                  class="text-cyber-fg"
+                >
+                  {post.data.title}
+                </span>
               </h3>
               <p class="">{post.data.description}</p>
             </div>
