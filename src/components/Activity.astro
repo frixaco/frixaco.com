@@ -1,0 +1,61 @@
+---
+import { getActivity } from "../lib/get-activity";
+
+const initialActivity = await getActivity();
+---
+
+<div class="flex items-center gap-2 hover:animate-pulse">
+  <span>now: </span>
+  <button id="activity-button">
+    {initialActivity}
+  </button>
+</div>
+
+<script>
+  const button = document.getElementById(
+    "activity-button"
+  ) as HTMLButtonElement;
+
+  async function fetchActivity() {
+    try {
+      const response = await fetch("/api/activity.json");
+      const data = await response.json();
+      button.textContent = data.activity;
+
+      const isBroken = data.activity.startsWith("oops");
+      if (isBroken) {
+        button.classList.add(
+          "hover:text-cyber-pink",
+          "cursor-pointer",
+          "underline"
+        );
+      } else {
+        button.classList.remove(
+          "hover:text-cyber-pink",
+          "cursor-pointer",
+          "underline"
+        );
+      }
+    } catch (error) {
+      console.error("Failed to fetch activity:", error);
+    }
+  }
+
+  const interval = setInterval(fetchActivity, 10 * 1000);
+
+  button.addEventListener("click", async () => {
+    if (!button.textContent?.startsWith("oops")) return;
+
+    await fetch("/api/notify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message:
+          "whatmedoin API returned un-tracked activity. Update frixaco.com to handle it.",
+      }),
+    });
+  });
+</script>
+
