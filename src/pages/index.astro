@@ -3,6 +3,7 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Projects from "../components/Projects.astro";
 import Socials from "../components/Socials.astro";
 import Experience from "../components/Experience.astro";
+import Activity from "../components/Activity.astro";
 ---
 
 <MainLayout>
@@ -11,20 +12,7 @@ import Experience from "../components/Experience.astro";
       <div class="flex items-center justify-between">
         <h3 class="text-cyber-fg font-semibold">about</h3>
 
-        <!-- <Await -->
-        <!-- 	promise={deferredActivity} -->
-        <!-- 	fallback={(<span class="">...</span>)} -->
-        <!-- > -->
-        <!-- 	{ -->
-        <!-- 		(initial) => ( -->
-        <!-- 			<Activity -->
-        <!-- 				initial={ -->
-        <!-- 					initial -->
-        <!-- 				} -->
-        <!-- 			/> -->
-        <!-- 		) -->
-        <!-- 	} -->
-        <!-- </Await> -->
+        <Activity />
       </div>
 
       <p class="">
