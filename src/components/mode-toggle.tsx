@@ -17,35 +17,43 @@ export function ModeToggle() {
     return null;
   }
 
+  const translateClass = {
+    light: "translate-x-0",
+    dark: "translate-x-[28px]",
+    system: "translate-x-[56px]",
+  }[theme];
+
   return (
     <div
       className={cn(
-        "group bg-cyber-bg-alt absolute right-0 flex h-8 w-8 cursor-pointer flex-row-reverse items-center gap-1.5 overflow-hidden rounded-md p-1.5 transition-all duration-300 ease-out hover:w-[86px]",
-        {
-          "justify-start": theme === "light",
-          "justify-center": theme === "dark",
-          "justify-end": theme === "system",
-        }
+        "group bg-cyber-bg-alt relative size-8 cursor-pointer overflow-hidden rounded-md p-1.5 transition-all duration-300 ease-out hover:w-[92px]"
       )}
     >
-      <button
-        className="text-cyber-grey hover:text-cyber-orange inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full leading-none"
-        onClick={() => setTheme("light")}
+      <div
+        className={cn(
+          "absolute top-1.5 right-1.5 flex h-5 w-[76px] items-center gap-2 transition-transform duration-300 ease-out will-change-transform group-hover:translate-x-0",
+          translateClass
+        )}
       >
-        <SunIcon className="block h-5 w-5 origin-center rotate-90 transition-transform duration-200 ease-out hover:rotate-0" />
-      </button>
-      <button
-        className="text-cyber-grey hover:text-cyber-blue inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full leading-none"
-        onClick={() => setTheme("dark")}
-      >
-        <MoonIcon className="block h-5 w-5 origin-center -rotate-90 transition-transform duration-200 ease-out hover:rotate-0" />
-      </button>
-      <button
-        className="hover:animate-wiggle text-cyber-grey hover:text-cyber-fg inline-flex h-5 w-5 cursor-pointer items-center justify-center rounded-full leading-none"
-        onClick={() => setTheme("system")}
-      >
-        <MonitorIcon className="block h-5 w-5" />
-      </button>
+        <button
+          className="hover:animate-wiggle text-cyber-grey hover:text-cyber-fg inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full leading-none"
+          onClick={() => setTheme("system")}
+        >
+          <MonitorIcon className="block size-5" />
+        </button>
+        <button
+          className="text-cyber-grey hover:text-cyber-blue inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full leading-none"
+          onClick={() => setTheme("dark")}
+        >
+          <MoonIcon className="block size-5 origin-center -rotate-90 transition-transform duration-200 ease-out hover:rotate-0" />
+        </button>
+        <button
+          className="text-cyber-grey hover:text-cyber-orange inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full leading-none"
+          onClick={() => setTheme("light")}
+        >
+          <SunIcon className="block size-5 origin-center rotate-90 transition-transform duration-200 ease-out hover:rotate-0" />
+        </button>
+      </div>
     </div>
   );
 }
