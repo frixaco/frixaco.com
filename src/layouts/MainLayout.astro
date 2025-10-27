@@ -1,16 +1,23 @@
 ---
-import { ClientRouter } from "astro:transitions";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = SITE_DESCRIPTION } = Astro.props;
+const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
 ---
 
 <!doctype html>
 <html lang="en" class="overscroll-none scroll-smooth">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <ClientRouter />
+    <BaseHead title={pageTitle} description={description} />
+    <slot name="head" />
     <style is:global>
       @keyframes fadeInDelayed {
         0% {
@@ -22,10 +29,6 @@ import "../styles/global.css";
         100% {
           opacity: 1;
         }
-      }
-      ::view-transition-old(root),
-      ::view-transition-new(root) {
-        animation-duration: 0.25s;
       }
     </style>
   </head>

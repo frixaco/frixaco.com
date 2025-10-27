@@ -1,6 +1,9 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
+
+export const prerender = true;
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -16,6 +19,7 @@ const { Content } = await render(post);
 ---
 
 <MainLayout {...post.data}>
+  <ClientRouter slot="head" />
   <div class="flex flex-col gap-8 pb-8">
     <h3>
       <span
