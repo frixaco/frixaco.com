@@ -9,15 +9,16 @@ import tailwindcss from "@tailwindcss/vite";
 // https://astro.build/config
 export default defineConfig({
   site: "https://astro.frixaco.com",
+  prefetch: {
+    defaultStrategy: "load",
+  },
   integrations: [mdx(), sitemap()],
-  prefetch: true,
 
   vite: {
     plugins: [tailwindcss()],
   },
 
   experimental: {
-    clientPrerender: true,
     fonts: [
       {
         provider: fontProviders.google(),
