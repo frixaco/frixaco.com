@@ -50,7 +50,7 @@ export function Socials() {
 
       const url = socialKeyMap.get(e.key.toLowerCase());
       if (url) {
-        document.open(url, "_blank");
+        window.open(url, "_blank");
       }
     };
 
