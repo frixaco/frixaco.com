@@ -17,9 +17,9 @@ async function ActivityWrapper() {
 
 export default async function Page() {
   return (
-    <div className="text-cyber-grey flex flex-col gap-8 pt-6 pb-8">
+    <div className="text-cyber-fg/80 flex flex-col gap-8 py-12">
       <section className="flex flex-col items-stretch justify-start gap-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col items-center justify-between gap-2">
           <h3 className="text-cyber-fg font-semibold">about</h3>
 
           <Suspense fallback={<FallbackActivity />}>
@@ -38,7 +38,7 @@ export default async function Page() {
       <span className="bg-cyber-bg-alt h-0.5 w-full rounded-full"></span>
 
       <section className="flex flex-col items-stretch justify-start gap-6">
-        <h3 className="text-cyber-fg font-semibold">projects</h3>
+        <h3 className="text-cyber-fg text-center font-semibold">projects</h3>
 
         <Projects />
       </section>
@@ -46,12 +46,18 @@ export default async function Page() {
       <span className="bg-cyber-bg-alt h-0.5 w-full rounded-full"></span>
 
       <section className="flex flex-col items-stretch justify-start gap-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-cyber-fg font-semibold">experience</h3>
+        <div className="flex flex-col gap-2">
+          <h3 className="text-cyber-fg text-center font-semibold">
+            experience
+          </h3>
 
-          <span className="text-cyber-grey hover:text-cyber-fg font-semibold hover:underline">
-            <a href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf" target="_blank">
-              PDF
+          <span className="hover:text-cyber-fg text-center font-semibold hover:underline">
+            <a
+              href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf"
+              target="_blank"
+              className="underline"
+            >
+              View PDF
             </a>
           </span>
         </div>

@@ -48,12 +48,16 @@ export function Experience() {
     <>
       {experience.map((exp) => (
         <div key={exp.id} className="flex flex-col gap-3">
-          <div className="flex items-center justify-between">
-            <h4 className="text-cyber-fg hover:underline">
-              <a href={exp.url} target="_blank">
-                {exp.company}
-              </a>
-            </h4>
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-6">
+              <span className="bg-cyber-bg-alt h-0.5 w-12 rounded-full"></span>
+              <h4 className="text-cyber-fg hover:underline">
+                <a href={exp.url} target="_blank">
+                  {exp.company}
+                </a>
+              </h4>
+            </div>
+
             <span className="">{exp.period}</span>
           </div>
 
