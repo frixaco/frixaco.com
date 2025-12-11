@@ -59,13 +59,13 @@ export function Socials() {
   }, []);
 
   return (
-    <div className="flex items-center gap-6">
+    <div className="flex flex-wrap items-center justify-center gap-6 md:justify-start">
       {socials.map((social) => (
         <a
           key={social.id}
           href={social.url}
           target="_blank"
-          className="hover:text-cyber-fg"
+          className="hover:text-cyber-fg hover:underline"
           aria-keyshortcuts={social.key}
           title={`${social.name} (${social.key})`}
         >

@@ -24,12 +24,12 @@ export default async function Page() {
   posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <div className="text-cyber-grey flex flex-col gap-8 pt-6 pb-8">
+    <div className="flex size-full min-h-screen flex-col gap-8 py-12">
       {posts.map((post, i) => (
         <Link href={`/blog/${post.slug}`} key={i}>
-          <article className="group relative flex cursor-pointer flex-col gap-2 text-sm md:flex-row md:gap-12">
+          <article className="group relative flex cursor-pointer flex-col gap-2 text-sm sm:flex-row md:gap-12">
             <div className="flex flex-1 flex-col justify-between gap-1">
-              <h3 className="text-cyber-fg group-hover:border-b-cyber-grey line-clamp-1 w-fit truncate border-b border-b-transparent">
+              <h3 className="text-cyber-fg line-clamp-1 w-fit truncate hover:underline">
                 {post.title}
               </h3>
               <p className="">{post.description}</p>

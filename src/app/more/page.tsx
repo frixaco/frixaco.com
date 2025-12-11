@@ -1,9 +1,9 @@
 export default function Page() {
   return (
-    <div className="flex flex-col gap-6 pt-6 pb-8">
+    <div className="text-cyber-fg/80 flex flex-col gap-6 py-12">
       <div className="flex flex-col gap-6">
-        <h3 className="text-cyber-fg">more about me</h3>
-        <ul className="text-cyber-grey flex list-inside list-disc flex-col gap-2">
+        <h3 className="text-cyber-fg text-center font-semibold">interests</h3>
+        <ul className="flex list-inside list-disc flex-col gap-2">
           <li>
             self-taught, live inside my terminal, Neovim btw, embracing AI
             (before it "embraces" me)
@@ -20,16 +20,16 @@ export default function Page() {
       </div>
 
       <div className="flex flex-col gap-6">
-        <h3 className="text-cyber-fg">laptop</h3>
-        <ul className="text-cyber-grey flex list-inside list-disc flex-col gap-2">
+        <h3 className="text-cyber-fg text-center font-semibold">laptop</h3>
+        <ul className="flex list-inside list-disc flex-col gap-2">
           <li>M4 Pro Macbook Pro 14", 24GB RAM, 1TB SSD</li>
           <li>M2 Pro Macbook Pro 14", 16GB RAM, 512GB SSD (work)</li>
         </ul>
       </div>
 
       <div className="flex flex-col gap-6">
-        <h3 className="text-cyber-fg">pc</h3>
-        <ul className="text-cyber-grey flex list-inside list-disc flex-col gap-2">
+        <h3 className="text-cyber-fg text-center font-semibold">pc</h3>
+        <ul className="flex list-inside list-disc flex-col gap-2">
           <li>CPU: AMD Ryzen 7 5800X</li>
           <li>GPU: AMD PowerColor RED DEVIL Radeon RX 9070 XT</li>
           <li>RAM: Crucial Ballistix 32GB 3600MHz DDR4 CL16</li>
@@ -47,8 +47,8 @@ export default function Page() {
       </div>
 
       <div className="flex flex-col gap-6">
-        <h3 className="text-cyber-fg">other</h3>
-        <ul className="text-cyber-grey flex list-inside list-disc flex-col gap-2">
+        <h3 className="text-cyber-fg text-center font-semibold">other</h3>
+        <ul className="flex list-inside list-disc flex-col gap-2">
           <li>Realme GT Neo 2, 12GB RAM, 256GB storage, Snapdragon 870</li>
           <li>M4 iPad Pro 13", 256GB with Apple Pencil Pro</li>
         </ul>

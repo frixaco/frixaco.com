@@ -20,7 +20,7 @@ const projects = [
     url: "https://github.com/frixaco/aitetsu",
     tags: ["tauri", "typescript", "rust"],
     description:
-      "High performance infinite canvas note-taking and AI chat web and desktop app",
+      "High performance infinite canvas note-taking and AI chat app (web, desktop) focused on learning/exploration",
   },
   {
     id: 3,
@@ -28,7 +28,8 @@ const projects = [
     title: "letui",
     url: "https://github.com/frixaco/letui",
     tags: ["rust", "typescript", "bun"],
-    description: "Component-based TUI library written from scratch",
+    description:
+      "High-performance (<8ms latency) TUI library written from scratch that uses component and signals approaches",
   },
   {
     id: 4,
@@ -69,16 +70,18 @@ export function Projects() {
           aria-keyshortcuts={project.key}
           title={`${project.title} (${project.key})`}
         >
-          <h4 className="text-cyber-fg group-hover:border-b-cyber-grey w-fit border-b border-b-transparent">
-            {project.title} <span className="text-cyber-grey">[{project.key}]</span>
-          </h4>
+          <div className="flex items-center justify-center gap-6">
+            <h4 className="w-fit font-semibold hover:underline">
+              {project.title} <span className="">[{project.key}]</span>
+            </h4>
+            {/* <span className="bg-cyber-bg-alt h-0.5 w-12 rounded-full"></span> */}
+          </div>
+
           <p className="">{project.description}</p>
-          <div className="text-cyber-grey flex gap-1 text-xs">
+
+          <div className="flex gap-1 text-xs">
             {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="bg-cyber-bg-highlight rounded-sm px-1"
-              >
+              <span key={tag} className="rounded-sm border px-1">
                 {tag}
               </span>
             ))}
