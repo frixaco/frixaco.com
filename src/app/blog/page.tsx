@@ -33,32 +33,22 @@ export default async function Page() {
 
   return (
     <div className="flex size-full min-h-screen flex-col gap-8 py-12">
-      {posts.map((post, i) => (
-        <Link href={`/blog/${post.slug}`} key={i}>
-          <article className="group relative flex cursor-pointer flex-col gap-2 text-sm sm:flex-row sm:gap-4 md:gap-12">
+      <h1 className="sr-only">Blog</h1>
+      {posts.map((post) => (
+        <Link href={`/blog/${post.slug}`} key={post.slug}>
+          <article className="group relative flex cursor-pointer flex-col gap-2 sm:flex-row sm:gap-4 md:gap-12">
             <div className="flex flex-row justify-between pt-0.5 sm:flex-col sm:gap-1 sm:self-start md:items-end">
-              <span className="text-xs text-nowrap">
-                {formatDate(post.date)}
-              </span>
-              {/* <div className="flex text-xs"> */}
-              {/*   <span className="hidden text-nowrap sm:inline"> */}
-              {/*     255 words&nbsp;·&nbsp; */}
-              {/*   </span> */}
-              {/*   <span className="text-nowrap">1 min read</span> */}
-              {/* </div> */}
+              <span className="text-nowrap">{formatDate(post.date)}</span>
             </div>
 
             <div className="flex flex-1 flex-col gap-1">
-              <h3 className="text-cyber-fg line-clamp-1 w-fit truncate font-semibold hover:underline">
+              <h2 className="text-cyber-fg line-clamp-1 w-fit truncate font-semibold hover:underline">
                 {post.title}
-              </h3>
-              <p className="hidden sm:block">{post.description}</p>
+              </h2>
+              <p className="line-clamp-2 sm:line-clamp-none">
+                {post.description}
+              </p>
             </div>
-
-            {/* <div className="absolute top-0 bottom-0 -left-4 w-0.5 scale-y-0 group-hover:scale-y-100 origin-center group-hover:delay-100 transition-transform duration-300 bg-cyber-grey"></div> */}
-            {/* <span className="absolute left-0 bottom-0 -translate-x-5/6 -translate-y-1 -rotate-90 text-cyber-grey text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:delay-100"> */}
-            {/*   255 */}
-            {/* </span> */}
           </article>
         </Link>
       ))}

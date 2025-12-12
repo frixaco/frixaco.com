@@ -4,10 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* html { */
-/*   overscroll-behavior: none; */
-/* } */
-
 html {
   scrollbar-gutter: stable;
   scrollbar-width: thin;

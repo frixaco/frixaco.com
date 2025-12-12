@@ -70,16 +70,16 @@ export function Projects() {
             title={`${project.title} (${project.key})`}
           >
             <div className="flex items-center justify-start gap-6 md:justify-center">
-              <h4 className="w-fit font-semibold hover:underline">
+              <h3 className="w-fit font-semibold hover:underline">
                 {project.title}
-              </h4>
+              </h3>
               {/* <span className="bg-cyber-bg-alt h-0.5 w-12 rounded-full"></span> */}
             </div>
           </a>
 
           <p className="">{project.description}</p>
 
-          <div className="flex gap-2 text-xs">
+          <div className="flex gap-3 font-mono text-xs">
             {project.tags.map((tag) => (
               <span key={tag} className="">
                 {tag}
