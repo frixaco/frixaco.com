@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
-import { Drawer } from "@/components/drawer";
 import { Tabs } from "@/components/tabs";
 
 const geistSans = Geist({
@@ -29,10 +28,10 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className="overscroll-none scroll-smooth"
+      className="stable overscroll-none scroll-smooth"
     >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-cyber-bg antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-cyber-bg font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -40,7 +39,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="relative flex min-h-screen flex-col items-center justify-start font-mono text-sm">
+          <main className="relative flex min-h-screen flex-col items-center justify-start">
             <div className="flex size-full max-w-4xl flex-col px-8 md:flex-row md:gap-12">
               <Tabs />
 

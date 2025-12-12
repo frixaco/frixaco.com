@@ -20,7 +20,7 @@ export function Activity({ initial }: { initial: string }) {
   let isBroken = activity.startsWith("oops");
 
   return (
-    <div className="flex items-center gap-2 font-semibold hover:animate-pulse">
+    <div className="flex items-center gap-2 hover:animate-pulse">
       <span className="">now: </span>
       <button
         className={cn({

@@ -2,6 +2,7 @@
 
 import { shouldIgnoreKey } from "@/lib/hotkeys";
 import { useEffect } from "react";
+import { LinkIcon, MoveUpRightIcon } from "lucide-react";
 
 const socials = [
   {
@@ -59,17 +60,18 @@ export function Socials() {
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-6 md:justify-start">
+    <div className="flex flex-wrap items-center justify-start gap-6 md:gap-8">
       {socials.map((social) => (
         <a
           key={social.id}
           href={social.url}
           target="_blank"
-          className="hover:text-cyber-fg hover:underline"
+          className="hover:text-cyber-fg group flex items-center hover:underline"
           aria-keyshortcuts={social.key}
           title={`${social.name} (${social.key})`}
         >
-          {social.name}
+          <span>{social.name}</span>{" "}
+          <MoveUpRightIcon className="mt-0.5 size-4 pt-1 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </a>
       ))}
     </div>
