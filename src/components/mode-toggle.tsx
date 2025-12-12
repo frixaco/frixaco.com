@@ -37,9 +37,13 @@ export function ModeToggle() {
 
   return (
     <div className="relative size-8 self-end">
-      <div
+      <button
+        type="button"
+        tabIndex={-1}
+        aria-label="Change color theme"
+        aria-expanded={isOpen}
         className={cn(
-          "group bg-cyber-bg-alt absolute top-0 left-0 z-10 size-8 cursor-pointer overflow-hidden rounded-full p-1.5 transition-all duration-300 ease-out hover:h-23",
+          "group bg-cyber-bg-alt absolute top-0 left-0 z-10 size-8 cursor-pointer overflow-hidden rounded-full p-1.5 transition-all duration-300 ease-out hover:h-23 focus-visible:ring-2 focus-visible:outline-none",
           isOpen && "h-23"
         )}
         onClick={(e) => {
@@ -54,7 +58,10 @@ export function ModeToggle() {
             isOpen && "translate-y-0"
           )}
         >
-          <button
+          <span
+            role="menuitem"
+            aria-label="Use system theme"
+            aria-pressed={theme === "system"}
             className="hover:animate-wiggle text-cyber-grey hover:text-cyber-fg inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full leading-none"
             onClick={(e) => {
               e.stopPropagation();
@@ -63,8 +70,11 @@ export function ModeToggle() {
             }}
           >
             <MonitorIcon className="block size-5" />
-          </button>
-          <button
+          </span>
+          <span
+            role="menuitem"
+            aria-label="Use dark theme"
+            aria-pressed={theme === "dark"}
             className="text-cyber-grey hover:text-cyber-blue inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full leading-none"
             onClick={(e) => {
               e.stopPropagation();
@@ -73,8 +83,11 @@ export function ModeToggle() {
             }}
           >
             <MoonIcon className="block size-5 origin-center -rotate-90 transition-transform duration-200 ease-out hover:rotate-0" />
-          </button>
-          <button
+          </span>
+          <span
+            role="menuitem"
+            aria-label="Use light theme"
+            aria-pressed={theme === "light"}
             className="text-cyber-grey hover:text-cyber-orange inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full leading-none"
             onClick={(e) => {
               e.stopPropagation();
@@ -83,9 +96,9 @@ export function ModeToggle() {
             }}
           >
             <SunIcon className="block size-5 origin-center rotate-90 transition-transform duration-200 ease-out hover:rotate-0" />
-          </button>
+          </span>
         </div>
-      </div>
+      </button>
     </div>
   );
 }

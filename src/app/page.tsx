@@ -1,8 +1,11 @@
 import { Activity } from "@/components/activity";
 import { Experience } from "@/components/experience";
+import { PageContainer } from "@/components/page-container";
 import { Projects } from "@/components/projects";
+import { Section, SectionDivider } from "@/components/section";
 import { Socials } from "@/components/socials";
 import { getActivity } from "@/lib/get-activity";
+import Link from "next/link";
 import { Suspense } from "react";
 
 const FallbackActivity = () => {
@@ -17,10 +20,8 @@ async function ActivityWrapper() {
 
 export default async function Page() {
   return (
-    <div className="text-cyber-fg/80 flex flex-col gap-8 py-12">
-      <section className="flex flex-col items-stretch justify-start gap-6">
-        <h3 className="text-cyber-fg text-center font-semibold">About</h3>
-
+    <PageContainer>
+      <Section title="About">
         <div className="flex flex-col gap-2">
           <p className="">
             Software Engineer, love exploring and building cool stuff,
@@ -32,37 +33,30 @@ export default async function Page() {
         </div>
 
         <Socials />
-      </section>
+      </Section>
 
-      <span className="bg-cyber-bg-alt h-0.5 w-full rounded-full"></span>
+      <SectionDivider />
 
-      <section className="flex flex-col items-stretch justify-start gap-6">
-        <h3 className="text-cyber-fg text-center font-semibold">Projects</h3>
-
+      <Section title="Projects">
         <Projects />
-      </section>
+      </Section>
 
-      <span className="bg-cyber-bg-alt h-0.5 w-full rounded-full"></span>
+      <SectionDivider />
 
-      <section className="flex flex-col items-stretch justify-start gap-6">
-        <div className="flex flex-col gap-2">
-          <h3 className="text-cyber-fg text-center font-semibold">
-            Experience
-          </h3>
-
-          <span className="hover:text-cyber-fg text-center hover:underline">
-            <a
-              href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf"
-              target="_blank"
-              className="underline"
-            >
-              PDF
-            </a>
-          </span>
-        </div>
-
+      <Section title="Experience">
         <Experience />
-      </section>
-    </div>
+
+        <span className="hover:text-cyber-fg hover:underline">
+          <Link
+            href="/SDE_RESUME_RUSTAM_ASHURMATOV_v1.pdf"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="underline"
+          >
+            PDF
+          </Link>
+        </span>
+      </Section>
+    </PageContainer>
   );
 }

@@ -80,7 +80,10 @@ export default function RootLayout({
                 </a>
               </span>
               <span>
-                <a href="https://frixaco-gv5t9unyr-frixaco-personal.vercel.app/">
+                <a
+                  target="_blank"
+                  href="https://frixaco-gv5t9unyr-frixaco-personal.vercel.app/"
+                >
                   v3
                 </a>
               </span>

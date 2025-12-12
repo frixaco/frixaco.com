@@ -8,9 +8,14 @@ export function Activity({ initial }: { initial: string }) {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const response = await fetch("/api/activity");
-      const data = await response.json();
-      setActivity(data.activity);
+      try {
+        const response = await fetch("/api/activity");
+        if (!response.ok) return;
+        const data = await response.json();
+        setActivity(data.activity);
+      } catch {
+        // Keep last known state on error
+      }
     }, 10 * 1000);
     return () => {
       clearInterval(interval);

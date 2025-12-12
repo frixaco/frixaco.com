@@ -1,17 +1,24 @@
 import { cn } from "@/lib/utils";
 
-export function Drawer({ isOpen }: { isOpen: boolean }) {
+interface DrawerProps {
+  isOpen: boolean;
+  onClose?: () => void;
+}
+
+export function Drawer({ isOpen, onClose }: DrawerProps) {
   return (
     <>
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={!isOpen}
         className={
-          "bg-cyber-grey fixed inset-x-0 top-100 bottom-0 z-10 flex flex-col items-center overflow-hidden rounded-none pt-16 shadow-2xl duration-400 ease-[cubic-bezier(0.25,0.8,0.25,1)] will-change-transform"
+          "bg-cyber-grey fixed inset-x-0 top-[100px] bottom-0 z-10 flex flex-col items-center overflow-hidden rounded-none pt-16 shadow-2xl duration-400 ease-[cubic-bezier(0.25,0.8,0.25,1)] will-change-transform"
         }
         style={{
           transform: isOpen
             ? "translate(0, 0) scale(1)"
-            : // TODO:: is this better than translate(0%, 100%)?
-              "translate(0%, 100%) scale(0.90)",
+            : "translate(0%, 100%) scale(0.90)",
         }}
       >
         <div className="h-full w-1/2 contain-layout">
@@ -33,6 +40,8 @@ export function Drawer({ isOpen }: { isOpen: boolean }) {
 
       {/* Backdrop */}
       <div
+        aria-hidden="true"
+        onClick={onClose}
         className={cn(
           "fixed inset-0 transition-opacity duration-150 ease-out",
           {
