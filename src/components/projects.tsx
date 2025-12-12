@@ -7,7 +7,7 @@ const projects = [
   {
     id: 1,
     key: "1",
-    title: "anitrack",
+    title: "Anitrack",
     url: "https://github.com/frixaco/anitrack",
     tags: ["letui", "typescript", "rust"],
     description:
@@ -16,7 +16,7 @@ const projects = [
   {
     id: 2,
     key: "2",
-    title: "aitetsu",
+    title: "AItetsu",
     url: "https://github.com/frixaco/aitetsu",
     tags: ["tauri", "typescript", "rust"],
     description:
@@ -25,7 +25,7 @@ const projects = [
   {
     id: 3,
     key: "3",
-    title: "letui",
+    title: "LeTUI",
     url: "https://github.com/frixaco/letui",
     tags: ["rust", "typescript", "bun"],
     description:
@@ -34,7 +34,7 @@ const projects = [
   {
     id: 4,
     key: "4",
-    title: "whatmedoin",
+    title: "WhatMeDoin",
     url: "https://github.com/frixaco/whatmedoin",
     tags: ["rust", "typescript", "bun"],
     description:
@@ -62,31 +62,31 @@ export function Projects() {
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
       {projects.map((project) => (
-        <a
-          key={project.id}
-          href={project.url}
-          target="_blank"
-          className="group flex cursor-pointer flex-col gap-2"
-          aria-keyshortcuts={project.key}
-          title={`${project.title} (${project.key})`}
-        >
-          <div className="flex items-center justify-center gap-6">
-            <h4 className="w-fit font-semibold hover:underline">
-              {project.title} <span className="">[{project.key}]</span>
-            </h4>
-            {/* <span className="bg-cyber-bg-alt h-0.5 w-12 rounded-full"></span> */}
-          </div>
+        <div className="group flex flex-col gap-2" key={project.id}>
+          <a
+            href={project.url}
+            target="_blank"
+            aria-keyshortcuts={project.key}
+            title={`${project.title} (${project.key})`}
+          >
+            <div className="flex items-center justify-start gap-6 md:justify-center">
+              <h4 className="w-fit font-semibold hover:underline">
+                {project.title}
+              </h4>
+              {/* <span className="bg-cyber-bg-alt h-0.5 w-12 rounded-full"></span> */}
+            </div>
+          </a>
 
           <p className="">{project.description}</p>
 
-          <div className="flex gap-1 text-xs">
+          <div className="flex gap-2 text-xs">
             {project.tags.map((tag) => (
-              <span key={tag} className="rounded-sm border px-1">
+              <span key={tag} className="">
                 {tag}
               </span>
             ))}
           </div>
-        </a>
+        </div>
       ))}
     </div>
   );

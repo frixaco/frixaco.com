@@ -8,13 +8,53 @@
 /*   overscroll-behavior: none; */
 /* } */
 
+html {
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-cyber-bg-highlight) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-cyber-bg-highlight) !important;
+  border-radius: 3px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-cyber-grey) !important;
+}
+
+::-webkit-scrollbar-button:single-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+::-webkit-scrollbar-corner {
+  display: none !important;
+}
+
 ::selection {
   background-color: theme(--color-cyber-pink);
   color: theme(--color-cyber-bg);
 }
 
 @theme inline {
-  --font-sans: var(--font-geist);
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
