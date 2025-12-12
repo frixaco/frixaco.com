@@ -71,7 +71,7 @@ export function Socials() {
           title={`${social.name} (${social.key})`}
         >
           <span>{social.name}</span>{" "}
-          <MoveUpRightIcon className="mt-0.5 size-4 pt-1 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          <MoveUpRightIcon className="mt-0.5 size-4 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </a>
       ))}
     </div>
