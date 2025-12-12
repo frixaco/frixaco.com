@@ -10,7 +10,7 @@ export default async function Page({
   const { default: Post } = await import(`@/content/${slug}.mdx`);
 
   return (
-    <div className="prose-invert prose-img:mx-auto prose-h1:text-center prose-headings:pb-4 prose-headings:font-bold prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-a:hover:text-pink-500 prose-a:underline py-12">
+    <div className="prose-headings:pb-4 prose-headings:font-bold prose-h1:text-center prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-a:text-cyber-pink prose-a:underline prose-a:hover:text-cyber-magenta mx-auto max-w-4xl py-12">
       <Post />
     </div>
   );

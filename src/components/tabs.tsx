@@ -13,7 +13,8 @@ export function Tabs() {
             Home
           </Link>
         </h2>
-        <h2 className="cursor-pointer transition-colors hover:underline">
+        <h2 className="relative cursor-pointer transition-colors hover:underline">
+          <span className="absolute -top-2 -right-2 text-xs">🚧</span>
           <Link
             href="/blog"
             className="rounded px-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
