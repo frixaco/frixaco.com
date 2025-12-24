@@ -43,7 +43,7 @@ export default async function Page() {
 
       <SectionDivider />
 
-      <Section title="Experience">
+      <Section title="Work">
         <Experience />
 
         <span className="hover:text-cyber-fg hover:underline">

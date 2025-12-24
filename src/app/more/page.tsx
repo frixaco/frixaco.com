@@ -4,8 +4,18 @@ import { Section } from "@/components/section";
 export default function Page() {
   return (
     <PageContainer className="gap-6">
-      <Section title="interests">
+      <Section title="me">
         <ul className="flex list-inside list-disc flex-col gap-2">
+          <li>
+            dotfiles{" "}
+            <a
+              className="text-cyber-pink underline"
+              href="https://github.com/frixaco/dotfiles"
+            >
+              here
+            </a>{" "}
+            (fish, kitty, neovim and more)
+          </li>
           <li>
             self-taught, live inside my terminal, Neovim btw, embracing AI
             (before it &quot;embraces&quot; me)
