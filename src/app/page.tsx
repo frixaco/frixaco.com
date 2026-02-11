@@ -1,22 +1,9 @@
-import { Activity } from "@/components/activity";
 import { Experience } from "@/components/experience";
 import { PageContainer } from "@/components/page-container";
 import { Projects } from "@/components/projects";
 import { Section, SectionDivider } from "@/components/section";
 import { Socials } from "@/components/socials";
-import { getActivity } from "@/lib/get-activity";
 import Link from "next/link";
-import { Suspense } from "react";
-
-const FallbackActivity = () => {
-  return <span className="">...</span>;
-};
-
-async function ActivityWrapper() {
-  const initial = await getActivity();
-
-  return <Activity initial={initial} />;
-}
 
 export default async function Page() {
   return (
@@ -27,9 +14,6 @@ export default async function Page() {
             Software Engineer, love exploring and building cool stuff,
             interested in pretty much everything, breaking free from mediocrity
           </p>
-          <Suspense fallback={<FallbackActivity />}>
-            <ActivityWrapper />
-          </Suspense>
         </div>
 
         <Socials />
