@@ -94,6 +94,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-items: center;
+  gap: 24px;
 }
 
 #header {
@@ -103,12 +104,12 @@ body {
   position: relative;
 }
 
-/* has higher specificity than `#header button` */
+/* has higher specificity than `#header a` */
 #header #home-btn {
   font-weight: bold;
 }
 
-#header button {
+#header a {
   all: unset;
   padding: 0 24px;
   text-transform: uppercase;
@@ -119,7 +120,7 @@ body {
   border: 2px solid var(--primary-text-col)
 }
 
-#header button:hover {
+#header a:hover {
   color: var(--primary-bg-col);
   background-color: var(--primary-text-col);
 }

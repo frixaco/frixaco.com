@@ -43,10 +43,14 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(index))
-        .route("/md/home", get(home))
-        .route("/md/blog", get(blog))
-        .route("/md/posts/{slug}", get(posts))
-        .route("/md/more", get(more))
+        .route("/home", get(index))
+        .route("/blog", get(index))
+        .route("/blog/{slug}", get(post))
+        .route("/more", get(index))
+        .route("/md/home", get(home_md))
+        .route("/md/blog", get(blog_md))
+        .route("/md/posts/{slug}", get(posts_md))
+        .route("/md/more", get(more_md))
         .route("/styles.css", get(styles))
         .route("/pdf", get(resume))
         .with_state(app_state);
@@ -59,15 +63,27 @@ async fn index() -> Html<&'static str> {
     Html(include_str!("./index.html"))
 }
 
-async fn home() -> impl IntoResponse {
-    include_str!("./sheets/home.md")
+async fn home(State(state): State<Arc<AppState>>,) -> impl IntoResponse {
+    let html = state.home_html.clone();
+    Html(html)
+}
+async fn home_md(State(state): State<Arc<AppState>>) -> impl IntoResponse {
+    Html(state.home_html.clone())
 }
 
-async fn blog() -> impl IntoResponse {
-    include_str!("./sheets/blog.md")
+async fn blog(State(state): State<Arc<AppState>>,) -> impl IntoResponse {
+    let html = state.blog_html.clone();
+    Html(html)
+}
+async fn blog_md(State(state): State<Arc<AppState>>) -> impl IntoResponse {
+    Html(state.blog_html.clone())
 }
 
-async fn posts(
+async fn post(State(state): State<Arc<AppState>>, Path(slug): Path<String>) -> impl IntoResponse {
+    let html = state.posts_html[&slug].clone();
+    Html(html)
+}
+async fn posts_md(
     State(state): State<Arc<AppState>>,
     Path(slug): Path<String>,
 ) -> Result<String, Redirect<>> {
@@ -77,8 +93,12 @@ async fn posts(
     }
 }
 
-async fn more() -> impl IntoResponse {
-    include_str!("./sheets/more.md")
+async fn more(State(state): State<Arc<AppState>>,) -> impl IntoResponse {
+    let html = state.more_html.clone();
+    Html(html)
+}
+async fn more_md(State(state): State<Arc<AppState>>) -> impl IntoResponse {
+    Html(state.more_html.clone())
 }
 
 async fn styles() -> impl IntoResponse {
