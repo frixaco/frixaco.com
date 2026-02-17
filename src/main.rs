@@ -3,12 +3,16 @@ use std::{collections::HashMap, sync::Arc};
 use axum::{
     Router,
     extract::{Path, State},
-    http::header::CONTENT_TYPE,
+    http::{
+        HeaderValue,
+        header::{CACHE_CONTROL, CONTENT_TYPE},
+    },
     response::{Html, IntoResponse, Redirect},
     routing::get,
 };
 use comrak::{Options, markdown_to_html};
 use include_dir::{Dir, include_dir};
+use tower_http::set_header::SetResponseHeaderLayer;
 
 static BLOG_DIR: Dir = include_dir!("$CARGO_MANIFEST_DIR/src/sheets/posts");
 
@@ -40,10 +44,7 @@ async fn main() {
     for file in BLOG_DIR.files() {
         let slug = file.path().file_name().unwrap().to_str().unwrap();
         let content = file.contents_utf8().unwrap();
-        posts_html.insert(
-            slug.to_string(),
-            markdown_to_html(content, &options),
-        );
+        posts_html.insert(slug.to_string(), markdown_to_html(content, &options));
     }
 
     let app_state = Arc::new(AppState {
@@ -64,7 +65,11 @@ async fn main() {
         .route("/md/blog/{slug}", get(posts_md))
         .route("/md/more", get(more_md))
         .route("/pdf", get(resume))
-        .with_state(app_state);
+        .with_state(app_state)
+        .layer(SetResponseHeaderLayer::if_not_present(
+            CACHE_CONTROL,
+            HeaderValue::from_static("public, max-age=3600"),
+        ));
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     let _ = axum::serve(listener, app).await;
