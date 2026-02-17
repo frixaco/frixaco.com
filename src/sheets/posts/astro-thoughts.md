@@ -1,8 +1,8 @@
-export const metadata = {
-  title: "My First Post",
-  description: "I really liked Astro!",
-  date: "2025-05-01T10:00:00",
-};
+---
+title: "My First Post"
+description: "I really liked Astro!"
+date: "2025-05-01T10:00:00"
+---
 
 # My thoughts on Astro that no one asked
 

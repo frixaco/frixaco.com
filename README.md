@@ -1,5 +1,27 @@
 # frixaco.com - Personal Website
 
+## Final Tech Stack
+
+- Rust (stable) + Cargo
+- Axum
+- Tokio
+- Comrak
+
+## Performance Target
+
+- First-party JS target: ~0.8KB - 2KB (brotli)
+- Hard cap: <14KB first-party JS
+
+## Product Direction
+
+- Single page portfolio
+- Markdown-first content
+- Sheet-based navigation
+- Single color palette
+- No custom font
+- No theme switching
+- In-app PDF viewer based on embedpdf
+
 ## Notes
 
 - Demo videos are stored in uploadthing.com

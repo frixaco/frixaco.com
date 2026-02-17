@@ -1,11 +1,10 @@
-import Script from "next/script";
+---
+title: "Building a TUI Library from scratch: Part 1"
+description: "Initial implementation of my terminal user interface library using Bun, Rust and classes"
+date: "2025-12-12T10:00:00"
+---
 
-export const metadata = {
-  title: "Building a TUI Library from scratch: Part 1",
-  description:
-    "Initial implementation of my terminal user interface library using Bun, Rust and classes",
-  date: "2025-12-12T10:00:00",
-};
+import Script from "next/script";
 
 ## Building a TUI Library from Scratch: From Classes to Signals
 
@@ -78,7 +77,7 @@ class Button {
             BigInt(this.fg),
             BigInt(this.bg),
           ]),
-          (terminalWidth * cy + cx) * 3
+          (terminalWidth * cy + cx) * 3,
         );
       }
     }
@@ -92,7 +91,7 @@ class Button {
             BigInt(this.fg),
             BigInt(this.bg),
           ]),
-          (terminalWidth * cy + cx) * 3
+          (terminalWidth * cy + cx) * 3,
         );
       }
     }
@@ -111,7 +110,7 @@ class Button {
               BigInt(this.active_fg),
               BigInt(this.active_bg),
             ]),
-            (terminalWidth * cy + cx) * 3
+            (terminalWidth * cy + cx) * 3,
           );
         }
       }
@@ -120,7 +119,7 @@ class Button {
     // actual text
     buffer.set(
       this.prebuilt.subarray(0),
-      (terminalWidth * (yo + this.py) + xo + this.px) * 3
+      (terminalWidth * (yo + this.py) + xo + this.px) * 3,
     );
 
     this.updateHitMap(xo, yo); // hit-testing mixed in here too!

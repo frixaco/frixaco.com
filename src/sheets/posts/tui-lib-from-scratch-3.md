@@ -1,8 +1,8 @@
-export const metadata = {
-  title: "Building a TUI Library from scratch: Part 3",
-  description: "Optimization journey - I want 120+fps and sub 8ms frame times",
-  date: "2025-12-13T12:00:00",
-};
+---
+title: "Building a TUI Library from scratch: Part 3"
+description: "Optimization journey - I want 120+fps and sub 8ms frame times"
+date: "2025-12-13T12:00:00"
+---
 
 ## Building a TUI Library from Scratch: Part 3 - Optimization
 
@@ -114,7 +114,7 @@ for (let j = node.frame.y; j < node.frame.y + node.frame.height; j++) {
         BigInt(COLORS.default.bg),
         BigInt(bg),
       ]),
-      (j * terminalWidth() + i) * 3
+      (j * terminalWidth() + i) * 3,
     );
   }
 }
@@ -128,7 +128,7 @@ function setCell(
   offset: number,
   char: string,
   fg: number,
-  bg: number
+  bg: number,
 ) {
   buffer[offset] = BigInt(char.codePointAt(0)!);
   buffer[offset + 1] = BigInt(fg);
