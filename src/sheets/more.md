@@ -1,5 +1,3 @@
-# More
-
 - dotfiles [here](https://github.com/frixaco/dotfiles) (fish, kitty, neovim and more)
 - self-taught, live inside my terminal, Neovim btw, embracing AI (before it "embraces" me)
 - favorite games: osu!, Sekiro, Monster Hunter World, Elden Ring, Lies of P and a few more
@@ -10,14 +8,14 @@
 
 ---
 
-# laptop
+### laptop
 
 - M4 Pro Macbook Pro 14", 24GB RAM, 1TB SSD
 - M2 Pro Macbook Pro 14", 16GB RAM, 512GB SSD (work)
 
 ---
 
-# pc
+### pc
 
 - CPU: AMD Ryzen 7 5800X
 - GPU: AMD PowerColor RED DEVIL Radeon RX 9070 XT
@@ -35,7 +33,7 @@
 
 ---
 
-# other
+### other
 
-- Realme GT Neo 2, 12GB RAM, 256GB storage, Snapdragon 870
+- (i caved) iPhone 17 Pro
 - M4 iPad Pro 13", 256GB with Apple Pencil Pro
