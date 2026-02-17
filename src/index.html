@@ -6,9 +6,9 @@
   </head>
   <body>
     <div id="header">
-      <button id="home-btn">RUSTAM</button>
-      <button id="blog-btn">blog</button>
-      <button id="more-btn">more</button>
+      <a id="home-btn" href="/">RUSTAM</a>
+      <a id="blog-btn" href="/blog">blog</a>
+      <a id="more-btn" href="/more">more</a>
 
       <div class="long-ass-line"></div>
 
@@ -20,27 +20,52 @@
     </div>
 
     <script type="module">
-      const wait = async (ms) => await new Promise((r) => setTimeout(r, ms));
-
-      let homePage = null;
-      let blogPage = null;
-      let morePage = null;
-
       const wrapper = document.getElementById("wrapper");
 
-      ev("home-btn", () => {
-        wrapper.innerHTML = homePage;
-      });
-      ev("blog-btn", () => {
-        wrapper.innerHTML = blogPage;
-      });
-      ev("more-btn", () => {
-        wrapper.innerHTML = morePage;
-      });
+      let pages = {
+        "/": undefined,
+        "/blog": undefined,
+        "/more": undefined,
+      };
+      let pathname = window.location.pathname;
+      pages[pathname] = "";
+      fetch(pathname === "/" ? "/md/home" : "/md" + pathname)
+        .then((d) => d.text())
+        .then((html) => {
+          pages[pathname] = html;
+          wrapper.innerHTML = html;
+        });
 
-      function ev(id, fn, e = "click") {
-        document.getElementById(id).addEventListener(e, fn);
+      if (!pages["/"]) {
+        fetch("/md/home", {})
+          .then((d) => d.text())
+          .then((html) => {
+            pages["/"] = html;
+          });
       }
+      if (!pages["/blog"]) {
+        fetch("/md/blog", {})
+          .then((d) => d.text())
+          .then((html) => {
+            pages["/blog"] = html;
+          });
+      }
+      if (!pages["/more"]) {
+        fetch("/md/more", {})
+          .then((d) => d.text())
+          .then((html) => {
+            pages["/more"] = html;
+          });
+      }
+
+      document.getElementById("header").addEventListener("click", (e) => {
+        const a = e.target.closest("a");
+        if (!a) return;
+        e.preventDefault();
+        const path = a.getAttribute("href");
+        wrapper.innerHTML = pages[path];
+        history.pushState(null, "", path);
+      });
     </script>
   </body>
 </html>
