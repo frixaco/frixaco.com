@@ -1,34 +1,52 @@
-# frixaco.com - Personal Website
+# frixaco.com
 
-## Final Tech Stack
+Personal website and writing platform, built as a Rust web service, powered by Markdown.
 
-- Rust (stable) + Cargo
+## Overview
+
+This site is intentionally simple:
+
+- server-rendered HTML
+- markdown-first content workflow
+- minimal client-side complexity
+- small runtime surface area
+
+The application pre-renders markdown into HTML at startup, keeps rendered content in memory, and serves it through lightweight HTTP routes.
+
+## Architecture
+
+- **Application layer:** Axum routes for pages, markdown endpoints, and resume delivery
+- **Rendering layer:** Comrak converts markdown to HTML during boot
+- **State model:** precomputed content stored in shared in-memory state
+- **Delivery model:** single long-running Rust binary bound to `PORT` (fallback `8080`)
+- **Caching:** default cache-control response header for public content
+
+## Tech Stack
+
+- Rust (stable)
 - Axum
 - Tokio
 - Comrak
+- include_dir
+- tower-http
+- tracing-subscriber
 
-## Performance Target
+## Runtime Behavior
 
-- First-party JS target: ~0.8KB - 2KB (brotli)
-- Hard cap: <14KB first-party JS
+- Accepts `PORT` from environment (Railway-compatible)
+- Falls back to `8080` for local development
+- Serves:
+  - main pages (`/`, `/home`, `/blog`, `/more`)
+  - individual posts (`/blog/{slug}`)
+  - raw rendered markdown endpoints (`/md/*`)
+  - PDF resume endpoint (`/pdf`)
 
-## Product Direction
+## Deployment
 
-- Single page portfolio
-- Markdown-first content
-- Sheet-based navigation
-- Single color palette
-- No custom font
-- No theme switching
-- In-app PDF viewer based on embedpdf
+Production deploy targets Railway using a Dockerfile-based build for deterministic toolchain/runtime behavior.
 
-## Notes
+## Design Principles
 
-- Demo videos are stored in uploadthing.com
-
-## TODO
-
-- [ ] Prepare projects for showcase
-- [ ] Add AI chat for projects (so user can ask about the project)
-- [ ] I wanted to do some <iframe> trick, remember what it was
-- [ ] For projects add stats like LoC, commits, etc.
+- Minimum bundle size
+- Zero bloat
+- Simple to maintain and modify

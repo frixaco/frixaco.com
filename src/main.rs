@@ -1,4 +1,4 @@
-use std::{collections::HashMap, sync::Arc};
+use std::{collections::HashMap, env, sync::Arc};
 
 use axum::{
     Router,
@@ -71,7 +71,13 @@ async fn main() {
             HeaderValue::from_static("public, max-age=3600"),
         ));
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let port = env::var("PORT")
+        .ok()
+        .and_then(|p| p.parse::<u16>().ok())
+        .unwrap_or(8080);
+    let bind_addr = format!("0.0.0.0:{port}");
+
+    let listener = tokio::net::TcpListener::bind(&bind_addr).await.unwrap();
     let _ = axum::serve(listener, app).await;
 }
 
