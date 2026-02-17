@@ -77,7 +77,7 @@ class Button {
             BigInt(this.fg),
             BigInt(this.bg),
           ]),
-          (terminalWidth * cy + cx) * 3
+          (terminalWidth * cy + cx) * 3,
         );
       }
     }
@@ -91,7 +91,7 @@ class Button {
             BigInt(this.fg),
             BigInt(this.bg),
           ]),
-          (terminalWidth * cy + cx) * 3
+          (terminalWidth * cy + cx) * 3,
         );
       }
     }
@@ -110,7 +110,7 @@ class Button {
               BigInt(this.active_fg),
               BigInt(this.active_bg),
             ]),
-            (terminalWidth * cy + cx) * 3
+            (terminalWidth * cy + cx) * 3,
           );
         }
       }
@@ -119,7 +119,7 @@ class Button {
     // actual text
     buffer.set(
       this.prebuilt.subarray(0),
-      (terminalWidth * (yo + this.py) + xo + this.px) * 3
+      (terminalWidth * (yo + this.py) + xo + this.px) * 3,
     );
 
     this.updateHitMap(xo, yo); // hit-testing mixed in here too!
