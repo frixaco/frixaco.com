@@ -3,29 +3,16 @@
   <head>
     <title>frixa</title>
     <link rel="stylesheet" href="/styles.css" />
-    <script>
-      let pathname = window.location.pathname;
-      if (pathname.startsWith('/blog/')) {
-        let post = pathname.split('/').pop()
-
-        fetch(`/posts/${post}`)
-        .then((res) => res.text())
-        .then((html) => {
-          const wrapper = document.getElementById("wrapper");
-          wrapper.innerHTML = html;
-        });
-      }
-    </script>
   </head>
   <body>
     <div id="header">
-      <a href="/">RUSTAM</a>
-      <div id="tabs">
-        <button id="home-btn">home</button>
-        <button id="blog-btn">blog</button>
-        <button id="more-btn">more</button>
-      </div>
-      <div class="hidden"></div>
+      <button id="home-btn">RUSTAM</button>
+      <button id="blog-btn">blog</button>
+      <button id="more-btn">more</button>
+
+      <div class="long-ass-line"></div>
+
+      <div class="square"></div>
     </div>
 
     <div id="wrapper">
@@ -50,30 +37,6 @@
       ev("more-btn", () => {
         wrapper.innerHTML = morePage;
       });
-
-      fetch("/home")
-        .then((res) => res.text())
-        .then((html) => {
-          homePage = html;
-          if (
-            window.location.pathname === "/" ||
-            window.location.pathname === "/index.html"
-          ) {
-            wrapper.innerHTML = homePage;
-          }
-        });
-
-      fetch("/blog")
-        .then((res) => res.text())
-        .then((html) => {
-          blogPage = html;
-        });
-
-      fetch("/more")
-        .then((res) => res.text())
-        .then((html) => {
-          morePage = html;
-        });
 
       function ev(id, fn, e = "click") {
         document.getElementById(id).addEventListener(e, fn);
