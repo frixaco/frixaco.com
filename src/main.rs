@@ -25,8 +25,13 @@ struct AppState {
     posts_html: HashMap<String, String>,
 }
 
-fn render_page(content: &str) -> Html<String> {
-    Html(TEMPLATE.replace("<!--CONTENT-->", content))
+fn render_page(content: &str, title: &str, description: &str) -> Html<String> {
+    Html(
+        TEMPLATE
+            .replace("<!--CONTENT-->", content)
+            .replace("<!--PAGE_TITLE-->", title)
+            .replace("<!--META_DESCRIPTION-->", description),
+    )
 }
 
 #[tokio::main]
@@ -82,22 +87,38 @@ async fn main() {
 }
 
 async fn home_page(State(state): State<Arc<AppState>>) -> Html<String> {
-    render_page(&state.home_html)
+    render_page(
+        &state.home_html,
+        "Rustam Ashurmatov",
+        "Software engineer — projects, blog and more.",
+    )
 }
 async fn blog_page(State(state): State<Arc<AppState>>) -> Html<String> {
-    render_page(&state.blog_html)
+    render_page(
+        &state.blog_html,
+        "Blog — Rustam Ashurmatov",
+        "Blog posts about software engineering, Rust, TUI libraries and more.",
+    )
 }
 async fn post_page(
     State(state): State<Arc<AppState>>,
     Path(slug): Path<String>,
 ) -> Result<Html<String>, Redirect> {
     match state.posts_html.get(&slug) {
-        Some(content) => Ok(render_page(content)),
+        Some(content) => Ok(render_page(
+            content,
+            "Blog — Rustam Ashurmatov",
+            "A blog post by Rustam Ashurmatov.",
+        )),
         None => Err(Redirect::permanent("/")),
     }
 }
 async fn more_page(State(state): State<Arc<AppState>>) -> Html<String> {
-    render_page(&state.more_html)
+    render_page(
+        &state.more_html,
+        "More — Rustam Ashurmatov",
+        "Setup, gear, interests and other things about Rustam Ashurmatov.",
+    )
 }
 
 async fn home_md(State(state): State<Arc<AppState>>) -> Html<String> {

@@ -1,8 +1,10 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>frixa</title>
+    <meta name="description" content="<!--META_DESCRIPTION-->" />
+    <title><!--PAGE_TITLE--></title>
     <style>
       * {
         min-width: 0;
@@ -99,7 +101,10 @@
       #header #home-btn {
         font-weight: bold;
       }
-      #header a,
+      #header nav {
+        display: contents;
+      }
+      #header nav a,
       #footer span {
         all: unset;
         padding: 0 24px;
@@ -107,13 +112,13 @@
         background-color: var(--bg);
         border: 2px solid var(--fg);
       }
-      #header a {
+      #header nav a {
         cursor: pointer;
         transition:
           color 0.2s,
           background-color 0.2s;
       }
-      #header a:hover {
+      #header nav a:hover {
         color: var(--bg);
         background-color: var(--fg);
       }
@@ -204,27 +209,29 @@
     </style>
   </head>
   <body>
-    <div id="header">
-      <a id="home-btn" href="/">RUSTAM</a>
-      <a id="blog-btn" href="/blog">blog</a>
-      <a id="more-btn" href="/more">more</a>
+    <header id="header">
+      <nav>
+        <a id="home-btn" href="/">RUSTAM</a>
+        <a id="blog-btn" href="/blog">blog</a>
+        <a id="more-btn" href="/more">about</a>
+      </nav>
 
       <div class="long-ass-line"></div>
 
       <div class="square"></div>
-    </div>
+    </header>
 
-    <div id="wrapper">
+    <main id="wrapper">
       <!--CONTENT-->
-    </div>
+    </main>
 
-    <div id="footer">
+    <footer id="footer">
       <div class="square"></div>
 
       <div class="long-ass-line"></div>
 
       <span id="last-updated">...</span>
-    </div>
+    </footer>
 
     <script type="module">
       const wrapper = document.getElementById("wrapper");
@@ -288,6 +295,20 @@
         .catch(() => {
           document.getElementById("last-updated").textContent = "frixaco.com";
         });
+
+      window.addEventListener("popstate", () => {
+        const path = window.location.pathname;
+        if (pages[path]) {
+          wrapper.innerHTML = pages[path];
+        } else {
+          fetch("/md" + path)
+            .then((d) => d.text())
+            .then((html) => {
+              pages[path] = html;
+              wrapper.innerHTML = html;
+            });
+        }
+      });
 
       wrapper.addEventListener("click", (e) => {
         const a = e.target.closest("a");
