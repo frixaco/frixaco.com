@@ -2,9 +2,9 @@ use std::{collections::HashMap, sync::Arc};
 
 use axum::{
     Router,
-    extract::{OriginalUri, State},
-    http::{StatusCode, header::CONTENT_TYPE},
-    response::{Html, IntoResponse},
+    extract::{Path, State},
+    http::header::CONTENT_TYPE,
+    response::{Html, IntoResponse, Redirect},
     routing::get,
 };
 use comrak::{Options, markdown_to_html};
@@ -16,7 +16,7 @@ struct AppState {
     home_html: String,
     blog_html: String,
     more_html: String,
-    blog_posts_html: HashMap<String, String>,
+    posts_html: HashMap<String, String>,
 }
 
 #[tokio::main]
@@ -26,29 +26,27 @@ async fn main() {
     let home_html = markdown_to_html(include_str!("./sheets/home.md"), &Options::default());
     let blog_html = markdown_to_html(include_str!("./sheets/blog.md"), &Options::default());
     let more_html = markdown_to_html(include_str!("./sheets/more.md"), &Options::default());
-    let mut blog_posts_html: HashMap<String, String> = HashMap::new();
+
+    let mut posts_html: HashMap<String, String> = HashMap::new();
     for file in BLOG_DIR.files() {
-        let slug = file.path().file_stem().unwrap().to_str().unwrap();
+        let slug = file.path().file_name().unwrap().to_str().unwrap();
         let content = file.contents_utf8().unwrap();
-        let html = markdown_to_html(content, &Options::default());
-        blog_posts_html.insert(slug.to_string(), html);
+        posts_html.insert(slug.to_string(), content.to_string());
     }
 
     let app_state = Arc::new(AppState {
         home_html,
         blog_html,
         more_html,
-        blog_posts_html,
+        posts_html,
     });
 
     let app = Router::new()
         .route("/", get(index))
-        .route("/index.html", get(index))
-        .route("/home", get(home))
-        .route("/blog", get(blog))
-        .route("/blog/{*rest}", get(index))
-        .route("/posts/{*rest}", get(blog))
-        .route("/more", get(more))
+        .route("/md/home", get(home))
+        .route("/md/blog", get(blog))
+        .route("/md/posts/{slug}", get(posts))
+        .route("/md/more", get(more))
         .route("/styles.css", get(styles))
         .route("/pdf", get(resume))
         .with_state(app_state);
@@ -57,36 +55,30 @@ async fn main() {
     let _ = axum::serve(listener, app).await;
 }
 
-async fn home(State(state): State<Arc<AppState>>) -> impl IntoResponse {
-    let html = state.home_html.clone();
-    Html(html)
+async fn index() -> Html<&'static str> {
+    Html(include_str!("./index.html"))
 }
 
-async fn blog(
+async fn home() -> impl IntoResponse {
+    include_str!("./sheets/home.md")
+}
+
+async fn blog() -> impl IntoResponse {
+    include_str!("./sheets/blog.md")
+}
+
+async fn posts(
     State(state): State<Arc<AppState>>,
-    OriginalUri(uri): OriginalUri,
-) -> Result<Html<String>, (StatusCode, String)> {
-    let path = uri.path();
-    println!("{}", path);
-    match path {
-        "/blog" | "/blog/" => Ok(Html(state.blog_html.clone())),
-        _ => {
-            let slug = path.trim_start_matches("/posts/").trim_end_matches(".md");
-            match state.blog_posts_html.get(slug) {
-                Some(html) => Ok(Html(html.clone())),
-                None => Err((StatusCode::NOT_FOUND, format!("Post not found: {slug}"))),
-            }
-        }
+    Path(slug): Path<String>,
+) -> Result<String, Redirect<>> {
+    match state.posts_html.get(&slug) {
+        Some(content) => Ok(content.to_string()),
+        None => Err(Redirect::permanent("/")),
     }
 }
 
-async fn more(State(state): State<Arc<AppState>>) -> impl IntoResponse {
-    let html = state.more_html.clone();
-    Html(html)
-}
-
-async fn index() -> Html<&'static str> {
-    Html(include_str!("./index.html"))
+async fn more() -> impl IntoResponse {
+    include_str!("./sheets/more.md")
 }
 
 async fn styles() -> impl IntoResponse {

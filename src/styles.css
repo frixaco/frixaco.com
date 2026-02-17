@@ -87,7 +87,9 @@ body {
   background-color: var(--primary-bg-col);
   color: var(--primary-text-col);
   font-family: monospace;
-  max-width: 768px;
+  max-width: 800px;
+  height: 100vh;
+  padding: 24px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -95,34 +97,53 @@ body {
 }
 
 #header {
-  width: 100%;
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
-  font-size: 16px;
-  gap: 24px;
+  gap: 12px;
+  position: relative;
 }
 
-#header a {
-  text-decoration: none;
+/* has higher specificity than `#header button` */
+#header #home-btn {
   font-weight: bold;
-  color: var(--primary-text-col);
 }
 
-#tabs {
-  padding: 24px;
-  display: flex;
-  gap: 24px;
-  align-items: center;
-}
-
-#tabs > button {
+#header button {
   all: unset;
+  padding: 0 24px;
   text-transform: uppercase;
   cursor: pointer;
+  background-color: var(--primary-bg-col);
   border-bottom: 2px solid transparent;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, background-color 0.2s;
+  border: 2px solid var(--primary-text-col)
 }
-#tabs > button:hover {
-  border-bottom: 2px solid var(--primary-text-col);
+
+#header button:hover {
+  color: var(--primary-bg-col);
+  background-color: var(--primary-text-col);
+}
+
+.long-ass-line {
+  /* width: 100%; */
+  height: 2px;
+  background-color: var(--primary-text-col);
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.square {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 24px;
+  min-height: 24px;
+  border: 2px solid var(--primary-text-col);
+  background-color: var(--primary-bg-col);
+}
+.square:hover{
+  transition: background-color 0.2s;
+  background-color: var(--primary-text-col);
 }
