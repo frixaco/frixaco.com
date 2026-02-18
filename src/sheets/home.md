@@ -8,13 +8,13 @@ Software Engineer, love exploring and building cool stuff, interested in pretty 
 
 ### [LeTUI](https://github.com/frixaco/letui)
 
-High-performance (<8ms latency) TUI library written from scratch that uses component and signals approaches.
+High-performance (<1ms latency) TUI library written from scratch that uses component API, signals approache for state management, Rust for the core and TypeScript for user-facing API.
 
 **rust** · **typescript** · **bun**
 
 ### [Xport](https://github.com/frixaco/xport)
 
-Web app to export X (Twitter) threads, user posts and articles as Markdown, JSON, Text or CSV with background jobs and resume support.
+Web app to export X (Twitter) threads, user posts and articles as Markdown, JSON, Text or CSV with background jobs and resume support (tab re-open works).
 
 **next.js** · **bun** · **postgresql**
 
@@ -26,7 +26,7 @@ Browser dashboard to benchmark multiple AI coding agents in parallel with live t
 
 ### [frixaco.com](https://github.com/frixaco/frixaco.com)
 
-This website — write content in markdown, get styled HTML. No JS, no templates, just markdown sheets served as pages.
+This website — write content in markdown, get styled HTML. Just markdown sheets served as pages with minimal JS and CSS. <14kb
 
 **rust** · **axum** · **comrak**
 
