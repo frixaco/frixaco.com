@@ -114,7 +114,7 @@ for (let j = node.frame.y; j < node.frame.y + node.frame.height; j++) {
         BigInt(COLORS.default.bg),
         BigInt(bg),
       ]),
-      (j * terminalWidth() + i) * 3,
+      (j * terminalWidth() + i) * 3
     );
   }
 }
@@ -128,7 +128,7 @@ function setCell(
   offset: number,
   char: string,
   fg: number,
-  bg: number,
+  bg: number
 ) {
   buffer[offset] = BigInt(char.codePointAt(0)!);
   buffer[offset + 1] = BigInt(fg);

@@ -4,8 +4,6 @@ description: "Initial implementation of my terminal user interface library using
 date: "2025-12-12T10:00:00"
 ---
 
-import Script from "next/script";
-
 ## Building a TUI Library from Scratch: From Classes to Signals
 
 #### Things I learned:
@@ -20,19 +18,11 @@ import Script from "next/script";
 
 I've been using Neovim for years and enjoyed living inside my terminal. I was also super interested in different CLIs and TUIs. I got even more curious when I started hearing about Claude Code, Codex, Aider and similar AI agents that run in the terminal (about a year ago I think) more and more. I did some quick research and found [`react-ink`](https://github.com/vadimdemedes/ink), then [`opencode`](https://github.com/sst/opencode). Soon after I saw this post:
 
-<blockquote className="twitter-tweet">
-  <p lang="en" dir="ltr">
-    yeah unfortunately the best tooling for TUIs is in go
-    <br />
-    <br />
-    we&#39;ll build OpenTUI one day for js but till then this hack works
-  </p>
-  &mdash; dax (@thdxr){" "}
-  <a href="https://twitter.com/thdxr/status/1928902930419048585?ref_src=twsrc%5Etfw">
-    May 31, 2025
-  </a>
-</blockquote>
-<Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
+> yeah unfortunately the best tooling for TUIs is in go
+>
+> we'll build OpenTUI one day for js but till then this hack works
+>
+> — dax (@thdxr), [May 31, 2025](https://twitter.com/thdxr/status/1928902930419048585?ref_src=twsrc%5Etfw)
 
 and right then I decided to build my own TUI library someday.
 
@@ -77,7 +67,7 @@ class Button {
             BigInt(this.fg),
             BigInt(this.bg),
           ]),
-          (terminalWidth * cy + cx) * 3,
+          (terminalWidth * cy + cx) * 3
         );
       }
     }
@@ -91,7 +81,7 @@ class Button {
             BigInt(this.fg),
             BigInt(this.bg),
           ]),
-          (terminalWidth * cy + cx) * 3,
+          (terminalWidth * cy + cx) * 3
         );
       }
     }
@@ -110,7 +100,7 @@ class Button {
               BigInt(this.active_fg),
               BigInt(this.active_bg),
             ]),
-            (terminalWidth * cy + cx) * 3,
+            (terminalWidth * cy + cx) * 3
           );
         }
       }
@@ -119,7 +109,7 @@ class Button {
     // actual text
     buffer.set(
       this.prebuilt.subarray(0),
-      (terminalWidth * (yo + this.py) + xo + this.px) * 3,
+      (terminalWidth * (yo + this.py) + xo + this.px) * 3
     );
 
     this.updateHitMap(xo, yo); // hit-testing mixed in here too!
