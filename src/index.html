@@ -6,44 +6,11 @@
     <meta name="description" content="<!--META_DESCRIPTION-->" />
     <title><!--PAGE_TITLE--></title>
     <style>
-      * {
-        min-width: 0;
-      }
       *,
       *::before,
       *::after {
         box-sizing: border-box;
-      }
-      *:not(dialog) {
         margin: 0;
-      }
-      @media (prefers-reduced-motion: no-preference) {
-        html {
-          interpolate-size: allow-keywords;
-        }
-      }
-      img,
-      picture,
-      video,
-      canvas,
-      svg {
-        display: block;
-        max-width: 100%;
-      }
-      input,
-      button,
-      textarea,
-      select {
-        font: inherit;
-      }
-      p,
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        overflow-wrap: break-word;
       }
       p {
         text-wrap: pretty;
@@ -54,51 +21,55 @@
       h4,
       h5,
       h6 {
+        overflow-wrap: break-word;
         text-wrap: balance;
+      }
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
       }
       :root {
         --bg: #fbebd9;
         --fg: #321609;
+        --m: #8a7260;
       }
       html {
         overscroll-behavior: none;
       }
       body {
-        line-height: 1.5;
+        line-height: 1.6;
         -webkit-font-smoothing: antialiased;
-        background-color: var(--bg);
+        background: var(--bg);
         color: var(--fg);
-        font-family: monospace;
-        max-width: 800px;
+        font: 14px/1.6 monospace;
+        max-width: 720px;
         min-height: 100vh;
         padding: 0 24px;
         margin: 0 auto;
         display: flex;
         flex-direction: column;
-        gap: 24px;
-      }
-      #header,
-      #footer {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 24px 0;
-        z-index: 1;
-        background-color: var(--bg);
+        gap: 16px;
       }
       #header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 0;
+        z-index: 1;
+        background: var(--bg);
         position: sticky;
         top: 0;
       }
       #footer {
-        position: sticky;
-        bottom: 0;
+        display: flex;
+        padding: 24px 0 16px;
+        justify-content: flex-end;
       }
       #wrapper {
-        isolation: isolate;
         flex: 1;
       }
-      #header #home-btn {
+      #header nav a:first-child {
         font-weight: bold;
       }
       #header nav {
@@ -107,115 +78,109 @@
       #header nav a,
       #footer span {
         all: unset;
-        padding: 0 24px;
+        padding: 2px 16px;
         text-transform: uppercase;
-        background-color: var(--bg);
-        border: 2px solid var(--fg);
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        background: var(--bg);
+        border: 1.5px solid var(--fg);
       }
       #header nav a {
         cursor: pointer;
         transition:
-          color 0.2s,
-          background-color 0.2s;
+          color 0.15s,
+          background 0.15s;
       }
-      #header nav a:hover {
+      #header nav a:hover,
+      #header nav a.active {
         color: var(--bg);
-        background-color: var(--fg);
-      }
-      .long-ass-line {
-        height: 2px;
-        background-color: var(--fg);
-        position: absolute;
-        right: 0;
-        left: 0;
-        z-index: -1;
-      }
-      .square {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 0;
-        width: 24px;
-        height: 24px;
-        border: 2px solid var(--fg);
-        background-color: var(--bg);
-        transition:
-          background-color 0.2s,
-          border-radius 0.3s;
-      }
-      .square:hover {
-        background-color: var(--fg);
-        border-radius: 50%;
-      }
-      #footer .square {
-        right: auto;
-        left: 0;
+        background: var(--fg);
       }
       #footer span {
-        position: absolute;
-        right: 0;
+        font-size: 11px;
+        color: var(--m);
+        border-color: var(--m);
       }
-      #wrapper h1,
       #wrapper h2 {
-        padding: 0.3em 0;
+        padding: 1.2em 0 0.3em;
+        font-size: 1.15em;
       }
-      #wrapper h3,
+      #wrapper h3 {
+        padding: 0.8em 0 0.2em;
+      }
       #wrapper h4,
       #wrapper h5,
       #wrapper h6 {
-        padding: 0.25em 0;
+        padding: 0.5em 0 0.15em;
+        font-size: 0.95em;
+        color: var(--m);
       }
       #wrapper p {
-        padding-bottom: 0.5em;
+        padding-bottom: 0.6em;
       }
       #wrapper ul,
       #wrapper ol {
-        padding: 0 0 0.5em 1.5em;
+        padding: 0 0 0.6em 1.5em;
       }
       #wrapper li {
-        padding-bottom: 0.25em;
+        padding-bottom: 0.3em;
       }
       #wrapper a {
         color: var(--fg);
         text-decoration: underline;
-        text-underline-offset: 2px;
+        text-underline-offset: 3px;
+        transition:
+          color 0.15s,
+          background 0.15s;
       }
       #wrapper a:hover {
-        background-color: var(--fg);
+        background: var(--fg);
         color: var(--bg);
         text-decoration: none;
       }
       #wrapper hr {
         border: none;
-        border-bottom: 1px dashed var(--fg);
-        opacity: 0.3;
-        margin: 1em 0;
+        border-bottom: 1px solid var(--fg);
+        opacity: 0.12;
+        margin: 1.2em 0;
+      }
+      #wrapper blockquote {
+        border-left: 3px solid var(--fg);
+        padding: 0.5em 0 0.5em 1em;
+        margin: 0.8em 0;
+      }
+      #wrapper blockquote p {
+        color: var(--m);
+        font-style: italic;
       }
       #wrapper code,
       #wrapper pre {
-        background-color: var(--fg);
+        background: var(--fg);
         color: var(--bg);
       }
       #wrapper code {
-        padding: 0.1em 0.3em;
+        padding: 0.1em 0.4em;
+        font-size: 0.9em;
       }
       #wrapper pre {
         padding: 1em;
         overflow-x: auto;
+        margin: 0.6em 0;
       }
       #wrapper pre code {
         padding: 0;
+        font-size: 0.85em;
+        line-height: 1.5;
       }
     </style>
   </head>
   <body>
     <header id="header">
       <nav>
-        <a id="home-btn" href="/">RUSTAM</a>
-        <a id="blog-btn" href="/blog">blog</a>
-        <a id="more-btn" href="/more">about</a>
+        <a href="/">RUSTAM</a>
+        <a href="/blog">blog</a>
+        <a href="/more">about</a>
       </nav>
-
     </header>
 
     <main id="wrapper">
@@ -229,16 +194,23 @@
     <script type="module">
       const wrapper = document.getElementById("wrapper");
 
+      function setActiveNav(path) {
+        document.querySelectorAll("#header nav a").forEach((a) => {
+          const href = a.getAttribute("href");
+          const isActive =
+            href === path || (href === "/blog" && path.startsWith("/blog/"));
+          a.classList.toggle("active", isActive);
+        });
+      }
       let pathname = window.location.pathname;
+      setActiveNav(pathname);
       let pages = {
         "/": undefined,
         "/blog": undefined,
         "/more": undefined,
       };
-      // Server injects initial content into #wrapper, use it directly
       pages[pathname] = wrapper.innerHTML;
 
-      // Prefetch other pages
       for (const [path, val] of Object.entries(pages)) {
         if (val !== undefined) continue;
         const mdPath = path === "/" ? "/md/home" : "/md" + path;
@@ -249,19 +221,30 @@
           });
       }
 
-      function navigate(path) {
-        if (pages[path]) {
+      function mdPath(path) {
+        return path === "/" ? "/md/home" : "/md" + path;
+      }
+
+      function render(path, { push } = {}) {
+        if (pages[path] !== undefined) {
           wrapper.innerHTML = pages[path];
-          history.pushState(null, "", path);
-        } else {
-          fetch("/md" + path)
-            .then((d) => d.text())
-            .then((html) => {
-              pages[path] = html;
-              wrapper.innerHTML = html;
-              history.pushState(null, "", path);
-            });
+          if (push) history.pushState(null, "", path);
+          return;
         }
+
+        fetch(mdPath(path))
+          .then((d) => d.text())
+          .then((html) => {
+            pages[path] = html;
+            wrapper.innerHTML = html;
+            if (push) history.pushState(null, "", path);
+          });
+      }
+
+      function navigate(path, { push = true, scrollTop = true } = {}) {
+        setActiveNav(path);
+        if (scrollTop) window.scrollTo(0, 0);
+        render(path, { push });
       }
 
       document.getElementById("header").addEventListener("click", (e) => {
@@ -291,23 +274,17 @@
 
       window.addEventListener("popstate", () => {
         const path = window.location.pathname;
-        if (pages[path]) {
-          wrapper.innerHTML = pages[path];
-        } else {
-          fetch("/md" + path)
-            .then((d) => d.text())
-            .then((html) => {
-              pages[path] = html;
-              wrapper.innerHTML = html;
-            });
-        }
+        navigate(path, { push: false, scrollTop: false });
       });
 
       wrapper.addEventListener("click", (e) => {
         const a = e.target.closest("a");
-        if (!a || !a.getAttribute("href").startsWith("/blog/")) return;
+        if (!a) return;
+        const href = a.getAttribute("href");
+        if (!href) return;
+        if (href !== "/blog" && !href.startsWith("/blog/")) return;
         e.preventDefault();
-        navigate(a.getAttribute("href"));
+        navigate(href);
       });
     </script>
   </body>

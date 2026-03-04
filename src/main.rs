@@ -12,7 +12,7 @@ use axum::{
 };
 use comrak::{Options, markdown_to_html};
 use include_dir::{Dir, include_dir};
-use tower_http::set_header::SetResponseHeaderLayer;
+use tower_http::{set_header::SetResponseHeaderLayer};
 
 static BLOG_DIR: Dir = include_dir!("$CARGO_MANIFEST_DIR/src/sheets/posts");
 
@@ -71,6 +71,7 @@ async fn main() {
         .route("/md/more", get(more_md))
         .route("/pdf", get(resume))
         .with_state(app_state)
+        // .layer(CompressionLayer::new())
         .layer(SetResponseHeaderLayer::if_not_present(
             CACHE_CONTROL,
             HeaderValue::from_static("public, max-age=3600"),

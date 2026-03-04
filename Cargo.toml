@@ -9,7 +9,7 @@ comrak = "0.50.0"
 include_dir = "0.7.4"
 serde = { version = "1.0.228", features = ["derive"] }
 tokio = { version = "1.49.0", features = ["full"] }
-tower-http = { version = "0.6.8", features = ["set-header"] }
+tower-http = { version = "0.6.8", features = ["set-header", "compression-gzip"] }
 tracing-subscriber = { version = "0.3.22", features = ["env-filter"] }
 
 [profile.release]

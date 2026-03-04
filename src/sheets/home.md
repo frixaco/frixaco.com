@@ -34,8 +34,6 @@ This website — write content in markdown, get styled HTML. Just markdown sheet
 
 ## Work
 
-[PDF](/pdf)
-
 ### [VBRATO](https://vbrato.com) - May, 2023 - Present
 
 Building an all-in-one platform for music industry people to collaborate and monetize their work. Full-stack work on everything from scalable AWS microservices to leading Next.js web platform and helping out on mobile.
@@ -55,3 +53,5 @@ Built payments and subscription systems for a sports insurance platform. Develop
 ### Hitide - Dec 2020 - Feb 2021
 
 Automated product, order and payment workflows, saving hundreds of hours of manual work.
+
+[full resume (pdf)](/pdf)
