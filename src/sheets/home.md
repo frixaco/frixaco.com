@@ -12,17 +12,23 @@ High-performance (<1ms latency) TUI library written from scratch that uses compo
 
 **rust** · **typescript** · **bun**
 
-### [Xport](https://github.com/frixaco/xport)
-
-Web app to export X (Twitter) threads, user posts and articles as Markdown, JSON, Text or CSV with background jobs and resume support (tab re-open works).
-
-**next.js** · **bun** · **postgresql**
-
 ### [Harness Bench](https://github.com/frixaco/harness-bench)
 
 Browser dashboard to benchmark multiple AI coding agents in parallel with live terminal streaming, git worktree isolation and diff review.
 
 **bun** · **react** · **websockets**
+
+### [Senmei](https://github.com/frixaco/senmei) (WIP)
+
+Real-time anime player that upscales video to 4K in the browser with a WebGPU render pipeline, MKV streaming support and subtitle playback.
+
+**typescript** · **webgpu** · **wgsl**
+
+### [Xport](https://github.com/frixaco/xport)
+
+Web app to export X (Twitter) threads, user posts and articles as Markdown, JSON, Text or CSV with background jobs and resume support (tab re-open works).
+
+**next.js** · **bun** · **postgresql**
 
 ### [frixaco.com](https://github.com/frixaco/frixaco.com)
 

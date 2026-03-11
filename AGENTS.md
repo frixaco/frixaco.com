@@ -21,6 +21,15 @@
 - Markdown converted to HTML at startup
 - Pre-rendered content held in shared in-memory state
 - Single-process web service
+- Home page content, including project list, lives in `src/sheets/home.md`
+
+## Common Content Tasks
+
+- For add/remove/reorder project entries, edit `src/sheets/home.md`
+- Keep project entries in existing markdown shape: heading, one-line description, tech tags
+- Preserve surrounding copy/style; avoid incidental rewrites
+- When asked for labels like `WIP`, keep them inline in the project heading unless told otherwise
+- For content-only edits, prefer minimal verification: diff review, targeted file readback
 
 ## Runtime Contract
 
@@ -51,6 +60,10 @@
 - Use Dockerfile builder
 - Keep image/runtime simple and debuggable
 - Prefer deterministic builds over smallest image
+- If Railway CLI says `Unauthorized`, stop and ask user to run `railway login`
+- Preferred deploy flow: `railway up --detach`
+- After deploy, verify with `railway status`
+- Check logs when status looks wrong or user asks for confirmation
 - Confirm deploy status and logs after `railway up`
 
 ## Communication Style For This Repo
