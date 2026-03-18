@@ -211,7 +211,7 @@
     </main>
 
     <footer id="footer">
-      <span id="last-updated">...</span>
+      <span id="last-updated"><!--LAST_UPDATED--></span>
     </footer>
 
     <script type="module">
@@ -294,23 +294,7 @@
         navigate(a.getAttribute("href"));
       });
 
-      fetch(
-        "https://api.github.com/repos/frixaco/frixaco.com/commits?per_page=1",
-      )
-        .then((r) => r.json())
-        .then(([commit]) => {
-          const date = new Date(commit.commit.committer.date);
-          document.getElementById("last-updated").textContent =
-            "updated " +
-            date.toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            });
-        })
-        .catch(() => {
-          document.getElementById("last-updated").textContent = "frixaco.com";
-        });
+
 
       window.addEventListener("popstate", () => {
         const path = window.location.pathname;

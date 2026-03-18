@@ -12,7 +12,7 @@ use axum::{
 };
 use comrak::{Options, markdown_to_html};
 use include_dir::{Dir, include_dir};
-use tower_http::{set_header::SetResponseHeaderLayer};
+use tower_http::set_header::SetResponseHeaderLayer;
 
 static BLOG_DIR: Dir = include_dir!("$CARGO_MANIFEST_DIR/src/sheets/posts");
 
@@ -23,15 +23,38 @@ struct AppState {
     blog_html: String,
     more_html: String,
     posts_html: HashMap<String, String>,
+    last_updated: Option<String>,
 }
 
-fn render_page(content: &str, title: &str, description: &str) -> Html<String> {
+fn render_page(content: &str, title: &str, description: &str, last_updated: &str) -> Html<String> {
     Html(
         TEMPLATE
             .replace("<!--CONTENT-->", content)
             .replace("<!--PAGE_TITLE-->", title)
-            .replace("<!--META_DESCRIPTION-->", description),
+            .replace("<!--META_DESCRIPTION-->", description)
+            .replace("<!--LAST_UPDATED-->", last_updated),
     )
+}
+
+async fn fetch_last_updated() -> Option<String> {
+    let client = reqwest::Client::new();
+    let resp: serde_json::Value = client
+        .get("https://api.github.com/repos/frixaco/frixaco.com/commits?per_page=1")
+        .header("User-Agent", "frixaco.com")
+        .send()
+        .await
+        .ok()?
+        .json()
+        .await
+        .ok()?;
+    let commit = resp.get(0)?;
+    let date_str = commit
+        .get("commit")?
+        .get("committer")?
+        .get("date")?
+        .as_str()?;
+    let date = date_str.parse::<chrono::DateTime<chrono::Utc>>().ok()?;
+    Some(date.format("%b %d, %Y").to_string())
 }
 
 #[tokio::main]
@@ -52,11 +75,14 @@ async fn main() {
         posts_html.insert(slug.to_string(), markdown_to_html(content, &options));
     }
 
+    let last_updated = fetch_last_updated().await;
+
     let app_state = Arc::new(AppState {
         home_html,
         blog_html,
         more_html,
         posts_html,
+        last_updated,
     });
 
     let app = Router::new()
@@ -92,6 +118,7 @@ async fn home_page(State(state): State<Arc<AppState>>) -> Html<String> {
         &state.home_html,
         "Rustam Ashurmatov",
         "Software engineer — projects, blog and more.",
+        &state.last_updated.clone().unwrap_or_default(),
     )
 }
 async fn blog_page(State(state): State<Arc<AppState>>) -> Html<String> {
@@ -99,6 +126,7 @@ async fn blog_page(State(state): State<Arc<AppState>>) -> Html<String> {
         &state.blog_html,
         "Blog — Rustam Ashurmatov",
         "Blog posts about software engineering, Rust, TUI libraries and more.",
+        &state.last_updated.clone().unwrap_or_default(),
     )
 }
 async fn post_page(
@@ -110,6 +138,7 @@ async fn post_page(
             content,
             "Blog — Rustam Ashurmatov",
             "A blog post by Rustam Ashurmatov.",
+            &state.last_updated.clone().unwrap_or_default(),
         )),
         None => Err(Redirect::permanent("/")),
     }
@@ -119,6 +148,7 @@ async fn more_page(State(state): State<Arc<AppState>>) -> Html<String> {
         &state.more_html,
         "More — Rustam Ashurmatov",
         "Setup, gear, interests and other things about Rustam Ashurmatov.",
+        &state.last_updated.clone().unwrap_or_default(),
     )
 }
 
