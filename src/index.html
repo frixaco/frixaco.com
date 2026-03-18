@@ -35,11 +35,16 @@
         --m: #8a7260;
       }
       @media (prefers-color-scheme: dark) {
-        :root {
+        :root:not(.light) {
           --bg: #161312;
           --fg: #ffdcba;
           --m: #c5b1a3;
         }
+      }
+      :root.dark {
+        --bg: #161312;
+        --fg: #ffdcba;
+        --m: #c5b1a3;
       }
       html {
         overscroll-behavior: none;
@@ -81,6 +86,16 @@
       }
       #header nav {
         display: contents;
+      }
+      #theme-toggle {
+        all: unset;
+        margin-left: auto;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--fg);
+        cursor: pointer;
+        transition: background 0.15s;
       }
       #header nav a,
       #footer span {
@@ -188,6 +203,7 @@
         <a href="/blog">blog</a>
         <a href="/more">about</a>
       </nav>
+      <button id="theme-toggle" aria-label="Toggle theme"></button>
     </header>
 
     <main id="wrapper">
@@ -200,6 +216,23 @@
 
     <script type="module">
       const wrapper = document.getElementById("wrapper");
+
+      (function initTheme() {
+        const saved = localStorage.getItem("theme");
+        if (saved) document.documentElement.classList.add(saved);
+      })();
+
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        const root = document.documentElement;
+        const isDark =
+          root.classList.contains("dark") ||
+          (!root.classList.contains("light") &&
+            matchMedia("(prefers-color-scheme: dark)").matches);
+        root.classList.remove("dark", "light");
+        const next = isDark ? "light" : "dark";
+        root.classList.add(next);
+        localStorage.setItem("theme", next);
+      });
 
       function setActiveNav(path) {
         document.querySelectorAll("#header nav a").forEach((a) => {
