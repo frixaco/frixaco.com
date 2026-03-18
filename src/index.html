@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="<!--META_DESCRIPTION-->" />
+    <link id="favicon" rel="icon" href="data:," />
     <title><!--PAGE_TITLE--></title>
     <style>
       *,
@@ -216,10 +217,25 @@
 
     <script type="module">
       const wrapper = document.getElementById("wrapper");
+      const favicon = document.getElementById("favicon");
+
+      function faviconHref(fill) {
+        return `data:image/svg+xml,${encodeURIComponent(
+          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="${fill}"/></svg>`,
+        )}`;
+      }
+
+      function syncFavicon() {
+        const fill = getComputedStyle(document.documentElement)
+          .getPropertyValue("--fg")
+          .trim();
+        favicon.href = faviconHref(fill);
+      }
 
       (function initTheme() {
         const saved = localStorage.getItem("theme");
         if (saved) document.documentElement.classList.add(saved);
+        syncFavicon();
       })();
 
       document.getElementById("theme-toggle").addEventListener("click", () => {
@@ -232,6 +248,7 @@
         const next = isDark ? "light" : "dark";
         root.classList.add(next);
         localStorage.setItem("theme", next);
+        syncFavicon();
       });
 
       function setActiveNav(path) {
