@@ -18,15 +18,8 @@
 ### pc
 
 - CPU: AMD Ryzen 7 5800X
-- GPU: AMD PowerColor RED DEVIL Radeon RX 9070 XT
-- RAM: Crucial Ballistix 32GB 3600MHz DDR4 CL16
-- Cooler: Arctic Liquid Freezer II 360
-- Case: Lian Li O11 Vision Black
-- SSD #1: Samsung 990 PRO 1TB NVMe M.2
-- SSD #2: Crucial P2 500GB NVMe M.2
-- Motherboard: B550 AORUS ELITE V2
-- PSU: Super Flower Leadex III 850W
-- Fans: x3 XASTRA FS120B ARGB + Reverse
+- GPU: AMD Radeon RX 9070 XT
+- RAM: 32GB DDR4
 - XPPen Deco 01 V3
 - Logitech G502 X Wired LIGHTFORCE
 - ASUS TUF 27" 165Hz 1440P VG27AQ
