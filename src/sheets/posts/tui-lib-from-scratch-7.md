@@ -4,27 +4,25 @@ description: "Text/style diff sync architecture, wrapping fixes, and docs+demos 
 date: "2026-02-21T16:00:00"
 ---
 
-## Building a TUI Library from Scratch: Part 7 - Text Diffs, Style Registry, and Real Demos
+## [devlog] Building a TUI Library from Scratch: Part 7 - Text Diffs, Style Registry, and Real Demos
 
 #### Things I learned:
 
 - Sending less over FFI usually beats micro-optimizing local code
 - Smaller protocols need stricter validation or they fail in weird ways
-- If demos are painful to build, architecture still has problems
+- If demos are painful to build, the architecture still has problems
 
-After `v0.0.11`, I focused on one thing: stop sending all text every frame.
-
-This part is mostly that migration plus style sync changes.
+After `v0.0.11`, one focus: stop sending all text every frame. This part is mostly that migration plus style sync changes.
 
 #### Cleanup before migration
 
-I did quick cleanup first:
+Quick cleanup first:
 
 - proper terminal deinit (`disable_raw_mode` + leave alt screen)
 - quit-path cleanup
 - safer flush paths for zero-size terminals
 
-I also fixed p99 calculation in metrics to use interpolation instead of rough indexing:
+Also fixed p99 calculation in metrics — interpolation instead of rough indexing:
 
 ```typescript
 function percentile(sorted: number[], p: number): number {
@@ -36,13 +34,11 @@ function percentile(sorted: number[], p: number): number {
 }
 ```
 
-This made comparison across runs more trustworthy.
+Made comparison across runs more trustworthy.
 
 #### Text registry migration
 
-Old flow:
-- TS serialized full `textData`
-- `paint()` received full text payload every frame
+Old flow: TS serialized full `textData`, `paint()` received full text payload every frame.
 
 New flow:
 
@@ -51,15 +47,9 @@ New flow:
 - text diffs sync separately
 - `paint()` reads text from registry
 
-First implementation used per-node FFI calls (`upsert_text`/`delete_text`).
-Worked, but too many calls.
+First implementation used per-node FFI calls (`upsert_text`/`delete_text`). Worked, but too many calls. Switched to batched ops — one `sync_text_ops` call per frame:
 
-Then I switched to batched ops with one `sync_text_ops` call per frame:
-
-- `op (u8)`
-- `node_id (u32 LE)`
-- `text_len (u32 LE)`
-- `text bytes` for upserts
+- `op (u8)`, `node_id (u32 LE)`, `text_len (u32 LE)`, `text bytes` for upserts
 
 Rust applies all ops under one registry lock.
 
@@ -71,36 +61,23 @@ match op {
 }
 ```
 
-Main result: text transfer scales with changed nodes, not total text nodes.
+Main result: text transfer scales with changed nodes, not total text.
 
 #### Metrics during transition
 
-During transition, some snapshots got worse before they got better (`~0.9ms` avg vs older `~0.5ms` samples).
-
-Expected reasons:
-- extra JS work to build ops payload
-- several architectural changes landed in same window
-
-Later snapshots in this period were around `~0.7ms` avg.
-Not a straight line, but direction was correct.
+Some snapshots got worse before better (`~0.9ms` avg vs older `~0.5ms`). Expected — extra JS work to build ops payload plus several architectural changes landing in the same window. Later snapshots: `~0.7ms` avg. Not a straight line, but direction was correct.
 
 #### Short test-driver experiment
 
-I added a Unix socket test driver (`ping`, `sleep`, `key`, `mouse`, `focused`, `snapshot`, `quit`) to script interactions.
-
-It was useful for quick black-box checks, but I later removed it in cleanup while simplifying runtime and examples.
+Added a Unix socket test driver (`ping`, `sleep`, `key`, `mouse`, `focused`, `snapshot`, `quit`) to script interactions. Useful for quick black-box checks, but later removed during cleanup.
 
 #### Style sync architecture rewrite
 
-Next bottleneck: style payload duplication.
+Next bottleneck: style payload duplication. Before, each node carried full style payload inline in serialized node data. After:
 
-Before:
-- each node carried full style payload inline in serialized node data
-
-After:
 - node payload shrank to 4 fields (`nodeType`, `childCount`, `nodeId`, `styleId`)
 - style moved to Rust-side `STYLE_REGISTRY`
-- TS computes style snapshots and sends style diffs via `sync_style_ops`
+- TS computes style snapshots and sends diffs via `sync_style_ops`
 
 This introduced explicit schema files (`style_schema.rs`, `src/style-schema.ts`) and unlocked broader style support:
 
@@ -112,11 +89,7 @@ This introduced explicit schema files (`style_schema.rs`, `src/style-schema.ts`)
 
 #### Wrapping and clipping fixes
 
-I also fixed text wrapping and clipping behavior in Rust.
-
-Problems were:
-- naive text measurement for wrapping/newlines
-- draw path not clipping correctly in nested overflow scenarios
+Fixed text wrapping and clipping in Rust. Problems: naive text measurement for wrapping/newlines, draw path not clipping correctly in nested overflow scenarios.
 
 Key changes:
 
@@ -124,20 +97,16 @@ Key changes:
 - draw/cursor functions aware of content box width/height
 - clip-rect propagation down the tree with overflow-aware intersection
 
-That improved:
-
-- long text behavior
-- input cursor placement in wrapped content
-- nested container clipping correctness
+Improved: long text behavior, input cursor placement in wrapped content, nested container clipping correctness.
 
 #### Demos and docs
 
-After those engine changes, I built more demos and proper docs:
+Built more demos and proper docs:
 
 - demos: `ai-agent`, `mission-control`, `visualizer`
 - docs: getting started, components/styling, state/events/lifecycle, troubleshooting
 
-It was a good validation pass because these examples touched many edge cases at once.
+Good validation pass — these examples touched many edge cases at once.
 
 #### End of part 7
 
@@ -147,4 +116,4 @@ By end of this phase:
 - text and style have separate sync paths
 - wrapping/clipping behavior is much more predictable
 
-Next for me: scroll containers, richer text primitives, and more tail-latency cleanup on heavier scenes.
+Next: scroll containers, richer text primitives, and tail-latency cleanup on heavier scenes.

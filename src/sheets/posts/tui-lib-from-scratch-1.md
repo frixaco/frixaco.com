@@ -4,7 +4,7 @@ description: "Initial implementation of my terminal user interface library using
 date: "2025-12-12T10:00:00"
 ---
 
-## Building a TUI Library from Scratch: From Classes to Signals
+## [devlog] Building a TUI Library from Scratch: From Classes to Signals
 
 #### Things I learned:
 
@@ -16,7 +16,7 @@ date: "2025-12-12T10:00:00"
 
 - ampcode.com, aistudio.google.com, t3.chat, deepwiki.com
 
-I've been using Neovim for years and enjoyed living inside my terminal. I was also super interested in different CLIs and TUIs. I got even more curious when I started hearing about Claude Code, Codex, Aider and similar AI agents that run in the terminal (about a year ago I think) more and more. I did some quick research and found [`react-ink`](https://github.com/vadimdemedes/ink), then [`opencode`](https://github.com/sst/opencode). Soon after I saw this post:
+I've been using Neovim for years and love living in my terminal. CLIs and TUIs always interested me, and that interest grew when I started hearing more about Claude Code, Codex, Aider and similar terminal-based AI agents. I did some research and found [`react-ink`](https://github.com/vadimdemedes/ink), then [`opencode`](https://github.com/sst/opencode). Soon after I saw this post:
 
 > yeah unfortunately the best tooling for TUIs is in go
 >
@@ -26,11 +26,11 @@ I've been using Neovim for years and enjoyed living inside my terminal. I was al
 
 and right then I decided to build my own TUI library someday.
 
-When I started building `LeTUI` around September, I decided not to follow or copy any tutorial, guide or existing repository. I wanted to build something from scratch, on my own. I did use AI for a general roadmap and learning, but I wrote every single line of code myself.
+When I started building `LeTUI` around September, I decided not to follow any tutorial, guide, or existing repo. I wanted to build from scratch, on my own. I used AI for a general roadmap and learning, but wrote every line of code myself.
 
-I reached for the most "simple to reason about" pattern - classes - and wanted to just go with the flow. I never wrote a library or worked with terminals before, so instead of making a detailed step-by-step plan, I decided to just start by playing around with the code.
+I reached for the most "simple to reason about" pattern — classes — and just went with the flow. I'd never written a library or worked with terminals before, so instead of making a detailed plan, I just started playing around with code.
 
-As the result, initial implementation had `View`, `Row`, `Column`, `Text`, `Button`, and `Input` classes. It was a complete mess, but I learned a lot and it gave me enough of a base to build on later.
+The initial implementation had `View`, `Row`, `Column`, `Text`, `Button`, and `Input` classes. Complete mess, but I learned a lot and it gave me enough of a base to build on.
 
 Here's an example snippet. Enjoy!
 
@@ -127,10 +127,10 @@ class Button {
 }
 ```
 
-Layout and painting were hopelessly tangled - `render()` calculates positions _and_ writes to the buffer _and_ updates the hit-map for click detection. Every component duplicates border-drawing logic. The API is completely inflexible: want to change how buttons look when pressed? Good luck finding the right place. Want to add a new component type? Copy-paste 100 lines and pray you got the coordinate math right.
+Layout and painting were hopelessly tangled — `render()` calculates positions _and_ writes to the buffer _and_ updates the hit-map for click detection. Every component duplicates border-drawing logic. Want to change how buttons look when pressed? Good luck finding the right place. Want to add a new component type? Copy-paste 100 lines and pray you got the coordinate math right.
 
-The real problem emerged when I needed state management and dynamic updates. User types in an `Input`, clicks a `Button`, and the UI needs to update. My class-based approach required manual `setText()` calls that triggered `prerender()` and `render()`. Every component held mutable state, and coordinating updates became a mess of method calls.
+The real problem hit when I needed state management and dynamic updates. User types in an `Input`, clicks a `Button`, and the UI needs to update. My class-based approach required manual `setText()` calls that triggered `prerender()` and `render()`. Every component held mutable state, and coordinating updates became a mess of method calls.
 
-This was my first attempt at building a TUI library and it kinda worked. I could render containers and primitives, make them nested and show some colors. I started to understand the problem space - what a render loop actually needs, which parts should be separate, how hit-testing works, why you need separate layout and painting processes and especially, how I want to handle dynamic updates.
+This first attempt kinda worked. I could render containers and primitives, nest them, show some colors. More importantly, I started understanding the problem space — what a render loop actually needs, which parts should be separate, how hit-testing works, why layout and painting need to be separate, and how I want to handle dynamic updates.
 
-At this point, it was time to stop playing around and started from scratch again, but now with a better understanding of how things should work.
+Time to stop playing around and start from scratch again, but now with a better understanding.

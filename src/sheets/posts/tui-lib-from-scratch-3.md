@@ -4,14 +4,14 @@ description: "Optimization journey - I want 120+fps and sub 8ms frame times"
 date: "2025-12-13T12:00:00"
 ---
 
-## Building a TUI Library from Scratch: Part 3 - Optimization
+## [devlog] Building a TUI Library from Scratch: Part 3 - Optimization
 
 #### Things I learned:
 
-- Measure first, optimize second - metrics are essential
+- Measure first, optimize second
 - The less you do, the faster it runs
 
-At this point LeTUI was working. Signals drove the reactivity, Rust handled layout via taffy, and the diff-based flush meant only changed cells got written to the terminal. Now I wanted maximum performance.
+LeTUI was working. Signals drove reactivity, Rust handled layout via taffy, diff-based flush meant only changed cells got written to the terminal. Now I wanted maximum performance.
 
 Time to actually measure things.
 
@@ -68,9 +68,9 @@ if let Some(ref buf) = *cb {
 }
 ```
 
-The buffers were `Box<[u64; 2_000_000]>` - that's 16MB being copied every single frame. Even if only a few cells changed.
+The buffers were `Box<[u64; 2_000_000]>` — 16MB copied every single frame. Even if only a few cells changed.
 
-The fix was simple - only copy what's actually used, and do it in place:
+The fix was simple — only copy what's actually used, in place:
 
 ```rust
 // After - copy only what we need
@@ -176,14 +176,14 @@ After all these changes, it's even more optimized:
 170fps | 5.89ms avg (2.85-9.81) | 10.7MB heap | 40 frames
 ```
 
-The target was < 8ms and I'm now averaging under 5ms. The occasional spikes to 13ms are likely because of the JSON serialization for layout and rebuilding the taffy tree every frame.
+Target was < 8ms and I'm now averaging under 5ms. Occasional spikes to 13ms are likely JSON serialization for layout and rebuilding the taffy tree every frame.
 
 #### What's next
 
-The architecture still has room for improvement. Right now, any signal change triggers a full rebuild: node tree → JSON → taffy layout → full repaint. The obvious next steps are:
+Any signal change still triggers a full rebuild: node tree → JSON → taffy layout → full repaint. Obvious next steps:
 
-1. **Persist the node tree** - call `nodeFactory` once, not every frame
-2. **Dirty tracking** - only repaint node (sub-trees) that actually changed
-3. **Binary layout protocol** - replace JSON with packed buffers
+1. **Persist the node tree** — call `nodeFactory` once, not every frame
+2. **Dirty tracking** — only repaint sub-trees that actually changed
+3. **Binary layout protocol** — replace JSON with packed buffers
 
-But for now, hitting results are pretty good. I really wanna stress test it and make a nice demo while doing it.
+But for now, results are pretty good. I really wanna stress test it and make a nice demo while doing it.
