@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="<!--META_DESCRIPTION-->" />
     <link id="favicon" rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&display=swap" /></noscript>
     <title><!--PAGE_TITLE--></title>
     <style>
       *,
@@ -16,74 +20,79 @@
       p {
         text-wrap: pretty;
       }
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
+      h1, h2, h3, h4, h5, h6 {
         overflow-wrap: break-word;
         text-wrap: balance;
       }
-      img,
-      svg {
+      img, svg {
         display: block;
         max-width: 100%;
       }
+
+      /* --- palette --- */
       :root {
-        --bg: #fbebd9;
-        --fg: #321609;
-        --m: #8a7260;
+        --bg: #fdfdfc;
+        --fg: #1a1a1a;
+        --m: #888;
+        --border: #e0e0e0;
+        --sel-bg: #1a1a1a;
+        --sel-fg: #fdfdfc;
       }
       @media (prefers-color-scheme: dark) {
         :root:not(.light) {
-          --bg: #161312;
-          --fg: #ffdcba;
-          --m: #c5b1a3;
+          --bg: #111;
+          --fg: #e0e0e0;
+          --m: #666;
+          --border: #2a2a2a;
+          --sel-bg: #e0e0e0;
+          --sel-fg: #111;
         }
       }
       :root.dark {
-        --bg: #161312;
-        --fg: #ffdcba;
-        --m: #c5b1a3;
+        --bg: #111;
+        --fg: #e0e0e0;
+        --m: #666;
+        --border: #2a2a2a;
+        --sel-bg: #e0e0e0;
+        --sel-fg: #111;
       }
+
+      /* --- selection --- */
+      ::selection {
+        background: var(--sel-bg);
+        color: var(--sel-fg);
+      }
+      ::-moz-selection {
+        background: var(--sel-bg);
+        color: var(--sel-fg);
+      }
+
       html {
         overscroll-behavior: none;
       }
       body {
-        line-height: 1.6;
         -webkit-font-smoothing: antialiased;
         background: var(--bg);
         color: var(--fg);
-        font: 14px/1.6 monospace;
-        max-width: 720px;
+        font: 14px/1.8 'Geist Mono', ui-monospace, monospace;
+        max-width: 640px;
         min-height: 100vh;
         padding: 0 24px;
         margin: 0 auto;
         display: flex;
         flex-direction: column;
-        gap: 16px;
       }
+
+      /* --- header --- */
       #header {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 16px 0;
+        gap: 8px;
+        padding: 24px 0 16px;
         z-index: 1;
         background: var(--bg);
         position: sticky;
         top: 0;
-      }
-      #footer {
-        display: flex;
-        padding: 24px 0 16px;
-        justify-content: flex-end;
-      }
-      #wrapper {
-        flex: 1;
-      }
-      #header nav a:first-child {
-        font-weight: bold;
       }
       #header nav {
         display: contents;
@@ -91,116 +100,180 @@
       #theme-toggle {
         all: unset;
         margin-left: auto;
-        width: 24px;
-        height: 24px;
+        width: 16px;
+        height: 16px;
         border-radius: 50%;
-        background: var(--fg);
+        border: 1.5px solid var(--fg);
         cursor: pointer;
         transition: background 0.15s;
       }
-      #header nav a,
-      #footer span {
-        all: unset;
-        padding: 2px 16px;
-        text-transform: uppercase;
-        font-size: 12px;
-        letter-spacing: 0.05em;
-        background: var(--bg);
-        border: 1.5px solid var(--fg);
+      #theme-toggle:hover {
+        background: var(--fg);
       }
       #header nav a {
+        all: unset;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: lowercase;
+        color: var(--m);
         cursor: pointer;
-        transition:
-          color 0.15s,
-          background 0.15s;
+        transition: color 0.15s;
       }
       #header nav a:hover,
       #header nav a.active {
-        color: var(--bg);
-        background: var(--fg);
+        color: var(--fg);
+      }
+      #header nav a + a::before {
+        content: '/';
+        color: var(--border);
+        margin-right: 8px;
+      }
+
+      /* --- footer --- */
+      #footer {
+        display: flex;
+        padding: 48px 0 24px;
+        justify-content: flex-end;
       }
       #footer span {
         font-size: 11px;
         color: var(--m);
-        border-color: var(--m);
+        letter-spacing: 0.03em;
       }
+
+      /* --- main content --- */
+      #wrapper {
+        flex: 1;
+        padding-top: 16px;
+      }
+
+      /* headings */
       #wrapper h2 {
-        padding: 1.2em 0 0.3em;
-        font-size: 1.15em;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--m);
+        padding: 2em 0 0.6em;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 0.8em;
       }
       #wrapper h3 {
-        padding: 0.8em 0 0.2em;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 0.6em 0 0.15em;
       }
       #wrapper h4,
       #wrapper h5,
       #wrapper h6 {
-        padding: 0.5em 0 0.15em;
-        font-size: 0.95em;
+        font-size: 12px;
+        font-weight: 500;
         color: var(--m);
+        padding: 0.4em 0 0.1em;
+        text-transform: lowercase;
       }
+
+      /* paragraph */
       #wrapper p {
-        padding-bottom: 0.6em;
+        padding-bottom: 0.7em;
+        font-weight: 300;
       }
+
+      /* tech tags — rendered as <strong> */
+      #wrapper p > strong {
+        font-weight: 400;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        color: var(--m);
+        border: 1px solid var(--border);
+        padding: 1px 6px;
+        border-radius: 2px;
+      }
+
+      /* blog date — rendered as <code> inside <p> */
+      #wrapper p > code {
+        background: none;
+        color: var(--m);
+        font-size: 12px;
+        font-weight: 400;
+        padding: 0;
+        letter-spacing: 0.02em;
+      }
+
+      /* lists */
       #wrapper ul,
       #wrapper ol {
-        padding: 0 0 0.6em 1.5em;
+        padding: 0 0 0.7em 1.2em;
+        font-weight: 300;
       }
       #wrapper li {
-        padding-bottom: 0.3em;
+        padding-bottom: 0.25em;
       }
+      #wrapper li::marker {
+        color: var(--border);
+      }
+
+      /* links */
       #wrapper a {
         color: var(--fg);
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        transition:
-          color 0.15s,
-          background 0.15s;
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+        transition: border-color 0.15s;
       }
       #wrapper a:hover {
-        background: var(--fg);
-        color: var(--bg);
-        text-decoration: none;
+        border-color: var(--fg);
       }
+
+      /* hr */
       #wrapper hr {
         border: none;
-        border-bottom: 1px solid var(--fg);
-        opacity: 0.12;
-        margin: 1.2em 0;
+        border-bottom: 1px solid var(--border);
+        margin: 1.6em 0;
       }
+
+      /* blockquote */
       #wrapper blockquote {
-        border-left: 3px solid var(--fg);
-        padding: 0.5em 0 0.5em 1em;
+        border-left: 2px solid var(--border);
+        padding: 0.4em 0 0.4em 1em;
         margin: 0.8em 0;
       }
       #wrapper blockquote p {
         color: var(--m);
         font-style: italic;
       }
-      #wrapper code,
+
+      /* code blocks */
       #wrapper pre {
         background: var(--fg);
         color: var(--bg);
-      }
-      #wrapper code {
-        padding: 0.1em 0.4em;
-        font-size: 0.9em;
-      }
-      #wrapper pre {
         padding: 1em;
         overflow-x: auto;
         margin: 0.6em 0;
+        border-radius: 2px;
+        font-size: 13px;
+        line-height: 1.6;
       }
       #wrapper pre code {
+        background: none;
+        color: inherit;
         padding: 0;
-        font-size: 0.85em;
-        line-height: 1.5;
+        font-size: inherit;
+        border: none;
+      }
+      /* inline code (not date codes) */
+      #wrapper code {
+        background: var(--fg);
+        color: var(--bg);
+        padding: 0.1em 0.4em;
+        font-size: 0.9em;
+        border-radius: 2px;
       }
     </style>
   </head>
   <body>
     <header id="header">
       <nav>
-        <a href="/">FRIXA</a>
+        <a href="/">Home</a>
         <a href="/blog">blog</a>
         <a href="/more">about</a>
       </nav>
