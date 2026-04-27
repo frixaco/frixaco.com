@@ -29,32 +29,41 @@
         max-width: 100%;
       }
 
-      /* --- palette --- */
       :root {
-        --bg: #fdfdfc;
-        --fg: #1a1a1a;
-        --m: #888;
-        --border: #e0e0e0;
-        --sel-bg: #1a1a1a;
-        --sel-fg: #fdfdfc;
+        --bg: #f3f3f2;
+        --surface: #ffffff;
+        --fg: #111111;
+        --muted: #8a8f98;
+        --border: #d9d9d6;
+        --accent: #ff5d30;
+        --accent-hover: #c7441f;
+        --mark: #333333;
+        --sel-bg: #111111;
+        --sel-fg: #f3f3f2;
       }
       @media (prefers-color-scheme: dark) {
         :root:not(.light) {
-          --bg: #111;
-          --fg: #e0e0e0;
-          --m: #666;
-          --border: #2a2a2a;
-          --sel-bg: #e0e0e0;
-          --sel-fg: #111;
+          --bg: #0b1215;
+          --surface: #020d19;
+          --fg: #efefef;
+          --muted: #99a1af;
+          --border: #efefef;
+          --accent-hover: #ff8a63;
+          --mark: #efefef;
+          --sel-bg: #efefef;
+          --sel-fg: #020d19;
         }
       }
       :root.dark {
-        --bg: #111;
-        --fg: #e0e0e0;
-        --m: #666;
-        --border: #2a2a2a;
-        --sel-bg: #e0e0e0;
-        --sel-fg: #111;
+        --bg: #0b1215;
+        --surface: #020d19;
+        --fg: #efefef;
+        --muted: #99a1af;
+        --border: #efefef;
+        --accent-hover: #ff8a63;
+        --mark: #efefef;
+        --sel-bg: #efefef;
+        --sel-fg: #020d19;
       }
 
       /* --- selection --- */
@@ -68,190 +77,228 @@
       }
 
       html {
+        background: var(--bg);
         overscroll-behavior: none;
       }
       body {
         -webkit-font-smoothing: antialiased;
         background: var(--bg);
         color: var(--fg);
-        font: 14px/1.8 'Geist Mono', ui-monospace, monospace;
-        max-width: 640px;
+        font: 16px/1.4 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         min-height: 100vh;
-        padding: 0 24px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
+        padding: 0 0 32px;
       }
 
-      /* --- header --- */
+      a {
+        color: inherit;
+      }
+
+      #page-shell {
+        display: flex;
+        flex-direction: column;
+        margin-top: 48px;
+        margin-inline: auto;
+        max-width: 48rem;
+        width: calc(100% - 32px);
+      }
+
       #header {
         display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 24px 0 16px;
-        z-index: 1;
-        background: var(--bg);
-        position: sticky;
-        top: 0;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 48px;
       }
       #header nav {
-        display: contents;
+        align-items: center;
+        display: flex;
+        gap: 24px;
+      }
+      #home-mark {
+        border: 3px solid var(--mark);
+        display: block;
+        height: 48px;
+        padding: 4px;
+        position: relative;
+        text-decoration: none;
+        transition: border-color 0.15s ease;
+        width: 48px;
+      }
+      #home-mark:focus-visible,
+      #home-mark:hover {
+        border-color: var(--accent);
+      }
+      #home-mark span {
+        background-image:
+          linear-gradient(var(--mark), var(--mark)),
+          linear-gradient(var(--mark), var(--mark)),
+          linear-gradient(var(--mark), var(--mark)),
+          linear-gradient(var(--accent), var(--accent));
+        background-position:
+          0 0,
+          0 0,
+          0 12px,
+          20px 20px;
+        background-size:
+          8px 28px,
+          26px 8px,
+          18px 8px,
+          8px 8px;
+        background-repeat: no-repeat;
+        display: block;
+        height: 24px;
+        left: 9px;
+        position: absolute;
+        top: 9px;
+        width: 24px;
       }
       #theme-toggle {
         all: unset;
-        margin-left: auto;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        border: 1.5px solid var(--fg);
+        border: 2px solid var(--mark);
         cursor: pointer;
-        transition: background 0.15s;
+        height: 16px;
+        transition:
+          background 0.15s ease,
+          border-color 0.15s ease;
+        width: 16px;
       }
       #theme-toggle:hover {
-        background: var(--fg);
+        background: var(--accent);
+        border-color: var(--accent);
       }
       #header nav a {
-        all: unset;
-        font-size: 12px;
-        letter-spacing: 0.06em;
-        text-transform: lowercase;
-        color: var(--m);
+        color: var(--fg);
         cursor: pointer;
-        transition: color 0.15s;
+        text-decoration: none;
+        text-underline-offset: 3px;
+        transition: color 0.15s ease;
       }
       #header nav a:hover,
       #header nav a.active {
-        color: var(--fg);
-      }
-      #header nav a + a::before {
-        content: '/';
-        color: var(--border);
-        margin-right: 8px;
+        color: var(--accent);
+        text-decoration: underline;
       }
 
-      /* --- footer --- */
       #footer {
+        align-items: baseline;
         display: flex;
-        padding: 48px 0 24px;
-        justify-content: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 32px;
+        color: var(--muted);
+        font-size: 12px;
       }
       #footer span {
-        font-size: 11px;
-        color: var(--m);
-        letter-spacing: 0.03em;
+        user-select: all;
+      }
+      #footer span:not(:empty)::before {
+        content: "updated ";
       }
 
-      /* --- main content --- */
       #wrapper {
-        flex: 1;
-        padding-top: 16px;
+        background: var(--surface);
+        min-width: 0;
+        padding: 48px;
       }
 
-      /* headings */
+      #wrapper h1,
+      #wrapper h2,
+      #wrapper h3,
+      #wrapper h4,
+      #wrapper h5,
+      #wrapper h6 {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.4;
+      }
+      #wrapper h1,
       #wrapper h2 {
-        font-size: 13px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--m);
-        padding: 2em 0 0.6em;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 0.8em;
+        margin: 0 0 16px;
+      }
+      #wrapper h2:not(:first-child) {
+        margin-top: 48px;
       }
       #wrapper h3 {
-        font-size: 14px;
-        font-weight: 500;
-        padding: 0.6em 0 0.15em;
+        margin: 28px 0 8px;
       }
       #wrapper h4,
       #wrapper h5,
       #wrapper h6 {
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--m);
-        padding: 0.4em 0 0.1em;
-        text-transform: lowercase;
+        color: var(--muted);
+        font-size: 14px;
+        margin: 24px 0 8px;
       }
 
-      /* paragraph */
       #wrapper p {
-        padding-bottom: 0.7em;
-        font-weight: 300;
+        margin-bottom: 16px;
+      }
+      #wrapper > p:first-child {
+        max-width: 58ch;
       }
 
-      /* tech tags — rendered as <strong> */
-      #wrapper p > strong {
+      #wrapper strong {
+        color: var(--muted);
         font-weight: 400;
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        color: var(--m);
-        border: 1px solid var(--border);
-        padding: 1px 6px;
-        border-radius: 2px;
+      }
+      #wrapper p > strong {
+        font-size: 12px;
       }
 
-      /* blog date — rendered as <code> inside <p> */
       #wrapper p > code {
         background: none;
-        color: var(--m);
+        color: var(--muted);
         font-size: 12px;
         font-weight: 400;
+        letter-spacing: 0;
         padding: 0;
-        letter-spacing: 0.02em;
       }
 
-      /* lists */
       #wrapper ul,
       #wrapper ol {
-        padding: 0 0 0.7em 1.2em;
-        font-weight: 300;
+        margin: 0 0 16px;
+        padding-left: 2ch;
       }
       #wrapper li {
-        padding-bottom: 0.25em;
+        margin-bottom: 6px;
       }
       #wrapper li::marker {
-        color: var(--border);
+        color: var(--muted);
       }
 
-      /* links */
       #wrapper a {
-        color: var(--fg);
-        text-decoration: none;
-        border-bottom: 1px solid var(--border);
-        transition: border-color 0.15s;
+        color: var(--accent);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 2px;
+        transition: color 0.15s ease;
       }
       #wrapper a:hover {
-        border-color: var(--fg);
+        color: var(--accent-hover);
       }
 
-      /* hr */
       #wrapper hr {
-        border: none;
-        border-bottom: 1px solid var(--border);
-        margin: 1.6em 0;
+        border: 0;
+        border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+        margin: 24px 0;
       }
 
-      /* blockquote */
       #wrapper blockquote {
         border-left: 2px solid var(--border);
-        padding: 0.4em 0 0.4em 1em;
-        margin: 0.8em 0;
+        margin: 24px 0;
+        padding-left: 2ch;
       }
       #wrapper blockquote p {
-        color: var(--m);
-        font-style: italic;
+        color: var(--muted);
       }
 
-      /* code blocks */
       #wrapper pre {
         background: var(--fg);
-        color: var(--bg);
-        padding: 1em;
+        color: var(--surface);
+        font-size: 14px;
+        line-height: 1.5;
+        margin: 24px 0;
         overflow-x: auto;
-        margin: 0.6em 0;
-        border-radius: 2px;
-        font-size: 13px;
-        line-height: 1.6;
+        padding: 16px;
       }
       #wrapper pre code {
         background: none;
@@ -260,33 +307,79 @@
         font-size: inherit;
         border: none;
       }
-      /* inline code (not date codes) */
       #wrapper code {
         background: var(--fg);
-        color: var(--bg);
-        padding: 0.1em 0.4em;
+        color: var(--surface);
         font-size: 0.9em;
-        border-radius: 2px;
+        padding: 0.1em 0.4em;
+      }
+
+      html[data-route="blog"] #wrapper h3 {
+        display: inline;
+        margin: 0;
+      }
+      html[data-route="blog"] #wrapper h3 + p {
+        color: var(--muted);
+        font-size: 12px;
+        margin: 2px 0 8px;
+      }
+      html[data-route="blog"] #wrapper h3 + p + p {
+        color: color-mix(in srgb, var(--fg) 72%, var(--muted));
+        margin-bottom: 20px;
+      }
+      html[data-route="blog"] #wrapper hr {
+        margin: 20px 0;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding-bottom: 24px;
+        }
+        #page-shell {
+          margin-top: 32px;
+        }
+        #header {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        #header nav {
+          width: 100%;
+        }
+        #theme-toggle {
+          margin-left: auto;
+        }
+        #wrapper {
+          padding: 24px;
+        }
+        #footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
       }
     </style>
   </head>
   <body>
-    <header id="header">
-      <nav>
-        <a href="/">Home</a>
-        <a href="/blog">blog</a>
-        <a href="/more">about</a>
-      </nav>
-      <button id="theme-toggle" aria-label="Toggle theme"></button>
-    </header>
+    <div id="page-shell">
+      <header id="header">
+        <a id="home-mark" href="/" aria-label="Rustam Ashurmatov home">
+          <span aria-hidden="true"></span>
+        </a>
+        <nav aria-label="Primary">
+          <a href="/">Home</a>
+          <a href="/blog">Blog</a>
+          <a href="/more">More</a>
+          <button id="theme-toggle" aria-label="Toggle theme"></button>
+        </nav>
+      </header>
 
-    <main id="wrapper">
-      <!--CONTENT-->
-    </main>
+      <main id="wrapper">
+        <!--CONTENT-->
+      </main>
 
-    <footer id="footer">
-      <span id="last-updated"><!--LAST_UPDATED--></span>
-    </footer>
+      <footer id="footer">
+        <span id="last-updated"><!--LAST_UPDATED--></span>
+      </footer>
+    </div>
 
     <script type="module">
       const wrapper = document.getElementById("wrapper");
@@ -305,9 +398,18 @@
         favicon.href = faviconHref(fill);
       }
 
+      function routeName(path) {
+        if (path === "/" || path === "/home") return "home";
+        if (path === "/blog") return "blog";
+        if (path.startsWith("/blog/")) return "post";
+        if (path === "/more") return "more";
+        return "page";
+      }
+
       (function initTheme() {
         const saved = localStorage.getItem("theme");
         if (saved) document.documentElement.classList.add(saved);
+        document.documentElement.dataset.route = routeName(window.location.pathname);
         syncFavicon();
       })();
 
@@ -328,7 +430,9 @@
         document.querySelectorAll("#header nav a").forEach((a) => {
           const href = a.getAttribute("href");
           const isActive =
-            href === path || (href === "/blog" && path.startsWith("/blog/"));
+            href === path ||
+            (href === "/" && path === "/home") ||
+            (href === "/blog" && path.startsWith("/blog/"));
           a.classList.toggle("active", isActive);
         });
       }
@@ -372,6 +476,7 @@
       }
 
       function navigate(path, { push = true, scrollTop = true } = {}) {
+        document.documentElement.dataset.route = routeName(path);
         setActiveNav(path);
         if (scrollTop) window.scrollTo(0, 0);
         render(path, { push });
