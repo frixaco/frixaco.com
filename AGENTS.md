@@ -45,6 +45,11 @@
 - Handle unhappy paths as carefully as happy paths
 - Avoid broad refactors during feature or bug tasks
 
+## Development
+
+- Run dev server with `cargo watch -x run` (assumes `cargo-watch` is installed)
+- Server defaults to port `8080`
+
 ## Verification
 
 - For code changes:
