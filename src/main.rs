@@ -1,179 +1,200 @@
-use std::{collections::HashMap, env, sync::Arc};
-
-use axum::{
-    Router,
-    extract::{Path, State},
-    http::{
-        HeaderValue,
-        header::{CACHE_CONTROL, CONTENT_TYPE},
-    },
-    response::{Html, IntoResponse, Redirect},
-    routing::get,
+use std::{
+    fs,
+    io::{BufRead, BufReader, Write},
+    net::{TcpListener, TcpStream},
+    path::Path,
+    thread,
 };
-use comrak::{Options, markdown_to_html};
-use include_dir::{Dir, include_dir};
-use tower_http::{compression::CompressionLayer, set_header::SetResponseHeaderLayer};
 
-static BLOG_DIR: Dir = include_dir!("$CARGO_MANIFEST_DIR/src/sheets/posts");
-
-static TEMPLATE: &str = include_str!("./index.html");
-
-struct AppState {
-    home_html: String,
-    blog_html: String,
-    more_html: String,
-    posts_html: HashMap<String, String>,
-    last_updated: Option<String>,
-}
-
-fn render_page(content: &str, title: &str, description: &str, last_updated: &str) -> Html<String> {
-    Html(
-        TEMPLATE
-            .replace("<!--CONTENT-->", content)
-            .replace("<!--PAGE_TITLE-->", title)
-            .replace("<!--META_DESCRIPTION-->", description)
-            .replace("<!--LAST_UPDATED-->", last_updated),
-    )
-}
-
-async fn fetch_last_updated() -> Option<String> {
-    let client = reqwest::Client::new();
-    let resp: serde_json::Value = client
-        .get("https://api.github.com/repos/frixaco/frixaco.com/commits?per_page=1")
-        .header("User-Agent", "frixaco.com")
-        .send()
-        .await
-        .ok()?
-        .json()
-        .await
-        .ok()?;
-    let commit = resp.get(0)?;
-    let date_str = commit
-        .get("commit")?
-        .get("committer")?
-        .get("date")?
-        .as_str()?;
-    let date = date_str.parse::<chrono::DateTime<chrono::Utc>>().ok()?;
-    Some(date.format("%b %d, %Y").to_string())
-}
-
-#[tokio::main]
-async fn main() {
-    tracing_subscriber::fmt::init();
-
-    let mut options = Options::default();
-    options.extension.front_matter_delimiter = Some("---".into());
-
-    let home_html = markdown_to_html(include_str!("./sheets/home.md"), &options);
-    let blog_html = markdown_to_html(include_str!("./sheets/blog.md"), &options);
-    let more_html = markdown_to_html(include_str!("./sheets/more.md"), &options);
-
-    let mut posts_html: HashMap<String, String> = HashMap::new();
-    for file in BLOG_DIR.files() {
-        let slug = file.path().file_name().unwrap().to_str().unwrap();
-        let content = file.contents_utf8().unwrap();
-        posts_html.insert(slug.to_string(), markdown_to_html(content, &options));
-    }
-
-    let last_updated = fetch_last_updated().await;
-
-    let app_state = Arc::new(AppState {
-        home_html,
-        blog_html,
-        more_html,
-        posts_html,
-        last_updated,
-    });
-
-    let app = Router::new()
-        .route("/", get(home_page))
-        .route("/home", get(home_page))
-        .route("/blog", get(blog_page))
-        .route("/blog/{slug}", get(post_page))
-        .route("/more", get(more_page))
-        .route("/md/home", get(home_md))
-        .route("/md/blog", get(blog_md))
-        .route("/md/blog/{slug}", get(posts_md))
-        .route("/md/more", get(more_md))
-        .route("/pdf", get(resume))
-        .with_state(app_state)
-        .layer(CompressionLayer::new())
-        .layer(SetResponseHeaderLayer::if_not_present(
-            CACHE_CONTROL,
-            HeaderValue::from_static("public, max-age=3600"),
-        ));
-
-    let port = env::var("PORT")
+fn main() {
+    let port = std::env::var("PORT")
         .ok()
-        .and_then(|p| p.parse::<u16>().ok())
-        .unwrap_or(8080);
-    let bind_addr = format!("0.0.0.0:{port}");
+        .and_then(|p| p.parse().ok())
+        .unwrap_or(8080u16);
 
-    let listener = tokio::net::TcpListener::bind(&bind_addr).await.unwrap();
-    let _ = axum::serve(listener, app).await;
-}
+    let addr = format!("0.0.0.0:{port}");
+    let listener = TcpListener::bind(&addr).unwrap();
+    println!("Listening on http://{addr}");
 
-async fn home_page(State(state): State<Arc<AppState>>) -> Html<String> {
-    render_page(
-        &state.home_html,
-        "Rustam Ashurmatov",
-        "Software engineer — projects, blog and more.",
-        &state.last_updated.clone().unwrap_or_default(),
-    )
-}
-async fn blog_page(State(state): State<Arc<AppState>>) -> Html<String> {
-    render_page(
-        &state.blog_html,
-        "Blog — Rustam Ashurmatov",
-        "Blog posts about software engineering, Rust, TUI libraries and more.",
-        &state.last_updated.clone().unwrap_or_default(),
-    )
-}
-async fn post_page(
-    State(state): State<Arc<AppState>>,
-    Path(slug): Path<String>,
-) -> Result<Html<String>, Redirect> {
-    match state.posts_html.get(&slug) {
-        Some(content) => Ok(render_page(
-            content,
-            "Blog — Rustam Ashurmatov",
-            "A blog post by Rustam Ashurmatov.",
-            &state.last_updated.clone().unwrap_or_default(),
-        )),
-        None => Err(Redirect::permanent("/")),
+    for stream in listener.incoming().flatten() {
+        thread::spawn(|| handle_client(stream));
     }
 }
-async fn more_page(State(state): State<Arc<AppState>>) -> Html<String> {
-    render_page(
-        &state.more_html,
-        "More — Rustam Ashurmatov",
-        "Setup, gear, interests and other things about Rustam Ashurmatov.",
-        &state.last_updated.clone().unwrap_or_default(),
-    )
+
+fn handle_client(mut stream: TcpStream) {
+    let mut reader = BufReader::new(&stream);
+    let mut line = String::new();
+    if reader.read_line(&mut line).is_err() {
+        return;
+    }
+
+    let parts: Vec<&str> = line.split_whitespace().collect();
+    if parts.len() < 2 || parts[0] != "GET" {
+        send_response(&mut stream, 405, "text/plain", "Method not allowed");
+        return;
+    }
+
+    let path = parts[1];
+    route(&mut stream, path);
 }
 
-async fn home_md(State(state): State<Arc<AppState>>) -> Html<String> {
-    Html(state.home_html.clone())
-}
-async fn blog_md(State(state): State<Arc<AppState>>) -> Html<String> {
-    Html(state.blog_html.clone())
-}
-async fn posts_md(
-    State(state): State<Arc<AppState>>,
-    Path(slug): Path<String>,
-) -> Result<Html<String>, Redirect> {
-    match state.posts_html.get(&slug) {
-        Some(content) => Ok(Html(content.to_string())),
-        None => Err(Redirect::permanent("/")),
+fn route(stream: &mut TcpStream, path: &str) {
+    let template_path = "src/index.html";
+
+    match path {
+        "/" | "/home" => {
+            let md = read_file("src/sheets/home.md");
+            let html = markdown_to_html(&md);
+            let page = render_page(
+                template_path,
+                &html,
+                "Rustam Ashurmatov",
+                "Software engineer — projects, blog and more.",
+            );
+            send_response(stream, 200, "text/html; charset=utf-8", &page);
+        }
+        "/blog" => {
+            let md = read_file("src/sheets/blog.md");
+            let html = markdown_to_html(&md);
+            let page = render_page(
+                template_path,
+                &html,
+                "Blog — Rustam Ashurmatov",
+                "Blog posts about software engineering, Rust, TUI libraries and more.",
+            );
+            send_response(stream, 200, "text/html; charset=utf-8", &page);
+        }
+        "/more" => {
+            let md = read_file("src/sheets/more.md");
+            let html = markdown_to_html(&md);
+            let page = render_page(
+                template_path,
+                &html,
+                "More — Rustam Ashurmatov",
+                "Setup, gear, interests and other things about Rustam Ashurmatov.",
+            );
+            send_response(stream, 200, "text/html; charset=utf-8", &page);
+        }
+        "/md/home" => {
+            let md = read_file("src/sheets/home.md");
+            let html = markdown_to_html(&md);
+            send_response(stream, 200, "text/html; charset=utf-8", &html);
+        }
+        "/md/blog" => {
+            let md = read_file("src/sheets/blog.md");
+            let html = markdown_to_html(&md);
+            send_response(stream, 200, "text/html; charset=utf-8", &html);
+        }
+        "/md/more" => {
+            let md = read_file("src/sheets/more.md");
+            let html = markdown_to_html(&md);
+            send_response(stream, 200, "text/html; charset=utf-8", &html);
+        }
+        "/pdf" => {
+            if let Ok(bytes) = fs::read("src/RESUME_SDE_RESUME_RUSTAM_ASHURMATOV.pdf") {
+                send_response_bytes(stream, 200, "application/pdf", &bytes);
+            } else {
+                send_response(stream, 404, "text/plain", "Not found");
+            }
+        }
+        _ => {
+            if let Some(slug) = path.strip_prefix("/blog/") {
+                let file_path = format!("src/sheets/posts/{slug}");
+                if Path::new(&file_path).exists() {
+                    let md = read_file(&file_path);
+                    let html = markdown_to_html(&md);
+                    let page = render_page(
+                        template_path,
+                        &html,
+                        "Blog — Rustam Ashurmatov",
+                        "A blog post by Rustam Ashurmatov.",
+                    );
+                    send_response(stream, 200, "text/html; charset=utf-8", &page);
+                } else {
+                    send_response(
+                        stream,
+                        404,
+                        "text/html; charset=utf-8",
+                        &render_page(
+                            template_path,
+                            "<p>Not found</p>",
+                            "404 — Rustam Ashurmatov",
+                            "Page not found.",
+                        ),
+                    );
+                }
+            } else if let Some(slug) = path.strip_prefix("/md/blog/") {
+                let file_path = format!("src/sheets/posts/{slug}");
+                if Path::new(&file_path).exists() {
+                    let md = read_file(&file_path);
+                    let html = markdown_to_html(&md);
+                    send_response(stream, 200, "text/html; charset=utf-8", &html);
+                } else {
+                    send_response(stream, 404, "text/plain", "Not found");
+                }
+            } else {
+                send_response(
+                    stream,
+                    404,
+                    "text/html; charset=utf-8",
+                    &render_page(
+                        template_path,
+                        "<p>Not found</p>",
+                        "404 — Rustam Ashurmatov",
+                        "Page not found.",
+                    ),
+                );
+            }
+        }
     }
 }
-async fn more_md(State(state): State<Arc<AppState>>) -> Html<String> {
-    Html(state.more_html.clone())
+
+fn read_file(path: &str) -> String {
+    fs::read_to_string(path).unwrap_or_else(|_| format!("<p>Failed to read: {path}</p>"))
 }
 
-async fn resume() -> impl IntoResponse {
-    (
-        [(CONTENT_TYPE, "application/pdf")],
-        include_bytes!("./RESUME_SDE_RESUME_RUSTAM_ASHURMATOV.pdf"),
-    )
+fn strip_front_matter(content: &str) -> &str {
+    if !content.starts_with("---") {
+        return content;
+    }
+    if let Some(end) = content[3..].find("---") {
+        &content[end + 6..]
+    } else {
+        content
+    }
+}
+
+fn markdown_to_html(input: &str) -> String {
+    let content = strip_front_matter(input);
+    let parser = pulldown_cmark::Parser::new(content);
+    let mut html = String::new();
+    pulldown_cmark::html::push_html(&mut html, parser);
+    html
+}
+
+fn render_page(template_path: &str, content: &str, title: &str, description: &str) -> String {
+    let template = read_file(template_path);
+    template
+        .replace("<!--CONTENT-->", content)
+        .replace("<!--PAGE_TITLE-->", title)
+        .replace("<!--META_DESCRIPTION-->", description)
+        .replace("<!--LAST_UPDATED-->", "")
+}
+
+fn send_response(stream: &mut TcpStream, status: u16, content_type: &str, body: &str) {
+    let headers = format!(
+        "HTTP/1.1 {status} OK\r\nContent-Type: {content_type}\r\nContent-Length: {len}\r\nCache-Control: public, max-age=3600\r\nConnection: close\r\n\r\n",
+        len = body.len()
+    );
+    let _ = stream.write_all(headers.as_bytes());
+    let _ = stream.write_all(body.as_bytes());
+}
+
+fn send_response_bytes(stream: &mut TcpStream, status: u16, content_type: &str, body: &[u8]) {
+    let headers = format!(
+        "HTTP/1.1 {status} OK\r\nContent-Type: {content_type}\r\nContent-Length: {len}\r\nCache-Control: public, max-age=3600\r\nConnection: close\r\n\r\n",
+        len = body.len()
+    );
+    let _ = stream.write_all(headers.as_bytes());
+    let _ = stream.write_all(body);
 }

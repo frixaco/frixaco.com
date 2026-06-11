@@ -14,6 +14,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/target/release/frixa /app/frixa
+COPY --from=builder /app/src/ /app/src/
 
 EXPOSE 8080
 
