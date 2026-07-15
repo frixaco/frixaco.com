@@ -1,505 +1,533 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-route="<!--PAGE_ROUTE-->">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="<!--META_DESCRIPTION-->" />
-    <link id="favicon" rel="icon" href="data:," />
+    <meta name="color-scheme" content="light dark" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='14' y='14' width='36' height='36' rx='2' fill='%23e55735'/%3E%3C/svg%3E"
+    />
     <title><!--PAGE_TITLE--></title>
+    <script>
+      try {
+        const theme = localStorage.getItem("theme");
+        if (theme === "light" || theme === "dark") {
+          document.documentElement.classList.add(theme);
+        }
+      } catch {}
+    </script>
     <style>
+      :where(body, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, pre, hr) {
+        all: unset;
+        display: block;
+      }
+
       *,
       *::before,
       *::after {
         box-sizing: border-box;
-        margin: 0;
-      }
-      p {
-        text-wrap: pretty;
-      }
-      h1, h2, h3, h4, h5, h6 {
-        overflow-wrap: break-word;
-        text-wrap: balance;
-      }
-      img, svg {
-        display: block;
-        max-width: 100%;
       }
 
       :root {
-        --bg: #f3f3f2;
-        --surface: #ffffff;
-        --fg: #111111;
-        --muted: #8a8f98;
-        --border: #d9d9d6;
-        --accent: #ff5d30;
-        --accent-hover: #c7441f;
-        --mark: #333333;
-        --sel-bg: #111111;
-        --sel-fg: #f3f3f2;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root:not(.light) {
-          --bg: #0b1215;
-          --surface: #020d19;
-          --fg: #efefef;
-          --muted: #99a1af;
-          --border: #efefef;
-          --accent-hover: #ff8a63;
-          --mark: #efefef;
-          --sel-bg: #efefef;
-          --sel-fg: #020d19;
-        }
-      }
-      :root.dark {
-        --bg: #0b1215;
-        --surface: #020d19;
-        --fg: #efefef;
-        --muted: #99a1af;
-        --border: #efefef;
-        --accent-hover: #ff8a63;
-        --mark: #efefef;
-        --sel-bg: #efefef;
-        --sel-fg: #020d19;
+        color-scheme: light dark;
+        --section-space: 2rem;
+        --bg: light-dark(oklch(96.5% 0.008 75), oklch(16% 0.012 55));
+        --fg: light-dark(oklch(19% 0.012 55), oklch(91% 0.009 75));
+        --muted: light-dark(oklch(46% 0.012 55), oklch(67% 0.012 65));
+        --line: light-dark(oklch(79% 0.012 65), oklch(32% 0.014 55));
+        --accent: light-dark(oklch(54% 0.205 32), oklch(70% 0.17 38));
+        --accent-hover: light-dark(oklch(48% 0.18 32), oklch(80% 0.12 45));
+        --code-bg: light-dark(oklch(22% 0.014 55), oklch(11% 0.01 55));
+        --code-fg: light-dark(oklch(92% 0.01 75), oklch(90% 0.01 75));
+        --selection-bg: light-dark(oklch(80% 0.11 65), oklch(42% 0.1 38));
+        --selection-fg: light-dark(oklch(18% 0.02 45), oklch(94% 0.01 75));
       }
 
-      /* --- selection --- */
-      ::selection {
-        background: var(--sel-bg);
-        color: var(--sel-fg);
+      :root.light {
+        color-scheme: light;
       }
-      ::-moz-selection {
-        background: var(--sel-bg);
-        color: var(--sel-fg);
+
+      :root.dark {
+        color-scheme: dark;
+      }
+
+      ::selection {
+        background: var(--selection-bg);
+        color: var(--selection-fg);
       }
 
       html {
         background: var(--bg);
         overscroll-behavior: none;
+        overflow-y: scroll;
       }
+
       body {
         -webkit-font-smoothing: antialiased;
+        align-items: center;
         background: var(--bg);
         color: var(--fg);
-        font: 16px/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        display: flex;
+        flex-direction: column;
+        font-family: "Avenir Next", Avenir, "Segoe UI Variable", "Segoe UI", sans-serif;
+        font-size: 1rem;
+        line-height: 1.5;
         min-height: 100vh;
-        padding: 0 0 32px;
+        padding-top: env(safe-area-inset-top);
+        padding-inline:
+          max(1rem, env(safe-area-inset-left))
+          max(1rem, env(safe-area-inset-right));
       }
 
       a {
         color: inherit;
       }
 
-      #page-shell {
+      button {
+        font: inherit;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      header {
+        align-items: stretch;
+        background: var(--bg);
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: end;
+        max-width: 48rem;
+        min-height: 3.5rem;
+        position: sticky;
+        top: env(safe-area-inset-top);
+        width: 100%;
+        z-index: 1;
+      }
+
+      header > a,
+      header nav a,
+      #theme-toggle {
+        align-items: center;
+        display: inline-flex;
+        font-size: 0.75rem;
+        font-weight: 650;
+        letter-spacing: 0.06em;
+        min-height: 2.75rem;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      header > a {
+        flex-basis: 100%;
+      }
+
+      header nav {
+        align-items: stretch;
+        border-top: 1px solid var(--line);
+        display: flex;
+        width: 100%;
+      }
+
+      header nav a,
+      #theme-toggle {
+        border: 0;
+        border-left: 1px solid var(--line);
+        flex: 1;
+        justify-content: center;
+        padding-inline: 0.75rem;
+      }
+
+      header nav a:first-child {
+        border-left: 0;
+      }
+
+      #theme-toggle {
+        background: none;
+        color: var(--muted);
+        cursor: pointer;
+        inline-size: 4.75rem;
+      }
+
+      #theme-toggle::before {
+        content: "Dark";
+      }
+
+      :root.dark #theme-toggle::before {
+        content: "Light";
+      }
+
+      :is(
+          html[data-route="home"] nav a[href="/"],
+          html[data-route="blog"] nav a[href="/blog"],
+          html[data-route="post"] nav a[href="/blog"],
+          html[data-route="more"] nav a[href="/more"]
+        ) {
+        box-shadow: inset 0 -2px var(--accent);
+        color: var(--accent);
+      }
+
+      header > a:hover,
+      header nav a:hover,
+      #theme-toggle:hover {
+        color: var(--accent);
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      main {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        max-width: 48rem;
+        min-width: 0;
+        padding-block: var(--section-space) 4rem;
+        row-gap: 0.25rem;
+        width: 100%;
+      }
+
+      main :is(h1, h2, h3, h4, h5, h6) {
+        overflow-wrap: break-word;
+        text-wrap: balance;
+      }
+
+      main h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+        line-height: 1.15;
+        padding-block: 2.25rem 0.75rem;
+      }
+
+      main h3 {
+        font-size: 1rem;
+        font-weight: 650;
+        line-height: 1.35;
+        padding-top: 1rem;
+      }
+
+      main :is(h4, h5, h6) {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        padding-block: 1.75rem 0.25rem;
+        text-transform: uppercase;
+      }
+
+      main p {
+        max-width: 68ch;
+        text-wrap: pretty;
+      }
+
+      main > p + p {
+        padding-top: 0.5rem;
+      }
+
+      main strong {
+        font-weight: 650;
+      }
+
+      main a {
+        text-decoration-color: var(--line);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.16em;
+      }
+
+      main a:hover {
+        color: var(--accent-hover);
+        text-decoration-color: currentColor;
+      }
+
+      main h3 a {
+        text-decoration: none;
+      }
+
+      main h3 a[href^="http"]::after {
+        color: var(--accent);
+        content: "\2197";
+        font-size: 0.75em;
+        padding-left: 0.35em;
+        vertical-align: 0.12em;
+      }
+
+      main h3 + p + p:has(> strong) {
+        color: var(--muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.02em;
+        padding-top: 0.1rem;
+      }
+
+      main hr {
+        background: linear-gradient(var(--line), var(--line)) center / 100% 1px no-repeat;
+        padding-block: 1.25rem;
+      }
+
+      main :is(ul, ol) {
+        padding: 0.5rem 0 0.75rem 1.25rem;
+      }
+
+      main ul {
+        list-style-type: disc;
+      }
+
+      main ol {
+        list-style-type: decimal;
+      }
+
+      main li {
+        padding-left: 0.15rem;
+      }
+
+      main li:not(:last-child) {
+        padding-bottom: 0.3rem;
+      }
+
+      main li::marker {
+        color: var(--accent);
+      }
+
+      main blockquote {
+        background: linear-gradient(var(--accent), var(--accent)) left center / 2px
+          calc(100% - 2.5rem) no-repeat;
+        color: var(--muted);
         display: flex;
         flex-direction: column;
-        margin-top: 48px;
-        margin-inline: auto;
-        max-width: 48rem;
-        width: calc(100% - 32px);
+        gap: 0.75rem;
+        padding: 1.25rem 0 1.25rem 1rem;
       }
 
-      #header {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 48px;
-      }
-      #header nav {
-        align-items: center;
-        display: flex;
-        gap: 24px;
-      }
-      #home-mark {
-        border: 3px solid var(--mark);
-        display: block;
-        height: 48px;
-        padding: 4px;
-        position: relative;
-        text-decoration: none;
-        transition: border-color 0.15s ease;
-        width: 48px;
-      }
-      #home-mark:focus-visible,
-      #home-mark:hover {
-        border-color: var(--accent);
-      }
-      #home-mark span {
-        background-image:
-          linear-gradient(var(--mark), var(--mark)),
-          linear-gradient(var(--mark), var(--mark)),
-          linear-gradient(var(--mark), var(--mark)),
-          linear-gradient(var(--accent), var(--accent));
-        background-position:
-          0 0,
-          0 0,
-          0 12px,
-          20px 20px;
-        background-size:
-          8px 28px,
-          26px 8px,
-          18px 8px,
-          8px 8px;
-        background-repeat: no-repeat;
-        display: block;
-        height: 24px;
-        left: 9px;
-        position: absolute;
-        top: 9px;
-        width: 24px;
-      }
-      #theme-toggle {
-        all: unset;
-        border: 2px solid var(--mark);
-        cursor: pointer;
-        height: 16px;
-        transition:
-          background 0.15s ease,
-          border-color 0.15s ease;
-        width: 16px;
-      }
-      #theme-toggle:hover {
-        background: var(--accent);
-        border-color: var(--accent);
-      }
-      #header nav a {
-        color: var(--fg);
-        cursor: pointer;
-        text-decoration: none;
-        text-underline-offset: 3px;
-        transition: color 0.15s ease;
-      }
-      #header nav a:hover,
-      #header nav a.active {
-        color: var(--accent);
-        text-decoration: underline;
+      main :is(code, pre) {
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        font-variant-ligatures: none;
       }
 
-      #footer {
-        align-items: baseline;
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        margin-top: 32px;
-        color: var(--muted);
-        font-size: 12px;
-      }
-      #footer span {
-        user-select: all;
-      }
-      #footer span:not(:empty)::before {
-        content: "updated ";
+      main code {
+        background: var(--code-bg);
+        color: var(--code-fg);
+        font-size: 0.86em;
+        padding: 0.12em 0.35em;
       }
 
-      #wrapper {
-        background: var(--surface);
-        min-width: 0;
-        padding: 48px;
-      }
-
-      #wrapper h1,
-      #wrapper h2,
-      #wrapper h3,
-      #wrapper h4,
-      #wrapper h5,
-      #wrapper h6 {
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 1.4;
-      }
-      #wrapper h1,
-      #wrapper h2 {
-        margin: 0 0 16px;
-      }
-      #wrapper h2:not(:first-child) {
-        margin-top: 48px;
-      }
-      #wrapper h3 {
-        margin: 28px 0 8px;
-      }
-      #wrapper h4,
-      #wrapper h5,
-      #wrapper h6 {
-        color: var(--muted);
-        font-size: 14px;
-        margin: 24px 0 8px;
-      }
-
-      #wrapper p {
-        margin-bottom: 16px;
-      }
-      #wrapper > p:first-child {
-        max-width: 58ch;
-      }
-
-      #wrapper strong {
-        color: var(--muted);
-        font-weight: 400;
-      }
-      #wrapper p > strong {
-        font-size: 12px;
-      }
-
-      #wrapper p > code {
-        background: none;
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 400;
-        letter-spacing: 0;
-        padding: 0;
-      }
-
-      #wrapper ul,
-      #wrapper ol {
-        margin: 0 0 16px;
-        padding-left: 2ch;
-      }
-      #wrapper li {
-        margin-bottom: 6px;
-      }
-      #wrapper li::marker {
-        color: var(--muted);
-      }
-
-      #wrapper a {
-        color: var(--accent);
-        text-decoration: underline;
-        text-decoration-thickness: 1px;
-        text-underline-offset: 2px;
-        transition: color 0.15s ease;
-      }
-      #wrapper a:hover {
-        color: var(--accent-hover);
-      }
-
-      #wrapper hr {
-        border: 0;
-        border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
-        margin: 24px 0;
-      }
-
-      #wrapper blockquote {
-        border-left: 2px solid var(--border);
-        margin: 24px 0;
-        padding-left: 2ch;
-      }
-      #wrapper blockquote p {
-        color: var(--muted);
-      }
-
-      #wrapper pre {
-        background: var(--fg);
-        color: var(--surface);
-        font-size: 14px;
-        line-height: 1.5;
-        margin: 24px 0;
+      main pre {
+        background: linear-gradient(var(--code-bg), var(--code-bg)) center / 100%
+          calc(100% - 2.5rem) no-repeat;
+        color: var(--code-fg);
+        font-size: 0.8125rem;
+        line-height: 1.55;
+        max-width: 100%;
         overflow-x: auto;
-        padding: 16px;
+        padding: 2.25rem 1rem;
+        tab-size: 2;
+        white-space: pre;
       }
-      #wrapper pre code {
+
+      main pre code {
         background: none;
         color: inherit;
-        padding: 0;
         font-size: inherit;
-        border: none;
-      }
-      #wrapper code {
-        background: var(--fg);
-        color: var(--surface);
-        font-size: 0.9em;
-        padding: 0.1em 0.4em;
+        padding: 0;
       }
 
-      html[data-route="blog"] #wrapper h3 {
-        display: inline;
-        margin: 0;
+      main img {
+        height: auto;
+        padding-block: 1.25rem;
       }
-      html[data-route="blog"] #wrapper h3 + p {
+
+      html[data-route="home"] main > p:first-child {
+        font-size: 1.25rem;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        line-height: 1.35;
+        max-width: 48ch;
+      }
+
+      html[data-route="home"] main > p:nth-child(2) {
         color: var(--muted);
-        font-size: 12px;
-        margin: 2px 0 8px;
-      }
-      html[data-route="blog"] #wrapper h3 + p + p {
-        color: color-mix(in srgb, var(--fg) 72%, var(--muted));
-        margin-bottom: 20px;
-      }
-      html[data-route="blog"] #wrapper hr {
-        margin: 20px 0;
+        font-size: 0.8125rem;
+        padding-top: 1rem;
       }
 
-      @media (max-width: 640px) {
-        body {
-          padding-bottom: 24px;
+      html[data-route="home"] main > hr {
+        display: none;
+      }
+
+      html[data-route="home"] main h2 {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.75rem;
+        font-weight: 700;
+        gap: var(--section-space);
+        letter-spacing: 0.1em;
+        padding-block: calc(var(--section-space) - 0.25rem) 0.5rem;
+        text-transform: uppercase;
+      }
+
+      html[data-route="home"] main h2::before {
+        background: var(--fg);
+        content: "";
+        height: 1px;
+      }
+
+      html[data-route="home"] main h3 + p {
+        line-height: 1.45;
+      }
+
+      html[data-route="blog"] main h3,
+      html[data-route="more"] main h3:first-child {
+        padding-top: 0;
+      }
+
+      html[data-route="blog"] main h3 + p {
+        color: var(--muted);
+        font-size: 0.75rem;
+        font-variant-numeric: tabular-nums;
+        padding-block: 0.05rem;
+      }
+
+      html[data-route="blog"] main h3 + p code {
+        background: none;
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        padding: 0;
+      }
+
+      html[data-route="blog"] main h3 + p + p {
+        padding-top: 0;
+      }
+
+      html[data-route="blog"] main hr {
+        padding-block: 1rem;
+      }
+
+      html[data-route="post"] main {
+        padding-top: 3rem;
+      }
+
+      html[data-route="post"] main > :is(h1, h2):first-child {
+        font-size: clamp(2rem, 6vw, 3.25rem);
+        font-weight: 600;
+        letter-spacing: -0.045em;
+        line-height: 1;
+        max-width: 18ch;
+        padding: 0 0 2.25rem;
+      }
+
+      html[data-route="post"] main :is(p, li) {
+        line-height: 1.65;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not(.light) #theme-toggle::before {
+          content: "Light";
         }
-        #page-shell {
-          margin-top: 32px;
+      }
+
+      footer {
+        color: var(--muted);
+        font-size: 0.75rem;
+        font-variant-numeric: tabular-nums;
+        max-width: 48rem;
+        padding-bottom: 2rem;
+        text-align: right;
+        width: 100%;
+      }
+
+      @media (min-width: 20rem) {
+        header {
+          flex-wrap: nowrap;
         }
-        #header {
-          align-items: flex-start;
-          flex-direction: column;
+
+        header > a {
+          flex-basis: auto;
         }
-        #header nav {
-          width: 100%;
+
+        header nav {
+          border-top: 0;
+          width: auto;
         }
+
+        header nav a,
         #theme-toggle {
-          margin-left: auto;
+          flex: none;
         }
-        #wrapper {
-          padding: 24px;
+
+        header nav a:first-child {
+          border-left: 1px solid var(--line);
         }
-        #footer {
-          align-items: flex-start;
-          flex-direction: column;
+      }
+
+      @media (min-width: 40rem) {
+        :root {
+          --section-space: 3rem;
+        }
+
+        body {
+          padding-inline:
+            max(1.5rem, env(safe-area-inset-left))
+            max(1.5rem, env(safe-area-inset-right));
+        }
+
+        header nav a,
+        #theme-toggle {
+          padding-inline: 1rem;
+        }
+
+        main {
+          padding-block: var(--section-space) 6rem;
         }
       }
     </style>
   </head>
   <body>
-    <div id="page-shell">
-      <header id="header">
-        <a id="home-mark" href="/" aria-label="Rustam Ashurmatov home">
-          <span aria-hidden="true"></span>
-        </a>
-        <nav aria-label="Primary">
-          <a href="/">Home</a>
-          <a href="/blog">Blog</a>
-          <a href="/more">More</a>
-          <button id="theme-toggle" aria-label="Toggle theme"></button>
-        </nav>
-      </header>
+    <header>
+      <nav aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+        <a href="/more">More</a>
+        <button id="theme-toggle" type="button" aria-label="Toggle color theme"></button>
+      </nav>
+    </header>
 
-      <main id="wrapper">
-        <!--CONTENT-->
-      </main>
+    <main>
+      <!--CONTENT-->
+    </main>
 
-      <footer id="footer">
-        <span id="last-updated"><!--LAST_UPDATED--></span>
-      </footer>
-    </div>
+    <footer>
+      <time datetime="<!--LAST_UPDATED-->">updated <!--LAST_UPDATED--></time>
+    </footer>
 
     <script type="module">
-      const wrapper = document.getElementById("wrapper");
-      const favicon = document.getElementById("favicon");
+      const root = document.documentElement;
+      const toggle = document.getElementById("theme-toggle");
 
-      function faviconHref(fill) {
-        return `data:image/svg+xml,${encodeURIComponent(
-          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="${fill}"/></svg>`,
-        )}`;
+      const isDark = () =>
+        root.classList.contains("dark") ||
+        (!root.classList.contains("light") &&
+          matchMedia("(prefers-color-scheme: dark)").matches);
+
+      function syncToggle() {
+        const next = isDark() ? "light" : "dark";
+        toggle.setAttribute("aria-label", `Use ${next} theme`);
       }
 
-      function syncFavicon() {
-        const fill = getComputedStyle(document.documentElement)
-          .getPropertyValue("--fg")
-          .trim();
-        favicon.href = faviconHref(fill);
-      }
+      syncToggle();
 
-      function routeName(path) {
-        if (path === "/" || path === "/home") return "home";
-        if (path === "/blog") return "blog";
-        if (path.startsWith("/blog/")) return "post";
-        if (path === "/more") return "more";
-        return "page";
-      }
-
-      (function initTheme() {
-        const saved = localStorage.getItem("theme");
-        if (saved) document.documentElement.classList.add(saved);
-        document.documentElement.dataset.route = routeName(window.location.pathname);
-        syncFavicon();
-      })();
-
-      document.getElementById("theme-toggle").addEventListener("click", () => {
-        const root = document.documentElement;
-        const isDark =
-          root.classList.contains("dark") ||
-          (!root.classList.contains("light") &&
-            matchMedia("(prefers-color-scheme: dark)").matches);
-        root.classList.remove("dark", "light");
-        const next = isDark ? "light" : "dark";
+      toggle.addEventListener("click", () => {
+        const next = isDark() ? "light" : "dark";
+        root.classList.remove("light", "dark");
         root.classList.add(next);
-        localStorage.setItem("theme", next);
-        syncFavicon();
-      });
-
-      function setActiveNav(path) {
-        document.querySelectorAll("#header nav a").forEach((a) => {
-          const href = a.getAttribute("href");
-          const isActive =
-            href === path ||
-            (href === "/" && path === "/home") ||
-            (href === "/blog" && path.startsWith("/blog/"));
-          a.classList.toggle("active", isActive);
-        });
-      }
-      let pathname = window.location.pathname;
-      setActiveNav(pathname);
-      let pages = {
-        "/": undefined,
-        "/blog": undefined,
-        "/more": undefined,
-      };
-      pages[pathname] = wrapper.innerHTML;
-
-      for (const [path, val] of Object.entries(pages)) {
-        if (val !== undefined) continue;
-        const mdPath = path === "/" ? "/md/home" : "/md" + path;
-        fetch(mdPath)
-          .then((d) => d.text())
-          .then((html) => {
-            pages[path] = html;
-          });
-      }
-
-      function mdPath(path) {
-        return path === "/" ? "/md/home" : "/md" + path;
-      }
-
-      function render(path, { push } = {}) {
-        if (pages[path] !== undefined) {
-          wrapper.innerHTML = pages[path];
-          if (push) history.pushState(null, "", path);
-          return;
-        }
-
-        fetch(mdPath(path))
-          .then((d) => d.text())
-          .then((html) => {
-            pages[path] = html;
-            wrapper.innerHTML = html;
-            if (push) history.pushState(null, "", path);
-          });
-      }
-
-      function navigate(path, { push = true, scrollTop = true } = {}) {
-        document.documentElement.dataset.route = routeName(path);
-        setActiveNav(path);
-        if (scrollTop) window.scrollTo(0, 0);
-        render(path, { push });
-      }
-
-      document.getElementById("header").addEventListener("click", (e) => {
-        const a = e.target.closest("a");
-        if (!a) return;
-        e.preventDefault();
-        navigate(a.getAttribute("href"));
-      });
-
-
-
-      window.addEventListener("popstate", () => {
-        const path = window.location.pathname;
-        navigate(path, { push: false, scrollTop: false });
-      });
-
-      wrapper.addEventListener("click", (e) => {
-        const a = e.target.closest("a");
-        if (!a) return;
-        const href = a.getAttribute("href");
-        if (!href) return;
-        if (href !== "/blog" && !href.startsWith("/blog/")) return;
-        e.preventDefault();
-        navigate(href);
+        try {
+          localStorage.setItem("theme", next);
+        } catch {}
+        syncToggle();
       });
     </script>
   </body>
