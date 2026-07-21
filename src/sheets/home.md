@@ -12,11 +12,11 @@ High-performance (<1ms latency) TUI library written from scratch that uses compo
 
 **rust** · **typescript** · **bun**
 
-### [Harness Bench](https://github.com/frixaco/harness-bench)
+### [Xport](https://github.com/frixaco/xport)
 
-Browser dashboard to benchmark multiple AI coding agents in parallel with live terminal streaming, git worktree isolation and diff review.
+Web app to export X (Twitter) threads, user posts and articles as Markdown, JSON, Text or CSV with background jobs and resume support (tab re-open works).
 
-**bun** · **react** · **websockets**
+**tanstack start** · **pnpm** · **postgresql**
 
 ### [Senmei](https://github.com/frixaco/senmei) (WIP)
 
@@ -24,17 +24,17 @@ Real-time anime player that upscales video to 4K in the browser with a WebGPU re
 
 **typescript** · **webgpu** · **wgsl**
 
-### [Xport](https://github.com/frixaco/xport)
+### [Harness Bench](https://github.com/frixaco/harness-bench)
 
-Web app to export X (Twitter) threads, user posts and articles as Markdown, JSON, Text or CSV with background jobs and resume support (tab re-open works).
+Browser dashboard to benchmark multiple AI coding agents in parallel with live terminal streaming, git worktree isolation and diff review.
 
-**next.js** · **bun** · **postgresql**
+**bun** · **react** · **websockets**
 
 ### [frixaco.com](https://github.com/frixaco/frixaco.com)
 
 This website — write content in markdown, get styled HTML. Just markdown sheets served as pages with minimal JS and CSS. <14kb
 
-**rust** · **axum** · **comrak**
+**rust** · **tcp** · **pulldown-cmark**
 
 ---
 

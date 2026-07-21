@@ -148,17 +148,21 @@
 
       #theme-toggle {
         background: none;
-        color: var(--muted);
+        color: var(--accent);
         cursor: pointer;
-        inline-size: 4.75rem;
+        inline-size: 2.75rem;
       }
 
       #theme-toggle::before {
-        content: "Dark";
+        content: "\263D\FE0E";
+        font-size: 1.125rem;
+        font-weight: 400;
+        letter-spacing: 0;
+        line-height: 1;
       }
 
       :root.dark #theme-toggle::before {
-        content: "Light";
+        content: "\263C\FE0E";
       }
 
       :is(
@@ -426,7 +430,7 @@
 
       @media (prefers-color-scheme: dark) {
         :root:not(.light) #theme-toggle::before {
-          content: "Light";
+          content: "\263C\FE0E";
         }
       }
 
@@ -507,6 +511,13 @@
     <script type="module">
       const root = document.documentElement;
       const toggle = document.getElementById("theme-toggle");
+
+      for (const link of document.querySelectorAll(
+        'html[data-route="home"] main :is(h3 > a[href^="http"], a[href="/pdf"])',
+      )) {
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener");
+      }
 
       const isDark = () =>
         root.classList.contains("dark") ||
