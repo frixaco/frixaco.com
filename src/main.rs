@@ -131,7 +131,7 @@ fn route(stream: &mut TcpStream, path: &str, accepts_gzip: bool) {
             send_response(stream, 200, "text/html; charset=utf-8", &html, accepts_gzip);
         }
         "/pdf" => {
-            if let Ok(bytes) = fs::read("src/RESUME_SDE_RESUME_RUSTAM_ASHURMATOV.pdf") {
+            if let Ok(bytes) = fs::read("src/RESUME_RUSTAM_ASHURMATOV.pdf") {
                 send_response_bytes(stream, 200, "application/pdf", &bytes);
             } else {
                 send_response(stream, 404, "text/plain", "Not found", accepts_gzip);
