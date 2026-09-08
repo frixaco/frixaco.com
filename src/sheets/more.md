@@ -1,31 +1,31 @@
-- dotfiles [here](https://github.com/frixaco/dotfiles) (fish, kitty, neovim and more)
-- self-taught, live inside my terminal, Neovim btw, embracing AI (before it "embraces" me)
-- favorite games: osu!, Sekiro, Monster Hunter World, Elden Ring, Lies of P and a few more
-- like watching anime (272+) & reading manga
-- learning Blender
-- learning Japanese
-- learning to make music
+- self-taught, live inside my terminal, Neovim btw, embracing AI (before it "embraces" me).
+- dotfiles [here](https://github.com/frixaco/dotfiles) - fish, cmux, neovim, mise, AI agents and more.
+- favorite games: osu!, Sekiro, Monster Hunter World, Elden Ring, Lies of P and more.
+- watch anime (272+) & reading manga - very picky nowadays.
+- learning Blender - animation project is coming along well.
+- learning to make music - garbage-oriented noise-driven development.
+- <s>learning Japanese</s> (on pause)
 
 ---
 
 ### laptop
 
-- M4 Pro Macbook Pro 14", 24GB RAM, 1TB SSD
+- macbook pro - i wish i could buy 64GB RAM version.
 
 ---
 
-### pc
+### pc (my baby)
 
 - CPU: AMD Ryzen 7 5800X
 - GPU: AMD Radeon RX 9070 XT
 - RAM: 32GB DDR4
-- XPPen Deco 01 V3
-- Logitech G502 X
-- ASUS TUF 27" 1440P VG27AQ
+- Drawing tablet: XPPen Deco 01 V3
+- Mouse: Logitech G502 X
+- Monitor: ASUS TUF 27" 1440P
 
 ---
 
 ### other
 
-- (i caved) iPhone 17 Pro
-- M4 iPad Pro 13", 256GB + Apple Pencil Pro
+- (i caved) iphone - fixed screen time!
+- ipad + pencil - for drawing and content consumption.

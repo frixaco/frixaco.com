@@ -40,24 +40,24 @@ This website — write content in markdown, get styled HTML. Just markdown sheet
 
 ## Work
 
-### [VBRATO](https://vbrato.com) - May, 2023 - Present
+[full resume (pdf)](/pdf)
 
-Building an all-in-one platform for music industry people to collaborate and monetize their work. Full-stack work on everything from scalable AWS microservices to leading Next.js web platform and helping out on mobile.
+### [VBRATO](https://vbrato.com), [Ekko](https://ekkohq.com) - May 2023 - Present
+
+Paid music collaborations and song-cover campaigns for artists worldwide. Led frontend and backend development across both products, built the Next.js frontend from scratch, and owned payments, payouts, and mobile audio features. Cut data processing for 1M+ artists from nine days to seven hours and roughly halved Soundcharts costs.
 
 ### [GeoAlert](https://geoalert.io) - Dec 2022 - Jun 2023
 
-Built the frontend for Keycloak-based authentication and a multi-account dashboard with advanced monitoring tools. Bunch of maintenance and bug fixing.
+AI mapping platform for satellite and aerial imagery. Built high-performance React interfaces for large imagery datasets, simplified component state and data flow, and helped move users to centralized sign-in with zero downtime.
 
 ### [Livereach](https://livereach.com) - Nov 2021 - Jan 2023
 
-Led Angular -> React migration, built lightweight state management for embeddable apps, and boosted quality with E2E testing and style standardization across projects.
+Social content and analytics platform with shoppable feeds for brands. Led React adoption within an Angular application and improved embedded app performance for e-commerce sites across Europe. Built a custom state manager that cut the JavaScript bundle by 20% and automated package publishing.
 
 ### [Moishlem](https://www.instagram.com/moishlem) - Aug 2020 - Oct 2021
 
-Built payments and subscription systems for a sports insurance platform. Developed an internal admin dashboard and re-architected PostgreSQL database schema to support multiple backends.
+Online sports insurance with policies lasting from a day to a year. Built payment and subscription workflows and internal support tools, redesigned the PostgreSQL schema, and consolidated two backends into one codebase.
 
 ### Hitide - Dec 2020 - Feb 2021
 
-Automated product, order and payment workflows, saving hundreds of hours of manual work.
-
-[full resume (pdf)](/pdf)
+Online clothing brand. Fully automated stock updates with a tested pipeline that transformed Airtable inventory data and stored it in the website's database.

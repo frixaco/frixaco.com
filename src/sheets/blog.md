@@ -46,7 +46,7 @@ Rewriting everything with signals-based reactivity, functional components, bette
 
 ---
 
-### [Building a TUI Library from scratch: Part 1](/blog/tui-lib-from-scratch-1.md)
+### [[devlog] Building a TUI Library from scratch: Part 1](/blog/tui-lib-from-scratch-1.md)
 
 `Dec 12, 2025` · **rust** · **typescript** · **bun**
 
