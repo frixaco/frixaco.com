@@ -132,7 +132,13 @@ fn route(stream: &mut TcpStream, path: &str, accepts_gzip: bool) {
         }
         "/md" => {
             let md = read_file("src/SWE_RESUME_RUSTAM_ASHURMATOV.md");
-            send_response(stream, 200, "text/markdown; charset=utf-8", &md, accepts_gzip);
+            send_response(
+                stream,
+                200,
+                "text/markdown; charset=utf-8",
+                &md,
+                accepts_gzip,
+            );
         }
         "/pdf" => {
             if let Ok(bytes) = fs::read("src/SWE_RESUME_RUSTAM_ASHURMATOV.pdf") {

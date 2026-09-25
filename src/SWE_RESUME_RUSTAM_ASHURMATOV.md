@@ -79,4 +79,4 @@ GPA: 4.57/5
 - **Frontend:** React, Next.js, Angular, React Native, Expo, Zustand, TanStack, Playwright
 - **Backend & data:** Node.js, NestJS, Fastify, GraphQL, REST, WebSockets, PostgreSQL, OpenSearch, Drizzle
 - **Payments:** Stripe, Stripe Connect, Apple/Google Pay, banking APIs
-- **Cloud & tooling:** AWS (AppSync, Lambda, CloudFormation, SQS, Step Functions), Node, Docker, Git, Linux
+- **Cloud & tooling:** AWS (ECS, EKS, AppSync, Lambda, CloudFormation, SQS, Step Functions), Node, Docker, Git, Linux
