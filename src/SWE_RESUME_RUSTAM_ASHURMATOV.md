@@ -29,7 +29,7 @@ AI mapping platform for analyzing satellite and aerial imagery worldwide.
 
 ### [Livereach](https://livereach.com)
 
-**Software Engineer** | Remote · EU | Nov 2021 – Jan 2023
+**Software Engineer** | Part-time · Remote · EU | Nov 2021 – Jan 2023
 
 Social content and analytics platform with shoppable feeds for brands.
 
@@ -39,7 +39,7 @@ Social content and analytics platform with shoppable feeds for brands.
 
 ### Moishlem
 
-**Backend Software Engineer** | Remote · EU | Aug 2020 – Oct 2021
+**Backend Software Engineer** | Part-time · Remote · EU | Aug 2020 – Oct 2021
 
 Online sports insurance with policies lasting from a day to a year.
 
@@ -48,7 +48,7 @@ Online sports insurance with policies lasting from a day to a year.
 
 ### Hitide
 
-**Software Engineer & Maintainer** | Remote · EU | Dec 2020 – Feb 2021
+**Software Engineer & Maintainer** | Part-time · Remote · EU | Dec 2020 – Feb 2021
 
 Online clothing brand.
 
