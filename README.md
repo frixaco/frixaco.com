@@ -1,52 +1,30 @@
 # frixaco.com
 
-Personal website and writing platform, built as a Rust web service, powered by Markdown.
-
-## Overview
-
-This site is intentionally simple:
-
-- server-rendered HTML
-- markdown-first content workflow
-- minimal client-side complexity
-- small runtime surface area
-
-The application pre-renders markdown into HTML at startup, keeps rendered content in memory, and serves it through lightweight HTTP routes.
+Personal website and writing platform built as a small Rust web service with Markdown content.
 
 ## Architecture
 
-- **Application layer:** Axum routes for pages, markdown endpoints, and resume delivery
-- **Rendering layer:** Comrak converts markdown to HTML during boot
-- **State model:** precomputed content stored in shared in-memory state
-- **Delivery model:** single long-running Rust binary bound to `PORT` (fallback `8080`)
-- **Caching:** default cache-control response header for public content
+- `std::net::TcpListener` HTTP server with one thread per connection
+- `pulldown-cmark` Markdown rendering
+- one shared HTML template with inline CSS and no client-side JavaScript
+- gzip compression for text responses larger than 1 KiB
+- content read from `src/` at request time
 
-## Tech Stack
+## Routes
 
-- Rust (stable)
-- Axum
-- Tokio
-- Comrak
-- include_dir
-- tower-http
-- tracing-subscriber
+- `/` and `/home` — complete single-page site
+- `/blog` and `/blog/{slug}` — blog index and posts
+- `/more` — standalone personal notes
+- `/md/*` — rendered Markdown fragments
+- `/pdf` — résumé
+- `/pfp.jpg` — profile image
 
-## Runtime Behavior
+The server binds to `PORT` when set and defaults to `8080`.
 
-- Accepts `PORT` from environment (Railway-compatible)
-- Falls back to `8080` for local development
-- Serves:
-  - main pages (`/`, `/home`, `/blog`, `/more`)
-  - individual posts (`/blog/{slug}`)
-  - raw rendered markdown endpoints (`/md/*`)
-  - PDF resume endpoint (`/pdf`)
+## Development
 
-## Deployment
+```sh
+cargo run
+```
 
-Production deploy targets Railway using a Dockerfile-based build for deterministic toolchain/runtime behavior.
-
-## Design Principles
-
-- Minimum bundle size
-- Zero bloat
-- Simple to maintain and modify
+The production image is built with the repository `Dockerfile` and deployed on Railway.

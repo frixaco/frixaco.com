@@ -1,0 +1,1 @@
+- [github](https://github.com/frixaco) · [x](https://x.com/frixaco) · [telegram](https://t.me/frixaco) · [linkedin](https://linkedin.com/in/frixaco) · [discord](https://discordapp.com/users/497957331112427540) · [email](mailto:rr.ashurmatov.21@gmail.com)

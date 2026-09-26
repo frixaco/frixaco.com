@@ -2,7 +2,6 @@ use std::{
     fs,
     io::{self, BufRead, BufReader, Write},
     net::{TcpListener, TcpStream},
-    path::Path,
     thread,
 };
 
@@ -83,8 +82,7 @@ fn handle_client(mut stream: TcpStream) {
 fn route(stream: &mut TcpStream, path: &str, accepts_gzip: bool) {
     match path {
         "/" | "/home" => {
-            let md = read_file("src/sheets/home.md");
-            let html = markdown_to_html(&md);
+            let html = render_home_content();
             let page = render_page(
                 &html,
                 "Rustam Ashurmatov",
@@ -116,8 +114,7 @@ fn route(stream: &mut TcpStream, path: &str, accepts_gzip: bool) {
             send_response(stream, 200, "text/html; charset=utf-8", &page, accepts_gzip);
         }
         "/md/home" => {
-            let md = read_file("src/sheets/home.md");
-            let html = markdown_to_html(&md);
+            let html = render_home_content();
             send_response(stream, 200, "text/html; charset=utf-8", &html, accepts_gzip);
         }
         "/md/blog" => {
@@ -140,6 +137,13 @@ fn route(stream: &mut TcpStream, path: &str, accepts_gzip: bool) {
                 accepts_gzip,
             );
         }
+        "/pfp.jpg" => {
+            if let Ok(bytes) = fs::read("src/pfp.jpg") {
+                send_response_bytes(stream, 200, "image/jpeg", &bytes);
+            } else {
+                send_response(stream, 404, "text/plain", "Not found", accepts_gzip);
+            }
+        }
         "/pdf" => {
             if let Ok(bytes) = fs::read("src/SWE_RESUME_RUSTAM_ASHURMATOV.pdf") {
                 send_response_bytes(stream, 200, "application/pdf", &bytes);
@@ -149,9 +153,7 @@ fn route(stream: &mut TcpStream, path: &str, accepts_gzip: bool) {
         }
         _ => {
             if let Some(slug) = path.strip_prefix("/blog/") {
-                let file_path = format!("src/sheets/posts/{slug}");
-                if Path::new(&file_path).exists() {
-                    let md = read_file(&file_path);
+                if let Some(md) = read_post(slug) {
                     let html = markdown_to_html(&md);
                     let page = render_page(
                         &html,
@@ -161,48 +163,42 @@ fn route(stream: &mut TcpStream, path: &str, accepts_gzip: bool) {
                     );
                     send_response(stream, 200, "text/html; charset=utf-8", &page, accepts_gzip);
                 } else {
-                    send_response(
-                        stream,
-                        404,
-                        "text/html; charset=utf-8",
-                        &render_page(
-                            "<p>Not found</p>",
-                            "404 — Rustam Ashurmatov",
-                            "Page not found.",
-                            "page",
-                        ),
-                        accepts_gzip,
-                    );
+                    send_not_found(stream, accepts_gzip);
                 }
             } else if let Some(slug) = path.strip_prefix("/md/blog/") {
-                let file_path = format!("src/sheets/posts/{slug}");
-                if Path::new(&file_path).exists() {
-                    let md = read_file(&file_path);
+                if let Some(md) = read_post(slug) {
                     let html = markdown_to_html(&md);
                     send_response(stream, 200, "text/html; charset=utf-8", &html, accepts_gzip);
                 } else {
                     send_response(stream, 404, "text/plain", "Not found", accepts_gzip);
                 }
             } else {
-                send_response(
-                    stream,
-                    404,
-                    "text/html; charset=utf-8",
-                    &render_page(
-                        "<p>Not found</p>",
-                        "404 — Rustam Ashurmatov",
-                        "Page not found.",
-                        "page",
-                    ),
-                    accepts_gzip,
-                );
+                send_not_found(stream, accepts_gzip);
             }
         }
     }
 }
 
+fn send_not_found(stream: &mut TcpStream, accepts_gzip: bool) {
+    let page = render_page(
+        "<p>Not found</p>",
+        "404 — Rustam Ashurmatov",
+        "Page not found.",
+        "page",
+    );
+    send_response(stream, 404, "text/html; charset=utf-8", &page, accepts_gzip);
+}
+
 fn read_file(path: &str) -> String {
     fs::read_to_string(path).unwrap_or_else(|_| format!("<p>Failed to read: {path}</p>"))
+}
+
+fn read_post(slug: &str) -> Option<String> {
+    if slug.is_empty() || slug.contains('/') || slug.contains('\\') {
+        return None;
+    }
+
+    fs::read_to_string(format!("src/sheets/posts/{slug}")).ok()
 }
 
 fn strip_front_matter(content: &str) -> &str {
@@ -224,11 +220,28 @@ fn markdown_to_html(input: &str) -> String {
     html
 }
 
+fn render_home_content() -> String {
+    let home = markdown_to_html(&read_file("src/sheets/home.md"));
+    let more = markdown_to_html(&read_file("src/sheets/more.md"));
+    let contact = markdown_to_html(&read_file("src/sheets/contact.md"));
+    let projects = markdown_to_html(&read_file("src/sheets/projects.md"));
+    let work = markdown_to_html(&read_file("src/sheets/work.md"));
+    let blog = markdown_to_html(&read_file("src/sheets/blog.md"));
+
+    format!(
+        "<section id=\"about\"><p><strong>About</strong></p>{home}{more}</section>\
+         <section id=\"contact\"><p><strong>Contact</strong></p>{contact}</section>\
+         <section id=\"projects\"><p><strong>Projects</strong></p>{projects}</section>\
+         <section id=\"work\"><p><strong>Work</strong></p>{work}</section>\
+         <section id=\"blog\"><p><strong>Blog</strong></p>{blog}</section>"
+    )
+}
+
 fn render_page(content: &str, title: &str, description: &str, route: &str) -> String {
     let template = read_file("src/index.html");
     template
         .replace("<!--CONTENT-->", content)
-        .replace("<!--PAGE_TITLE-->", title)
+        .replace("<!--PAGE_TITLE-->", &title.to_lowercase())
         .replace("<!--META_DESCRIPTION-->", description)
         .replace("<!--PAGE_ROUTE-->", route)
         .replace("<!--LAST_UPDATED-->", LAST_UPDATED)
@@ -328,7 +341,7 @@ fn reason_phrase(status: u16) -> &'static str {
 
 #[cfg(test)]
 mod tests {
-    use super::accepts_gzip;
+    use super::{accepts_gzip, read_post};
 
     #[test]
     fn negotiates_gzip() {
@@ -343,6 +356,13 @@ mod tests {
             ("gzip;q=invalid", false),
         ] {
             assert_eq!(accepts_gzip(header), expected, "{header}");
+        }
+    }
+
+    #[test]
+    fn post_paths_cannot_escape_the_posts_directory() {
+        for slug in ["", "../Cargo.toml", "nested/post.md", r"..\Cargo.toml"] {
+            assert!(read_post(slug).is_none(), "{slug}");
         }
     }
 }

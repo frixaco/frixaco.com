@@ -4,7 +4,7 @@
 - watch anime (272+) & reading manga - very picky nowadays.
 - learning Blender - animation project is coming along well, learning a lot about topology and shaders.
 - learning to make music - garbage-oriented noise-driven development.
-- <s>learning Japanese</s> (on pause) - hira/kata-kana done, ~100 vocab and base grammar are done.
+- <s>learning Japanese</s> (on pause) - kana, ~100 vocab and base grammar are done.
 
 <!-- --- -->
 <!---->
