@@ -31,7 +31,7 @@ AI mapping platform for analyzing satellite and aerial imagery worldwide.
 
 **Software Engineer** | Part-time · Remote · EU | Nov 2021 – Jan 2023
 
-Social content and analytics platform with shoppable feeds for brands.
+A platform for brands to publish shoppable social content and track its performance.
 
 - **Application modernization:** Led incremental React 18 adoption within a complex Angular platform, preserving existing features and keeping user workflows working throughout the transition.
 - **Embedded UI performance:** Improved load times and interaction performance in a data-intensive React app embedded in e-commerce sites across Europe. Built a lightweight reactive state manager from scratch to replace Redux, cutting the JavaScript bundle by 20%.
@@ -52,7 +52,7 @@ Online sports insurance with policies lasting from a day to a year.
 
 Online clothing brand.
 
-- **Inventory automation:** Built and tested an Airtable-to-database pipeline that extracted and transformed inventory records, fully automating stock updates for the online store.
+- **Commerce backend:** Customized Saleor (Python/Django); built and tested an Airtable-to-database ETL pipeline to fully automate inventory updates.
 
 ## Personal Projects
 
