@@ -8,7 +8,7 @@
 
   Web app to export X (Twitter) threads, user posts and articles as Markdown, JSON, Text or CSV with background jobs and resume support (tab re-open works).
 
-  **tanstack start** · **pnpm** · **postgresql**
+  **tanstack start** · **postgresql**
 
 - **[Senmei](https://github.com/frixaco/senmei) (WIP)**
 
