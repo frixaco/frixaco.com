@@ -1,0 +1,9 @@
+Use case: precise-object-edit
+Edit target: the supplied coherent portfolio canvas screenshot. Make ONLY these final content-consistency corrections; preserve all other layout, project content, media previews, colors, font styles, frame sizes and canvas controls.
+
+1. Add the small readable identity "Rustam / software engineer" in the unused middle of the top navigation bar, between "Canvas / Index" and the right-hand external links. Same monospace style and size as navigation text. Do not change or move the main preview composition.
+2. In the writing list, each row redundantly has an outer number and "Part" number. Remove the redundant outer "01", "02", "03" at the far left of those rows. Keep exactly three complete links, aligned to the same left edge as the writing heading: "Part 1 / Initial implementation", "Part 2 / Optimization", "Part 3 / Paint in Rust". Preserve their underline rules and readability.
+3. Remove the small standalone "PROJECT" label above Harness Bench, because the other projects don't have that label. Keep the "Harness Bench" heading in place. Keep the small "WRITING" label because it identifies a different content type.
+4. Ensure every project's "Open project" link ends in the same clear northeast arrow glyph "↗", not a tiny malformed symbol.
+
+Everything else must remain exactly as in the input. Same aspect ratio, no extra elements, no image reinterpretation, no further styling changes.

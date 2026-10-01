@@ -1,0 +1,67 @@
+Use case: ui-mockup
+Asset type: remade neobrutalist infinite-canvas portfolio homepage.
+Input images:
+1. EDIT TARGET: the prior open-studio portfolio mockup. Preserve the canvas interaction and actual project identities, but remake the visual treatment for consistency and purpose.
+2. SUPPORTING CONTENT SOURCE: an actual Xport homepage screenshot from its repository. Use a crop of its central export form as Xport's authentic thumbnail; this screenshot is NOT a style reference for the portfolio.
+
+Primary request: Fix the design's arbitrary decoration and fabricated content. EVERY element must have a reason: identity, actual project information, a real screenshot, a clearly marked preview placeholder, navigation, or interaction state. Make a coherent, readable, bold, beautiful neobrutalist canvas. Expressiveness must come from confident typography, purposeful hierarchy and spatial composition, not colorful shapes behind random projects.
+
+REMOVE completely from image 1: the yellow Xport platform, the blue Senmei background, every decorative red square, fake "a thread → # a thread" content, fictitious code editor/version number for LeTUI, fake named-agent status streams, and the fabricated anime before/after comparison. Do not replace them with unrelated decoration.
+
+ONE SHARED DESIGN SYSTEM:
+- Uniform clean warm-gray canvas, flat charcoal and off-white media surfaces, black text and strong 2–3px black edges. No grunge, gradient, dot grid or background pattern.
+- Retain neobrutalism through heavy readable grotesk titles, tight monospace metadata, square controls, assertive horizontal rules and small consistent unblurred black shadows under preview frames.
+- One small vermilion accent indicates ONLY the currently hovered/focused preview. Use four small corner marks around LeTUI and a hand pointer, making this state meaningful. Do not color project backgrounds or give arbitrary colors to categories.
+- Same font, title size, caption order, spacing rules and link style for EVERY project. Body copy readable at approximately 16px, project names 30–36px. All text horizontal and unobscured.
+- Different preview aspect ratios and spatial placement may express different media. No equal card grid; no overall rectangle around each project's title, copy and preview. Captions sit directly on the common canvas, grouped unambiguously with their content.
+
+Canvas composition: a balanced asymmetric field containing all four projects, one writing group, and one modest personal anchor. Compact and readable. Keep all primary titles and descriptions in view. The canvas is visibly navigable with persistent controls, but no connector graph, overlapping collage or full-height sidebar. Respect generous local separation without giant dead zones.
+
+ACTUAL PROJECT CONTENT:
+LeTUI: replace the fake editor with a restrained black media placeholder containing ONLY a clear white play icon and the words "Terminal demo". This is a future demo slot, not a fabricated application screenshot. Beneath it use the exact caption:
+"LeTUI"
+"TUI library with a Rust core and TypeScript API."
+"Rust / TypeScript / Bun"
+"Open project ↗"
+Make this the focused preview through the small vermilion corner marks.
+
+Senmei: replace the invented colorful comparison with a wider dark media placeholder, same border/shadow family, containing ONLY a white play icon and "Video demo". No fake before/after result. Exact caption:
+"Senmei" with a small monochrome "WIP" badge
+"Browser video player with WebGPU upscaling."
+"MKV streaming / subtitles"
+"Open project ↗"
+
+Xport: replace the entire yellow composition with an accurately reproduced crop from input image 2's central UI. Include its real heading "Export Twitter/X posts", functional labels "Unroll threads", "Export profiles", "Save articles", and URL field reading "Paste any Twitter/X URL or @username..." with its submit arrow. Use the actual screenshot's white background INSIDE the thin black preview frame. Exclude the screenshot's account toolbar and its excessive surrounding whitespace. Preserve its real layout, don't invent a different export UI, fake sample thread or unrelated diagram. Exact portfolio caption below the screenshot:
+"Xport"
+"Export X threads, posts and articles."
+"Markdown / JSON / Text / CSV"
+"Open project ↗"
+No yellow anywhere. Give this project an appropriate, modest amount of space.
+
+Harness Bench: use a TEXT-ONLY project group, because no real screenshot was supplied. Do not invent a dashboard or agents. Exact content:
+"Harness Bench"
+"Compare AI coding agents in parallel."
+"Live terminals / isolated worktrees / diff review"
+"Open project ↗"
+A short black rule separates its heading from the concise copy, matching the writing area's rules. No arbitrary icon, illustration, terminal trace or metrics. Not every project needs a preview.
+
+WRITING group on the same canvas:
+"Building a TUI library from scratch"
+"Part 1 / Initial implementation"
+"Part 2 / Optimization"
+"Part 3 / Paint in Rust"
+Use three consistent clearly clickable text lines, with normal font size, restrained underlines, no block background or ornamental label.
+
+PERSONAL ANCHOR:
+"Rustam"
+"software engineer"
+"exploring & building cool stuff"
+Keep modest scale, no extra icons, stars, coordinates or fake status.
+
+PERSISTENT UI:
+Top: "frixaco.com", then "Canvas / Index" with Canvas underlined in black; right links "GitHub ↗", "Email ↗", "Résumé ↗".
+A compact secondary jump line reads "Jump to: Projects / Writing / About". Use real regions, not arbitrary categories.
+Bottom: "Drag to pan · click a preview to focus" and small consistent square controls "− 100% +" and "Fit all".
+The same project-link wording always means the same action. The canvas focus hint applies to preview media; the external link goes to the project. No miscellaneous duplicate navigation.
+
+Output a single polished landscape 16:10 WEBSITE SCREENSHOT. Preserve accurate spelling and known content. No explanatory presentation annotations. The art direction should feel strong and intentional, with zero objects added merely to fill space. Real content and honest placeholder media create the variation.

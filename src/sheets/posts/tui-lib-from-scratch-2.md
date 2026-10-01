@@ -2,6 +2,9 @@
 title: "Building a TUI Library from scratch: Part 2"
 description: "Optimization journey - I want 120+fps and sub 8ms frame times"
 date: "2026-01-08T10:00:00"
+project: "letui"
+series: "Building a TUI library from scratch"
+subtitle: "Optimization"
 ---
 
 ## [devlog] Building a TUI Library from Scratch: Part 3 - Optimization

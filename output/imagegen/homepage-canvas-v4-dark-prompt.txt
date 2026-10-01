@@ -1,0 +1,27 @@
+Use case: style-transfer
+Asset type: portfolio homepage UI mockup, dark neobrutalist variation.
+Input image: EDIT TARGET, the expanded LeTUI state of Rustam's unfolding-tree homepage.
+
+Primary request: Edit this exact design to lean MUCH MORE into neobrutalism, with a darker, more serious, disciplined character. Preserve the successful unfolding-tree interaction, content and layout. Change the visual treatment, not the information architecture. The result should feel like a forceful, precise piece of graphic design for a software engineer.
+
+INVARIANTS: Preserve all existing words, labels and project names exactly; preserve the top navigation, yellow-root position (recolor it), tree hierarchy, expanded LeTUI project, its embedded media preview and two nested branches, three collapsed sibling projects, three folded categories at left, and bottom controls. Keep the screenshot landscape and full bleed, no device frame. Preserve useful content density. No new sections, claims, decorative objects or UI features. The expanded project remains IN the canvas, not a sidebar.
+
+VISUAL CHANGES:
+- Replace the light background with a uniform matte near-black charcoal, approximately #20211F. No gradients, textures or vignette.
+- Main lettering and structural lines become warm bone-white, approximately #EBE8DF. Secondary text stays a readable lighter gray, never low-contrast dark gray.
+- Remove BOTH the bright yellow and electric blue palette. Use ONE restrained flat burnt-orange accent, approximately #E7784B, only for the active route, the selected Map tab, the LeTUI title strip and the small WIP label. Black/charcoal lettering on orange for clear contrast. Most of the screenshot should remain monochrome.
+- The RUSTAM root becomes a flat bone-white rectangular identification plate, with near-black text, a confident 4px near-black outline and a hard unblurred black offset shadow. Make RUSTAM a heavy, tightly set condensed grotesk wordmark, powerful but not larger than its current occupied area. Keep @frixaco and software engineer under it.
+- Replace the timid thin UI borders with assertive 3–4px rules and structural edges. Square corners everywhere. No bevels, chamfers, rounding, glass or soft effects.
+- Unselected category headings WRITING, WORK and ELSEWHERE should look like severe black-and-bone typographic tabs, attached to the tree, with boldly boxed plus controls. Keep their descriptive text directly on the charcoal canvas.
+- The selected PROJECTS node should be primarily charcoal with a bone-white boundary and one orange indicator, rather than a giant orange block.
+- The route Rustam → Projects → LeTUI is burnt orange. All inactive connectors are bone-white. Use squared 90-degree elbows and small square joints; maintain the same topology. The parent spine beneath LeTUI leading to Senmei, Xport and Harness Bench is INACTIVE and therefore bone-white, not orange.
+- The unfolded LeTUI document has a dark graphite flat surface, approximately #2B2C29, a thick bone-white border and a crisp offset black shadow. No white document panel. Orange LeTUI title tab with heavy near-black lettering, an unmistakable square minus latch.
+- The embedded media area becomes a very dark flat rectangle, with a simple bone-white play icon and the existing minimal terminal wireframe. Preserve "Demo preview". No glow, blur, gradients, colored code, fake charts or extra details.
+- Keep the subtitle, metadata and factual sentence highly readable in bone-white/light gray. Metadata is no longer brightly colored. The two action buttons are severe square bordered controls with tight padding and obvious contrast.
+- "How it works +" and "Build log +" remain connected nested leaves within the open project. Treat them as tight typographic controls with strong rules, not friendly floating cards.
+- Render LeTUI, Senmei, Xport, Harness Bench and category headings with a heavier, slightly condensed industrial grotesk, optically tight and precise. Smaller copy remains a clean monospace. Preserve case for project names; do not turn LeTUI into LETUI.
+- Navigation and footer gain stronger horizontal rules, compact spacing and crisp square dividers. Keep controls secondary in scale.
+
+Overall mood: sober, confident, raw, tactile through GRAPHIC structure alone. High-contrast dark neobrutalism. Less toy-like, more editorial and engineered. Clear hierarchy, substantial edges, unapologetically flat surfaces and hard shadows. Avoid conventional dark SaaS styling, futuristic HUDs, hacker/cyberpunk themes, neon, glow, skeuomorphic metal, grunge, hazard stripes, decorative numbering, sticker clutter, friendly rounded shapes, huge whitespace and card grids.
+
+Output: one polished high-fidelity website screenshot of this same expanded state, with faithful readable text and the stronger darker art direction immediately obvious.

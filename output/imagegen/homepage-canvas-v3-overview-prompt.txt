@@ -1,0 +1,33 @@
+Use case: ui-mockup
+Asset type: desktop portfolio homepage interaction concept, state 1 of 2: overview.
+Input image: visual style reference and content reference, not a geometry lock.
+
+Create a NEW VARIATION of the attached neobrutalist infinite-canvas portfolio. Keep its clean off-white, black, electric blue and yellow visual language, crisp square corners, hard tiny offset shadows, bold grotesk typography and compact monospace captions. Keep the identity Rustam / @frixaco and the real project names. Redesign the composition around an UNFOLDING TREE interaction: nodes are expandable joints in a living document, opening inline along the branch. This must look distinctly more like an explorable authored document than the previous large static flowchart.
+
+One single full-bleed high-fidelity website screenshot in landscape 16:10, no device mockup. No presentation title, storyboard annotations or marketing explanation.
+
+Interaction affordances must be precise:
+- A small outlined square "+" physically attached to the end of a node label means unfold here. Category nodes already showing children have a small "−" square.
+- Internal nodes have these plus/minus controls, NEVER external-link arrows. Only actual offsite links in the header use ↗.
+- Small child counts for collapsed categories make hidden material discoverable.
+- The active route from identity through Projects is electric blue; other connectors are black.
+- The user's hand pointer hovers over LeTUI's plus control in this overview, clearly inviting expansion. No visible preview is open yet.
+- Nodes are directly connected, no floating detached cards.
+- A quiet fixed "Map / Index" toggle offers a conventional index as well.
+
+Composition: A slim top bar with "frixaco.com", "Map" selected, "Index", then right-aligned "GitHub ↗", "Email ↗", "Résumé ↗". Below it the tree occupies the viewport compactly, with meaningful grouped whitespace and asymmetry. Move the compact yellow identity root toward the upper-left of the canvas rather than a gigantic central box. It reads "RUSTAM", "@frixaco", "software engineer". It is about the size of a modest label, not a hero. A blue right-angle connector runs from it to an expanded "PROJECTS  −" branch near upper-middle. That branch fans out into four open typographic project leaves arranged as a staggered vertical sequence across the center/right, linked by one crisp visible spine. Each project title has a square "+" latch integrated at its end, small plain description below, and a short fine horizontal rule that suggests an expandable document edge. Do not enclose whole projects in boxes.
+Exact project text:
+"LeTUI" / "A TUI library from scratch" / "Rust / TypeScript / Bun"
+"Senmei" with small "WIP" mark / "Anime playback in the browser" / "WebGPU / MKV / subtitles"
+"Xport" / "Threads → Markdown"
+"Harness Bench" / "AI coding agents, side by side"
+
+Other branches grow DOWN from the identity, filling the lower-left and lower-middle without overlapping projects:
+"WRITING  +" with small "3 essays" and text "Building a TUI library from scratch".
+"WORK  +" with short summary "VBRATO / Ekko · GeoAlert".
+"ELSEWHERE  +" with short summary "Blender · Music · Games / anime · Dotfiles".
+These compact folded branches are distinct horizontal text leaves with black rules and small square hinge controls. They are lower in emphasis than the projects. Avoid a rigid grid or symmetrical star. Several clean 90-degree elbows and branches convey the spatial relationship. Use medium-weight black lines with square junctions, meticulous alignment, no connector passing through text. No inordinate long connectors or giant empty areas. The whole screenshot feels tightly composed, readable and practical, with fewer than 12 main text groups.
+
+Bottom controls, small and quiet: "Click + to unfold · drag background to pan", then at right "− 100% +", "Overview". No minimap.
+
+Constraints: no decorative art, doodles, sticker shapes, grid background, texture, coordinate numbers, lorem ipsum, invented claims, code fragments, screenshots, hero slogan, card grid, dashboard, rounded UI, gradients or additional colors. This first state contains readable project titles and short descriptions only; subsequent interaction will insert a preview directly into the branch. Strong clear hierarchy and visual delight from typography and topology alone.

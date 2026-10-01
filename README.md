@@ -28,3 +28,5 @@ cargo run
 ```
 
 The production image is built with the repository `Dockerfile` and deployed on Railway.
+
+The React canvas redesign lives in [`v2/`](v2/README.md). Run it separately with `cd v2 && bun install && bun run dev`.

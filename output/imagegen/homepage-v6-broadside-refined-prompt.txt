@@ -1,0 +1,23 @@
+Use case: style-transfer
+Asset type: refined high-fidelity portfolio homepage screenshot.
+Input image: EDIT TARGET, the bold magazine-style frixaco.com homepage.
+
+Refine this exact concept for READABILITY. The user likes the direction; tone it down a little rather than redesigning it. Preserve the independent magazine character, bold neobrutalist typography, irregular editorial sections, black/ivory/red/chartreuse palette, project media, and the drag-a-headline interaction. Keep the same project order and general composition, same landscape aspect ratio. Still bold, diverse, expressive and beautiful.
+
+Make these targeted improvements:
+1. Reduce the huge project headlines by roughly 30–40%, particularly LeTUI, Xport and Harness Bench. Use a bold grotesk with more natural letter widths and comfortable tracking instead of the extremely squeezed condensed face. No letters should touch. Keep Senmei's distinctive italic serif, but reduce it and give its descenders clear space. Preserve correct capitalization: "LeTUI", "Senmei", "Xport", "Harness Bench".
+2. All descriptions, metadata, navigation and writing links should be LEVEL, normal-width, and easy to read at this screenshot size. Supporting copy around 18–22px at 1600px image width; small metadata at least 15–16px. Never squeeze a sentence to fit. Use a consistent readable sans serif for descriptions, monospace for metadata and controls. No ultra-condensed body text, tiny captions, distorted baselines or slanting text. Let only the editorial background edges have subtle angle.
+3. Give text groups 20–32px of purposeful internal padding and clear separation from image boundaries. Slightly increase space between headlines, descriptions and metadata. All project names and primary copy must be fully visible, no clipped words or overlaps. Preserve visual density; do not create giant blank regions or turn this into a generic spaced-out landing page.
+4. Keep the strong left identity spine, but make the vertical "RUSTAM" comfortably smaller so the ENTIRE word is visible inside the screen with margins. Its role is a recognizable identity, not an unreadable cropped decoration. Keep the small personal interests and Dotfiles link at its base clearly readable.
+5. Keep the LeTUI / terminal relationship and pull handle. The shorter headline leaves room for a clean, level subtitle "A TUI library from scratch" and "Rust / TypeScript / Bun". The terminal is a project preview, not an extra area of body copy. Keep the small functional instruction "drag a title / click to open" near the handle, sized legibly.
+6. The red Senmei section stays expressive. Keep "WIP", "Anime playback in the browser", and "WebGPU / MKV / subtitles" readable and distinct from the serif title. Preserve its existing anime landscape comparison strip. Reduce the red's harshness slightly to a rich vermilion; keep black lettering highly readable.
+7. Xport remains the compact chartreuse intervention. Slightly soften the fluorescent chartreuse, preserving its character. Clear "Xport" heading, "Threads → Markdown" description, and the existing source-to-Markdown demonstration. Add space between the title and demo so they no longer appear crushed together.
+8. Remove the unrelated black-and-white decorative photograph beside Writing and use its space for the actual reading list. Make this a clean ivory editorial column with the readable title "Building a TUI library from scratch" and three comfortably spaced links: "01 / First principles", "02 / Chasing 120fps", "03 / Paint in Rust".
+9. Keep Harness Bench as a black bottom band with a more moderately sized bone-white title, a clear "AI coding agents, side by side" description and its three terminal preview strips. Do not crop the band or squeeze the description.
+10. Preserve the slim site header and real links, with an orderly readable baseline and adequate hit-area spacing.
+
+Invariants: same personal identity, actual project names, useful content, expressive editorial art direction, and interactive pull-strip idea. No new claims, no new decorative graphics, no mind-map/tree, no navigation overhaul.
+
+Avoid over-correction: NOT a corporate portfolio, bland grid, repeated cards, monochrome minimalist page or generic hero layout. Keep strong contrasting type personalities, unequal section proportions and a little editorial overlap at BACKGROUND edges only. No body-text overlap. No rounded cards, gradients, giant margins or soft effects.
+
+Output exactly one polished revised desktop homepage. It should read instantly as the same bold concept with clearer hierarchy, calmer typography and much more comfortable reading.

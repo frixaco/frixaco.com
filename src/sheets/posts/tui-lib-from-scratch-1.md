@@ -2,6 +2,9 @@
 title: "Building a TUI Library from scratch: Part 1"
 description: "Initial implementation with classes, then rewriting with signals-based reactivity - Bun, Rust and functional components"
 date: "2025-12-12T10:00:00"
+project: "letui"
+series: "Building a TUI library from scratch"
+subtitle: "Classes to signals"
 ---
 
 ## [devlog] Building a TUI Library from Scratch: From Classes to Signals

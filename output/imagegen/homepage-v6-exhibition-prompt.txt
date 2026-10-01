@@ -1,0 +1,39 @@
+Use case: ui-mockup
+Asset type: completely new personal portfolio homepage concept, one desktop screenshot.
+Primary request: Design a bold, beautiful, expressive NEOBRUTALIST PERSONAL EXHIBITION for Rustam / frixaco.com. The previous exploration was an overcrowded typographic collage; this must be a fundamentally different approach with excellent readability and an obvious interaction model. No input reference image: invent a new composition.
+
+Core concept: a website with one large exhibition STAGE and a persistent project-selection rail. The visitor clicks a project name and the entire stage changes its imagery, description and accent color while navigation stays put. Left/right arrow buttons offer the same interaction. The website has visual confidence and personality, but is understandable in three seconds. Show Senmei SELECTED, to introduce a different visual subject from prior LeTUI-centered mockups. This is a personal website, not a media player app, dashboard or slide presentation.
+
+Art direction: contemporary exhibition signage meets independently designed software. Hard graphic blocks, thick black rules, square corners, hard offset shadows used sparingly, strong readable grotesk lettering and precise monospaced metadata. A deep ultramarine outer field gives the page a forceful identity. Warm bone-white content surfaces and a saturated coral-red selected tab supply contrast. A small pale-yellow accent can highlight WIP, but keep the color system disciplined. Let ONE gorgeous project image carry visual richness. Neo-brutalism expressed through structure, scale and decisive color, not visual noise.
+
+Composition: single landscape 16:10 full-bleed WEBSITE viewport. No browser chrome, no device, no caption or annotations outside the site. Tightly composed, content-rich but calm. All letters upright and fully visible. No rotated text, no overlapping words, no cropped identity, no narrow compressed display lettering. Main heading around 60px at a 1600px-wide viewport; body 20px; navigation 18–22px. A person should comfortably read every meaningful line.
+
+Header: a compact bone-white horizontal bar edged with a heavy black rule. At left "frixaco.com"; readable navigation "Projects", "Writing", "About" in the center, Projects selected with a black underline. At right "GitHub ↗", "Email ↗", "Résumé ↗". Below it a compact identity line on the blue field: "RUSTAM" in strong white type, beside "@frixaco / software engineer", and one short line "exploring & building cool stuff". The identity takes less than 12% of the screen height and is NOT a marketing hero.
+
+The main exhibition fills most of the width and around two-thirds of the viewport, bordered in thick black, with a small hard black offset shadow. It is ONE coherent built-in stage, not a floating rounded card.
+- Across its top is a wide bone-white title strip with "Senmei" in heavy beautifully balanced grotesk, a small square "WIP" badge and the smaller description "Anime playback in the browser." At the far end, small clearly labeled square previous/next arrow controls, "←" and "→", with compact "02 / 04".
+- Below, a generous original anime-landscape video preview fills roughly the left 70% of the stage width. The imagery is a richly drawn coastal city at dusk, electric sky and warm windows, with architectural depth and strong restrained colors, no known franchise or character. A sharp vertical comparison divider and a small square handle communicate the upscaling demo. Small plain labels "Original" and "Upscaled" on the respective sides. Keep the anime illustration CONTAINED within the actual media rectangle. The surrounding website is flat graphic UI.
+- The remaining right 30% is a bone-white, readable editorial annotation column, divided from the image by a strong black rule. Exact text:
+  "THE IDEA"
+  "Play MKV video in the browser, with GPU upscaling and subtitles."
+  "BUILT WITH"
+  "TypeScript / WebGPU / WGSL"
+  "STATUS"
+  "Work in progress"
+  At its bottom two useful square-edged controls: "Explore project →" as a coral-red button with black text and "Source ↗" as a simple underlined link. Compact spacing and comfortable line length. No fake metrics.
+- A small dark strip directly beneath the media has "Preview" at left and the concise interaction hint "Drag the divider to compare", with a play triangle if useful. No dense playback dashboard.
+
+Immediately attached BELOW the stage is its most distinctive UI: a sturdy full-width PROJECT SELECTOR RAIL, like a beautiful gallery's tabbed index. Four unequal-width typographic tabs share one baseline and touch edge-to-edge, separated only by heavy black rules. These are NAVIGATION CONTROLS, not a card grid. All four project names stay visible at all times:
+"01  LeTUI" / small "Terminal UI"
+"02  Senmei" / small "Browser video"
+"03  Xport" / small "Thread exports"
+"04  Harness Bench" / small "Agent benchmarks"
+The selected Senmei tab is CORAL RED with BLACK lettering, a heavy top edge or solid indicator clearly attached to the stage. Other tabs are bone-white or the deep blue with correctly contrasting readable lettering. Text is comfortably large, no screenshots in the rail. Make the selection feel tactile and deliberate. One small hand cursor over Xport suggests a next click. Avoid literal knobs, physical equipment, reels or a fake game controller.
+
+A very small bottom line, integrated into the page, can link "Building a TUI library from scratch ↗" and "Blender / music / games / anime". Do not add an additional panel, hero or marketing footer.
+
+Expressive details should come from the irregular but balanced width of navigation tabs, careful type scale, the contrast of blue/red/cream, the gorgeous single demo image, decisive black rules and tactile selection. There is a clear reading order: person → project → preview/details → choose another project. Keep everything fitted within the viewport with enough local breathing room, no dead expanses.
+
+Avoid all prior concepts: NO tree, graph, mind map, connector lines, infinite canvas controls, terminal file explorer navigation, magazine collage, torn-paper effect, huge cropped type, overlapping panels, diagonal composition, accordion, independent card grid, landing-page hero or enormous whitespace. NO fabricated testimonials or performance numbers, no inspirational slogans, no meaningless decorative graphics, no gradients, glow, glass, blurred backgrounds or rounded UI.
+
+Output: one meticulous high-fidelity, functional and visually memorable personal website screenshot. The result should be daring in art direction and calm in how it is read. Preserve exact project names and legible text.

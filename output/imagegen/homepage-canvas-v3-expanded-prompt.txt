@@ -1,0 +1,25 @@
+Use case: ui-mockup
+Asset type: desktop portfolio homepage interaction concept, state 2 of 2: LeTUI unfolded.
+Input image: EDIT TARGET, the exact preceding overview of the neobrutalist unfolding-tree portfolio.
+
+Show the SAME interface immediately AFTER the user clicked LeTUI's "+" control. Preserve the identity, visual system, flat off-white/black/yellow/electric-blue palette, typography, square borders, header, footer, and the overall reading direction from Rustam to Projects to its children. Do not change the site's branding or introduce new decoration. Same landscape aspect ratio.
+
+This is a genuine interaction state change: the LeTUI leaf UNFOLDS INTO THE CANVAS as a connected document, pushing the three sibling project leaves downward. The tree itself makes room. It is not a modal, overlay, fixed right sidebar or separate webpage. The expanded document is visibly attached to its original tree connector, with canvas visible all around it, and the sibling project nodes continue on the SAME parent spine below it. Do not draw a full-height partition or side panel.
+
+Reflow geometry carefully to make the useful opened content readable: keep the yellow RUSTAM identity and the lower-left folded Writing / Work / Elsewhere branches substantially where they were, but shorten the empty stretch between identity and Projects to allocate more canvas width to the open project. PROJECTS can sit nearer the root, and the open LeTUI branch occupies the upper-middle/right of the canvas at about 600–660 pixels wide in a 1600-pixel screenshot. Sibling labels sit below it as three compact rows, all remain in the viewport. Compact the surrounding layout, do not pile up content or shrink text. Use the strong stable root and category spine to preserve orientation. No huge empty area in the middle.
+
+Open LeTUI appearance:
+- The node title is now "LeTUI" in a short electric-blue title tab with white text and an attached square "−" control. No external-link arrow on this internal title.
+- Below the title, an inline connected rectangular document unfolds. White/off-white background, black border and tiny hard shadow, consistent with the neobrutalist root. Only this one expanded project has a content frame.
+- Concise subtitle: "A TUI library from scratch".
+- Metadata: "Rust / TypeScript / Bun".
+- A single wide dark media preview area, visually about 2:1 ratio, with a minimalist terminal-like wireframe in subtle gray outlines and a centered simple white play triangle. Small readable label "Demo preview". This is an intentional mock preview for a future real project demo, no fake performance charts or invented claims, no code fragments, no scenic illustration.
+- Under the media, one concise factual line: "Rust core. TypeScript components. Reactive state."
+- Two small actual action links: "Play demo" and "Source ↗". These are quiet square-edged link controls, not huge marketing buttons.
+- From the BOTTOM edge of this unfolded project, two small black elbow connectors lead into compact child text leaves "How it works  +" and "Build log  +". These are visibly deeper branches in the same document tree, not tabs or another navigation bar. One may continue briefly below the document before turning. Leave local room so these do not cross the sibling project spine.
+
+Continue the parent Projects spine below/alongside the expanded document, ending at THREE compact siblings: "Senmei" with "WIP" and "+", "Xport" with "+", "Harness Bench" with "+". These sibling nodes need only a short single-line name now; no previews, boxes or long metadata. They must be clear peers of LeTUI, not children of LeTUI. Blue should highlight ONLY the route Rustam → Projects → LeTUI. Sibling connectors are BLACK. This route distinction should be readable at a glance.
+
+The lower-left folded branches remain "WRITING +" with "3 essays", "WORK +" with "VBRATO / Ekko · GeoAlert", and "ELSEWHERE +" with "Blender · Music · Games / anime · Dotfiles". Header remains "frixaco.com", "Map" active, "Index", "GitHub ↗", "Email ↗", "Résumé ↗". Footer hint changes to "Click − to fold · Esc to step back"; keep "− 100% +" and "Overview" at bottom right. Optional small hand cursor on "Build log +" makes the next action evident, but no extra tooltip.
+
+Constraints: same high-fidelity product screenshot, no storyboard, no arrows explaining animations, no decorative art, no presentation captions. Crisp correct text, comfortable line lengths, calm useful density. No panel docking, overlay, card grid, rounded corners, gradient, dot grid, paper texture, giant hero or empty marketing whitespace. This image must make the progressive in-place UNFOLDING interaction visually obvious.

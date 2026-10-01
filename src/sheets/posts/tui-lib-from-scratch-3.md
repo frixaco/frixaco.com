@@ -2,6 +2,9 @@
 title: "Building a TUI Library from scratch: Part 3"
 description: "Paint in Rust, rethinking interaction state, stabilization, release pain, and text/style diff sync"
 date: "2026-02-21T16:00:00"
+project: "letui"
+series: "Building a TUI library from scratch"
+subtitle: "Paint in Rust"
 ---
 
 ## [devlog] Building a TUI Library from Scratch: Part 5 - Paint in Rust, State in Rust
