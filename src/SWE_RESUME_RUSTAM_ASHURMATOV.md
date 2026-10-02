@@ -2,6 +2,10 @@
 
 [rr.ashurmatov.21@gmail.com](mailto:rr.ashurmatov.21@gmail.com) | [linkedin.com/in/frixaco](https://linkedin.com/in/frixaco) | [github.com/frixaco](https://github.com/frixaco) | [frixaco.com](https://frixaco.com) | [+998 90 917 0991](tel:+998909170991) | Tashkent, Uzbekistan
 
+## Summary
+
+Full-stack engineer with 5+ years of experience building products for remote startups. Work across backend, web, cloud infrastructure, and mobile, and own delivery end to end, from architecture to production.
+
 ## Experience
 
 ### [VBRATO](https://vbrato.com), [Ekko](https://ekkohq.com)
@@ -12,7 +16,7 @@ Paid music collaborations and song-cover campaigns for artists across the world.
 
 - **Frontend leadership:** Built the platform’s Next.js frontend from scratch, establishing its architecture, shared design language, and reusable components, with a focus on fast page loads and polished user experience.
 - **Payments and payouts:** Owned complete payment and payout integration work across backend, frontend and mobile, including secure custom checkout and international transactions (Stripe, Apple/Google Pay, credit cards, Stripe Connect).
-- **Backend leadership:** Led backend architecture and delivery across both products, using CloudFormation to manage AWS infrastructure, SQS for queued work, and GraphQL/REST APIs; shaped deployment and testing practices.
+- **Backend leadership:** Led backend architecture and delivery across both products, using IaC tools like CloudFormation and SST to manage AWS infrastructure, SQS, and GraphQL/REST APIs; ran peer code reviews and optimized CI/CD workflows.
 - **Data pipelines and search:** Migrated 1M+ artists and 100M+ metrics to OpenSearch. Optimized Soundcharts ingestion, reducing monthly API requests from 25M+ to 11M and roughly halving provider costs; cut full processing time from 9 days to 7 hours.
 - **Real-time communication:** Built a real-time messaging system using GraphQL subscriptions, with notifications and mobile push, eliminating recurring vendor fees.
 - **Mobile and media:** Built a high-performance audio track player and fully custom UI running at 60 fps in React Native/Expo; authored a fast, efficient FFmpeg-powered watermarking solution.
@@ -79,4 +83,4 @@ GPA: 4.57/5
 - **Frontend:** React, Next.js, Angular, React Native, Expo, Zustand, TanStack, Playwright
 - **Backend & data:** Node.js, NestJS, Fastify, GraphQL, REST, WebSockets, PostgreSQL, OpenSearch, Drizzle
 - **Payments:** Stripe, Stripe Connect, Apple/Google Pay, banking APIs
-- **Cloud & tooling:** AWS (ECS, EKS, AppSync, Lambda, CloudFormation, SQS, Step Functions), Node, Docker, Git, Linux
+- **Cloud & tooling:** AWS (ECS, EKS, AppSync, Lambda, CloudFormation, SQS, Step Functions), CI/CD, Node, Docker, Git, Linux
