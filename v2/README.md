@@ -21,14 +21,9 @@ The production server serves `dist/` on `0.0.0.0:8080`. Override with `PORT` and
 
 ## Railway
 
-Deployed separately as `frixaco-v2` / `portfolio-v2` at https://v2.frixaco.com. Railway uses `v2/Dockerfile` with the repository root as its build context, so the shared Markdown and résumé are available. The service healthcheck is `/`.
+Deployed as the `portfolio-v2` service in the `main` project at https://v2.frixaco.com. Railway uses `v2/Dockerfile` with the repository root as its build context, so the shared Markdown and résumé are available. The service healthcheck is `/`.
 
-Deploy the current checkout from the repository root:
-
-```sh
-railway up --detach --project 6db9bf14-7391-44c2-8b22-63fad9f8bf30 --service 3c221b70-94ff-4e06-b7a2-442a85a8a540 --environment production
-railway status --project 6db9bf14-7391-44c2-8b22-63fad9f8bf30 --environment production
-```
+Deploy the current checkout from the repository root.
 
 ## Interactions
 
