@@ -1,0 +1,42 @@
+{
+	admin off
+}
+
+:{$PORT:8080} {
+	root * {$SITE_ROOT:/srv}
+	encode zstd gzip
+
+	@static path /pfp.jpg /pdf
+	header @static Cache-Control "public, max-age=3600"
+	@dynamic not path /pfp.jpg /pdf
+	header @dynamic Cache-Control "no-cache"
+	header /md Content-Type "text/markdown; charset=utf-8"
+	header /posts/* Content-Type "text/markdown; charset=utf-8"
+
+	redir /index.html / 308
+
+	# Every page route serves index.html; it picks what to show client-side.
+	@page path / /home /blog /more
+	rewrite @page /index.html
+	rewrite /pdf /SWE_RESUME_RUSTAM_ASHURMATOV.pdf
+	rewrite /md /SWE_RESUME_RUSTAM_ASHURMATOV.md
+
+	# /blog/<slug>.md is a post page only when posts/<slug>.md exists.
+	@post path_regexp post ^/blog/([\w-]+\.md)$
+	handle @post {
+		@exists file /posts/{re.post.1}
+		rewrite @exists /index.html
+		file_server
+	}
+
+	handle {
+		file_server
+	}
+
+	# Unknown paths get index.html with a 404 status; it renders "not found".
+	handle_errors 404 {
+		encode zstd gzip
+		rewrite * /index.html
+		file_server
+	}
+}
