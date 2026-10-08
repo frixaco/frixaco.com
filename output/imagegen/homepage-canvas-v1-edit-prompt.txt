@@ -1,3 +1,0 @@
-Use case: ui-mockup
-Edit the attached homepage mockup with exactly one small correction. Beside the central "Rustam" identity is a crosshair followed by two lines of geographic latitude/longitude numbers, "35.6762° N" and "139.6503° E". These coordinates are incorrect. Replace ONLY those two tiny text lines with neutral infinite-canvas coordinates reading exactly "x: 0" and "y: 0", in the same small dark monospace text, aligned at the same position next to the crosshair. Keep the crosshair intact.
-Preserve the entire rest of the image exactly: canvas dimensions, all typography, names, other text, project previews, artwork, colors, map connections, paper texture, spacing and controls. Do not add or remove anything else.
