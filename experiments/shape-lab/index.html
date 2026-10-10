@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shape Lab</title>
+    <link rel="icon" href="data:," />
+  </head>
+  <body>
+    <main class="lab">
+      <section class="stage" aria-label="Shape">
+        <canvas id="stage"></canvas>
+        <div class="label formula">r(θ) = ( |cos mθ/4|^n2 + |sin mθ/4|^n3 )^(−1/n1)</div>
+        <div class="label count" id="count"></div>
+        <div class="label flag" id="flag" title="Drag to move through layers"></div>
+      </section>
+
+      <section class="rack" aria-label="Shape controls">
+        <header>
+          <h1>Shape</h1>
+          <p>Drag a value, the shape follows</p>
+          <div class="icon-buttons">
+            <button type="button" class="icon-button play" id="play" aria-label="Play">
+              <svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><path d="M1 0.5L7.5 4L1 7.5Z" fill="currentColor" /></svg>
+            </button>
+            <button type="button" class="icon-button stop" id="stop" aria-label="Stop">
+              <svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><rect x="1" y="1" width="6" height="6" fill="currentColor" /></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="body">
+          <div class="controls">
+            <div class="group">
+              <div class="group-label">FORM · SUPERFORMULA</div>
+              <div class="row">
+                <div class="row-label"><span>Symmetry</span><span>m · lobes</span></div>
+                <div data-control="segmented" data-param="sym" data-options="3,4,5,6,7,8,9,12" role="group" aria-label="Symmetry"></div>
+              </div>
+              <div class="row">
+                <div class="row-label"><span>Exponents</span><span>n1 · n2 · n3</span></div>
+                <input data-control="number" data-param="n1" aria-label="Exponent n1" />
+                <input data-control="number" data-param="n2" aria-label="Exponent n2" />
+                <input data-control="number" data-param="n3" aria-label="Exponent n3" />
+              </div>
+              <div class="row">
+                <div class="row-label"><span>Morph</span><span>star → round</span></div>
+                <div data-control="fader" data-param="morph" data-label="Morph"></div>
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="group-label">STACK</div>
+              <div class="stack">
+                <div data-control="graph" data-graph="profile" data-label="Profile"></div>
+                <div class="knobs">
+                  <div data-control="knob" data-param="layers" data-label="Layers"></div>
+                  <div data-control="knob" data-param="height" data-label="Height"></div>
+                  <div data-control="knob" data-param="twist" data-label="Twist"></div>
+                  <div data-control="knob" data-param="tilt" data-label="Tilt"></div>
+                  <div data-control="knob" data-param="spin" data-label="Spin"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="group-label">SURFACE</div>
+              <div class="row">
+                <div class="row-label"><span>Noise</span><span>amount · seed</span></div>
+                <div data-control="fader" data-param="noise" data-label="Noise"></div>
+                <input data-control="number" data-param="seed" aria-label="Noise seed" />
+              </div>
+              <div class="row">
+                <div class="row-label"><span>Palette</span><span>stroke color</span></div>
+                <div data-control="toggles" data-param="palette" data-options="0,1,2" data-labels="SEQ,CAT,MONO" role="group" aria-label="Palette"></div>
+                <div class="swatches" id="swatches" aria-hidden="true"></div>
+              </div>
+              <div class="row">
+                <div class="row-label"><span>Chaos</span><span>grows upward</span></div>
+                <div data-control="meter" data-param="chaos" data-label="Chaos" data-cells="20" data-hot="0.6"></div>
+                <input class="warning" data-control="number" data-param="chaos" aria-label="Chaos value" />
+              </div>
+            </div>
+          </div>
+
+          <div class="rail-column">
+            <div class="group-label">LAYER</div>
+            <input class="accent" data-control="number" data-param="hilite" aria-label="Highlighted layer" />
+            <div data-control="rail" data-param="hilite" data-rail="layers" data-label="Layer"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

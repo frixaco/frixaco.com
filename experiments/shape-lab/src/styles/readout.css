@@ -1,0 +1,509 @@
+/* Readout tokens and controls (subset of the Paper "Readout" design system). */
+
+:root {
+  --color-bg-gutter: #1b1b1b;
+  --color-bg-panel: #2b2b2b;
+  --color-bg-raised: #3d3d3d;
+  --color-bg-hover: #4a4a4a;
+  --color-bg-field: #1f1f1f;
+  --color-bg-display: #151515;
+  --color-line: #161616;
+  --color-line-subtle: #424242;
+  --color-line-strong: #555555;
+  --color-text: #d9d9d9;
+  --color-text-muted: #a3a3a3;
+  --color-text-faint: #7a7a7a;
+  --color-text-on-color: #161616;
+  --color-accent: #ffa629;
+  --color-value: #63c7ea;
+  --color-value-fill: #2f4650;
+  --color-success: #a6d38c;
+  --color-warning: #dd7350;
+  --color-danger: #f2584a;
+  --font-mono: "Paper Mono", "JetBrains Mono", ui-monospace, monospace;
+  --text-micro: 10px;
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+}
+
+:where([data-control]):focus-visible {
+  outline: 1px solid var(--color-text);
+  outline-offset: 1px;
+}
+
+/* Icon button: 18px square, glyph in currentColor. */
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-raised);
+  color: #959595;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text);
+}
+
+.icon-button.play[aria-pressed="true"] {
+  background: var(--color-success);
+  color: var(--color-text-on-color);
+}
+
+.icon-button.stop[aria-pressed="true"] {
+  background: var(--color-danger);
+  color: var(--color-text-on-color);
+}
+
+/* Segmented: one pressed segment, accent fill. */
+[data-control="segmented"] {
+  display: flex;
+  gap: 1px;
+}
+
+[data-control="segmented"] button {
+  padding: 1px 6px;
+  border: 0;
+  border-radius: 0;
+  background: var(--color-bg-raised);
+  font: inherit;
+  font-size: var(--text-xs);
+  line-height: 14px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+[data-control="segmented"] button:first-child {
+  border-radius: var(--radius-xs) 0 0 var(--radius-xs);
+}
+
+[data-control="segmented"] button:last-child {
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+}
+
+[data-control="segmented"] button:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text);
+}
+
+[data-control="segmented"] button[aria-pressed="true"] {
+  background: var(--color-accent);
+  color: var(--color-text-on-color);
+  font-weight: 500;
+}
+
+/* Value toggles: cyan outline, filled when on. */
+[data-control="toggles"] {
+  display: flex;
+  gap: 4px;
+}
+
+[data-control="toggles"] button {
+  padding: 1px 6px;
+  border: 1px solid var(--color-value);
+  border-radius: var(--radius-xs);
+  background: transparent;
+  font: inherit;
+  font-size: var(--text-micro);
+  font-weight: 500;
+  line-height: 12px;
+  letter-spacing: 0.06em;
+  color: var(--color-value);
+  cursor: pointer;
+}
+
+[data-control="toggles"] button:hover {
+  background: var(--color-value-fill);
+  color: var(--color-text);
+}
+
+[data-control="toggles"] button[aria-pressed="true"] {
+  background: var(--color-value);
+  color: var(--color-text-on-color);
+}
+
+/* Number box: h18, mono, right-aligned. Drag vertically, double-click to type. */
+[data-control="number"] {
+  width: 52px;
+  height: 18px;
+  flex-shrink: 0;
+  padding-inline: 5px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-field);
+  font: inherit;
+  font-size: var(--text-xs);
+  line-height: 14px;
+  color: var(--color-value);
+  text-align: right;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+[data-control="number"][readonly] {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+[data-control="number"]:not([readonly]),
+[data-control="number"].active {
+  outline: none;
+  border-color: var(--color-value);
+  color: var(--color-text);
+  cursor: text;
+}
+
+[data-control="number"].accent {
+  width: 30px;
+  padding: 0;
+  background: var(--color-accent);
+  color: var(--color-text-on-color);
+  font-weight: 500;
+  text-align: center;
+}
+
+[data-control="number"].accent:not([readonly]),
+[data-control="number"].accent.active {
+  border-color: var(--color-text);
+}
+
+[data-control="number"].warning {
+  color: var(--color-warning);
+}
+
+/* Fader: h18, fill = value. */
+[data-control="fader"] {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 0;
+  height: 18px;
+  overflow: clip;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-field);
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+[data-control="fader"] .fill {
+  height: 18px;
+  flex-shrink: 0;
+  background: var(--color-value-fill);
+  border-right: 2px solid var(--color-value);
+}
+
+[data-control="fader"] .name,
+[data-control="fader"] .value {
+  position: absolute;
+  top: 2px;
+  font-size: var(--text-xs);
+  line-height: 14px;
+  pointer-events: none;
+}
+
+[data-control="fader"] .name {
+  left: 6px;
+  color: var(--color-text-muted);
+}
+
+[data-control="fader"] .value {
+  right: 6px;
+  color: var(--color-value);
+}
+
+[data-control="fader"]:hover .name {
+  color: var(--color-text);
+}
+
+/* Meter: quota-meter LED strip; cyan while editable, warning near the limit. */
+[data-control="meter"] {
+  display: flex;
+  gap: 1px;
+  flex-grow: 1;
+  height: 10px;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+[data-control="meter"] span {
+  flex: 1 1 0;
+  background: var(--color-bg-raised);
+}
+
+[data-control="meter"] span.on {
+  background: var(--color-value);
+}
+
+[data-control="meter"] span.hot {
+  background: var(--color-warning);
+}
+
+/* Spec rows: label column + controls, 36px, subtle divider. */
+.group-label {
+  height: 16px;
+  font-size: var(--text-micro);
+  line-height: 12px;
+  letter-spacing: 0.06em;
+  color: var(--color-text-faint);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  border-bottom: 1px solid var(--color-line-subtle);
+}
+
+.group .row:last-child {
+  border-bottom: 0;
+}
+
+.row-label {
+  display: flex;
+  flex-direction: column;
+  width: 96px;
+  flex-shrink: 0;
+}
+
+.row-label span:first-child {
+  font-size: var(--text-xs);
+  line-height: 14px;
+}
+
+.row-label span:last-child {
+  font-size: var(--text-micro);
+  line-height: 12px;
+  color: var(--color-text-faint);
+}
+
+/* Knob: label, 300° arc, value. Drag vertically; amber + corner brackets while held. */
+[data-control="knob"] {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 62px;
+  padding: 2px 0 3px;
+  color: var(--color-value);
+  cursor: ns-resize;
+  touch-action: none;
+  user-select: none;
+}
+
+[data-control="knob"] .label {
+  font-size: var(--text-xs);
+  line-height: 14px;
+  color: var(--color-text-muted);
+}
+
+[data-control="knob"] .value {
+  font-size: var(--text-xs);
+  line-height: 14px;
+}
+
+[data-control="knob"] svg {
+  display: block;
+  fill: none;
+}
+
+[data-control="knob"] .track {
+  stroke: var(--color-line-subtle);
+  stroke-width: 3;
+}
+
+[data-control="knob"] .arc {
+  stroke: currentColor;
+  stroke-width: 3;
+}
+
+[data-control="knob"] .pointer {
+  stroke: var(--color-text);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+[data-control="knob"]:hover .label,
+[data-control="knob"]:focus-visible .label,
+[data-control="knob"].active .label {
+  color: var(--color-text);
+}
+
+[data-control="knob"]:hover .track,
+[data-control="knob"].active .track {
+  stroke: var(--color-line-strong);
+}
+
+[data-control="knob"].active,
+[data-control="knob"]:focus-visible {
+  outline: none;
+  color: var(--color-accent);
+}
+
+[data-control="knob"] .corner {
+  position: absolute;
+  display: none;
+  width: 6px;
+  height: 6px;
+  border: 0 solid var(--color-accent);
+}
+
+[data-control="knob"].active .corner,
+[data-control="knob"]:focus-visible .corner {
+  display: block;
+}
+
+[data-control="knob"] .tl { left: 0; top: 0; border-left-width: 1px; border-top-width: 1px; }
+[data-control="knob"] .tr { right: 0; top: 0; border-right-width: 1px; border-top-width: 1px; }
+[data-control="knob"] .bl { left: 0; bottom: 0; border-left-width: 1px; border-bottom-width: 1px; }
+[data-control="knob"] .br { right: 0; bottom: 0; border-right-width: 1px; border-bottom-width: 1px; }
+
+/* Graph: a display with draggable handles on a curve. Several handles are numbered;
+   the selected one and its readouts are amber. Guides drop to the axes while dragging. */
+[data-control="graph"] {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+[data-control="graph"]:focus-visible {
+  outline: none;
+}
+
+[data-control="graph"] .display {
+  position: relative;
+  overflow: clip;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-display);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+[data-control="graph"]:focus-visible .display {
+  outline: 1px solid var(--color-line-strong);
+}
+
+[data-control="graph"] svg {
+  position: absolute;
+  inset: 0;
+  fill: none;
+}
+
+[data-control="graph"] .grid { stroke: #2a2a2a; stroke-width: 1; }
+[data-control="graph"] .grid.zero { stroke: #383838; }
+[data-control="graph"] .curve { stroke: var(--color-value); stroke-width: 1.5; stroke-linejoin: round; }
+[data-control="graph"] .guide { display: none; stroke: rgb(255 166 41 / 0.45); stroke-dasharray: 2 3; }
+[data-control="graph"].dragging .guide { display: block; }
+
+[data-control="graph"] .handle {
+  position: absolute;
+  left: -7px;
+  top: -7px;
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--color-text-muted);
+  border-radius: 999px;
+  background: var(--color-bg-display);
+  font-size: 9px;
+  line-height: 10px;
+  color: var(--color-text-muted);
+  cursor: grab;
+}
+
+[data-control="graph"] .handle.selected {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+[data-control="graph"].dragging .handle.selected {
+  background: rgb(255 166 41 / 0.25);
+  box-shadow: 0 0 0 5px var(--color-bg-display), 0 0 0 6px rgb(255 166 41 / 0.35);
+  cursor: grabbing;
+}
+
+.graph-readouts {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--text-xs);
+  line-height: 12px;
+  letter-spacing: normal;
+}
+
+.graph-readouts .badge {
+  display: grid;
+  place-items: center;
+  width: 13px;
+  height: 13px;
+  margin-right: -4px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 999px;
+  font-size: 8px;
+  line-height: 9px;
+  color: var(--color-accent);
+}
+
+.graph-readouts .label {
+  font-size: var(--text-micro);
+  color: var(--color-text-faint);
+}
+
+.graph-readouts .value {
+  color: var(--color-accent);
+}
+
+/* Rail: one line per item, bottom to top; ruler numbers on the left. */
+[data-control="rail"] {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  min-height: 0;
+  cursor: ns-resize;
+  touch-action: none;
+  user-select: none;
+}
+
+[data-control="rail"]:focus-visible {
+  outline: none;
+}
+
+[data-control="rail"] .ruler {
+  position: relative;
+  width: 14px;
+  flex-shrink: 0;
+  font-size: var(--text-micro);
+  line-height: 12px;
+  color: var(--color-text-faint);
+}
+
+[data-control="rail"] .ruler span {
+  position: absolute;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+[data-control="rail"] .ruler .selected { color: var(--color-accent); }
+[data-control="rail"] .ruler .hover { color: var(--color-text); }
+
+[data-control="rail"] svg {
+  width: 40px;
+  height: 100%;
+  fill: none;
+}
+
+[data-control="rail"] rect.selected { fill: var(--color-bg-raised); }
+[data-control="rail"] rect.hover { fill: rgb(61 61 61 / 0.45); }
+[data-control="rail"] .line { stroke-width: 1; }
+[data-control="rail"] .line.hover { stroke: var(--color-text); }
+[data-control="rail"] .line.selected { stroke: var(--color-accent); stroke-width: 2; }
+[data-control="rail"] .caret { fill: var(--color-accent); }
+[data-control="rail"]:focus-visible rect.selected { fill: var(--color-bg-hover); }

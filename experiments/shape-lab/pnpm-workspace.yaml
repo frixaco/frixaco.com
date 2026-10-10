@@ -1,0 +1,4 @@
+# Browser-only experiment: skip the Dawn native adapter used by vgpu/node.
+allowBuilds:
+  "@vgpu/adapter-node": false
+  webgpu: false

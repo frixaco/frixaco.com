@@ -1,0 +1,11 @@
+{
+  "project": "xport",
+  "npm": { "package": "@frixaco/xport", "live": "fetched from the npm registry at request time: version, dist.unpackedSize, dependencies" },
+  "lighthouse": {
+    "measured": "2026-10-09",
+    "url": "https://xport.frixaco.com",
+    "tool": "Lighthouse 13.5 CLI, default mobile emulation",
+    "scores": { "performance": 99, "accessibility": 100, "bestPractices": 100, "seo": 100 }
+  },
+  "method": "method/README.md#xport"
+}
