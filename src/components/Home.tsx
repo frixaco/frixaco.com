@@ -229,9 +229,11 @@ function CompareMedia() {
       onPointerMove={(e) => e.currentTarget.hasPointerCapture(e.pointerId) && setFrom(e.clientX)}
     >
       <div className="compare-side original">
+        <img src="/senmei-original.webp" alt="Anime frame at its source 1080p" width={720} height={394} loading="lazy" decoding="async" draggable={false} />
         <span>original</span>
       </div>
       <div className="compare-side upscaled">
+        <img src="/senmei-anime4k.webp" alt="Same frame upscaled to 4K by Senmei's Anime4K pipeline" width={1440} height={788} loading="lazy" decoding="async" draggable={false} />
         <span>anime4k</span>
       </div>
       <div

@@ -263,9 +263,12 @@
 .compare {
   justify-content: stretch;
   align-items: stretch;
+  border-style: solid;
   cursor: ew-resize;
   touch-action: pan-y;
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .compare-side {
@@ -273,21 +276,40 @@
   inset: 0;
   display: flex;
   align-items: flex-end;
-  padding: 8px 10px;
+  padding: 8px;
+}
+
+.compare-side img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 45% 50%;
+  pointer-events: none;
+}
+
+.compare-side span {
+  position: relative;
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
   font-size: var(--text-xs);
   line-height: 14px;
 }
 
-.compare-side.original {
+.compare-side.original span {
   background: var(--color-bg-display);
-  color: var(--color-text-faint);
+  color: var(--color-text-muted);
 }
 
 .compare-side.upscaled {
   justify-content: flex-end;
-  background: var(--color-bg-field);
-  color: var(--color-cat-orchid);
   clip-path: inset(0 0 0 var(--split));
+}
+
+.compare-side.upscaled span {
+  background: var(--color-cat-orchid);
+  color: var(--color-text-on-color);
 }
 
 .compare-handle {

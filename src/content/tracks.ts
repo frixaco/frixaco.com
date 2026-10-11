@@ -29,11 +29,6 @@ const areel = (n: string, title: string, name = title): TrackFile => ({
 })
 
 export const tracks: TrackFile[] = [
-  ghost('01', 'DOORS (feat. 初音ミク)'),
-  ghost('02', 'ghost (feat. 初音ミク)'),
-  ghost('03', 'DARE (feat. 初音ミク)'),
-  ghost('04', 'supernova (feat. 初音ミク)'),
-  ghost('05', 'DOGS (feat. 初音ミク)'),
   areel('01', 'cinema'),
   areel('02', '.conf'),
   areel('03', 'rollback/Q', 'rollback-Q'),
@@ -47,4 +42,9 @@ export const tracks: TrackFile[] = [
   areel('11', 'REK421'),
   areel('12', 'flicker'),
   areel('13', '404GB'),
+  ghost('01', 'DOORS (feat. 初音ミク)'),
+  ghost('02', 'ghost (feat. 初音ミク)'),
+  ghost('03', 'DARE (feat. 初音ミク)'),
+  ghost('04', 'supernova (feat. 初音ミク)'),
+  ghost('05', 'DOGS (feat. 初音ミク)'),
 ]

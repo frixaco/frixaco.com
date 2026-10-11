@@ -77,24 +77,26 @@
   }
 }
 
-/* Track area: the title, with the progress bar tucked under it. */
+/* Track area: the title, with the progress bar tucked under it. The title's bottom edge sits on
+   the transport buttons' bottom edge (and the meter's floor); the bar hangs 2px below it. */
 .track-area {
   position: relative;
+  align-self: flex-end;
   width: 200px;
   flex-shrink: 0;
 }
 
 .title-clip {
   position: relative;
-  height: 18px;
+  height: var(--leading-row);
   overflow: clip;
 }
 
-/* Progress: 0 high at rest; on hover (or keyboard focus) it grows into a 3px bar 4px under the
+/* Progress: 0 high at rest; on hover (or keyboard focus) it grows into a 3px bar 2px under the
    title. Cyan, as in a fader: a value you can drag. Absolutely placed, so nothing moves. */
 .progress {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 2px);
   right: 0;
   left: 0;
   z-index: 1;
@@ -140,17 +142,17 @@
   }
 }
 
-/* Bridge the 4px gap so moving from the title down to the bar doesn't drop the hover. */
+/* Bridge the 2px gap so moving from the title down to the bar doesn't drop the hover. */
 .track-area::after {
   content: "";
   position: absolute;
-  inset: 100% 0 -10px;
+  inset: 100% 0 -8px;
 }
 
 .title-text {
   display: inline-block;
   font-size: var(--text-base);
-  line-height: 18px;
+  line-height: var(--leading-row);
   white-space: nowrap;
   will-change: transform;
 }
@@ -178,9 +180,11 @@
   }
 }
 
-/* Meter: 16 bars, 2px wide, 14px tall; a live spectrum while playing, flat otherwise. */
+/* Meter: 16 bars, 2px wide, 14px tall; a live spectrum while playing, flat otherwise.
+   Its floor sits on the transport buttons' bottom edge. */
 .meter {
   display: flex;
+  align-self: flex-end;
   align-items: flex-end;
   gap: 2px;
   height: 14px;
@@ -255,10 +259,12 @@
     border-radius: 0;
   }
 
+  /* The transport sits 10px from the top edge and 10px from the tabs (6px here + the tabs' 4px).
+     The content box is exactly the 28px buttons, so the title and meter bottom-align with them. */
   .player {
     flex: 1 0 100%;
-    height: 40px;
-    padding-inline: var(--inset);
+    height: 44px;
+    padding: 10px var(--inset) 6px;
   }
 
   .transport-button {
