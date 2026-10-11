@@ -2,6 +2,7 @@
   "name": "frixaco.com",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@12.10.1",
   "imports": {
     "#/*": "./src/*"
   },
