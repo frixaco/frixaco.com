@@ -1,0 +1,519 @@
+/* Opened views: a window over the page, below the app bar (full screen on phones). */
+
+.window-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.window {
+  position: absolute;
+  top: var(--appbar-h);
+  bottom: 1px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 2px);
+  max-width: calc(var(--page-max) - 2px);
+  margin-inline: auto;
+  overflow: clip;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-panel);
+  pointer-events: auto;
+  outline: none;
+  will-change: transform, clip-path;
+}
+
+.window[data-open="false"] {
+  pointer-events: none;
+}
+
+/* Same height as the project bar it grows out of. */
+.window-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: var(--spacing-header);
+  flex-shrink: 0;
+  padding-inline: var(--inset);
+  background: var(--color-bg-raised);
+  color: var(--color-text);
+}
+
+.window-bar.on-color {
+  color: var(--color-text-on-color);
+}
+
+/* Grows out of a section header ("more"): its 32px height. */
+.window-bar.section-bar {
+  height: 32px;
+}
+
+.window-close {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 18px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: transform 160ms var(--ease-out);
+}
+
+/* A comfortable hit area around a 12px glyph. */
+.window-close::before {
+  content: "";
+  position: absolute;
+  inset: -8px -10px;
+}
+
+.window-close:active {
+  transform: scale(0.85);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .window-close:hover {
+    transform: scale(0.88);
+  }
+}
+
+.window-title {
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.window-subtitle {
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.on-color .window-subtitle {
+  color: inherit;
+  opacity: var(--opacity-muted);
+}
+
+.window-action {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .window-action:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.window-scroll {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 40px 24px 96px;
+  scrollbar-color: var(--color-line-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.window-body {
+  display: grid;
+  justify-items: center;
+}
+
+.prose-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(760px, 100%);
+  min-width: 0;
+}
+
+/* Blog post: contents rail on the left when there's room. */
+.post-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) min(760px, 100%) minmax(0, 1fr);
+  column-gap: 24px;
+  width: 100%;
+}
+
+.post-layout .prose-column {
+  grid-column: 2;
+}
+
+.toc {
+  position: sticky;
+  top: 8px;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  justify-self: start;
+  display: flex;
+  flex-direction: column;
+  width: min(248px, 100% - 16px);
+  margin: 8px 0 0 16px;
+  border-left: 1px solid var(--color-line-subtle);
+  font-size: var(--text-sm);
+}
+
+.toc a {
+  transition: color 150ms ease;
+}
+
+.toc-head {
+  display: block;
+  padding: 6px 0 6px 14px;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-body);
+}
+
+.toc-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 0 14px;
+}
+
+.toc-items a {
+  position: relative;
+  left: -1px;
+  padding: 4px 0 4px 22px;
+  border-left: 2px solid transparent;
+  color: var(--color-text-muted);
+  line-height: 16px;
+}
+
+.toc-items a[aria-current] {
+  border-left-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.toc-group.closed {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 7px 0 7px 14px;
+  border-top: 1px solid var(--color-line-subtle);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-semibold);
+  line-height: 16px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .toc-items a:not([aria-current]):hover,
+  .toc-group.closed:hover {
+    color: var(--color-text);
+  }
+}
+
+@media (max-width: 1279px) {
+  .post-layout {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+
+  .post-layout .prose-column {
+    grid-column: 1;
+  }
+
+  .toc {
+    display: none;
+  }
+}
+
+.post-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--color-line-subtle);
+}
+
+.post-header time {
+  color: var(--color-text-faint);
+  font-size: var(--text-sm);
+  line-height: 16px;
+}
+
+.post-header h1 {
+  font-size: var(--text-display);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.03em;
+  line-height: 40px;
+  text-wrap: balance;
+}
+
+.post-header p {
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+
+.prose-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(760px, 100%);
+  /* Only for a slow fetch: a README that lands while the window is still growing
+     never flashes a loading state first. */
+  animation: prose-in 240ms ease-out 450ms both;
+}
+
+.prose-skeleton i {
+  height: 16px;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-raised);
+  animation: pending 1.4s ease-in-out infinite alternate;
+}
+
+/* A README that arrives after the window opened settles in instead of popping. */
+.md.arriving {
+  animation: prose-in 280ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes prose-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md.arriving {
+    animation-name: fade-in;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---------- more: name / details sections, like the work roles on Home ---------- */
+
+.more-doc {
+  display: flex;
+  flex-direction: column;
+  width: min(760px, 100%);
+  min-width: 0;
+  padding-top: 8px;
+}
+
+.more-lede {
+  padding-bottom: 32px;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-medium);
+  line-height: 34px;
+  letter-spacing: -0.01em;
+}
+
+.more-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding-block: 20px;
+  border-top: 1px solid var(--color-line-subtle);
+}
+
+.more-name {
+  width: 168px;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-regular);
+  line-height: 24px;
+}
+
+.more-body,
+.more-specs,
+.more-games,
+.more-learning {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.more-specs,
+.more-games {
+  gap: 4px;
+}
+
+/* A model that wraps (narrow phones) grows its row; nothing is pinned. */
+.more-specs > div {
+  display: flex;
+  gap: 16px;
+}
+
+/* 13px on the 16px value's baseline: 22px line + 2px top = the value's 24px line. (Baseline
+   alignment would grow every row by a pixel and break the 28px pitch.) */
+.more-specs dt {
+  width: 120px;
+  flex-shrink: 0;
+  padding-top: 2px;
+  color: var(--color-text-faint);
+  font-size: var(--text-base);
+  line-height: 22px;
+}
+
+.more-specs dd {
+  min-width: 0;
+  font-size: var(--text-lg);
+  line-height: 24px;
+}
+
+.more-games {
+  font-size: var(--text-lg);
+  line-height: 24px;
+}
+
+/* Secondary, like every note here: 13px on the same 28px row pitch. */
+.more-games .faint {
+  font-size: var(--text-base);
+}
+
+.more-body {
+  gap: 6px;
+}
+
+.more-count {
+  display: flex;
+  gap: 8px;
+  font-size: var(--text-lg);
+  line-height: 24px;
+}
+
+.more-note {
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: 20px;
+}
+
+.more-learning {
+  gap: 18px;
+}
+
+.more-learning li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.more-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: var(--text-lg);
+  line-height: 24px;
+}
+
+.more-item s {
+  color: var(--color-text-faint);
+  text-decoration-thickness: 1px;
+}
+
+.more-status {
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: 20px;
+}
+
+.more-learning .paused .more-note {
+  color: var(--color-text-faint);
+}
+
+@media (max-width: 767px) {
+  .window-layer {
+    z-index: 40;
+  }
+
+  .window {
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
+  }
+
+  .window-bar,
+  .window-bar.section-bar {
+    height: calc(40px + env(safe-area-inset-top, 0px));
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .window-close {
+    width: 14px;
+    height: 28px;
+  }
+
+  .window-close svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .window-scroll {
+    padding: 24px var(--inset) calc(48px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .prose-column {
+    gap: 14px;
+  }
+
+  .post-header {
+    gap: 12px;
+    padding-bottom: 22px;
+  }
+
+  /* more: each name stacks above its details. */
+  .more-doc {
+    padding-top: 4px;
+  }
+
+  .more-lede {
+    padding-bottom: 24px;
+    font-size: var(--text-xl);
+    line-height: 28px;
+  }
+
+  .more-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .more-name {
+    width: auto;
+    font-size: var(--text-sm);
+    line-height: 16px;
+  }
+
+  .more-body,
+  .more-specs,
+  .more-games,
+  .more-learning {
+    flex: none;
+    width: 100%;
+  }
+
+  .post-header h1 {
+    font-size: 26px;
+    line-height: 32px;
+  }
+
+  .post-header p {
+    font-size: var(--text-base);
+    line-height: 21px;
+  }
+}

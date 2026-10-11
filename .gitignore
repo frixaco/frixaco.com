@@ -11,3 +11,6 @@ dist-ssr
 .vinxi
 __unconfig*
 todos.json
+.shots
+# The player's audio: lives in the "music" Railway bucket (scripts/upload-music.ts).
+music

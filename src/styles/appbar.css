@@ -1,0 +1,290 @@
+/* App bar: player | tabs | (balance). Sticky, with its own 1px gutters. */
+
+.appbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding-block: 1px;
+  background: var(--color-bg-gutter);
+}
+
+.appbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 40px;
+  padding-inline: var(--inset);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-panel);
+}
+
+.appbar-end {
+  flex: 1 1 0;
+}
+
+/* Player */
+.player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.transport {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.transport-button {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-raised);
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    transform 120ms var(--ease-out),
+    background-color 150ms ease;
+}
+
+.transport-button.primary {
+  background: var(--color-accent);
+  color: var(--color-text-on-color);
+}
+
+.transport-button:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.transport-button:disabled {
+  opacity: var(--opacity-disabled);
+  cursor: default;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .transport-button:hover:not(:disabled) {
+    background: var(--color-bg-hover);
+  }
+
+  .transport-button.primary:hover:not(:disabled) {
+    background: color-mix(in oklab, var(--color-accent), white 14%);
+  }
+}
+
+/* Track area: the title, with the progress bar tucked under it. */
+.track-area {
+  position: relative;
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.title-clip {
+  position: relative;
+  height: 18px;
+  overflow: clip;
+}
+
+/* Progress: 0 high at rest; on hover (or keyboard focus) it grows into a 3px bar 4px under the
+   title. Cyan, as in a fader: a value you can drag. Absolutely placed, so nothing moves. */
+.progress {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  z-index: 1;
+  height: 3px;
+  border-radius: 1px;
+  background: var(--color-bg-raised);
+  cursor: pointer;
+  touch-action: none;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 200ms var(--ease-out);
+}
+
+/* A taller hit area than the 3px bar. */
+.progress::before {
+  content: "";
+  position: absolute;
+  inset: -6px 0;
+}
+
+.progress:focus-visible {
+  outline-offset: 3px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-value);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.track-area:hover .progress,
+.progress:focus-visible,
+.progress[data-scrubbing="true"] {
+  transform: scaleY(1);
+}
+
+/* Phones and other touch screens have no hover: the bar is always there. */
+@media (hover: none), (max-width: 767px) {
+  .progress {
+    transform: none;
+  }
+}
+
+/* Bridge the 4px gap so moving from the title down to the bar doesn't drop the hover. */
+.track-area::after {
+  content: "";
+  position: absolute;
+  inset: 100% 0 -10px;
+}
+
+.title-text {
+  display: inline-block;
+  font-size: var(--text-base);
+  line-height: 18px;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.title-clip[data-overflow="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 28px;
+  background: linear-gradient(90deg, transparent, var(--color-bg-panel));
+}
+
+.title-clip[data-scrolling="true"] .title-text {
+  animation: marquee var(--marquee) linear infinite alternate;
+}
+
+@keyframes marquee {
+  0%,
+  12% {
+    transform: translateX(0);
+  }
+  88%,
+  100% {
+    transform: translateX(calc(-1 * var(--overflow) - 28px));
+  }
+}
+
+/* Meter: 16 bars, 2px wide, 14px tall; a live spectrum while playing, flat otherwise. */
+.meter {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.meter i {
+  width: 2px;
+  height: 14px;
+  background: var(--color-accent);
+  transform: scaleY(0.143);
+  transform-origin: bottom;
+  transition: transform 320ms var(--ease-out);
+}
+
+.player[data-playing="true"] .meter i {
+  transition: none;
+}
+
+.player[data-empty="true"] .meter i {
+  background: var(--color-line-strong);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tab {
+  padding: 3px 10px;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-field);
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: 16px;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 120ms var(--ease-out);
+}
+
+.tab[aria-current="page"] {
+  background: var(--color-accent);
+  color: var(--color-text-on-color);
+  font-weight: var(--font-weight-medium);
+}
+
+.tab:active {
+  transform: var(--press);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tab:not([aria-current="page"]):hover {
+    background: var(--color-bg-raised);
+    color: var(--color-text);
+  }
+}
+
+/* Phones: player row, then a full-width row of tabs (the mock's "Top Chrome"). */
+@media (max-width: 767px) {
+  .appbar {
+    padding-top: 0;
+  }
+
+  .appbar-inner {
+    flex-wrap: wrap;
+    gap: 0;
+    height: auto;
+    padding: env(safe-area-inset-top, 0px) 0 0;
+    border-radius: 0;
+  }
+
+  .player {
+    flex: 1 0 100%;
+    height: 40px;
+    padding-inline: var(--inset);
+  }
+
+  .transport-button {
+    width: 28px;
+    height: 28px;
+  }
+
+  .track-area {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  .tabs {
+    flex: 1 0 100%;
+    padding: 4px var(--inset) 10px;
+  }
+
+  .tab {
+    flex: 1 1 auto;
+    padding: 6px 4px;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .appbar-end {
+    display: none;
+  }
+}

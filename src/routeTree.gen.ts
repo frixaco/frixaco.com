@@ -9,50 +9,246 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as HomeRouteImport } from './routes/_home'
+import { Route as PdfRouteImport } from './routes/pdf'
+import { Route as HomeIndexRouteImport } from './routes/_home/index'
+import { Route as HomeMoreRouteImport } from './routes/_home/more'
+import { Route as HomeWorkRouteImport } from './routes/_home/work'
+import { Route as MusicIdRouteImport } from './routes/music.$id'
+import { Route as HomeBlogIndexRouteImport } from './routes/_home/blog.index'
+import { Route as HomeBlogSlugRouteImport } from './routes/_home/blog.$slug'
+import { Route as HomeProjectsIndexRouteImport } from './routes/_home/projects.index'
+import { Route as HomeProjectsRepoRouteImport } from './routes/_home/projects.$repo'
 
-const IndexRoute = IndexRouteImport.update({
+const HomeRoute = HomeRouteImport.update({
+  id: '/_home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PdfRoute = PdfRouteImport.update({
+  id: '/pdf',
+  path: '/pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeIndexRoute = HomeIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => HomeRoute,
+} as any)
+const HomeMoreRoute = HomeMoreRouteImport.update({
+  id: '/more',
+  path: '/more',
+  getParentRoute: () => HomeRoute,
+} as any)
+const HomeWorkRoute = HomeWorkRouteImport.update({
+  id: '/work',
+  path: '/work',
+  getParentRoute: () => HomeRoute,
+} as any)
+const MusicIdRoute = MusicIdRouteImport.update({
+  id: '/music/$id',
+  path: '/music/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const HomeBlogIndexRoute = HomeBlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => HomeRoute,
+} as any)
+const HomeBlogSlugRoute = HomeBlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => HomeRoute,
+} as any)
+const HomeProjectsIndexRoute = HomeProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => HomeRoute,
+} as any)
+const HomeProjectsRepoRoute = HomeProjectsRepoRouteImport.update({
+  id: '/projects/$repo',
+  path: '/projects/$repo',
+  getParentRoute: () => HomeRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof HomeIndexRoute
+  '/pdf': typeof PdfRoute
+  '/more': typeof HomeMoreRoute
+  '/work': typeof HomeWorkRoute
+  '/music/$id': typeof MusicIdRoute
+  '/blog/$slug': typeof HomeBlogSlugRoute
+  '/projects/$repo': typeof HomeProjectsRepoRoute
+  '/blog/': typeof HomeBlogIndexRoute
+  '/projects/': typeof HomeProjectsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/pdf': typeof PdfRoute
+  '/more': typeof HomeMoreRoute
+  '/work': typeof HomeWorkRoute
+  '/music/$id': typeof MusicIdRoute
+  '/': typeof HomeIndexRoute
+  '/blog/$slug': typeof HomeBlogSlugRoute
+  '/projects/$repo': typeof HomeProjectsRepoRoute
+  '/blog': typeof HomeBlogIndexRoute
+  '/projects': typeof HomeProjectsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_home': typeof HomeRouteWithChildren
+  '/pdf': typeof PdfRoute
+  '/_home/more': typeof HomeMoreRoute
+  '/_home/work': typeof HomeWorkRoute
+  '/music/$id': typeof MusicIdRoute
+  '/_home/': typeof HomeIndexRoute
+  '/_home/blog/$slug': typeof HomeBlogSlugRoute
+  '/_home/projects/$repo': typeof HomeProjectsRepoRoute
+  '/_home/blog/': typeof HomeBlogIndexRoute
+  '/_home/projects/': typeof HomeProjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/pdf'
+    | '/more'
+    | '/work'
+    | '/music/$id'
+    | '/blog/$slug'
+    | '/projects/$repo'
+    | '/blog/'
+    | '/projects/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/pdf'
+    | '/more'
+    | '/work'
+    | '/music/$id'
+    | '/'
+    | '/blog/$slug'
+    | '/projects/$repo'
+    | '/blog'
+    | '/projects'
+  id:
+    | '__root__'
+    | '/_home'
+    | '/pdf'
+    | '/_home/more'
+    | '/_home/work'
+    | '/music/$id'
+    | '/_home/'
+    | '/_home/blog/$slug'
+    | '/_home/projects/$repo'
+    | '/_home/blog/'
+    | '/_home/projects/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  HomeRoute: typeof HomeRouteWithChildren
+  PdfRoute: typeof PdfRoute
+  MusicIdRoute: typeof MusicIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_home': {
+      id: '/_home'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdf': {
+      id: '/pdf'
+      path: '/pdf'
+      fullPath: '/pdf'
+      preLoaderRoute: typeof PdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_home/': {
+      id: '/_home/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof HomeIndexRouteImport
+      parentRoute: typeof HomeRoute
+    }
+    '/_home/more': {
+      id: '/_home/more'
+      path: '/more'
+      fullPath: '/more'
+      preLoaderRoute: typeof HomeMoreRouteImport
+      parentRoute: typeof HomeRoute
+    }
+    '/_home/work': {
+      id: '/_home/work'
+      path: '/work'
+      fullPath: '/work'
+      preLoaderRoute: typeof HomeWorkRouteImport
+      parentRoute: typeof HomeRoute
+    }
+    '/music/$id': {
+      id: '/music/$id'
+      path: '/music/$id'
+      fullPath: '/music/$id'
+      preLoaderRoute: typeof MusicIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_home/blog/': {
+      id: '/_home/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof HomeBlogIndexRouteImport
+      parentRoute: typeof HomeRoute
+    }
+    '/_home/blog/$slug': {
+      id: '/_home/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof HomeBlogSlugRouteImport
+      parentRoute: typeof HomeRoute
+    }
+    '/_home/projects/': {
+      id: '/_home/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof HomeProjectsIndexRouteImport
+      parentRoute: typeof HomeRoute
+    }
+    '/_home/projects/$repo': {
+      id: '/_home/projects/$repo'
+      path: '/projects/$repo'
+      fullPath: '/projects/$repo'
+      preLoaderRoute: typeof HomeProjectsRepoRouteImport
+      parentRoute: typeof HomeRoute
     }
   }
 }
 
+interface HomeRouteChildren {
+  HomeMoreRoute: typeof HomeMoreRoute
+  HomeWorkRoute: typeof HomeWorkRoute
+  HomeIndexRoute: typeof HomeIndexRoute
+  HomeBlogSlugRoute: typeof HomeBlogSlugRoute
+  HomeProjectsRepoRoute: typeof HomeProjectsRepoRoute
+  HomeBlogIndexRoute: typeof HomeBlogIndexRoute
+  HomeProjectsIndexRoute: typeof HomeProjectsIndexRoute
+}
+
+const HomeRouteChildren: HomeRouteChildren = {
+  HomeMoreRoute: HomeMoreRoute,
+  HomeWorkRoute: HomeWorkRoute,
+  HomeIndexRoute: HomeIndexRoute,
+  HomeBlogSlugRoute: HomeBlogSlugRoute,
+  HomeProjectsRepoRoute: HomeProjectsRepoRoute,
+  HomeBlogIndexRoute: HomeBlogIndexRoute,
+  HomeProjectsIndexRoute: HomeProjectsIndexRoute,
+}
+
+const HomeRouteWithChildren = HomeRoute._addFileChildren(HomeRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  HomeRoute: HomeRouteWithChildren,
+  PdfRoute: PdfRoute,
+  MusicIdRoute: MusicIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

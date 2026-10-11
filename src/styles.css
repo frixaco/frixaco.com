@@ -1,33 +1,9 @@
 @import "./styles/tokens.css";
-
-/* Base only. Layout uses padding, gap and flex/grid; avoid margins. */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-html {
-  background: var(--color-bg-gutter);
-  color: var(--color-text);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  line-height: var(--leading-row);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-size-adjust: 100%;
-}
-
-/* The page fills a 13" screen and stays centered beyond it. */
-body {
-  display: grid;
-  justify-items: center;
-  min-height: 100dvh;
-}
-
-.page {
-  width: 100%;
-  max-width: var(--page-max);
-}
+@import "./styles/base.css";
+@import "./styles/appbar.css";
+@import "./styles/home.css";
+@import "./styles/readout.css";
+@import "./styles/shape-lab.css";
+@import "./styles/window.css";
+@import "./styles/prose.css";
+@import "./styles/focus.css";

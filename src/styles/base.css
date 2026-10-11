@@ -1,0 +1,263 @@
+/* Base. Layout uses padding, gap and flex/grid; avoid margins. */
+
+:root {
+  /* Motion (emil-design-eng / animate skills) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --press: scale(0.97);
+
+  /* Sticky app bar height (incl. its 1px gutters); sections scroll to just below it. */
+  --appbar-h: calc(83px + env(safe-area-inset-top, 0px));
+}
+
+@media (min-width: 768px) {
+  :root {
+    --appbar-h: 42px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  background: var(--color-bg-gutter);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-row);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overflow-wrap: anywhere;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--color-line-strong) var(--color-bg-gutter);
+}
+
+/* An opened view covers the page; the page behind stops scrolling. */
+html:has(.window) {
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  justify-items: center;
+  min-height: 100dvh;
+  background: var(--color-bg-gutter);
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+button,
+a,
+[role="button"],
+[role="slider"] {
+  touch-action: manipulation;
+}
+
+button,
+[role="button"],
+.tab,
+.tag,
+.pill,
+.pill-accent,
+.button-accent {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font: inherit;
+}
+
+::selection {
+  background: var(--color-value-fill);
+  color: var(--color-text);
+}
+
+/* The page fills a 13" screen and stays centered beyond it. 1px gutters between panels. */
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--page-max);
+  min-width: 0;
+  padding-inline: 1px;
+}
+
+.panel {
+  background: var(--color-bg-panel);
+  border-radius: var(--radius-sm);
+}
+
+.faint {
+  color: var(--color-text-faint);
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.link {
+  color: var(--color-value);
+  transition: color 150ms ease;
+}
+
+@media (min-width: 768px) {
+  .phone-only {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .page {
+    padding-inline: 0;
+  }
+
+  .panel {
+    border-radius: 0;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    color: var(--color-cat-ice);
+  }
+}
+
+/* Shared pressables */
+.pill,
+.pill-accent,
+.button-accent {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 150ms ease;
+}
+
+.pill:active,
+.pill-accent:active,
+.button-accent:active {
+  transform: var(--press);
+}
+
+.pill {
+  gap: 6px;
+  height: 28px;
+  padding-inline: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-bg-raised);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: 16px;
+}
+
+.pill .arrow {
+  color: var(--color-value);
+  font-weight: var(--font-weight-regular);
+}
+
+.pill-accent {
+  height: 28px;
+  padding-inline: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-text-on-color);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+  line-height: 18px;
+}
+
+.button-accent {
+  gap: 6px;
+  height: 26px;
+  padding-inline: 10px;
+  border-radius: var(--radius-xs);
+  background: var(--color-accent);
+  color: var(--color-text-on-color);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 16px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pill:hover {
+    background: var(--color-bg-hover);
+  }
+
+  .pill-accent:hover,
+  .button-accent:hover {
+    background: color-mix(in oklab, var(--color-accent), white 14%);
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag {
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  color: var(--color-text-on-color);
+  font-size: var(--text-xs);
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.not-found {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  min-height: 50dvh;
+  font-size: var(--text-base);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

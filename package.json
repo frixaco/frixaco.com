@@ -14,19 +14,24 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
+    "@tanstack/react-charts": "^1.1.0",
     "@tanstack/react-router": "1.170.42",
     "@tanstack/react-start": "1.168.61",
+    "aws4fetch": "1.0.20",
+    "marked": "^16.4.2",
     "nitro": "3.0.260610-beta",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "@tanstack/react-charts": "^1.1.0"
+    "vgpu": "0.5.0"
   },
   "devDependencies": {
     "@tanstack/router-cli": "^1.132.0",
     "@types/node": "^24",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@vgpu/wgsl": "0.5.0",
     "@vitejs/plugin-react": "^6.0.1",
+    "@webgpu/types": "^0.1.74",
     "typescript": "^6.0.2",
     "vite": "^8.0.0"
   },
