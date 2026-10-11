@@ -443,8 +443,9 @@ const rail: Bind = (el, store, key, models) => {
   sliderKeys(el, store, key);
 
   // Across the lines (px, unscaled): a 7px gutter for the caret, then the 33px (vertical) or
-  // 18px (horizontal) lines. The caret sits at the lines' start — left of a horizontal line,
-  // under a vertical bar — and points along it at the selected one.
+  // 18px (horizontal) lines. A caret sits at each end of the selected line — left and right of a
+  // horizontal line, under and over a vertical bar — pointing at it. The far one draws outside
+  // the box (overflow: visible), so the lines keep their lane.
   const ROW = 9;
   const CARET = 7;
   const LENGTH = horizontal ? 18 : 33;
@@ -471,7 +472,9 @@ const rail: Bind = (el, store, key, models) => {
       content += `<path class="${cls}" d="M${xy(at(k), CARET)} L${xy(at(k), CARET + LENGTH)}"${stroke}${dashed && k !== selected ? ' stroke-dasharray="3 2"' : ""} vector-effect="non-scaling-stroke"/>`;
     }
     const s = at(selected);
+    const far = 2 * CARET + LENGTH;
     content += `<path class="caret" d="M${xy(s - 4, 0)} L${xy(s, 5)} L${xy(s + 4, 0)} Z"/>`;
+    content += `<path class="caret" d="M${xy(s - 4, far)} L${xy(s, far - 5)} L${xy(s + 4, far)} Z"/>`;
     svg.innerHTML = content;
     describeSlider(el, store, key);
     el.setAttribute("aria-valuemax", String(count - 1));

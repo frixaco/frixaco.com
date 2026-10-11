@@ -1,8 +1,10 @@
 // App bar music player: previous / play-pause / next over a curated playlist.
 // It lives in the root layout, so playback continues across client-side navigation.
 // The meter is a real spectrum (Web Audio analyser) while playing and rests flat otherwise.
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { playlist } from '#/content/playlist'
+// The playlist popup (a seek fader, then the albums and their tracks) opens on hover with a mouse,
+// and from the title with a tap or the keyboard.
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
+import { albums, playlist } from '#/content/playlist'
 
 const BARS = 16
 
@@ -10,6 +12,10 @@ export function Player() {
   const audio = useRef<HTMLAudioElement>(null)
   const [index, setIndex] = useState(0)
   const [playing, setPlaying] = useState(false)
+  const [open, setOpen] = useState(false)
+  const root = useRef<HTMLDivElement>(null)
+  const toggle = useRef<HTMLButtonElement>(null)
+  const popupId = useId()
   const track = playlist[index]
   const empty = playlist.length === 0
 
@@ -26,6 +32,16 @@ export function Player() {
       setIndex((i) => (i + step + playlist.length) % playlist.length)
     },
     [empty],
+  )
+
+  // Picking a track from the playlist always plays it.
+  const pick = useCallback(
+    (i: number) => {
+      wasPlaying.current = true
+      if (i === index) play()
+      else setIndex(i)
+    },
+    [index, play],
   )
 
   // A new track keeps playing if the previous one was.
@@ -52,8 +68,59 @@ export function Player() {
     navigator.mediaSession.setActionHandler('nexttrack', () => go(1))
   }, [track, play, go])
 
+  // Mouse: hovering the player opens the popup after a short pause (so passing over it doesn't
+  // flash it), and leaving the player and the popup closes it a moment later (so the gap between
+  // them can be crossed). A popup opened by tap or keyboard stays until dismissed.
+  const hoverTimer = useRef<number | undefined>(undefined)
+  const byHover = useRef(false)
+  const lastPointer = useRef('')
+  const hoverTo = (next: boolean, delay: number) => {
+    window.clearTimeout(hoverTimer.current)
+    hoverTimer.current = window.setTimeout(() => {
+      byHover.current = next
+      setOpen(next)
+    }, delay)
+  }
+  useEffect(() => () => window.clearTimeout(hoverTimer.current), [])
+
+  // The popup closes on a press outside the player, or Escape (focus goes back to the title).
+  useEffect(() => {
+    if (!open) return
+    const outside = (e: PointerEvent) => {
+      if (root.current?.contains(e.target as Node)) return
+      byHover.current = false
+      setOpen(false)
+    }
+    const escape = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      window.clearTimeout(hoverTimer.current)
+      byHover.current = false
+      setOpen(false)
+      if (root.current?.contains(document.activeElement)) toggle.current?.focus()
+    }
+    document.addEventListener('pointerdown', outside)
+    document.addEventListener('keydown', escape)
+    return () => {
+      document.removeEventListener('pointerdown', outside)
+      document.removeEventListener('keydown', escape)
+    }
+  }, [open])
+
   return (
-    <div className="player" data-playing={playing} data-empty={empty}>
+    <div
+      ref={root}
+      className="player"
+      data-playing={playing}
+      data-empty={empty}
+      onPointerEnter={(e) => {
+        if (e.pointerType === 'mouse' && !empty) hoverTo(true, open ? 0 : 120)
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType !== 'mouse') return
+        window.clearTimeout(hoverTimer.current)
+        if (!open || byHover.current) hoverTo(false, 250)
+      }}
+    >
       <div className="transport">
         <button type="button" className="transport-button" aria-label="Previous track" disabled={empty} onClick={() => go(-1)}>
           <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
@@ -86,11 +153,36 @@ export function Player() {
           </svg>
         </button>
       </div>
-      <div className="track-area">
+      <button
+        ref={toggle}
+        type="button"
+        className="track-area"
+        aria-label={track ? `${track.title} — ${track.artist}. Playlist` : 'Playlist'}
+        aria-expanded={open}
+        aria-controls={popupId}
+        disabled={empty}
+        onPointerDown={(e) => void (lastPointer.current = e.pointerType)}
+        onClick={(e) => {
+          window.clearTimeout(hoverTimer.current)
+          // A mouse click just keeps the hover popup open; a tap or Enter/Space toggles it.
+          if (e.detail > 0 && lastPointer.current === 'mouse') {
+            setOpen(true)
+            return
+          }
+          byHover.current = false
+          setOpen((o) => !o)
+        }}
+      >
         <Title text={track ? `${track.title} — ${track.artist}` : ''} playing={playing} />
-        <Progress audio={audio} playing={playing} />
-      </div>
+      </button>
       <Meter audio={audio} playing={playing} />
+      {track ? (
+        <div id={popupId} className="playlist" data-open={open} inert={!open} role="dialog" aria-label="Playlist">
+          <Seek audio={audio} playing={playing} fallback={track.duration} />
+          <div className="playlist-divider" />
+          <TrackList current={index} open={open} onPick={pick} />
+        </div>
+      ) : null}
       {track ? (
         <audio
           ref={audio}
@@ -143,44 +235,63 @@ const clock = (s: number) => {
   return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`
 }
 
+// The time beside the seek bar gets a fixed width (the longest clock in the playlist, in a
+// monospace font), so the bar never resizes as the time ticks or the track changes.
+const CLOCK_WIDTH = Math.max(4, ...playlist.map((t) => clock(t.duration).length))
+
 /**
- * Progress under the title: hidden (0 high) until the track area is hovered or focused, then a
- * 3px bar. Click or drag to seek, arrows step 5s. The fill is driven per frame while playing,
- * straight on the element, so React doesn't re-render 60 times a second.
+ * The popup's seek fader: a Readout value bar (cyan edge on a dark fill) and the time.
+ * Click or drag to seek, arrows step 5s. The fill moves per frame while playing, straight on
+ * the element, so React doesn't re-render 60 times a second; the clock ticks on timeupdate.
+ * Before the audio has loaded (preload="none") the length comes from the playlist.
  */
-function Progress({ audio, playing }: { audio: React.RefObject<HTMLAudioElement | null>; playing: boolean }) {
+function Seek({
+  audio,
+  playing,
+  fallback,
+}: {
+  audio: React.RefObject<HTMLAudioElement | null>
+  playing: boolean
+  fallback: number
+}) {
   const bar = useRef<HTMLDivElement>(null)
   const fill = useRef<HTMLDivElement>(null)
+  const now = useRef<HTMLSpanElement>(null)
+  const total = useRef<HTMLSpanElement>(null)
   const [scrubbing, setScrubbing] = useState(false)
 
-  const paint = useCallback(() => {
-    const el = audio.current
-    const f = el && el.duration > 0 ? el.currentTime / el.duration : 0
-    if (fill.current) fill.current.style.transform = `scaleX(${f})`
-    return el
-  }, [audio])
+  const length = useCallback(() => {
+    const d = audio.current?.duration
+    return d && Number.isFinite(d) ? d : fallback
+  }, [audio, fallback])
 
-  // Screen readers get the time a few times a second, not every frame.
+  const paint = useCallback(() => {
+    const f = Math.min(1, (audio.current?.currentTime ?? 0) / length())
+    if (fill.current) fill.current.style.transform = `translateX(calc(${f - 1} * (100% - 2px)))`
+  }, [audio, length])
+
   const describe = useCallback(() => {
-    const el = audio.current
+    const t = audio.current?.currentTime ?? 0
+    const d = length()
+    if (now.current) now.current.textContent = clock(t)
+    if (total.current) total.current.textContent = `/ ${clock(d)}`
     const b = bar.current
-    if (!el || !b) return
-    const duration = el.duration > 0 ? el.duration : 0
-    b.setAttribute('aria-valuemax', String(Math.round(duration)))
-    b.setAttribute('aria-valuenow', String(Math.round(el.currentTime)))
-    b.setAttribute('aria-valuetext', duration ? `${clock(el.currentTime)} of ${clock(duration)}` : 'Not started')
-  }, [audio])
+    if (!b) return
+    b.setAttribute('aria-valuemax', String(Math.round(d)))
+    b.setAttribute('aria-valuenow', String(Math.round(t)))
+    b.setAttribute('aria-valuetext', `${clock(t)} of ${clock(d)}`)
+  }, [audio, length])
 
   useEffect(() => {
     const el = audio.current
-    if (!el) return
     const update = () => {
       paint()
       describe()
     }
+    update()
+    if (!el) return
     const events = ['timeupdate', 'seeked', 'loadedmetadata', 'durationchange', 'emptied'] as const
     for (const e of events) el.addEventListener(e, update)
-    update()
     return () => {
       for (const e of events) el.removeEventListener(e, update)
     }
@@ -197,51 +308,123 @@ function Progress({ audio, playing }: { audio: React.RefObject<HTMLAudioElement 
     return () => cancelAnimationFrame(frame)
   }, [playing, paint])
 
+  // Setting currentTime before the metadata has loaded is fine: it becomes the start position.
   const seekTo = (seconds: number) => {
     const el = audio.current
-    if (!el || !(el.duration > 0)) return
-    el.currentTime = Math.min(el.duration, Math.max(0, seconds))
+    if (!el) return
+    el.currentTime = Math.min(length(), Math.max(0, seconds))
     paint()
+    describe()
   }
   const seekAt = (e: React.PointerEvent) => {
-    const el = audio.current
     const box = bar.current?.getBoundingClientRect()
-    if (!el || !box || !(el.duration > 0)) return
-    seekTo(((e.clientX - box.left) / box.width) * el.duration)
+    if (!box) return
+    seekTo(((e.clientX - box.left) / box.width) * length())
   }
 
   return (
-    <div
-      ref={bar}
-      className="progress"
-      role="slider"
-      tabIndex={0}
-      aria-label="Seek"
-      aria-valuemin={0}
-      data-scrubbing={scrubbing}
-      onPointerDown={(e) => {
-        if (e.button !== 0) return
-        e.preventDefault()
-        e.currentTarget.setPointerCapture(e.pointerId)
-        setScrubbing(true)
-        seekAt(e)
-      }}
-      onPointerMove={(e) => {
-        if (scrubbing) seekAt(e)
-      }}
-      onPointerUp={() => setScrubbing(false)}
-      onPointerCancel={() => setScrubbing(false)}
-      onKeyDown={(e) => {
-        const el = audio.current
-        if (!el) return
-        const step = { ArrowLeft: -5, ArrowDown: -5, ArrowRight: 5, ArrowUp: 5 }[e.key]
-        const to = step !== undefined ? el.currentTime + step : e.key === 'Home' ? 0 : e.key === 'End' ? el.duration : undefined
-        if (to === undefined) return
-        e.preventDefault()
-        seekTo(to)
-      }}
-    >
-      <div ref={fill} className="progress-fill" />
+    <div className="seek" style={{ '--clock': `${CLOCK_WIDTH}ch` } as React.CSSProperties}>
+      <div
+        ref={bar}
+        className="seek-bar"
+        role="slider"
+        tabIndex={0}
+        aria-label="Seek"
+        aria-valuemin={0}
+        data-scrubbing={scrubbing}
+        onPointerDown={(e) => {
+          if (e.button !== 0) return
+          e.preventDefault()
+          e.currentTarget.setPointerCapture(e.pointerId)
+          setScrubbing(true)
+          seekAt(e)
+        }}
+        onPointerMove={(e) => {
+          if (scrubbing) seekAt(e)
+        }}
+        onPointerUp={() => setScrubbing(false)}
+        onPointerCancel={() => setScrubbing(false)}
+        onKeyDown={(e) => {
+          const t = audio.current?.currentTime ?? 0
+          const step = { ArrowLeft: -5, ArrowDown: -5, ArrowRight: 5, ArrowUp: 5 }[e.key]
+          const to = step !== undefined ? t + step : e.key === 'Home' ? 0 : e.key === 'End' ? length() : undefined
+          if (to === undefined) return
+          e.preventDefault()
+          seekTo(to)
+        }}
+      >
+        <div ref={fill} className="seek-fill" />
+      </div>
+      <span className="seek-time">
+        <span ref={now} className="seek-now" />
+        <span ref={total} className="seek-total" />
+      </span>
+    </div>
+  )
+}
+
+/**
+ * The playlist: each album (cover, title, artist, track count · length), then its tracks.
+ * The playing track is orange. On open, the list scrolls so the playing track is in view; the
+ * fade at the bottom goes away once there's nothing more below.
+ */
+function TrackList({ current, open, onPick }: { current: number; open: boolean; onPick: (i: number) => void }) {
+  const scroller = useRef<HTMLDivElement>(null)
+  const [atEnd, setAtEnd] = useState(false)
+
+  const measure = useCallback(() => {
+    const el = scroller.current
+    if (el) setAtEnd(el.scrollTop + el.clientHeight >= el.scrollHeight - 1)
+  }, [])
+
+  useLayoutEffect(() => {
+    const el = scroller.current
+    const row = el?.querySelector<HTMLElement>('[aria-current="true"]')
+    if (!open || !el || !row) return
+    // Only the list scrolls (scrollIntoView would move the page too). Leave a row of context above.
+    const top = row.offsetTop - 22
+    if (top < el.scrollTop || row.offsetTop + row.offsetHeight > el.scrollTop + el.clientHeight) el.scrollTop = top
+    measure()
+  }, [open, current, measure])
+
+  return (
+    <div className="playlist-tracks" data-end={atEnd}>
+      <div ref={scroller} className="playlist-scroll" onScroll={measure}>
+        {albums.map((album) => (
+          <section key={album.title} aria-label={`${album.title} by ${album.artist}`}>
+            <div className="album">
+              <img className="album-cover" src={album.cover} alt="" width={28} height={28} loading="lazy" decoding="async" />
+              <div className="album-name">
+                <span className="album-title">{album.title}</span>
+                <span className="album-artist">{album.artist}</span>
+              </div>
+              <span className="album-meta">
+                {album.tracks.length} · {clock(album.duration)}
+              </span>
+            </div>
+            <ol className="album-tracks">
+              {album.tracks.map((i) => {
+                const t = playlist[i]
+                return (
+                  <li key={i}>
+                    <button
+                      type="button"
+                      className="playlist-row"
+                      aria-current={i === current ? 'true' : undefined}
+                      onClick={() => onPick(i)}
+                    >
+                      <span className="row-number">{t.number}</span>
+                      <span className="row-title">{t.title}</span>
+                      <span className="row-duration">{clock(t.duration)}</span>
+                    </button>
+                  </li>
+                )
+              })}
+            </ol>
+          </section>
+        ))}
+      </div>
+      <div className="playlist-fade" aria-hidden="true" />
     </div>
   )
 }

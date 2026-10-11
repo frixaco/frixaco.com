@@ -84,7 +84,6 @@ export function ShapeLab() {
               <path d="M1 0.5L7.5 4L1 7.5Z" fill="currentColor" />
             </svg>
           </button>
-          <h2>Shape</h2>
         </header>
 
         <div className="body">
