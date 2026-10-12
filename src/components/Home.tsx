@@ -172,7 +172,7 @@ function ProjectCard({ project, npm }: { project: Project; npm: Promise<NpmInfo 
         <span className="project-repo">{project.repo}</span>
       </Link>
       <div className="project-body">
-        {project.id === 'senmei' ? <CompareMedia /> : <div className="media placeholder">gif / image</div>}
+        {project.id === 'senmei' ? <CompareMedia /> : <ProjectPreview id={project.id} />}
         <div className="project-name">
           <h3>{project.name}</h3>
           {project.wip ? (
@@ -197,6 +197,29 @@ function ProjectCard({ project, npm }: { project: Project; npm: Promise<NpmInfo 
         </div>
       </div>
     </article>
+  )
+}
+
+const projectPreviews = {
+  letui: {
+    src: '/letui-fuzzy-file-search.webp',
+    alt: 'LeTUI fuzzy file search example with ranked results and a pinned file',
+    width: 1696,
+    height: 980,
+  },
+  xport: {
+    src: '/xport-article.webp',
+    alt: 'Xport article export with fetched content and Download and Copy controls',
+    width: 1770,
+    height: 990,
+  },
+}
+
+function ProjectPreview({ id }: { id: keyof typeof projectPreviews }) {
+  return (
+    <div className="media project-preview">
+      <img {...projectPreviews[id]} loading="lazy" decoding="async" />
+    </div>
   )
 }
 
