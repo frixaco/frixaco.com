@@ -24,6 +24,17 @@
   padding-inline: var(--inset);
 }
 
+/* Projects and work: the header sits on its content as one tile, like the blog card's.
+   No gap, and square corners where they meet (the content squares its own top). */
+.section.joined {
+  gap: 0;
+}
+
+.section.joined > .section-header {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 /* Chrome (every bar and panel title) is one size, 13/500, like an instrument's panel labels.
    Color fills and position carry the hierarchy; size is kept for the reading copy. */
 .section-header h2,
@@ -194,7 +205,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  /* Rounds the colored bar's top corners; its bottom meets the card body square. */
+  /* Clips the colored bar to the card's corners (rounded where a card stands alone). */
   overflow: clip;
 }
 
@@ -734,11 +745,17 @@
   }
 }
 
-/* The "more on github" strip is the cards' footer, not a tile of its own: no gap, and
-   square corners where it meets the cards (all three side by side, the last one stacked). */
+/* Header, cards and the "more on github" strip are one tile: square corners wherever the
+   cards meet the header above and the strip below (all three side by side; stacked, the
+   first card's top and the last card's bottom). */
 .projects-tile {
   display: flex;
   flex-direction: column;
+}
+
+.projects-row .project:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .projects-row .project:last-child {
@@ -748,8 +765,7 @@
 
 @media (min-width: 1100px) {
   .projects-row .project {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: 0;
   }
 }
 
@@ -769,7 +785,7 @@
   flex-direction: column;
   gap: 14px;
   padding: 20px var(--inset);
-  border-radius: var(--radius-sm);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   background: var(--color-bg-display);
 }
 

@@ -62,7 +62,6 @@ export const projects: Project[] = [
     repo: 'frixaco/senmei',
     name: 'Senmei',
     color: 'var(--color-cat-orchid)',
-    wip: true,
     description:
       'In-browser MKV video streamer and player built from scratch, featuring real-time 4K anime upscaling powered by WGSL (WebGPU) shaders ported from Anime4K.',
     tags: ['typescript', 'webgpu', 'wgsl'],

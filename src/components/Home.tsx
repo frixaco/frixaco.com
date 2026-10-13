@@ -39,7 +39,7 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
         <ShapeLab />
       </section>
 
-      <section id="projects" className="section" aria-labelledby="projects-title">
+      <section id="projects" className="section joined" aria-labelledby="projects-title">
         <SectionHeader id="projects-title">projects</SectionHeader>
         <div className="projects-tile">
           <div className="projects-row">
@@ -56,7 +56,7 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
         </div>
       </section>
 
-      <section id="work" className="section" aria-labelledby="work-title">
+      <section id="work" className="section joined" aria-labelledby="work-title">
         <SectionHeader id="work-title" aside>
           <a className="link resume-link" href={RESUME_URL} target="_blank" rel="noopener">
             <span className="desktop-only">full resume (pdf) ↗</span>
