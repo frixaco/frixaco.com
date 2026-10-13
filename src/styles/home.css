@@ -737,10 +737,31 @@
   }
 }
 
+/* The "more on github" strip is the cards' footer, not a tile of its own: no gap, and
+   square corners where it meets the cards (all three side by side, the last one stacked). */
+.projects-tile {
+  display: flex;
+  flex-direction: column;
+}
+
+.projects-row .project:last-child {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+@media (min-width: 1100px) {
+  .projects-row .project {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
 .more-github {
   display: flex;
   justify-content: center;
   padding: 6px var(--inset);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 /* ---------- Work: timeline + roles ---------- */

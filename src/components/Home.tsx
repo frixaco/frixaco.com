@@ -41,16 +41,18 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
 
       <section id="projects" className="section" aria-labelledby="projects-title">
         <SectionHeader id="projects-title">projects</SectionHeader>
-        <div className="projects-row">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} npm={npm} />
-          ))}
-        </div>
-        <div className="more-github panel">
-          <a className="button-accent" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-            <span>more on github.com/frixaco</span>
-            <span>↗</span>
-          </a>
+        <div className="projects-tile">
+          <div className="projects-row">
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} npm={npm} />
+            ))}
+          </div>
+          <div className="more-github panel">
+            <a className="button-accent" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+              <span>more on github.com/frixaco</span>
+              <span>↗</span>
+            </a>
+          </div>
         </div>
       </section>
 
