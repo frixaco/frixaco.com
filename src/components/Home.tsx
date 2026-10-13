@@ -16,6 +16,7 @@ import { loadReadme, warmReadme } from '#/lib/readme'
 import { BUILD_YM, formatDuration, formatPostDate, monthsBetween } from '#/lib/format'
 import type { NpmInfo } from '#/server/functions'
 import type { PostMeta } from '#/server/content'
+import { Clip } from './Clip'
 import { LetuiStats, SenmeiStats, XportStats } from './ProjectStats'
 import { ShapeLab } from './ShapeLab'
 import { Arrow, ExpandIcon } from './icons'
@@ -174,10 +175,8 @@ function ProjectCard({ project, npm }: { project: Project; npm: Promise<NpmInfo 
         <span className="project-repo">{project.repo}</span>
       </Link>
       <div className="project-body">
-        {project.preview ? (
-          <div className="media">
-            <img {...project.preview} loading="lazy" decoding="async" />
-          </div>
+        {project.clip ? (
+          <Clip clip={project.clip} name={project.name} />
         ) : (
           <CompareMedia />
         )}

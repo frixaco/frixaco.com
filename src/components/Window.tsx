@@ -13,7 +13,7 @@
 import { useEffect, useLayoutEffect, useRef, type ReactNode } from 'react'
 import { ShrinkIcon } from './icons'
 
-const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)' // iOS-like sheet curve
+export const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)' // iOS-like sheet curve
 const OPEN_MS = 460
 const CLOSE_MS = 360
 // Copy ↔ content: a fade-through, not a crossfade (two unrelated layouts at 50% read as
@@ -23,7 +23,7 @@ const CLOSE_MS = 360
 const OUT_MS = 100
 const IN_DELAY_MS = 70
 const IN_MS = 180
-const EASE_OUT = 'cubic-bezier(0.23, 1, 0.32, 1)'
+export const EASE_OUT = 'cubic-bezier(0.23, 1, 0.32, 1)'
 
 export interface WindowProps {
   /** Matches `data-window-source` on the element this window grows out of. */

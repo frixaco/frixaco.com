@@ -35,8 +35,12 @@ export interface Project {
   wip?: boolean
   description: string
   tags: string[]
-  /** Card screenshot; without one the card shows Senmei's before/after compare. */
-  preview?: { src: string; alt: string; width: number; height: number }
+  /**
+   * Card demo clip: `/clips/<base>.webm` (AV1) and `.mp4` (H.264), served from the bucket (see
+   * clipFiles), and `/<base>.webp`, its first frame. Without one the card shows Senmei's
+   * before/after compare.
+   */
+  clip?: { base: string; label: string; width: number; height: number }
   /** Where it runs publicly (a host, served over https). */
   site?: string
 }
@@ -50,11 +54,11 @@ export const projects: Project[] = [
     description:
       'TUI library built from scratch with TypeScript and a Rust core, featuring a component-based API, signal-based state management, CSS-like styling API, a Rust-powered layout and rendering engine, and cell-based diffing.',
     tags: ['rust', 'typescript', 'bun'],
-    preview: {
-      src: '/letui-fuzzy-file-search.webp',
-      alt: 'LeTUI fuzzy file search example with ranked results and a pinned file',
-      width: 1696,
-      height: 980,
+    clip: {
+      base: 'letui-letty',
+      label: 'Letty, the LeTUI AI agent example, answering a question about the renderer with Codex',
+      width: 1478,
+      height: 858,
     },
   },
   {
@@ -75,15 +79,18 @@ export const projects: Project[] = [
     description:
       'Web app and CLI for exporting X threads, articles, posts, and replies as Markdown or JSON, built around resumable jobs.',
     tags: ['tanstack start', 'postgresql'],
-    preview: {
-      src: '/xport-article.webp',
-      alt: 'Xport article export with fetched content and Download and Copy controls',
-      width: 1770,
-      height: 990,
+    clip: {
+      base: 'xport-export',
+      label: 'Xport exporting @NASA posts, stopped early and downloaded as Markdown',
+      width: 1600,
+      height: 900,
     },
     site: 'xport.frixaco.com',
   },
 ]
+
+/** Every clip video file: what /clips serves and scripts/upload-clips.ts puts in the bucket. */
+export const clipFiles = projects.flatMap((p) => (p.clip ? [`${p.clip.base}.webm`, `${p.clip.base}.mp4`] : []))
 
 export const projectById = (id: string) => projects.find((p) => p.id === id)
 

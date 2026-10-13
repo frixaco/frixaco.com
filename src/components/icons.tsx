@@ -18,6 +18,22 @@ export function ShrinkIcon({ size = 12 }: { size?: number }) {
   )
 }
 
+export function PlayIcon({ size = 12 }: { size?: number }) {
+  return (
+    <svg className="icon" width={size} height={size} viewBox="0 0 12 12" aria-hidden="true">
+      <path d="M2.5 1.5v9l8-4.5z" fill="currentColor" />
+    </svg>
+  )
+}
+
+export function PauseIcon({ size = 12 }: { size?: number }) {
+  return (
+    <svg className="icon" width={size} height={size} viewBox="0 0 12 12" aria-hidden="true">
+      <path d="M2.5 1.5h2.5v9H2.5zM7 1.5h2.5v9H7z" fill="currentColor" />
+    </svg>
+  )
+}
+
 export function Arrow() {
   return <span className="arrow">↗</span>
 }

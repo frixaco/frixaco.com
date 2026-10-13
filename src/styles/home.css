@@ -1189,3 +1189,160 @@
     padding: 16px var(--inset) calc(36px + env(safe-area-inset-bottom, 0px));
   }
 }
+
+/* Demo clips (LeTUI, Xport): the still, then the video over it once it plays. */
+.clip > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  opacity: 0;
+  transition: opacity 200ms var(--ease-out);
+}
+
+.clip[data-shown="true"] > video {
+  opacity: 1;
+}
+
+/* The lightbox carries the picture; the card's own steps aside underneath it. */
+.clip[data-lifted="true"] > :is(img, video) {
+  visibility: hidden;
+}
+
+.clip-open {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 8px;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.clip-chip {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--color-bg-display) 82%, transparent);
+  box-shadow: inset 0 0 0 1px var(--color-line-strong);
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    transform 120ms var(--ease-out),
+    background-color 150ms ease;
+}
+
+.clip-toggle {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+}
+
+button.clip-chip:active,
+.clip-open:active .clip-chip {
+  transform: var(--press);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button.clip-chip:hover,
+  .clip-open:hover .clip-chip {
+    background: var(--color-bg-raised);
+  }
+}
+
+/* Lightbox: the clip at its largest, over a dark scrim. */
+html:has(.clip-lightbox[open]) {
+  overflow: hidden;
+}
+
+.clip-lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: none;
+  outline: none;
+}
+
+.clip-lightbox[open] {
+  display: grid;
+  place-items: center;
+}
+
+.clip-lightbox::backdrop {
+  background: none;
+}
+
+.clip-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--color-bg-gutter);
+  cursor: zoom-out;
+}
+
+.clip-stage {
+  --bar: 28px;
+  --gap: 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  /* The largest box of the clip's shape that fits with its bar below, up to the page width. */
+  width: min(
+    100% - 2 * var(--inset),
+    var(--page-max) - 2 * var(--inset),
+    (100dvh - 2 * var(--inset) - var(--gap) - var(--bar)) * var(--ratio)
+  );
+}
+
+.clip-frame {
+  aspect-ratio: var(--ratio);
+  overflow: clip;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-display);
+  transform-origin: 0 0;
+  will-change: transform, clip-path;
+}
+
+.clip-frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.clip-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--bar);
+}
+
+.clip-track {
+  flex-grow: 1;
+  height: 2px;
+  overflow: clip;
+  background: var(--color-line-subtle);
+}
+
+.clip-track i {
+  display: block;
+  height: 100%;
+  background: var(--color-text-muted);
+  transform: scaleX(0);
+  transform-origin: left;
+}
