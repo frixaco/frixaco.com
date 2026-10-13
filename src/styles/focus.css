@@ -72,11 +72,12 @@
   --ring: 3px;
 }
 
+/* A window's bar: the close button spans it, so the ring sits inside like the project bar's. */
 .window-close {
-  --ring: -2px -5px;
+  --ring: 3px;
 }
 
-.window-bar.on-color .window-action {
+.window-bar.on-color :is(.window-close, .window-action) {
   --ring-color: var(--color-text-on-color);
 }
 
@@ -106,9 +107,5 @@
 
   .post-row {
     --ring: 8px -10px;
-  }
-
-  .window-close {
-    --ring: 2px -5px;
   }
 }
