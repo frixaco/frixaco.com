@@ -5,12 +5,25 @@
 // Motion: the window is laid out at its final size; the animation only moves it
 // (translate) and reveals it (clip-path), so text never scales. Both run on the
 // compositor, and WAAPI lets a close interrupt an open mid-flight from where it is.
+//
+// It is one solid object the whole way (a container transform): it starts as a copy of
+// the card or row, the copy dissolves into the window's own content early in the trip,
+// and on close the copy returns early, so the window lands as the card and hands off
+// to the real one on an identical frame. Nothing fades as it lands.
 import { useEffect, useLayoutEffect, useRef, type ReactNode } from 'react'
 import { ShrinkIcon } from './icons'
 
 const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)' // iOS-like sheet curve
 const OPEN_MS = 460
 const CLOSE_MS = 360
+// Copy ↔ content: a fade-through, not a crossfade (two unrelated layouts at 50% read as
+// a double exposure). What leaves goes first and fast; what arrives follows, and both are
+// done while the window is still travelling fast. Leaving is linear (an even fade reads
+// as one), arriving eases out.
+const OUT_MS = 100
+const IN_DELAY_MS = 70
+const IN_MS = 180
+const EASE_OUT = 'cubic-bezier(0.23, 1, 0.32, 1)'
 
 export interface WindowProps {
   /** Matches `data-window-source` on the element this window grows out of. */
@@ -54,10 +67,52 @@ function corners(el: Element) {
 }
 const FULL: Keyframe = { transform: 'translate(0px, 0px)', clipPath: 'inset(0px 0px 0px 0px round 3px)' }
 
+/** A static copy of the source, pixel-matched outside its page context. */
+function copyOf(source: HTMLElement) {
+  const copy = source.cloneNode(true) as HTMLElement
+  freezeSubgrids(source, copy)
+  copy.removeAttribute('data-window-source')
+  for (const el of [copy, ...copy.querySelectorAll('[id]')]) el.removeAttribute('id')
+  for (const img of copy.querySelectorAll('img')) img.loading = 'eager'
+  const r = source.getBoundingClientRect()
+  const s = getComputedStyle(source)
+  Object.assign(copy.style, {
+    width: `${r.width}px`,
+    height: `${r.height}px`,
+    margin: '0',
+    // A blog row takes its fill from the panel around it, and its divider from `li + li`.
+    background: backdrop(source),
+    borderTop: s.borderTop,
+  })
+  return copy
+}
+
+/** Subgrid lanes come from the row of cards; the copy has no row, so pin its tracks. */
+function freezeSubgrids(src: Element, dst: HTMLElement) {
+  const s = getComputedStyle(src)
+  if (s.display === 'grid' && s.gridTemplateRows.startsWith('subgrid')) {
+    const gap = parseFloat(s.rowGap) || 0
+    const end = src.getBoundingClientRect().bottom - parseFloat(s.paddingBottom) - parseFloat(s.borderBottomWidth)
+    const tops = [...src.children].map((c) => c.getBoundingClientRect().top)
+    dst.style.display = 'grid'
+    dst.style.rowGap = `${gap}px`
+    dst.style.gridTemplateRows = tops.map((top, i) => `${(i + 1 < tops.length ? tops[i + 1] - gap : end) - top}px`).join(' ')
+  }
+  ;[...src.children].forEach((c, i) => freezeSubgrids(c, dst.children[i] as HTMLElement))
+}
+
+function backdrop(el: Element | null): string {
+  for (; el; el = el.parentElement) {
+    const bg = getComputedStyle(el).backgroundColor
+    if (bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') return bg
+  }
+  return 'var(--color-bg-panel)'
+}
+
 export function Window(props: WindowProps) {
   const { source, open, onClose, onExited, children } = props
   const win = useRef<HTMLDivElement>(null)
-  const body = useRef<HTMLDivElement>(null)
+  const ghost = useRef<HTMLDivElement>(null)
   const ownScroll = useRef<HTMLDivElement>(null)
   const scroll = props.scrollRef ?? ownScroll
   const anim = useRef<Animation | null>(null)
@@ -72,21 +127,23 @@ export function Window(props: WindowProps) {
     returnFocus.current = (document.activeElement as HTMLElement) ?? null
 
     // Measure the window at rest: no transform or clip left over from an earlier run.
-    const clear = () => [el, body.current].forEach((node) => node?.getAnimations().forEach((a) => a.cancel()))
+    const clear = () =>
+      [el, ghost.current, scroll.current].forEach((node) => node?.getAnimations().forEach((a) => a.cancel()))
     clear()
     const { deepLink } = props
-    const from = deepLink || reduced() ? null : fromSource(el, document.querySelector(`[data-window-source="${source}"]`))
-    if (from) {
+    const sourceEl = document.querySelector<HTMLElement>(`[data-window-source="${source}"]`)
+    const from = deepLink || reduced() ? null : fromSource(el, sourceEl)
+    if (from && sourceEl) {
+      // Frame one is the card itself; its copy gives way to the window's content as it grows.
+      ghost.current!.replaceChildren(copyOf(sourceEl))
       anim.current = el.animate([from, FULL], { duration: OPEN_MS, easing: EASE })
-      // Crossfade off the source instead of covering it with a blank box in one frame.
-      el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 180, easing: 'linear', fill: 'backwards' })
-      body.current?.animate(
-        [
-          { opacity: 0, transform: 'translateY(12px)' },
-          { opacity: 1, transform: 'none' },
-        ],
-        { duration: 320, delay: 140, easing: 'cubic-bezier(0.23, 1, 0.32, 1)', fill: 'backwards' },
-      )
+      ghost.current!.animate([{ opacity: 1 }, { opacity: 0 }], { duration: OUT_MS, easing: 'linear', fill: 'forwards' })
+      scroll.current?.animate([{ opacity: 0 }, { opacity: 1 }], {
+        duration: IN_MS,
+        delay: IN_DELAY_MS,
+        easing: EASE_OUT,
+        fill: 'backwards',
+      })
     } else if (!deepLink) {
       anim.current = el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160, easing: 'ease-out' })
     }
@@ -134,31 +191,38 @@ export function Window(props: WindowProps) {
       geometry = el.animate([FULL, to], { duration: CLOSE_MS, easing: EASE, fill: 'forwards' })
       remaining = CLOSE_MS
     }
-    // The content stays while the window travels (the shrinking clip hides it), and the
-    // window dissolves over the second half so the card or row underneath shows through
-    // as it lands, rather than an empty box popping into the real content on the last frame.
-    // Each fade starts from the live opacity, so an interrupted open doesn't flash.
-    const fadeFrom = (node: HTMLElement) => Number(getComputedStyle(node).opacity)
-    if (body.current) {
-      const b = body.current
-      const from = fadeFrom(b)
-      for (const a of b.getAnimations()) a.cancel()
-      b.animate([{ opacity: from }, { opacity: 0 }], {
-        duration: Math.min(240, remaining * 0.7),
-        easing: 'ease-out',
-        fill: 'forwards',
+    // Travelling home, the same fade-through mirrored: the content leaves, then the card's
+    // copy returns, each from its live opacity (an interrupted open may be mid-swap), so
+    // the window lands solid as the card. Without a path (reduced motion, no source) the
+    // window just fades out.
+    const live = (node: Element) => Number(getComputedStyle(node).opacity)
+    let fade: Animation | null = null
+    if (geometry && sourceEl) {
+      const content = scroll.current
+      if (content) {
+        const opacity = live(content)
+        for (const a of content.getAnimations()) a.cancel()
+        content.animate([{ opacity }, { opacity: 0 }], {
+          duration: Math.min(OUT_MS, remaining * 0.4) * opacity,
+          easing: 'linear',
+          fill: 'forwards',
+        })
+      }
+      const g = ghost.current!
+      const opacity = live(g)
+      for (const a of g.getAnimations()) a.cancel()
+      g.replaceChildren(copyOf(sourceEl))
+      g.animate([{ opacity }, { opacity: 1 }], {
+        duration: Math.min(IN_MS, remaining * 0.5) * (1 - opacity),
+        delay: Math.min(IN_DELAY_MS, remaining * 0.25) * (1 - opacity),
+        easing: EASE_OUT,
+        fill: 'both',
       })
+    } else {
+      const opacity = live(el)
+      for (const a of el.getAnimations()) a.cancel()
+      fade = el.animate([{ opacity }, { opacity: 0 }], { duration: remaining, easing: 'linear', fill: 'forwards' })
     }
-    const opacity = fadeFrom(el)
-    // An unfinished fade-in would keep raising the opacity under a delayed fade-out.
-    for (const a of el.getAnimations()) if (a !== geometry) a.cancel()
-    const travel = Boolean(geometry) && !interrupted
-    const fade = el.animate([{ opacity }, { opacity: 0 }], {
-      duration: travel ? remaining * 0.6 : remaining,
-      delay: travel ? remaining * 0.4 : 0,
-      easing: 'linear',
-      fill: 'forwards',
-    })
     let done = false
     const finish = () => {
       if (done) return
@@ -167,7 +231,7 @@ export function Window(props: WindowProps) {
       focusTarget?.focus({ preventScroll: true })
       onExited()
     }
-    Promise.all([geometry?.finished, fade.finished]).then(finish, finish)
+    Promise.all([geometry?.finished, fade?.finished]).then(finish, finish)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
@@ -199,10 +263,12 @@ export function Window(props: WindowProps) {
         {props.action}
       </div>
       <div ref={scroll} className="window-scroll">
-        <div ref={body} className="window-body">
+        <div className="window-body">
           {children}
         </div>
       </div>
+      {/* The source's copy while the window travels (filled imperatively, never by React). */}
+      <div ref={ghost} className="window-ghost" aria-hidden="true" inert />
     </div>
   )
 }
