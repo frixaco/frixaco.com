@@ -420,11 +420,6 @@
   flex-grow: 1;
 }
 
-.project-tags {
-  padding-top: 14px;
-  border-top: 1px solid var(--color-line-subtle);
-}
-
 @media (max-width: 767px) {
   .media {
     height: 196px;
@@ -756,10 +751,11 @@
   }
 }
 
+/* The cards' 20px bottom padding sits above the button; the same 20px goes below it. */
 .more-github {
   display: flex;
   justify-content: center;
-  padding: 6px var(--inset);
+  padding: 0 var(--inset) 20px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
