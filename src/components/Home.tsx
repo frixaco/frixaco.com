@@ -196,6 +196,12 @@ function ProjectCard({ project, npm }: { project: Project; npm: Promise<NpmInfo 
             <span>GitHub</span>
             <Arrow />
           </a>
+          {project.site ? (
+            <a className="pill" href={`https://${project.site}`} target="_blank" rel="noopener noreferrer">
+              <span>{project.site}</span>
+              <Arrow />
+            </a>
+          ) : null}
         </div>
         <div className="project-stats">
           {project.id === 'letui' ? <LetuiStats /> : project.id === 'senmei' ? <SenmeiStats /> : <XportStats npm={npm} />}

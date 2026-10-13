@@ -37,6 +37,8 @@ export interface Project {
   tags: string[]
   /** Card screenshot; without one the card shows Senmei's before/after compare. */
   preview?: { src: string; alt: string; width: number; height: number }
+  /** Where it runs publicly (a host, served over https). */
+  site?: string
 }
 
 export const projects: Project[] = [
@@ -64,6 +66,7 @@ export const projects: Project[] = [
     description:
       'In-browser MKV video streamer and player built from scratch, featuring real-time 4K anime upscaling powered by WGSL (WebGPU) shaders ported from Anime4K.',
     tags: ['typescript', 'webgpu', 'wgsl'],
+    site: 'senmei.frixaco.com',
   },
   {
     id: 'xport',
@@ -79,6 +82,7 @@ export const projects: Project[] = [
       width: 1770,
       height: 990,
     },
+    site: 'xport.frixaco.com',
   },
 ]
 

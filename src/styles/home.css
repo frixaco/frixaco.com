@@ -404,7 +404,9 @@
 
 .project-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
+  gap: 8px;
 }
 
 /* Layout containment would stop the card being a subgrid, so the stats are the container. */
