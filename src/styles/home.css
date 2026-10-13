@@ -353,11 +353,11 @@
   scale: 1.15;
 }
 
-.compare-handle:focus-visible {
+:where([data-keys]) .compare-handle:focus-visible {
   outline: none;
 }
 
-.compare-handle:focus-visible .compare-knob {
+:where([data-keys]) .compare-handle:focus-visible .compare-knob {
   outline: 1px solid var(--color-text);
   outline-offset: 3px;
 }

@@ -5,9 +5,17 @@
 
    Rows and text links have no box around their text: an outline would hug the glyphs
    sideways and sit loose above and below. Those draw the ring as ::after at set insets
-   (--ring), tuned per element so the gap to the content is the same on every side. */
+   (--ring), tuned per element so the gap to the content is the same on every side.
 
-:focus-visible {
+   Rings are for the keyboard only. Browsers also match :focus-visible after a tap (a script
+   moving focus, a control focusing itself), so every focus style here and in the other
+   sheets is gated on [data-keys]: set on <html> by Tab, cleared by any pointer (RootLayout). */
+
+:root:not([data-keys]) :focus-visible {
+  outline: none;
+}
+
+:where([data-keys]) :focus-visible {
   outline: 1px solid var(--color-text);
   outline-offset: 2px;
 }
@@ -28,12 +36,12 @@
   position: relative;
 }
 
-:is(.contact, .post-row, .project-bar, .window-close, .toc-items a, .toc-head, .toc-group.closed, .link, .resume-link, .window-action, .md a, .more-bar, .role-name a):focus-visible {
+:where([data-keys]) :is(.contact, .post-row, .project-bar, .window-close, .toc-items a, .toc-head, .toc-group.closed, .link, .resume-link, .window-action, .md a, .more-bar, .role-name a):focus-visible {
   outline: none;
 }
 
-:is(.contact, .post-row, .project-bar, .window-close, .toc-items a, .toc-head, .link, .resume-link, .window-action, .md a, .more-bar, .role-name a):focus-visible::after,
-.toc-group.closed:focus-visible > span::after {
+:where([data-keys]) :is(.contact, .post-row, .project-bar, .window-close, .toc-items a, .toc-head, .link, .resume-link, .window-action, .md a, .more-bar, .role-name a):focus-visible::after,
+:where([data-keys]) .toc-group.closed:focus-visible > span::after {
   content: "";
   position: absolute;
   inset: var(--ring, -2px -4px);

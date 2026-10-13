@@ -376,7 +376,7 @@
   cursor: pointer;
 }
 
-.playlist-row:focus-visible {
+:where([data-keys]) .playlist-row:focus-visible {
   outline-offset: -1px;
 }
 

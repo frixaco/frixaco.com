@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { HeadContent, Link, Outlet, Scripts, createRootRoute } from '@tanstack/react-router'
 import { AppBar } from '#/components/AppBar'
 import appCss from '../styles.css?url'
@@ -44,6 +45,20 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
 // The app bar (and its player) sits outside the routes, so music keeps playing across navigation.
 function RootLayout() {
+  // Focus rings only for keyboard users: Tab turns them on, any tap or click turns them off
+  // (styles/focus.css gates every ring on [data-keys]).
+  useEffect(() => {
+    const root = document.documentElement
+    const keys = (e: KeyboardEvent) => e.key === 'Tab' && root.setAttribute('data-keys', '')
+    const pointer = () => root.removeAttribute('data-keys')
+    window.addEventListener('keydown', keys, true)
+    window.addEventListener('pointerdown', pointer, true)
+    return () => {
+      window.removeEventListener('keydown', keys, true)
+      window.removeEventListener('pointerdown', pointer, true)
+    }
+  }, [])
+
   return (
     <div className="page">
       <AppBar />

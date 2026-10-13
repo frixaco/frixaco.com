@@ -1,14 +1,14 @@
 /* Readout controls (from experiments/shape-lab). Tokens come from tokens.css.
    Hover styles only apply to precise pointers, so taps never leave a stuck hover. */
 
-:where([data-control]):focus-visible {
+:where([data-keys]) :where([data-control]):focus-visible {
   outline: 1px solid var(--color-text);
   outline-offset: 2px;
 }
 
 /* Number boxes show focus with their own border (white), never a second ring around it;
    while dragging or typing the border is cyan. Inputs match :focus-visible even on a click. */
-[data-control="number"]:focus-visible {
+:where([data-keys]) [data-control="number"]:focus-visible {
   outline: none;
   border-color: var(--color-text);
 }
@@ -301,7 +301,7 @@
 }
 
 [data-control="knob"].active,
-[data-control="knob"]:focus-visible {
+:where([data-keys]) [data-control="knob"]:focus-visible {
   outline: none;
   color: var(--color-accent);
 }
@@ -315,7 +315,7 @@
 }
 
 [data-control="knob"].active .corner,
-[data-control="knob"]:focus-visible .corner {
+:where([data-keys]) [data-control="knob"]:focus-visible .corner {
   display: block;
 }
 
@@ -332,7 +332,7 @@
   gap: 4px;
 }
 
-[data-control="graph"]:focus-visible {
+:where([data-keys]) [data-control="graph"]:focus-visible {
   outline: none;
 }
 
@@ -345,7 +345,7 @@
   touch-action: none;
 }
 
-[data-control="graph"]:focus-visible .display {
+:where([data-keys]) [data-control="graph"]:focus-visible .display {
   outline: 1px solid var(--color-text);
   outline-offset: 2px;
 }
@@ -431,7 +431,7 @@
   user-select: none;
 }
 
-[data-control="rail"]:focus-visible {
+:where([data-keys]) [data-control="rail"]:focus-visible {
   outline: none;
 }
 
@@ -448,7 +448,7 @@
 [data-control="rail"] .line.hover { stroke: var(--color-text); }
 [data-control="rail"] .line.selected { stroke: var(--color-accent); stroke-width: 2; }
 [data-control="rail"] .caret { fill: var(--color-accent); }
-[data-control="rail"]:focus-visible rect.selected { fill: var(--color-bg-hover); }
+:where([data-keys]) [data-control="rail"]:focus-visible rect.selected { fill: var(--color-bg-hover); }
 
 @media (hover: hover) and (pointer: fine) {
   .icon-button:hover {
@@ -471,7 +471,7 @@
   }
 
   [data-control="knob"]:hover .label,
-  [data-control="knob"]:focus-visible .label,
+  :where([data-keys]) [data-control="knob"]:focus-visible .label,
   [data-control="knob"].active .label {
     color: var(--color-text);
   }
