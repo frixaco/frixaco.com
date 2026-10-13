@@ -35,6 +35,8 @@ export interface Project {
   wip?: boolean
   description: string
   tags: string[]
+  /** Card screenshot; without one the card shows Senmei's before/after compare. */
+  preview?: { src: string; alt: string; width: number; height: number }
 }
 
 export const projects: Project[] = [
@@ -46,6 +48,12 @@ export const projects: Project[] = [
     description:
       'TUI library built from scratch with TypeScript and a Rust core, featuring a component-based API, signal-based state management, CSS-like styling API, a Rust-powered layout and rendering engine, and cell-based diffing.',
     tags: ['rust', 'typescript', 'bun'],
+    preview: {
+      src: '/letui-fuzzy-file-search.webp',
+      alt: 'LeTUI fuzzy file search example with ranked results and a pinned file',
+      width: 1696,
+      height: 980,
+    },
   },
   {
     id: 'senmei',
@@ -65,6 +73,12 @@ export const projects: Project[] = [
     description:
       'Web app and CLI for exporting X threads, articles, posts, and replies as Markdown or JSON, built around resumable jobs.',
     tags: ['tanstack start', 'postgresql'],
+    preview: {
+      src: '/xport-article.webp',
+      alt: 'Xport article export with fetched content and Download and Copy controls',
+      width: 1770,
+      height: 990,
+    },
   },
 ]
 
