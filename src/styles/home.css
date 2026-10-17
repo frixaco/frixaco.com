@@ -44,11 +44,6 @@
   line-height: 16px;
 }
 
-.section-header.split h2,
-.section-header.split > span:last-child {
-  flex: 1 1 0;
-}
-
 .header-link {
   font-size: var(--text-xs);
   line-height: 14px;

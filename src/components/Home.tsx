@@ -55,7 +55,7 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
       </section>
 
       <section id="work" className="section joined" aria-labelledby="work-title">
-        <SectionHeader id="work-title" title="work" centered>
+        <SectionHeader id="work-title" title="work">
           <a className="link header-link" href={RESUME_URL} target="_blank" rel="noopener">
             <span className="desktop-only">full resume (pdf) ↗</span>
             <span className="phone-only">resume.pdf ↗</span>
@@ -99,18 +99,8 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
   )
 }
 
-function SectionHeader({ id, title, children, centered }: { id: string; title: string; children: React.ReactNode; centered?: boolean }) {
-  // "work" has the resume link centered in the header, between two equal halves.
-  if (centered) {
-    return (
-      <header className="section-header panel split">
-        <h2 id={id}>{title}</h2>
-        {children}
-        <span />
-      </header>
-    )
-  }
-  // Elsewhere the link follows the title.
+function SectionHeader({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
+  // The section's link follows its title.
   return (
     <header className="section-header panel">
       <h2 id={id}>{title}</h2>
