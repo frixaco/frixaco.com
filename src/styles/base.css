@@ -82,8 +82,7 @@ button,
 .tab,
 .tag,
 .pill,
-.pill-accent,
-.button-accent {
+.pill-accent {
   user-select: none;
   -webkit-user-select: none;
 }
@@ -162,8 +161,7 @@ h4 {
 
 /* Shared pressables */
 .pill,
-.pill-accent,
-.button-accent {
+.pill-accent {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
@@ -173,8 +171,7 @@ h4 {
 }
 
 .pill:active,
-.pill-accent:active,
-.button-accent:active {
+.pill-accent:active {
   transform: var(--press);
 }
 
@@ -205,25 +202,12 @@ h4 {
   line-height: 18px;
 }
 
-.button-accent {
-  gap: 6px;
-  height: 26px;
-  padding-inline: 10px;
-  border-radius: var(--radius-xs);
-  background: var(--color-accent);
-  color: var(--color-text-on-color);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
-  line-height: 16px;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .pill:hover {
     background: var(--color-bg-hover);
   }
 
-  .pill-accent:hover,
-  .button-accent:hover {
+  .pill-accent:hover {
     background: color-mix(in oklab, var(--color-accent), white 14%);
   }
 }

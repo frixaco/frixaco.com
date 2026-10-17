@@ -41,25 +41,22 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
       </section>
 
       <section id="projects" className="section joined" aria-labelledby="projects-title">
-        <SectionHeader id="projects-title">projects</SectionHeader>
-        <div className="projects-tile">
-          <div className="projects-row">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} npm={npm} />
-            ))}
-          </div>
-          <div className="more-github panel">
-            <a className="button-accent" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-              <span>more on github.com/frixaco</span>
-              <span>↗</span>
-            </a>
-          </div>
+        <SectionHeader id="projects-title" title="projects">
+          <a className="link header-link" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+            <span className="desktop-only">more on github.com/frixaco ↗</span>
+            <span className="phone-only">github ↗</span>
+          </a>
+        </SectionHeader>
+        <div className="projects-row">
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} npm={npm} />
+          ))}
         </div>
       </section>
 
       <section id="work" className="section joined" aria-labelledby="work-title">
-        <SectionHeader id="work-title" aside>
-          <a className="link resume-link" href={RESUME_URL} target="_blank" rel="noopener">
+        <SectionHeader id="work-title" title="work" centered>
+          <a className="link header-link" href={RESUME_URL} target="_blank" rel="noopener">
             <span className="desktop-only">full resume (pdf) ↗</span>
             <span className="phone-only">resume.pdf ↗</span>
           </a>
@@ -102,20 +99,22 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
   )
 }
 
-function SectionHeader({ id, children, aside }: { id: string; children: React.ReactNode; aside?: boolean }) {
+function SectionHeader({ id, title, children, centered }: { id: string; title: string; children: React.ReactNode; centered?: boolean }) {
   // "work" has the resume link centered in the header, between two equal halves.
-  if (aside) {
+  if (centered) {
     return (
       <header className="section-header panel split">
-        <h2 id={id}>work</h2>
+        <h2 id={id}>{title}</h2>
         {children}
         <span />
       </header>
     )
   }
+  // Elsewhere the link follows the title.
   return (
     <header className="section-header panel">
-      <h2 id={id}>{children}</h2>
+      <h2 id={id}>{title}</h2>
+      {children}
     </header>
   )
 }

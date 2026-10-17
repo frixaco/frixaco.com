@@ -28,7 +28,7 @@
 .toc-head,
 .toc-group.closed > span,
 .link,
-.resume-link,
+.header-link,
 .window-action,
 .md a,
 .more-bar,
@@ -36,11 +36,11 @@
   position: relative;
 }
 
-:where([data-keys]) :is(.contact, .post-row, .project-bar, .window-close, .toc-items a, .toc-head, .toc-group.closed, .link, .resume-link, .window-action, .md a, .more-bar, .role-name a):focus-visible {
+:where([data-keys]) :is(.contact, .post-row, .project-bar, .window-close, .toc-items a, .toc-head, .toc-group.closed, .link, .header-link, .window-action, .md a, .more-bar, .role-name a):focus-visible {
   outline: none;
 }
 
-:where([data-keys]) :is(.contact, .post-row, .project-bar, .window-close, .toc-items a, .toc-head, .link, .resume-link, .window-action, .md a, .more-bar, .role-name a):focus-visible::after,
+:where([data-keys]) :is(.contact, .post-row, .project-bar, .window-close, .toc-items a, .toc-head, .link, .header-link, .window-action, .md a, .more-bar, .role-name a):focus-visible::after,
 :where([data-keys]) .toc-group.closed:focus-visible > span::after {
   content: "";
   position: absolute;
@@ -52,7 +52,7 @@
 
 /* Text links: the line box already leaves ~2px above and below the glyphs. */
 .link,
-.resume-link,
+.header-link,
 .window-action,
 .md a,
 .role-name a {
