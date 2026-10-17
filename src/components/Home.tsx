@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent as ReactPointerEvent } from 'react'
 import { Link } from '@tanstack/react-router'
 import {
-  GITHUB_URL,
   RESUME_URL,
   TAG_COLORS,
   contacts,
@@ -42,12 +41,7 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
       </section>
 
       <section id="projects" className="section joined" aria-labelledby="projects-title">
-        <SectionHeader id="projects-title" title="projects">
-          <a className="link header-link" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-            <span className="desktop-only">more on github.com/frixaco ↗</span>
-            <span className="phone-only">github ↗</span>
-          </a>
-        </SectionHeader>
+        <SectionHeader id="projects-title">projects</SectionHeader>
         <div className="projects-row">
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} npm={npm} />
@@ -56,12 +50,7 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
       </section>
 
       <section id="work" className="section joined" aria-labelledby="work-title">
-        <SectionHeader id="work-title" title="work">
-          <a className="link header-link" href={RESUME_URL} target="_blank" rel="noopener">
-            <span className="desktop-only">full resume (pdf) ↗</span>
-            <span className="phone-only">resume.pdf ↗</span>
-          </a>
-        </SectionHeader>
+        <SectionHeader id="work-title">work</SectionHeader>
         <Work />
       </section>
 
@@ -100,12 +89,10 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
   )
 }
 
-function SectionHeader({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
-  // The section's link follows its title.
+function SectionHeader({ id, children }: { id: string; children: React.ReactNode }) {
   return (
     <header className="section-header panel">
-      <h2 id={id}>{title}</h2>
-      {children}
+      <h2 id={id}>{children}</h2>
     </header>
   )
 }

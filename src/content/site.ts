@@ -2,7 +2,6 @@
 // Links come from the previous site. Don't add or rephrase copy here.
 
 export const RESUME_URL = '/SWE_RESUME_RUSTAM_ASHURMATOV.pdf'
-export const GITHUB_URL = 'https://github.com/frixaco'
 
 export const headline = 'i like engineering software: interfaces, backend and tools.'
 

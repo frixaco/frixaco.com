@@ -19,7 +19,7 @@
 .section-header {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   height: 32px;
   padding-inline: var(--inset);
 }
@@ -42,12 +42,6 @@
   font-size: var(--text-base);
   font-weight: var(--font-weight-medium);
   line-height: 16px;
-}
-
-.header-link {
-  font-size: var(--text-xs);
-  line-height: 14px;
-  white-space: nowrap;
 }
 
 /* ---------- About: portrait + Shape Lab ---------- */
