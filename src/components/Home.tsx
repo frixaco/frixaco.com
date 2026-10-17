@@ -61,7 +61,7 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
         <ol className="posts">
           {posts.map((post) => (
             <li key={post.slug} data-window-source={`blog:${post.slug}`}>
-              <Link to="/blog/$slug" params={{ slug: post.slug }} resetScroll={false} className="post-row">
+              <Link to="/blog/$slug" params={{ slug: post.slug }} resetScroll={false} className="post-row inset-ring">
                 <time dateTime={post.date.slice(0, 10)}>{formatPostDate(post.date)}</time>
                 <span className="post-body">
                   <span className="post-title">{post.title}</span>
@@ -76,7 +76,7 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
 
       {/* Collapsed: everything lives in the window it opens (/more). */}
       <section id="more" className="section card-panel" aria-labelledby="more-title" data-window-source="more">
-        <Link to="/more" resetScroll={false} className="raised-header more-bar">
+        <Link to="/more" resetScroll={false} className="raised-header more-bar inset-ring">
           <ExpandIcon />
           <h2 id="more-title">more</h2>
         </Link>
@@ -109,7 +109,7 @@ function Portrait() {
         {contacts.map((c) => (
           <li key={c.label}>
             <a
-              className="contact"
+              className="contact inset-ring"
               href={c.href}
               {...(c.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer me' } : {})}
             >
@@ -143,7 +143,7 @@ function ProjectCard({ project, npm }: { project: Project; npm: Promise<NpmInfo 
         to="/projects/$repo"
         params={{ repo: project.id }}
         resetScroll={false}
-        className="project-bar"
+        className="project-bar inset-ring"
         aria-label={`${project.repo}: open README`}
         onPointerEnter={() => warmReadme(project.id)}
         onFocus={() => warmReadme(project.id)}
@@ -299,7 +299,7 @@ function Work() {
                 <span key={n.text}>
                   {i ? ', ' : ''}
                   {n.href ? (
-                    <a href={n.href} target="_blank" rel="noopener noreferrer">
+                    <a className="link" href={n.href} target="_blank" rel="noopener noreferrer">
                       {n.text}
                     </a>
                   ) : (

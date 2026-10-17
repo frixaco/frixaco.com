@@ -13,7 +13,7 @@
   flex: 3 1 0;
   min-width: 0;
   overflow: clip;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-panel);
   background: var(--color-bg-display);
 }
 
@@ -211,10 +211,9 @@
   flex: 2 1 0;
   flex-direction: column;
   min-width: 406px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-panel);
   background: var(--color-bg-panel);
   user-select: none;
-  -webkit-user-select: none;
 }
 
 .rack header {
@@ -226,14 +225,6 @@
   height: 28px;
   flex-shrink: 0;
   padding: 10px var(--inset) 0;
-}
-
-.icon-button {
-  transition: transform 120ms var(--ease-out);
-}
-
-.icon-button:active {
-  transform: scale(0.9);
 }
 
 .rack .body {
@@ -396,7 +387,6 @@
 
   .stage {
     flex: 0 0 340px;
-    border-radius: 0;
     touch-action: pan-y;
   }
 
@@ -416,7 +406,6 @@
   .rack {
     flex: 0 0 auto;
     min-width: 0;
-    border-radius: 0;
   }
 
   .rack header {

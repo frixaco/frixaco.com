@@ -179,7 +179,7 @@ export function Player() {
       {track ? (
         <div id={popupId} className="playlist" data-open={open} inert={!open} role="dialog" aria-label="Playlist">
           <Seek audio={audio} playing={playing} fallback={track.duration} />
-          <div className="playlist-divider" />
+          <div className="rule" />
           <TrackList current={index} open={open} onPick={pick} />
         </div>
       ) : null}

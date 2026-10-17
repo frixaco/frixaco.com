@@ -19,7 +19,7 @@
   max-width: calc(var(--page-max) - 2px);
   margin-inline: auto;
   overflow: clip;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-panel);
   background: var(--color-bg-panel);
   pointer-events: auto;
   outline: none;
@@ -69,11 +69,7 @@
   gap: 10px;
   flex-grow: 1;
   min-width: 0;
-  padding: 0 0 0 var(--inset);
-  border: 0;
-  background: none;
-  text-align: left;
-  cursor: pointer;
+  padding-left: var(--inset);
 }
 
 .window-close .icon {
@@ -258,10 +254,6 @@
 }
 
 .post-header h1 {
-  font-size: var(--text-display);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: -0.03em;
-  line-height: 40px;
   text-wrap: balance;
 }
 
@@ -406,7 +398,8 @@
   line-height: 24px;
 }
 
-.more-note {
+.more-note,
+.more-status {
   color: var(--color-text-muted);
   font-size: var(--text-base);
   line-height: 20px;
@@ -435,12 +428,6 @@
   text-decoration-thickness: 1px;
 }
 
-.more-status {
-  color: var(--color-text-muted);
-  font-size: var(--text-base);
-  line-height: 20px;
-}
-
 .more-learning .paused .more-note {
   color: var(--color-text-faint);
 }
@@ -454,7 +441,6 @@
     inset: 0;
     width: 100%;
     max-width: none;
-    border-radius: 0;
   }
 
   .window-bar,
@@ -509,11 +495,6 @@
   .more-learning {
     flex: none;
     width: 100%;
-  }
-
-  .post-header h1 {
-    font-size: 26px;
-    line-height: 32px;
   }
 
   .post-header p {

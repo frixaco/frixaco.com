@@ -4,8 +4,9 @@
    outline 2px outside the edge reads evenly and follows the radius.
 
    Rows and text links have no box around their text: an outline would hug the glyphs
-   sideways and sit loose above and below. Those draw the ring as ::after at set insets
-   (--ring), tuned per element so the gap to the content is the same on every side.
+   sideways and sit loose above and below. Those (.inset-ring, .link, .md a) draw the ring
+   as ::after at set insets (--ring), tuned per element so the gap to the content is the
+   same on every side.
 
    Rings are for the keyboard only. Browsers also match :focus-visible after a tap (a script
    moving focus, a control focusing itself), so every focus style here and in the other
@@ -20,27 +21,18 @@
   outline-offset: 2px;
 }
 
-.contact,
-.post-row,
-.project-bar,
-.window-close,
-.toc-items a,
-.toc-head,
-.toc-group.closed > span,
+.inset-ring,
 .link,
-.window-action,
-.md a,
-.more-bar,
-.role-name a {
+.md a {
   position: relative;
 }
 
-:where([data-keys]) :is(.contact, .post-row, .project-bar, .window-close, .toc-items a, .toc-head, .toc-group.closed, .link, .window-action, .md a, .more-bar, .role-name a):focus-visible {
+:where([data-keys]) :is(.inset-ring, .link, .md a, .toc-group.closed):focus-visible {
   outline: none;
 }
 
-:where([data-keys]) :is(.contact, .post-row, .project-bar, .window-close, .toc-items a, .toc-head, .link, .window-action, .md a, .more-bar, .role-name a):focus-visible::after,
-:where([data-keys]) .toc-group.closed:focus-visible > span::after {
+:where([data-keys]) :is(.inset-ring, .link, .md a):focus-visible::after,
+:where([data-keys]) .toc-group.closed:focus-visible > .inset-ring::after {
   content: "";
   position: absolute;
   inset: var(--ring, -2px -4px);
@@ -52,8 +44,7 @@
 /* Text links: the line box already leaves ~2px above and below the glyphs. */
 .link,
 .window-action,
-.md a,
-.role-name a {
+.md a {
   --ring: -2px -4px;
 }
 

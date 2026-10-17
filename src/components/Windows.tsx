@@ -31,7 +31,7 @@ export function ProjectWindow({ id, readme, ...presence }: Presence & { id: stri
       title={project.repo}
       subtitle="README.md"
       action={
-        <a className="window-action" href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer">
+        <a className="window-action inset-ring" href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer">
           GitHub ↗
         </a>
       }
@@ -163,7 +163,7 @@ export function PostWindow({
             {groups.map((g, gi) =>
               gi === activeGroup ? (
                 <div key={g.head.id} className="toc-group open">
-                  <a className="toc-head" href={`#${g.head.id}`} onClick={jump(g.head.id)}>
+                  <a className="toc-head inset-ring" href={`#${g.head.id}`} onClick={jump(g.head.id)}>
                     {g.head.text}
                   </a>
                   {g.items.length ? (
@@ -171,6 +171,7 @@ export function PostWindow({
                       {g.items.map((item) => (
                         <a
                           key={item.id}
+                          className="inset-ring"
                           href={`#${item.id}`}
                           onClick={jump(item.id)}
                           aria-current={item.id === current ? 'location' : undefined}
@@ -183,7 +184,7 @@ export function PostWindow({
                 </div>
               ) : (
                 <a key={g.head.id} className="toc-group closed" href={`#${g.head.id}`} onClick={jump(g.head.id)}>
-                  <span>{g.head.text}</span>
+                  <span className="inset-ring">{g.head.text}</span>
                 </a>
               ),
             )}

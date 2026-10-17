@@ -255,7 +255,7 @@ export function Window(props: WindowProps) {
     >
       <div className={`window-bar ${props.barClass ?? ''}`} style={props.barStyle}>
         {/* The whole bar (but its action) shrinks the window, as the card's bar opened it. */}
-        <button type="button" className="window-close" onClick={onClose} aria-label="Close">
+        <button type="button" className="window-close inset-ring" onClick={onClose} aria-label="Close">
           <ShrinkIcon />
           <span className="window-title">{props.title}</span>
           <span className="window-subtitle">{props.subtitle}</span>

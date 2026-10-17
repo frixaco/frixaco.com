@@ -143,10 +143,12 @@
   /* Site layout (not in Paper) */
   --page-max: 1470px; /* a 13" MacBook Air viewport: full width there, centered beyond it */
   --inset: 20px; /* edge inset on phones */
+  --radius-panel: 0; /* panels run edge to edge on phones */
 }
 
 @media (min-width: 768px) {
   :root {
     --inset: 16px; /* edge inset on desktop */
+    --radius-panel: var(--radius-sm);
   }
 }

@@ -4,22 +4,22 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-width: 0;
   font-size: var(--text-lg);
   line-height: var(--leading-relaxed);
 }
 
-.md > * {
-  min-width: 0;
+/* A post's own title (the window's header) is set like its h1. */
+.md h1,
+.post-header h1 {
+  font-size: var(--text-display);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.03em;
+  line-height: 40px;
 }
 
 .md h1 {
   padding-bottom: 10px;
   border-bottom: 1px solid var(--color-line-subtle);
-  font-size: var(--text-display);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: -0.03em;
-  line-height: 40px;
 }
 
 .md h2 {
@@ -138,7 +138,6 @@
   color: var(--color-value);
   font-size: 14px;
   line-height: 20px;
-  -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
 
@@ -251,7 +250,8 @@
     line-height: 21px;
   }
 
-  .md h1 {
+  .md h1,
+  .post-header h1 {
     font-size: 26px;
     line-height: 32px;
   }

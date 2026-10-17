@@ -34,7 +34,6 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
   overflow-wrap: anywhere;
   scrollbar-gutter: stable;
@@ -66,8 +65,17 @@ a {
 }
 
 button {
+  padding: 0;
+  border: 0;
+  background: none;
   font: inherit;
   color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
 }
 
 button,
@@ -84,7 +92,6 @@ button,
 .pill,
 .pill-accent {
   user-select: none;
-  -webkit-user-select: none;
 }
 
 ul,
@@ -117,7 +124,7 @@ h4 {
 
 .panel {
   background: var(--color-bg-panel);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-panel);
 }
 
 .faint {
@@ -142,10 +149,6 @@ h4 {
 @media (max-width: 767px) {
   .page {
     padding-inline: 0;
-  }
-
-  .panel {
-    border-radius: 0;
   }
 
   .desktop-only {
@@ -210,6 +213,12 @@ h4 {
   .pill-accent:hover {
     background: color-mix(in oklab, var(--color-accent), white 14%);
   }
+}
+
+.rule {
+  height: 1px;
+  flex-shrink: 0;
+  background: var(--color-line-subtle);
 }
 
 .tags {

@@ -1,11 +1,6 @@
 /* Readout controls (from experiments/shape-lab). Tokens come from tokens.css.
    Hover styles only apply to precise pointers, so taps never leave a stuck hover. */
 
-:where([data-keys]) :where([data-control]):focus-visible {
-  outline: 1px solid var(--color-text);
-  outline-offset: 2px;
-}
-
 /* Number boxes show focus with their own border (white), never a second ring around it;
    while dragging or typing the border is cyan. Inputs match :focus-visible even on a click. */
 :where([data-keys]) [data-control="number"]:focus-visible {
@@ -19,12 +14,14 @@
   place-items: center;
   width: 18px;
   height: 18px;
-  padding: 0;
-  border: 0;
   border-radius: var(--radius-xs);
   background: var(--color-bg-raised);
   color: #959595;
-  cursor: pointer;
+  transition: transform 120ms var(--ease-out);
+}
+
+.icon-button:active {
+  transform: scale(0.9);
 }
 
 /* Play/pause toggle: green while playing (pause glyph), neutral when paused (play glyph).
@@ -51,14 +48,11 @@
 
 [data-control="segmented"] button {
   padding: 2px 6px; /* 18px, like every row control */
-  border: 0;
   border-radius: 0;
   background: var(--color-bg-raised);
-  font: inherit;
   font-size: var(--text-xs);
   line-height: 14px;
   color: var(--color-text-muted);
-  cursor: pointer;
 }
 
 [data-control="segmented"] button:first-child {
@@ -85,14 +79,11 @@
   padding: 2px 6px; /* 18px with the border */
   border: 1px solid var(--color-value);
   border-radius: var(--radius-xs);
-  background: transparent;
-  font: inherit;
   font-size: var(--text-micro);
   font-weight: 500;
   line-height: 12px;
   letter-spacing: 0.06em;
   color: var(--color-value);
-  cursor: pointer;
 }
 
 [data-control="toggles"] button[aria-pressed="true"] {
@@ -280,7 +271,6 @@
 }
 
 [data-control="knob"] svg {
-  display: block;
   fill: none;
 }
 
@@ -451,11 +441,7 @@
 :where([data-keys]) [data-control="rail"]:focus-visible rect.selected { fill: var(--color-bg-hover); }
 
 @media (hover: hover) and (pointer: fine) {
-  .icon-button:hover {
-    background: var(--color-bg-hover);
-    color: var(--color-text);
-  }
-
+  .icon-button:hover,
   [data-control="segmented"] button:hover {
     background: var(--color-bg-hover);
     color: var(--color-text);

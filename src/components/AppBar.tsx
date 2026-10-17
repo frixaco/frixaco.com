@@ -32,7 +32,6 @@ export function AppBar() {
             </Link>
           ))}
         </nav>
-        <span className="appbar-end" />
       </div>
     </header>
   )
