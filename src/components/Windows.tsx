@@ -1,5 +1,5 @@
 // The opened views: a project's README, a blog post, and "more".
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Await } from '@tanstack/react-router'
 import { more, projectById } from '#/content/site'
 import { formatPostDate } from '#/lib/format'
@@ -53,8 +53,19 @@ export function ProjectWindow({ id, readme, ...presence }: Presence & { id: stri
 function Readme({ id, rendered, arriving }: { id: string; rendered: Rendered | null; arriving?: boolean }) {
   const project = projectById(id)!
   const className = `md readme${arriving ? ' arriving' : ''}`
+  const article = useRef<HTMLElement>(null)
+  // An image still on its way holds its (server-measured) box as a placeholder, not a hole.
+  useLayoutEffect(() => {
+    for (const img of article.current?.querySelectorAll('img') ?? []) {
+      if (img.complete) continue
+      img.dataset.loading = ''
+      const done = () => delete img.dataset.loading
+      img.addEventListener('load', done, { once: true })
+      img.addEventListener('error', done, { once: true })
+    }
+  }, [rendered])
   return rendered ? (
-    <article className={className} dangerouslySetInnerHTML={{ __html: rendered.html }} />
+    <article ref={article} className={className} dangerouslySetInnerHTML={{ __html: rendered.html }} />
   ) : (
     // GitHub didn't answer: the card's own copy, and the way to the repo.
     <article className={className}>

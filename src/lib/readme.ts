@@ -15,8 +15,10 @@ export function loadReadme(id: string): Promise<Rendered | null> {
       .catch(() => null)
       .then((r) => {
         // A failed fetch is tried again on the next open instead of being remembered.
-        if (r) settled.set(id, r)
-        else pending.delete(id)
+        if (r) {
+          settled.set(id, r)
+          prefetchReadmeImages(r)
+        } else pending.delete(id)
         return r
       })
     pending.set(id, promise)
@@ -27,11 +29,46 @@ export function loadReadme(id: string): Promise<Rendered | null> {
 /** The README if it has already arrived, so the window can render it without a loading state. */
 export const readmeIfReady = (id: string) => settled.get(id)
 
-/** Pointing at a card: also start its images, so screenshots are there when it opens. */
+// Each image is fetched once per visit; its element is held so the browser keeps it in memory.
+const warmed = new Map<string, (priority: 'low' | 'auto') => Promise<void>>()
+let queue = Promise.resolve()
+
+function warmer(src: string) {
+  let started = false
+  const img = new Image()
+  const done = new Promise<void>((resolve) => (img.onload = img.onerror = () => resolve()))
+  const start = (priority: 'low' | 'auto') => {
+    if (started) return done
+    started = true
+    img.fetchPriority = priority
+    img.src = src
+    return done
+  }
+  // One at a time in the background, so they never compete with the page or each other.
+  queue = queue.then(() => start('low'))
+  return start
+}
+
+/** Fetches a README's images (in the background, or `now` for an imminent open). */
+function warmImages(r: Rendered | null, now = false) {
+  for (const [, raw] of r?.html.matchAll(/<img\b[^>]*\ssrc="([^"]+)"/g) ?? []) {
+    const src = raw.replace(/&amp;/g, '&')
+    let start = warmed.get(src)
+    if (!start) warmed.set(src, (start = warmer(src)))
+    if (now) void start('auto')
+  }
+}
+
+/** Once the page is idle, every README's images: they're there when a project opens. */
+function prefetchReadmeImages(r: Rendered | null) {
+  const nav = navigator as Navigator & { connection?: { saveData?: boolean } }
+  if (nav.connection?.saveData) return
+  const idle = (fn: () => void) =>
+    typeof requestIdleCallback === 'function' ? requestIdleCallback(fn, { timeout: 4000 }) : setTimeout(fn, 1000)
+  idle(() => warmImages(r))
+}
+
+/** Pointing at a card: its images jump the queue. */
 export function warmReadme(id: string) {
-  void loadReadme(id).then((r) => {
-    for (const [, src] of r?.html.matchAll(/<img\b[^>]*\ssrc="([^"]+)"/g) ?? []) {
-      new Image().src = src.replace(/&amp;/g, '&')
-    }
-  })
+  void loadReadme(id).then((r) => warmImages(r, true))
 }

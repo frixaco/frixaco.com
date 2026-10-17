@@ -76,7 +76,8 @@ export function renderMarkdown(source: string, { resolve }: Options = {}): Rende
         const only = tokens.length === 1 ? tokens[0] : null
         const href = only && (only.type === 'link' || only.type === 'text') ? ('href' in only ? only.href : only.raw).trim() : ''
         if (ATTACHMENT.test(href)) {
-          return `<figure class="md-video"><video src="${escape(href)}" controls playsinline preload="metadata"></video></figure>\n`
+          // The #t fragment makes Safari, too, paint the first frame as the thumbnail.
+          return `<figure class="md-video"><video src="${escape(href)}#t=0.001" controls playsinline preload="metadata"></video></figure>\n`
         }
         return `<p>${this.parser.parseInline(tokens)}</p>\n`
       },

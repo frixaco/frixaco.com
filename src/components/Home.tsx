@@ -23,7 +23,8 @@ import { Arrow, ExpandIcon } from './icons'
 
 export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo | null> }) {
   // The READMEs are small: fetch them once the page has settled, so opening a project
-  // never waits on GitHub. Their screenshots wait for intent (warmReadme on the card).
+  // never waits on GitHub. Their images follow in the background (warmReadme on the card
+  // moves its own to the front).
   useEffect(() => {
     const fetchAll = () => projects.forEach((p) => void loadReadme(p.id))
     const start = () =>
