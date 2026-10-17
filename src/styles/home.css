@@ -1304,6 +1304,7 @@ html:has(.clip-lightbox[open]) {
 }
 
 .clip-frame {
+  position: relative;
   aspect-ratio: var(--ratio);
   overflow: clip;
   border-radius: var(--radius-sm);
@@ -1317,6 +1318,19 @@ html:has(.clip-lightbox[open]) {
   width: 100%;
   height: 100%;
   cursor: pointer;
+}
+
+/* The card's picture, over the video until it plays (clicks fall through to the video). */
+.clip-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.clip-cover[hidden] {
+  display: none;
 }
 
 .clip-bar {

@@ -4,7 +4,8 @@
 //
 // Motion: the lightbox video is laid out at its final size and only moved and scaled
 // (transform) and cropped to the card's cover crop (clip-path), so the trip is one
-// picture the whole way. The card's video seeks to the lightbox's frame on close, so
+// picture the whole way. It starts at once on a copy of the card's picture, which covers
+// the lightbox video until that plays from the same frame. The card's video seeks to the lightbox's frame on close, so
 // the two hand off on an identical frame.
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
@@ -140,6 +141,25 @@ function overCard(frame: HTMLElement, card: HTMLElement): Keyframe | null {
 }
 const FULL: Keyframe = { transform: 'translate(0px, 0px) scale(1)', clipPath: 'inset(0px 0px 0px 0px round 3px)' }
 
+/** Paints what the card shows now (its video's frame, else its still) onto `canvas`. */
+function paintCard(canvas: HTMLCanvasElement, card: HTMLVideoElement) {
+  const still = card.parentElement!.querySelector('img')!
+  const live = card.parentElement!.dataset.shown === 'true' && card.readyState >= 2
+  const width = live ? card.videoWidth : still.naturalWidth
+  const height = live ? card.videoHeight : still.naturalHeight
+  if (!width || !height) return
+  canvas.width = width
+  canvas.height = height
+  canvas.getContext('2d')?.drawImage(live ? card : still, 0, 0, width, height)
+}
+
+/** Calls `then` once the video has painted a frame of playback. */
+function onPainted(v: HTMLVideoElement, then: () => void) {
+  v.addEventListener('playing', () => ('requestVideoFrameCallback' in v ? v.requestVideoFrameCallback(() => then()) : then()), {
+    once: true,
+  })
+}
+
 /** Resolves once the video shows the frame at `time` (or soon, whatever happens). */
 function frameAt(v: HTMLVideoElement, time: number) {
   return new Promise<void>((resolve) => {
@@ -180,32 +200,39 @@ function Lightbox({ clip, name, startAt, source, onLifted, onClosing, onLanded, 
   const bar = useRef<HTMLDivElement>(null)
   const video = useRef<HTMLVideoElement>(null)
   const progress = useRef<HTMLElement>(null)
+  const cover = useRef<HTMLCanvasElement>(null)
+  // The lightbox video plays at the card's frame: it can show instead of the cover.
+  const ready = useRef(false)
   const trip = useRef<Animation | null>(null)
   const closing = useRef(false)
   const [playing, setPlaying] = useState(true)
 
-  // Open: show the dialog, wait for the card's frame, then grow out of the card.
+  // Open: show the dialog and grow out of the card at once, on a copy of its picture; the
+  // lightbox video takes over from the cover once it plays from the same frame.
   useLayoutEffect(() => {
     const d = dialog.current!
     const f = frame.current!
     const v = video.current!
+    paintCard(cover.current!, source.current!)
     d.showModal()
-    f.style.opacity = '0'
+    onLifted()
     let live = true
-    frameAt(v, startAt).then(() => {
-      if (!live || closing.current) return
-      f.style.opacity = ''
-      onLifted()
-      v.play().catch(() => {})
-      const from = reduced() ? null : overCard(f, source.current!)
-      if (from) {
-        trip.current = f.animate([from, FULL], { duration: OPEN_MS, easing: EASE })
-      } else {
-        trip.current = f.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160, easing: 'ease-out' })
-      }
-      scrim.current!.animate([{ opacity: 0 }, { opacity: 1 }], { duration: OPEN_MS, easing: EASE_OUT, fill: 'backwards' })
-      bar.current!.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 180, delay: OPEN_MS * 0.5, easing: EASE_OUT, fill: 'backwards' })
+    onPainted(v, () => {
+      if (!live) return
+      ready.current = true
+      cover.current!.hidden = true
     })
+    frameAt(v, startAt).then(() => {
+      if (live && !closing.current) v.play().catch(() => {})
+    })
+    const from = reduced() ? null : overCard(f, source.current!)
+    if (from) {
+      trip.current = f.animate([from, FULL], { duration: OPEN_MS, easing: EASE })
+    } else {
+      trip.current = f.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160, easing: 'ease-out' })
+    }
+    scrim.current!.animate([{ opacity: 0 }, { opacity: 1 }], { duration: OPEN_MS, easing: EASE_OUT })
+    bar.current!.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 180, delay: OPEN_MS * 0.5, easing: EASE_OUT, fill: 'backwards' })
     return () => {
       live = false
     }
@@ -231,7 +258,8 @@ function Lightbox({ clip, name, startAt, source, onLifted, onClosing, onLanded, 
     const f = frame.current!
     const v = video.current!
     v.pause()
-    onClosing(v.currentTime)
+    // Still under the cover, the video may not have reached the card's frame yet.
+    onClosing(ready.current ? v.currentTime : startAt)
     const current = trip.current
     const to = reduced() ? null : overCard(f, source.current!)
     let geometry: Animation
@@ -294,6 +322,7 @@ function Lightbox({ clip, name, startAt, source, onLifted, onClosing, onLanded, 
           >
             <Sources base={clip.base} />
           </video>
+          <canvas ref={cover} className="clip-cover" aria-hidden="true" />
         </div>
         <div ref={bar} className="clip-bar">
           <button type="button" className="clip-chip" aria-label={playing ? 'Pause' : 'Play'} onClick={toggle}>
