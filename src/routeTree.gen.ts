@@ -15,6 +15,7 @@ import { Route as HomeIndexRouteImport } from './routes/_home/index'
 import { Route as HomeMoreRouteImport } from './routes/_home/more'
 import { Route as HomeWorkRouteImport } from './routes/_home/work'
 import { Route as ClipsFileRouteImport } from './routes/clips.$file'
+import { Route as IngestSplatRouteImport } from './routes/ingest.$'
 import { Route as MusicIdRouteImport } from './routes/music.$id'
 import { Route as HomeBlogIndexRouteImport } from './routes/_home/blog.index'
 import { Route as HomeBlogSlugRouteImport } from './routes/_home/blog.$slug'
@@ -50,6 +51,11 @@ const ClipsFileRoute = ClipsFileRouteImport.update({
   path: '/clips/$file',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IngestSplatRoute = IngestSplatRouteImport.update({
+  id: '/ingest/$',
+  path: '/ingest/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MusicIdRoute = MusicIdRouteImport.update({
   id: '/music/$id',
   path: '/music/$id',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/more': typeof HomeMoreRoute
   '/work': typeof HomeWorkRoute
   '/clips/$file': typeof ClipsFileRoute
+  '/ingest/$': typeof IngestSplatRoute
   '/music/$id': typeof MusicIdRoute
   '/blog/$slug': typeof HomeBlogSlugRoute
   '/projects/$repo': typeof HomeProjectsRepoRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/more': typeof HomeMoreRoute
   '/work': typeof HomeWorkRoute
   '/clips/$file': typeof ClipsFileRoute
+  '/ingest/$': typeof IngestSplatRoute
   '/music/$id': typeof MusicIdRoute
   '/': typeof HomeIndexRoute
   '/blog/$slug': typeof HomeBlogSlugRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/_home/more': typeof HomeMoreRoute
   '/_home/work': typeof HomeWorkRoute
   '/clips/$file': typeof ClipsFileRoute
+  '/ingest/$': typeof IngestSplatRoute
   '/music/$id': typeof MusicIdRoute
   '/_home/': typeof HomeIndexRoute
   '/_home/blog/$slug': typeof HomeBlogSlugRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
     | '/more'
     | '/work'
     | '/clips/$file'
+    | '/ingest/$'
     | '/music/$id'
     | '/blog/$slug'
     | '/projects/$repo'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/more'
     | '/work'
     | '/clips/$file'
+    | '/ingest/$'
     | '/music/$id'
     | '/'
     | '/blog/$slug'
@@ -146,6 +157,7 @@ export interface FileRouteTypes {
     | '/_home/more'
     | '/_home/work'
     | '/clips/$file'
+    | '/ingest/$'
     | '/music/$id'
     | '/_home/'
     | '/_home/blog/$slug'
@@ -158,6 +170,7 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRouteWithChildren
   PdfRoute: typeof PdfRoute
   ClipsFileRoute: typeof ClipsFileRoute
+  IngestSplatRoute: typeof IngestSplatRoute
   MusicIdRoute: typeof MusicIdRoute
 }
 
@@ -203,6 +216,13 @@ declare module '@tanstack/react-router' {
       path: '/clips/$file'
       fullPath: '/clips/$file'
       preLoaderRoute: typeof ClipsFileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ingest/$': {
+      id: '/ingest/$'
+      path: '/ingest/$'
+      fullPath: '/ingest/$'
+      preLoaderRoute: typeof IngestSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/music/$id': {
@@ -269,6 +289,7 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRouteWithChildren,
   PdfRoute: PdfRoute,
   ClipsFileRoute: ClipsFileRoute,
+  IngestSplatRoute: IngestSplatRoute,
   MusicIdRoute: MusicIdRoute,
 }
 export const routeTree = rootRouteImport

@@ -4,3 +4,5 @@ allowBuilds:
   # Browser-only WebGPU (Shape Lab): skip the Dawn native adapter used by vgpu/node.
   "@vgpu/adapter-node": false
   webgpu: false
+  # posthog-js dependency: its postinstall only prints a funding banner.
+  core-js: false
