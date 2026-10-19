@@ -46,7 +46,15 @@ export function ShapeLab() {
   return (
     <div className="lab" ref={root} data-mode={mode} data-mounted={mounted}>
       <section className="stage" aria-label="Shape">
-        <img className="still" src="/shape-lab-still.webp" alt="" width={1219} height={974} decoding="async" />
+        {/* The page's largest paint: fetched first, in the smallest AVIF that fills the stage. */}
+        <picture>
+          <source
+            type="image/avif"
+            srcSet="/shape-lab-still-640.avif 640w, /shape-lab-still-960.avif 960w, /shape-lab-still.avif 1219w"
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) 60vw, (max-width: 1469px) 45vw, 620px"
+          />
+          <img className="still" src="/shape-lab-still.webp" alt="" width={1219} height={974} fetchPriority="high" />
+        </picture>
         <canvas aria-hidden="true" />
         <div className="label formula">r(θ) = ( |cos mθ/4|^n2 + |sin mθ/4|^n3 )^(−1/n1)</div>
         <div className="label count">

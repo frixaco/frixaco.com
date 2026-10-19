@@ -6,6 +6,7 @@ import {
   TAG_COLORS,
   contacts,
   headline,
+  more,
   projects,
   roles,
   timelineLabel,
@@ -79,6 +80,7 @@ export function Home({ posts, npm }: { posts: PostMeta[]; npm: Promise<NpmInfo |
         <Link to="/more" resetScroll={false} className="raised-header more-bar inset-ring">
           <ExpandIcon />
           <h2 id="more-title">more</h2>
+          <span className="visually-hidden">{` ${more.linkSuffix}`}</span>
         </Link>
       </section>
 
@@ -100,7 +102,10 @@ function SectionHeader({ id, children }: { id: string; children: React.ReactNode
 function Portrait() {
   return (
     <div className="portrait panel">
-      <img className="avatar" src="/pfp.jpg" alt="Black-and-white manga-style portrait" width={317} height={300} />
+      <picture>
+        <source type="image/avif" srcSet="/pfp.avif" />
+        <img className="avatar" src="/pfp.jpg" alt="Black-and-white manga-style portrait" width={317} height={300} />
+      </picture>
       <h1 className="headline">{headline}</h1>
       <a className="pill-accent" href={RESUME_URL} target="_blank" rel="noopener">
         resume ↗

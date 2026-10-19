@@ -163,6 +163,9 @@ export const roles: Role[] = [
 
 // The "more" window (opened from the bar under the blog). Your copy, split into sections.
 export const more = {
+  /** Follows "more" in the links that open it, for screen readers and search engines only:
+   *  "more" alone doesn't say where it leads. */
+  linkSuffix: 'about me',
   lede: 'embracing ai (before it "embraces" me), self-taught, live inside my terminal, neovim btw.',
   pc: {
     title: 'pc (my baby)',

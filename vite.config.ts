@@ -49,7 +49,18 @@ const config = defineConfig({
   plugins: [
     wgslVitePlugin(),
     musicInBucket(),
-    nitro(),
+    nitro({
+      // Built assets also as .br/.gz files, served by encoding; pages are compressed in src/server.ts.
+      compressPublicAssets: { gzip: true, brotli: true },
+      // public/ files keep their names across deploys (unlike the hashed /assets): cached for a day,
+      // then revalidated in the background for a week.
+      routeRules: Object.fromEntries(
+        ['/fonts/**', '/*.avif', '/*.webp', '/*.jpg', '/*.svg'].map((route) => [
+          route,
+          { headers: { 'cache-control': 'public, max-age=86400, stale-while-revalidate=604800' } },
+        ]),
+      ),
+    }),
     tanstackStart(),
     viteReact(),
   ],

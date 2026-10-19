@@ -24,6 +24,26 @@
   margin: 0;
 }
 
+/* <picture> only picks the format: its <img> lays out as if the wrapper weren't there. */
+picture {
+  display: contents;
+}
+
+/* Otherwise an empty flex item, which takes a gap of its own. */
+picture > source {
+  display: none;
+}
+
+/* Read by screen readers and crawlers, not shown. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 html {
   background: var(--color-bg-gutter);
   color: var(--color-text);

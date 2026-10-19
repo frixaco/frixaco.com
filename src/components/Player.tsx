@@ -393,7 +393,7 @@ function TrackList({ current, open, onPick }: { current: number; open: boolean; 
         {albums.map((album) => (
           <section key={album.title} aria-label={`${album.title} by ${album.artist}`}>
             <div className="album">
-              <img className="album-cover" src={album.cover} alt="" width={28} height={28} loading="lazy" decoding="async" />
+              <img className="album-cover" src={album.thumb} alt="" width={28} height={28} loading="lazy" decoding="async" />
               <div className="album-name">
                 <span className="album-title">{album.title}</span>
                 <span className="album-artist">{album.artist}</span>

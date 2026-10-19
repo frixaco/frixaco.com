@@ -1,6 +1,6 @@
 // The app bar: music player on the left, section tabs in the middle. Sticky.
 import { Link, useLocation } from '@tanstack/react-router'
-import { SECTIONS, type Section } from '#/content/site'
+import { SECTIONS, more, type Section } from '#/content/site'
 import { isWindowPath, pathForSection, scrollToSection, sectionFromPath, useActiveSection } from '#/lib/sections'
 import { Player } from './Player'
 
@@ -29,6 +29,7 @@ export function AppBar() {
               }}
             >
               {section}
+              {section === 'more' ? <span className="visually-hidden">{` ${more.linkSuffix}`}</span> : null}
             </Link>
           ))}
         </nav>

@@ -59,10 +59,15 @@ function warmImages(r: Rendered | null, now = false) {
   }
 }
 
-/** Once the page is idle, every README's images: they're there when a project opens. */
+/**
+ * Once the page is idle, every README's images: they're there when a project opens. Only with a
+ * mouse on a fast connection: the screenshots weigh megabytes, and on a phone's data plan they
+ * load when a project is actually opened.
+ */
 function prefetchReadmeImages(r: Rendered | null) {
-  const nav = navigator as Navigator & { connection?: { saveData?: boolean } }
-  if (nav.connection?.saveData) return
+  const nav = navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }
+  if (nav.connection?.saveData || (nav.connection?.effectiveType ?? '4g') !== '4g') return
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return
   const idle = (fn: () => void) =>
     typeof requestIdleCallback === 'function' ? requestIdleCallback(fn, { timeout: 4000 }) : setTimeout(fn, 1000)
   idle(() => warmImages(r))
