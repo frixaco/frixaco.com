@@ -17,6 +17,25 @@ const ssrCount = {
 const idle = (fn: () => void) =>
   typeof requestIdleCallback === 'function' ? requestIdleCallback(fn, { timeout: 1200 }) : setTimeout(fn, 200)
 
+/**
+ * Runs `fn` once the page's first paint is on screen and the still has loaded. Starting WebGPU
+ * can stall the GPU process (software adapters most of all), and a frame waiting on it never
+ * reaches the screen: started any earlier, it can hold the whole first paint back by seconds.
+ */
+function afterFirstPaint(still: HTMLImageElement | null, fn: () => void) {
+  const painted = new Promise<void>((resolve) => {
+    if (!PerformanceObserver.supportedEntryTypes?.includes('paint')) return resolve()
+    if (performance.getEntriesByName('first-contentful-paint').length) return resolve()
+    const observer = new PerformanceObserver(() => {
+      observer.disconnect()
+      resolve()
+    })
+    observer.observe({ type: 'paint' })
+  })
+  const loaded = still?.decode().catch(() => {}) ?? Promise.resolve()
+  void Promise.all([painted, loaded]).then(fn)
+}
+
 export function ShapeLab() {
   const root = useRef<HTMLDivElement>(null)
   const [mode, setMode] = useState<Mode>('loading')
@@ -27,7 +46,7 @@ export function ShapeLab() {
     let cancelled = false
     const still = !('gpu' in navigator) || matchMedia('(prefers-reduced-motion: reduce)').matches
     if (still) setMode('still')
-    idle(() => {
+    const start = () =>
       import('#/shape-lab/mount').then(({ mountShapeLab }) => {
         if (cancelled || !root.current) return
         cleanup = mountShapeLab(root.current, {
@@ -36,7 +55,7 @@ export function ShapeLab() {
         })
         setMounted(true)
       })
-    })
+    afterFirstPaint(root.current?.querySelector('img.still') ?? null, () => idle(() => void start()))
     return () => {
       cancelled = true
       cleanup?.()
