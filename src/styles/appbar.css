@@ -412,10 +412,8 @@
   color: var(--color-text-muted);
   font-size: var(--text-base);
   line-height: 16px;
-  transition:
-    background-color 160ms ease,
-    color 160ms ease,
-    transform 120ms var(--ease-out);
+  /* Color changes are instant: a fade would show the old and new tab lit at once. */
+  transition: transform 120ms var(--ease-out);
 }
 
 .tab[aria-current="page"] {

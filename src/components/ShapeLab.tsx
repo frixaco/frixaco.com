@@ -27,6 +27,10 @@ export function ShapeLab() {
     let cancelled = false
     const still = !('gpu' in navigator) || matchMedia('(prefers-reduced-motion: reduce)').matches
     if (still) setMode('still')
+    // TODO: Lighthouse's mobile run against production paints nothing until ~2.4s while Chrome's
+    // WebGPU is enabled (~0.55s with --disable-features=WebGPU; local builds and a regular headless
+    // browser paint at ~0.3s). Deferring this mount past first paint didn't change it. Find out
+    // what holds the first frame back.
     idle(() => {
       import('#/shape-lab/mount').then(({ mountShapeLab }) => {
         if (cancelled || !root.current) return

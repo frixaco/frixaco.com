@@ -11,7 +11,6 @@ import {
   scrollToSection,
   sectionAtScroll,
   sectionFromPath,
-  setActiveSection,
 } from '#/lib/sections'
 import { getPosts, getXportNpm } from '#/server/functions'
 
@@ -28,13 +27,19 @@ export const Route = createFileRoute('/_home')({
 
 function HomeRoute() {
   const { posts, npm } = Route.useLoaderData()
-  useSectionScroll()
   return (
     <>
+      <SectionScroll />
       <Home posts={posts} npm={npm} />
       <WindowHost />
     </>
   )
+}
+
+/** Its own component: the URL changes as you scroll, and only this (not all of Home) should re-render. */
+function SectionScroll() {
+  useSectionScroll()
+  return null
 }
 
 /** Navigations that only mirror the scroll position (or a window closing) must not scroll. */
@@ -58,7 +63,6 @@ function useSectionScroll() {
 
   useEffect(() => {
     const section = sectionFromPath(pathname)
-    setActiveSection(section)
     const wasFirst = first.current
     first.current = false
     if (isWindowPath(pathname) || quiet || popped.current) {
@@ -70,27 +74,25 @@ function useSectionScroll() {
     scrollToSection(section, !wasFirst)
   }, [pathname])
 
-  // Scroll spy: the tab follows the scroll live; the URL follows once scrolling settles.
+  // Scroll spy: the URL follows the scroll position the moment it crosses into another section
+  // (checked at most once a frame). The tabs highlight from the URL, so they move with it.
   useEffect(() => {
-    let timer = 0
-    const onScroll = () => {
+    let frame = 0
+    const sync = () => {
+      frame = 0
       if (isProgrammaticScroll() || isWindowPath(window.location.pathname)) return
-      const section = sectionAtScroll()
-      setActiveSection(section)
-      window.clearTimeout(timer)
-      timer = window.setTimeout(() => {
-        if (isProgrammaticScroll() || isWindowPath(window.location.pathname)) return
-        const path = pathForSection(sectionAtScroll())
-        if (path !== window.location.pathname) {
-          quiet = true
-          void navigate({ to: path, replace: true, resetScroll: false })
-        }
-      }, 180)
+      const path = pathForSection(sectionAtScroll())
+      if (path === window.location.pathname) return
+      quiet = true
+      void navigate({ to: path, replace: true, resetScroll: false })
+    }
+    const onScroll = () => {
+      frame ||= requestAnimationFrame(sync)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => {
       window.removeEventListener('scroll', onScroll)
-      window.clearTimeout(timer)
+      cancelAnimationFrame(frame)
     }
   }, [navigate])
 }
