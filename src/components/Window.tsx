@@ -121,7 +121,6 @@ export function Window(props: WindowProps) {
   // Open: grow out of the source. On a deep link (server-rendered open) just appear.
   useLayoutEffect(() => {
     const el = win.current!
-    // The page behind stops scrolling via CSS (html:has(.window)).
     const page = document.querySelector<HTMLElement>('.home')
     page?.setAttribute('inert', '')
     returnFocus.current = (document.activeElement as HTMLElement) ?? null
@@ -147,12 +146,21 @@ export function Window(props: WindowProps) {
     } else if (!deepLink) {
       anim.current = el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160, easing: 'ease-out' })
     }
+    // The page behind stops scrolling only while the window covers it (html:has(.window[data-covering])):
+    // from the end of the open to the start of the close. Locked any longer, iOS Safari clips the
+    // page it reveals at the layout viewport, leaving a dark strip behind its toolbar.
+    const cover = () => {
+      if (el.dataset.open === 'true') el.setAttribute('data-covering', '')
+    }
+    if (anim.current) anim.current.finished.then(cover, () => {})
+    else cover()
     el.focus({ preventScroll: true })
     return () => {
       // StrictMode runs this effect twice in dev: drop this run's animations so the
       // second run measures and animates alone (two stacked opens fight each other).
       clear()
       anim.current = null
+      el.removeAttribute('data-covering')
       page?.removeAttribute('inert')
     }
     // Open once per window; `source` doesn't change for a mounted window.
@@ -163,14 +171,19 @@ export function Window(props: WindowProps) {
   useEffect(() => {
     if (open) return
     const el = win.current!
-    // The page is live again as soon as closing starts (and can take focus back).
+    // The page is live again as soon as closing starts (scrolls, and can take focus back).
+    el.removeAttribute('data-covering')
     document.querySelector('.home')?.removeAttribute('inert')
     const sourceEl = document.querySelector<HTMLElement>(`[data-window-source="${source}"]`)
-    // Bring the source into view behind the window first (invisible: the window covers the page).
+    // Opened from its card, the window lands back on it where it was: the page didn't move.
+    // Only when the card's top isn't on screen (a deep link) is it brought into view first,
+    // behind the window: just below the sticky app bar, centered in the rest if it fits.
     if (sourceEl) {
       const r = sourceEl.getBoundingClientRect()
-      if (r.top < 0 || r.bottom > window.innerHeight) {
-        window.scrollTo({ top: window.scrollY + r.top - (window.innerHeight - r.height) / 2, behavior: 'instant' })
+      const top = document.querySelector('.appbar')?.getBoundingClientRect().bottom ?? 0
+      if (r.top < top || r.top >= window.innerHeight) {
+        const offset = Math.max(0, (window.innerHeight - top - r.height) / 2)
+        window.scrollTo({ top: window.scrollY + r.top - top - offset, behavior: 'instant' })
       }
     }
     const current = anim.current

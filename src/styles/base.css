@@ -60,8 +60,9 @@ html {
   scrollbar-color: var(--color-line-strong) var(--color-bg-gutter);
 }
 
-/* An opened view covers the page; the page behind stops scrolling. */
-html:has(.window) {
+/* An opened view covers the page; the page behind stops scrolling while it's covered
+   (set by Window: not during the open and close animations, which show the page). */
+html:has(.window[data-covering]) {
   overflow: hidden;
 }
 
