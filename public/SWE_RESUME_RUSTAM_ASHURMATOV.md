@@ -1,84 +1,84 @@
 # Rustam Ashurmatov
 
-[rr.ashurmatov.21@gmail.com](mailto:rr.ashurmatov.21@gmail.com) | [linkedin.com/in/frixaco](https://linkedin.com/in/frixaco) | [github.com/frixaco](https://github.com/frixaco) | [frixaco.com](https://frixaco.com) | +998 90 917 0991 | Tashkent, Uzbekistan
+> Full-Stack Engineer — TypeScript, Node.js, AWS, React, Rust
+
+Tashkent, Uzbekistan (UTC+5) | [rr.ashurmatov.21@gmail.com](mailto:rr.ashurmatov.21@gmail.com) | +998 90 917 0991 | [frixaco.com](https://frixaco.com/) | [github.com/frixaco](https://github.com/frixaco) | [linkedin.com/in/frixaco](https://linkedin.com/in/frixaco)
 
 ## Summary
 
-Full-stack engineer, 5+ years at remote startups, owning products end to end on small teams: architecture, backend, web, mobile and cloud. My best work made things faster, cheaper or more polished, from backend to UI.
+Full-stack engineer with 5+ years at startups, mostly remote for US and EU teams, strongest on backend, data and payments, with React/Next.js and React Native on the front end. On a 5-person team at a US music-tech startup, owns the backend, payments and AWS data pipeline for two products; cut a 1M-artist pipeline from 9 days to 7 hours and roughly halved its data-provider bill.
 
 ## Experience
 
-### [VBRATO](https://vbrato.com)
+### Vbrato & Ekko
 
-**Software Engineer** | Remote · US | May 2023 – Present
+**Software Engineer** | Remote (US) | May 2023 – Present
 
-Paid music collaborations and song covers for artists
+US music-tech startup: Vbrato (paid artist collaborations) and Ekko (paid song covers). 5-person team.
 
-- Built the Next.js frontend (architecture, shared design language, reusable components) and a custom React Native/Expo audio player running at **60 fps**.
-- Owned payments and payouts across backend, web and mobile: custom checkout, Stripe Connect, Apple/Google Pay and international transactions, including bank accounts.
-- Sped up the artist metrics data pipeline on AWS by parallelizing independent fetches and cutting redundant calls: monthly API requests **25M+ → 11M** (provider cost roughly **halved**) and a full run **9 days → 7 hours**.
-- Led backend work on AWS (CloudFormation, SQS, GraphQL/REST APIs), migrated **1M+ artists** and **100M+ metrics** from MySQL to OpenSearch, and replaced a paid chat vendor with in-house real-time messaging and push.
+- Rebuilt a sequential multi-step AWS Step Functions data pipeline as fan-out/fan-in: cut a full 1M-artist refresh from **9 days to 7 hours** (~30x faster) and vendor API calls from **25M+ to 11M** a month, roughly halving the provider bill.
+- Built Ekko's backend, payments and media watermarking (custom FFmpeg build) in ~4 months after the 2026 pivot, and contributed heavily to its iOS app (screens, payments, polish) through App Store submission.
+- Owned payments across backend, web and mobile: custom checkout, Stripe Connect creator payouts, Apple Pay, Google Pay and international bank payouts.
+- Migrated **1M+ artist profiles** and **100M+ metric records** from MySQL to OpenSearch, behind GraphQL and REST APIs.
+- Replaced a paid chat vendor with an in-house real-time messaging system (AWS AppSync GraphQL subscriptions, push notifications), saving about **$6K a year**.
+- Built the Next.js web app from scratch, including its design system, and a custom React Native/Expo audio player.
 
-### [GeoAlert](https://geoalert.io)
+### GeoAlert
 
-**Frontend Software Engineer** | Uzbekistan | Dec 2022 – Jun 2023
+**Frontend Software Engineer** | Tashkent, Uzbekistan | Dec 2022 – Jun 2023
 
-AI mapping platform for satellite and aerial imagery
+B2B AI mapping platform for satellite imagery; clients in Europe, the Middle East and Asia.
 
-- Built and optimized React interfaces for configuring processing jobs and reviewing large imagery datasets.
-- Moved existing users to Keycloak single sign-on through new Next.js auth flows with **zero downtime**.
+- Moved thousands of existing users to Keycloak single sign-on through new Next.js auth flows, with **zero downtime**.
+- Owned the frontend for team accounts as the platform expanded to larger businesses: dashboards to invite members, assign roles and permissions, share projects and processing jobs, and track usage, quotas and billing.
 
-### [Livereach](https://livereach.com)
+### Livereach
 
-**Software Engineer** | Remote · EU | Nov 2021 – Jan 2023
+**Software Engineer** | Remote (EU) | Nov 2021 – Jan 2023
 
-Social media aggregator and embeddable e-commerce app
+Social media aggregator for brands, plus an embeddable shoppable feed on e-commerce sites across Europe.
 
-- Led incremental React 18 adoption inside a large Angular app, running both frameworks side by side without breaking existing workflows.
-- Improved load and interaction performance of the embedded app; replaced Redux with a custom reactive state manager, cutting the JS bundle by **20%**.
+- Cut the embeddable feed's JavaScript bundle by **~20%** by replacing Redux with a small custom reactive store; the widget runs on third-party store pages in carousel, list, masonry and slider layouts.
+- Incrementally migrated a legacy Angular dashboard to React 18 (strangler fig), including its complex filters.
 
 ### Moishlem
 
-**Backend Software Engineer** | Remote · EU | Aug 2020 – Oct 2021
+**Backend Software Engineer** | Remote (EU) | Aug 2020 – Oct 2021
 
-Online sports and real-estate insurance
+Online sports and real-estate insurance.
 
-- Built payment and subscription flows on banking APIs with NestJS, merged two backends into one codebase and redesigned the PostgreSQL schema.
+- Built NestJS payment and subscription flows on banking APIs; merged two backends and redesigned the PostgreSQL schema.
 
-## Personal Projects
+## Projects
 
-### [Senmei](https://github.com/frixaco/senmei) | TypeScript, WebGPU, WebCodecs | 2026
+### LeTUI | Rust, TypeScript, Bun | [github.com/frixaco/letui](https://github.com/frixaco/letui) | 2025
 
-- Browser MKV player with a hand-written Matroska parser and WebCodecs decoding, streaming over HTTP Range requests.
-- Ported Anime4K's CNN shaders to WGSL to upscale **1080p to 4K** in real time on WebGPU: **38 render passes** in **32.3 ms** per frame on an M4 Pro.
+- Terminal UI library built from scratch (~10k lines): TypeScript component API with signal-based state over a Rust layout and rendering engine with cell-level diffing; prebuilt binaries for macOS, Linux and Windows.
+- Averages **453 fps** on full-screen animation (p99 frame **5.6 ms**, M4 Pro), covered in a 3-part blog series.
 
-### [LeTUI](https://github.com/frixaco/letui) | Rust, TypeScript | 2025
+### Senmei | TypeScript, WebGPU, WebCodecs | [senmei.frixaco.com](https://senmei.frixaco.com/) | 2026
 
-- Terminal UI library written from scratch: TypeScript component API on a Rust rendering engine, with prebuilt binaries for macOS, Linux and Windows.
-- Implemented persistent layout, incremental screen updates, scrolling and input handling; built Letty, a coding-agent client, on top of it.
+- In-browser MKV player from scratch: Matroska parser, WebCodecs decoding, HTTP Range streaming, seeking, track switching.
+- Upscales **1080p anime to 4K** in real time on WebGPU with Anime4K shaders ported to WGSL (**32.3 ms** per frame on an M4 Pro).
 
-### [Xport](https://xport.frixaco.com) | TypeScript, React, PostgreSQL | 2026
+### Xport | TypeScript, React (TanStack Start), PostgreSQL | [xport.frixaco.com](https://xport.frixaco.com/) | 2025
 
-- Web app and npm CLI that export X threads, timelines and articles to Markdown/JSON, with OAuth sign-in and Polar credit billing.
-- Export jobs save progress, cursors and credits to PostgreSQL after every page, so a crashed process or reloaded tab resumes from the stored cursor.
+- Paid web app and zero-dependency npm CLI that export X threads, timelines and articles to Markdown or JSON, with OAuth sign-in, Polar credit billing and Lighthouse scores of 99+.
+- Crash-safe jobs save progress, cursors and credits to PostgreSQL after every page and resume after a crash.
+
+## Skills
+
+- **Programming:** TypeScript, JavaScript, Rust, SQL; working knowledge of Go and Python
+- **Backend and data:** Node.js, Bun, NestJS, Fastify, GraphQL, REST, WebSockets, PostgreSQL, MySQL, OpenSearch
+- **Cloud:** AWS (Lambda, ECS, SQS, Step Functions, AppSync, CloudFormation), Docker, CI/CD, Linux
+- **Frontend and mobile:** React, Next.js, React Native, Expo, TanStack, Angular, Zustand, Playwright
+- **Payments and media:** Stripe, Stripe Connect, Apple Pay, Google Pay, banking APIs; WebGPU, WGSL, WebCodecs, FFmpeg
 
 ## Education
 
 ### Tashkent University of Information Technologies
 
-**BSc Software Engineering** | Tashkent, Uzbekistan | 2019 – 2023
+**BSc Software Engineering** | 2019 – 2023
 GPA 4.57/5
 
-## Technical Skills
-
-- **Programming:** TypeScript, JavaScript, Python, Rust, Go, SQL
-- **Frontend:** React, Next.js, React Native, Expo, Angular, TanStack, Zustand, Playwright
-- **Backend:** Node.js, Bun, NestJS, Fastify, GraphQL, REST, WebSockets
-- **Databases & search:** PostgreSQL, MySQL, OpenSearch, ORMs
-- **Cloud & DevOps:** AWS (Lambda, ECS, EKS, AppSync, SQS, Step Functions, CloudFormation, etc.), Docker, CI/CD, Linux
-- **Payments:** Stripe, Stripe Connect, Apple/Google Pay, banking APIs
-- **Graphics & media:** WebGPU, WGSL, WebCodecs, FFmpeg
-
-## Languages
-
-English, Uzbek
+Languages: English, Uzbek
