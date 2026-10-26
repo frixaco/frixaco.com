@@ -85,8 +85,27 @@ function RootLayout() {
 
   return (
     <div className="page">
+      <Banner />
       <AppBar />
       <Outlet />
+    </div>
+  )
+}
+
+// Marquee: four copies, so half the track is wider than the page and the -50% loop is seamless.
+// Screen readers get the first copy only.
+const BANNER = '🚧 doing 14th complete redesign and will be focusing on giving more personality 🚧'
+
+function Banner() {
+  return (
+    <div className="banner">
+      <div className="banner-track">
+        {[0, 1, 2, 3].map((i) => (
+          <p key={i} aria-hidden={i > 0 || undefined}>
+            {BANNER}
+          </p>
+        ))}
+      </div>
     </div>
   )
 }

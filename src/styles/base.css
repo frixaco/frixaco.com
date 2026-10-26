@@ -143,6 +143,52 @@ h4 {
   padding-inline: 1px;
 }
 
+/* Redesign notice above the app bar: a looping marquee. */
+.banner {
+  overflow: hidden;
+  padding-block: var(--spacing-xl);
+  border-radius: var(--radius-panel);
+  background: var(--color-accent);
+  color: var(--color-text-on-color);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+  letter-spacing: var(--tracking-tight);
+  white-space: nowrap;
+}
+
+.banner-track {
+  display: flex;
+  width: max-content;
+  animation: banner-scroll 40s linear infinite;
+}
+
+.banner-track > p {
+  padding-inline-end: var(--spacing-4xl);
+}
+
+@keyframes banner-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner {
+    white-space: normal;
+  }
+
+  .banner-track {
+    width: auto;
+    padding-inline: var(--inset);
+    animation: none;
+  }
+
+  .banner-track > p[aria-hidden] {
+    display: none;
+  }
+}
+
 .panel {
   background: var(--color-bg-panel);
   border-radius: var(--radius-panel);
