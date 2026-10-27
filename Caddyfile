@@ -6,9 +6,9 @@
 	root * {$SITE_ROOT:/srv}
 	encode zstd gzip
 
-	@static path /pfp.jpg /pdf
+	@static path /pdf
 	header @static Cache-Control "public, max-age=3600"
-	@dynamic not path /pfp.jpg /pdf
+	@dynamic not path /pdf
 	header @dynamic Cache-Control "no-cache"
 	header /md Content-Type "text/markdown; charset=utf-8"
 	header /posts/* Content-Type "text/markdown; charset=utf-8"

@@ -38,15 +38,12 @@ The goal is to show the world who I am, both as a person and as a developer. It 
 
 ## Stack
 
-- [TanStack Start](https://tanstack.com/start) (React, file routes in `src/routes/`), pnpm, Node 24. Charts: TanStack Charts (`@tanstack/react-charts`), to be confirmed against the Readout chart styles.
-- It behaves like an SPA: client-side navigation, no full reloads, but every tab and opened view has its own URL (tabs, `/projects/$repo`, `/blog/$slug`). TanStack Router's typed path and search params cover this; no extra URL-state library.
-- Data that is fetched (stats, npm, GitHub READMEs) loads on the server without blocking the page: route loaders return the promise unawaited and the component renders it with `<Await>` / Suspense.
+- Plain HTML, CSS and JS, no build step (see `README.md`). Caddy serves `public/` (`Caddyfile`); Railway deploys the `Dockerfile` on every push to `main`.
 - Performance: instant, smooth and polished; aim for 100 on every Lighthouse category.
 
 ## Repository layout
 
-- `/` (root): the code for the current website. Work here.
-- `content/`: blog posts and project stats (with their measurement method).
-- `experiments/shape-lab/`: the standalone Shape Lab demo, the source for the hero visualizer.
-- `v11/`: the previous version of the website. **Ignore it unless I explicitly mention it.**
-- `v12/`: same as v11 except written using HTML, CSS and JS only. **Ignore it unless I explicitly mention it.**
+- `/` (root): the code for the current website (formerly `v12/`). Work here.
+- `public/posts/`: blog posts.
+- `experiments/shape-lab/`: the standalone Shape Lab demo.
+- `v11/`: the previous version of the website (Rust). **Ignore it unless I explicitly mention it.**
