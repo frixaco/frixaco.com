@@ -46,4 +46,5 @@ The goal is to show the world who I am, both as a person and as a developer. It 
 - `/` (root): the code for the current website (formerly `v12/`). Work here.
 - `public/posts/`: blog posts.
 - `experiments/shape-lab/`: the standalone Shape Lab demo.
-- `v11/`: the previous version of the website (Rust). **Ignore it unless I explicitly mention it.**
+- `v11/`: an older version of the website (Rust). **Ignore it unless I explicitly mention it.**
+- `v13/`: the TanStack Start version, with its own `AGENTS.md`. **Ignore it unless I explicitly mention it.**

@@ -1,0 +1,445 @@
+/* Shape Lab panel: stage : rack = 3 : 2 with a 1px gutter (desktop); stacked on phones. */
+
+.lab {
+  display: flex;
+  flex: 1 1 0;
+  gap: 1px;
+  min-width: 0;
+  min-height: 486px;
+}
+
+.stage {
+  position: relative;
+  flex: 3 1 0;
+  min-width: 0;
+  overflow: clip;
+  border-radius: var(--radius-panel);
+  background: var(--color-bg-display);
+}
+
+.stage .still,
+.stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.stage .still {
+  object-fit: cover;
+  transition: opacity 500ms ease;
+}
+
+.stage canvas {
+  opacity: 0;
+  cursor: crosshair;
+  transition: opacity 500ms ease;
+}
+
+.lab[data-mode="live"] canvas {
+  opacity: 1;
+}
+
+.lab[data-mode="live"] .still {
+  opacity: 0;
+}
+
+.stage .label {
+  position: absolute;
+  color: var(--color-text-faint);
+  font-size: var(--text-micro);
+  line-height: 12px;
+  pointer-events: none;
+}
+
+.stage .formula {
+  top: 12px;
+  left: var(--inset);
+}
+
+.stage .count {
+  bottom: 12px;
+  left: var(--inset);
+}
+
+.stage .count-short,
+.stage .hint {
+  display: none;
+}
+
+.stage .hint {
+  right: var(--inset);
+  bottom: 12px;
+}
+
+/* The flag is a handle: drag it up or down to move through layers. */
+.stage .flag {
+  top: 0;
+  left: 0;
+  padding: 1px 4px;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-raised);
+  color: var(--color-accent);
+  cursor: ns-resize;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  will-change: transform;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.stage .flag:hover,
+.stage .flag.dragging {
+  background: var(--color-accent);
+  color: var(--color-text-on-color);
+}
+
+.stage .flag[hidden] {
+  display: none;
+}
+
+/* Phone drag gesture: crosshair, finger ring and live readouts (mock: "dragging"). */
+.gesture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.gesture[hidden] {
+  display: none;
+}
+
+.gesture .cross-x,
+.gesture .cross-y {
+  position: absolute;
+  --gap: 19px;
+}
+
+.gesture .cross-x {
+  inset: var(--y) 0 auto;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--color-line-strong) 0 2px, transparent 2px 6px);
+  mask-image: linear-gradient(
+    90deg,
+    #000 calc(var(--x) - var(--gap)),
+    transparent calc(var(--x) - var(--gap)),
+    transparent calc(var(--x) + var(--gap)),
+    #000 calc(var(--x) + var(--gap))
+  );
+}
+
+.gesture .cross-y {
+  inset: 0 auto 0 var(--x);
+  width: 1px;
+  background: repeating-linear-gradient(180deg, var(--color-line-strong) 0 2px, transparent 2px 6px);
+  mask-image: linear-gradient(
+    180deg,
+    #000 calc(var(--y) - var(--gap)),
+    transparent calc(var(--y) - var(--gap)),
+    transparent calc(var(--y) + var(--gap)),
+    #000 calc(var(--y) + var(--gap))
+  );
+}
+
+.gesture .ring,
+.gesture .dot {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  border-radius: 999px;
+  translate: -50% -50%;
+}
+
+.gesture .ring {
+  width: 37px;
+  height: 37px;
+  border: 1px solid rgb(217 217 217 / 0.45);
+  background: rgb(217 217 217 / 0.06);
+}
+
+.gesture .dot {
+  width: 5px;
+  height: 5px;
+  background: var(--color-text);
+}
+
+.gesture .chips {
+  position: absolute;
+  right: clamp(8px, calc(100% - var(--x) + 8px), calc(100% - 128px));
+  bottom: calc(100% - var(--y) + 8px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.gesture .chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-raised);
+}
+
+.chip-label {
+  color: var(--color-text-faint);
+  font-size: var(--text-micro);
+  line-height: 12px;
+}
+
+.chip-twist,
+.chip-chaos {
+  font-size: var(--text-xs);
+  line-height: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip-twist {
+  color: var(--color-value);
+}
+
+.chip-chaos {
+  color: var(--color-warning);
+}
+
+/* Rack */
+.rack {
+  display: flex;
+  flex: 2 1 0;
+  flex-direction: column;
+  min-width: 406px;
+  border-radius: var(--radius-panel);
+  background: var(--color-bg-panel);
+  user-select: none;
+}
+
+.rack header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* The play toggle sits with equal clear space above it and below it (down to the first
+     label's ink): 10px. The controls start 2px higher to match, so nothing below moves. */
+  height: 28px;
+  flex-shrink: 0;
+  padding: 10px var(--inset) 0;
+}
+
+.rack .body {
+  display: flex;
+  flex-grow: 1;
+  min-height: 0;
+  transition: opacity 280ms ease;
+}
+
+.lab[data-mounted="false"] .rack .body {
+  opacity: 0;
+}
+
+.lab[data-mode="still"] .rack .body,
+.lab[data-mode="still"] .play-toggle {
+  opacity: var(--opacity-muted);
+}
+
+.rack .controls {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+  padding: 7.5px var(--inset) 14px;
+}
+
+/* Rack rhythm, measured on the glyphs (ink), not the line boxes:
+   - rows: 18px controls with 9px clear above and below, 1px rule between rows;
+   - everything else (label → content, content → next label, graph → knobs) is 12px of
+     clear space; play toggle → first label is 10px (13px on phones), as above the toggle;
+   - in a knob, label → dial and dial → value are equal.
+   The half pixels put micro caps (ink 2.5px into their 12px line box) on whole device pixels. */
+.rack .controls .group-label {
+  height: auto;
+  line-height: 12px;
+  padding: 0.5px 0 1px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 7.5px;
+  padding-block: 8.5px 4px;
+}
+
+/* The dial's ink sits high in its 42px box; 1px evens label → dial and dial → value. */
+.stack [data-control="knob"] svg {
+  position: relative;
+  top: 1px;
+}
+
+.graph-host {
+  height: 56px;
+}
+
+.stack .knobs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stack [data-control="knob"] {
+  width: 54px;
+  min-height: 75px;
+}
+
+.row > [data-control="segmented"],
+.row > [data-control="toggles"] {
+  flex-shrink: 0;
+}
+
+.row > [data-control="segmented"]:empty,
+.row > [data-control="toggles"]:empty {
+  height: 16px;
+}
+
+/* Phones: the layer rail lies flat in the Highlight row, one bar per layer, left to right.
+   The bars are an 18px control like the row's others; the caret hangs under them. The whole
+   36px row is the hit area, and a vertical swipe still scrolls the page. */
+.row > [data-control="rail"][data-orientation="horizontal"] {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 18px;
+  cursor: ew-resize;
+  touch-action: pan-y;
+}
+
+.row > [data-control="rail"][data-orientation="horizontal"]::before {
+  content: "";
+  position: absolute;
+  inset: -9px 0;
+}
+
+.row > [data-control="rail"][data-orientation="horizontal"] svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.swatches {
+  display: flex;
+  gap: 1px;
+  min-width: 0;
+}
+
+.swatches span {
+  width: 8px;
+  height: 8px;
+}
+
+/* Layer rail column, docked on the rack's right edge. One lane as wide as the LAYER label:
+   the label, the lines and the number box share both edges. The caret hangs in a 7px gutter
+   to the left of the lines, pointing at the selected one. */
+.rack {
+  --track: 33px; /* the LAYER label's width */
+  --caret: 7px;
+}
+
+.rail-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  padding: 7.5px var(--inset) 14px calc(12px - var(--caret)); /* LAYER on the "i like knobs" line */
+}
+
+.rail-column .group-label {
+  width: var(--track);
+  white-space: nowrap;
+}
+
+.rail-column [data-control="rail"] {
+  flex-grow: 1;
+  padding-block: 4px 8px;
+}
+
+.rail-column [data-control="rail"] svg {
+  width: calc(var(--caret) + var(--track));
+}
+
+.rail-column [data-control="number"] {
+  flex-shrink: 0;
+  width: var(--track);
+  padding: 0;
+  text-align: center;
+}
+
+@media (max-width: 1199px) {
+  .lab {
+    flex: 0 0 auto;
+    height: 486px;
+  }
+}
+
+@media (max-width: 767px) {
+  .lab {
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+  }
+
+  .stage {
+    flex: 0 0 340px;
+    touch-action: pan-y;
+  }
+
+  .stage canvas {
+    cursor: default;
+  }
+
+  .stage .count-full {
+    display: none;
+  }
+
+  .stage .count-short,
+  .stage .hint {
+    display: block;
+  }
+
+  .rack {
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+
+  .rack header {
+    height: 31px;
+    padding-top: 13px;
+  }
+
+  .rack .controls {
+    justify-content: flex-start;
+    padding-top: 10.5px;
+  }
+
+  /* Touch: the whole 36px row is the hit area, not just the 18px control. */
+  .rack [data-control="fader"],
+  .rack [data-control="meter"],
+  .rack [data-control="segmented"] button,
+  .rack [data-control="toggles"] button {
+    position: relative;
+  }
+
+  .rack [data-control="fader"]::before,
+  .rack [data-control="meter"]::before,
+  .rack [data-control="segmented"] button::before,
+  .rack [data-control="toggles"] button::before {
+    content: "";
+    position: absolute;
+    inset: -10px 0;
+  }
+
+  .rack [data-control="fader"] {
+    overflow: visible;
+  }
+
+  .rack [data-control="fader"] .fill {
+    border-radius: var(--radius-xs) 0 0 var(--radius-xs);
+  }
+}

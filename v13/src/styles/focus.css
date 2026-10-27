@@ -1,0 +1,108 @@
+/* Keyboard focus: one ring, the same everywhere — 1px, --color-text, an even gap all round.
+
+   Boxes (buttons, tabs, pills, controls) have their own padding and background, so an
+   outline 2px outside the edge reads evenly and follows the radius.
+
+   Rows and text links have no box around their text: an outline would hug the glyphs
+   sideways and sit loose above and below. Those (.inset-ring, .link, .md a) draw the ring
+   as ::after at set insets (--ring), tuned per element so the gap to the content is the
+   same on every side.
+
+   Rings are for the keyboard only. Browsers also match :focus-visible after a tap (a script
+   moving focus, a control focusing itself), so every focus style here and in the other
+   sheets is gated on [data-keys]: set on <html> by Tab, cleared by any pointer (RootLayout). */
+
+:root:not([data-keys]) :focus-visible {
+  outline: none;
+}
+
+:where([data-keys]) :focus-visible {
+  outline: 1px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.inset-ring,
+.link,
+.md a {
+  position: relative;
+}
+
+:where([data-keys]) :is(.inset-ring, .link, .md a, .toc-group.closed):focus-visible {
+  outline: none;
+}
+
+:where([data-keys]) :is(.inset-ring, .link, .md a):focus-visible::after,
+:where([data-keys]) .toc-group.closed:focus-visible > .inset-ring::after {
+  content: "";
+  position: absolute;
+  inset: var(--ring, -2px -4px);
+  border: 1px solid var(--ring-color, var(--color-text));
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+}
+
+/* Text links: the line box already leaves ~2px above and below the glyphs. */
+.link,
+.window-action,
+.md a {
+  --ring: -2px -4px;
+}
+
+/* Contact rows: 22px rows around 14px text → 4px each side. */
+.contact {
+  --ring: 0 -4px;
+}
+
+/* Blog rows: 18px vertical padding (plus ~2px line leading) → ring 10px from the content on every side. */
+.post-row {
+  --ring: 10px -10px;
+}
+
+/* A project's colored bar: the ring sits inside it, in the bar's text color. */
+.project-bar {
+  --ring: 3px;
+  --ring-color: var(--color-text-on-color);
+}
+
+/* The collapsed "more" bar: same inset ring, in the bar's own text color. */
+.more-bar {
+  --ring: 3px;
+}
+
+/* A window's bar: the close button spans it, so the ring sits inside like the project bar's. */
+.window-close {
+  --ring: 3px;
+}
+
+.window-bar.on-color :is(.window-close, .window-action) {
+  --ring-color: var(--color-text-on-color);
+}
+
+/* Contents rail: the ring hugs each entry's text (4px), not the rail's full width. */
+.toc-items a,
+.toc-head {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.toc-items a {
+  --ring: 0 -4px 0 18px;
+}
+
+.toc-head {
+  --ring: 2px -4px 2px 10px;
+}
+
+.toc-group.closed > span {
+  --ring: -4px -4px;
+}
+
+@media (max-width: 767px) {
+  .contact {
+    --ring: 7px -4px;
+  }
+
+  .post-row {
+    --ring: 8px -10px;
+  }
+}
