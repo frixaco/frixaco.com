@@ -10,6 +10,7 @@
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='14' y='14' width='36' height='36' rx='2' fill='%233273dc'/%3E%3C/svg%3E"
     />
     <title>rustam ashurmatov</title>
+    <link rel="preload" href="/fonts/PaperMono.woff2" as="font" type="font/woff2" crossorigin />
     <script>
       // Every route serves this file. Pick the route before first paint so CSS
       // shows the right sections; posts are fetched and rendered on demand.
@@ -55,12 +56,21 @@
         scroll-padding-top: 2rem;
       }
 
+      /* Paper Mono (OFL, fonts/PaperMono-OFL.txt), cut to weights 400-700 and Latin. */
+      @font-face {
+        font-display: swap;
+        font-family: "Paper Mono";
+        font-style: normal;
+        font-weight: 400 700;
+        src: url("/fonts/PaperMono.woff2") format("woff2");
+      }
+
       body {
         background: whitesmoke;
         color: #000;
         display: flex;
         flex-direction: column;
-        font-family: "JetBrains Mono";
+        font-family: "Paper Mono", monospace;
         font-size: 95%;
         line-height: 1.5;
         min-height: 100vh;
@@ -198,14 +208,75 @@
         margin: 0;
       }
 
-      #projects figure img {
+      #projects figure :is(img, video) {
         border: 1px solid #ddd;
         display: block;
         height: auto;
         width: 100%;
       }
 
-      #projects figcaption,
+      /* Senmei's before/after: drag (or arrow keys) moves the split. */
+      #projects .compare {
+        --split: 50%;
+        aspect-ratio: 720 / 394;
+        border: 1px solid #ddd;
+        cursor: ew-resize;
+        display: block;
+        position: relative;
+        touch-action: pan-y;
+        user-select: none;
+        -webkit-touch-callout: none;
+      }
+
+      #projects .compare img {
+        border: 0;
+        height: 100%;
+        inset: 0;
+        object-fit: cover;
+        pointer-events: none;
+        position: absolute;
+      }
+
+      #projects .compare img.upscaled {
+        clip-path: inset(0 0 0 var(--split));
+      }
+
+      #projects .compare span {
+        background: #fff;
+        bottom: 8px;
+        color: #444;
+        font-size: 0.8em;
+        left: 8px;
+        padding: 0 6px;
+        position: absolute;
+      }
+
+      #projects .compare span.upscaled {
+        left: auto;
+        right: 8px;
+      }
+
+      #projects .compare [role="slider"] {
+        background: #fff;
+        inset: 0 auto 0 var(--split);
+        position: absolute;
+        translate: -1px 0;
+        width: 2px;
+      }
+
+      #projects .compare [role="slider"]::after {
+        background: #fff;
+        border: 1px solid #000;
+        border-radius: 50%;
+        content: "";
+        height: 18px;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        translate: -50% -50%;
+        width: 18px;
+      }
+
       #projects .stats {
         color: #444;
         font-size: 0.9em;
@@ -215,6 +286,10 @@
         display: flex;
         flex-direction: column;
         padding: 0.5rem 0;
+      }
+
+      main pre {
+        font-family: inherit;
       }
 
       main code {
@@ -375,7 +450,10 @@
           <li>
             <p><strong><a href="https://github.com/frixaco/letui">LeTUI</a></strong></p>
             <figure>
-              <img src="/letui-letty.webp" alt="Letty, the LeTUI AI agent example, answering a question about the renderer with Codex" width="1478" height="858" loading="lazy" decoding="async" />
+              <video poster="/letui-letty.webp" width="1478" height="858" muted loop playsinline controls preload="none" aria-label="Letty, the LeTUI AI agent example, answering a question about the renderer with Codex">
+                <source src="/clips/letui-letty.webm" type='video/webm; codecs="av01.0.08M.08"' />
+                <source src="/clips/letui-letty.mp4" type="video/mp4" />
+              </video>
             </figure>
             <p>TUI library built from scratch with TypeScript and a Rust core, featuring a component-based API, signal-based state management, CSS-like styling API, a Rust-powered layout and rendering engine, and cell-based diffing.</p>
             <div class="stats">
@@ -389,14 +467,13 @@
           <li>
             <p><strong><a href="https://github.com/frixaco/senmei">Senmei</a></strong> · <a href="https://senmei.frixaco.com">senmei.frixaco.com</a></p>
             <figure>
-              <figure>
-                <img src="/senmei-original.webp" alt="Anime frame at its source 1080p" width="720" height="394" loading="lazy" decoding="async" />
-                <figcaption>original</figcaption>
-              </figure>
-              <figure>
-                <img src="/senmei-anime4k.webp" alt="Same frame upscaled to 4K by Senmei's Anime4K pipeline" width="1440" height="788" loading="lazy" decoding="async" />
-                <figcaption>anime4k</figcaption>
-              </figure>
+              <div class="compare">
+                <img src="/senmei-original.webp" alt="Anime frame at its source 1080p" width="720" height="394" loading="lazy" decoding="async" draggable="false" />
+                <img class="upscaled" src="/senmei-anime4k.webp" alt="Same frame upscaled to 4K by Senmei's Anime4K pipeline" width="1440" height="788" loading="lazy" decoding="async" draggable="false" />
+                <span>original</span>
+                <span class="upscaled">anime4k</span>
+                <div role="slider" tabindex="0" aria-label="Compare original and anime4k" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></div>
+              </div>
             </figure>
             <p>In-browser MKV video streamer and player built from scratch, featuring real-time 4K anime upscaling powered by WGSL (WebGPU) shaders ported from Anime4K.</p>
             <div class="stats">
@@ -409,7 +486,10 @@
           <li>
             <p><strong><a href="https://github.com/frixaco/xport">Xport</a></strong> · <a href="https://xport.frixaco.com">xport.frixaco.com</a></p>
             <figure>
-              <img src="/xport-export.webp" alt="Xport exporting @NASA posts, stopped early and downloaded as Markdown" width="1600" height="900" loading="lazy" decoding="async" />
+              <video poster="/xport-export.webp" width="1600" height="900" muted loop playsinline controls preload="none" aria-label="Xport exporting @NASA posts, stopped early and downloaded as Markdown">
+                <source src="/clips/xport-export.webm" type='video/webm; codecs="av01.0.08M.08"' />
+                <source src="/clips/xport-export.mp4" type="video/mp4" />
+              </video>
             </figure>
             <p>Web app and CLI for exporting X threads, articles, posts, and replies as Markdown or JSON, built around resumable jobs.</p>
             <div class="stats">
@@ -510,6 +590,60 @@
         const time = document.querySelector("footer time");
         time.dateTime = date;
         time.textContent = `last updated ${date}`;
+      })();
+
+      // Demo clips play muted while on screen (not with reduced motion; the controls still work).
+      (() => {
+        const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const { target, isIntersecting } of entries) {
+              if (!isIntersecting) {
+                if (!target.paused) target.dataset.auto = "1";
+                target.pause();
+              } else if (!reduced && !target.dataset.paused) target.play().catch(() => {});
+            }
+          },
+          { threshold: 0.35 },
+        );
+        for (const video of document.querySelectorAll("#projects video")) {
+          io.observe(video);
+          // A pause the visitor chose sticks; a pause from scrolling away doesn't.
+          video.addEventListener("pause", () => {
+            if (video.dataset.auto) delete video.dataset.auto;
+            else video.dataset.paused = "1";
+          });
+          video.addEventListener("play", () => delete video.dataset.paused);
+        }
+      })();
+
+      // Senmei's before/after slider.
+      (() => {
+        const box = document.querySelector("#projects .compare");
+        const handle = box.querySelector('[role="slider"]');
+        let split = 50;
+        const set = (value) => {
+          split = Math.min(100, Math.max(0, value));
+          box.style.setProperty("--split", `${split}%`);
+          handle.setAttribute("aria-valuenow", Math.round(split));
+        };
+        const follow = (e) => {
+          const rect = box.getBoundingClientRect();
+          set(((e.clientX - rect.left) / rect.width) * 100);
+        };
+        box.addEventListener("pointerdown", (e) => {
+          if (e.button !== 0) return;
+          box.setPointerCapture(e.pointerId);
+          follow(e);
+        });
+        box.addEventListener("pointermove", (e) => box.hasPointerCapture(e.pointerId) && follow(e));
+        handle.addEventListener("keydown", (e) => {
+          const step = e.shiftKey ? 10 : 2;
+          const next = { ArrowLeft: split - step, ArrowRight: split + step, Home: 0, End: 100 }[e.key];
+          if (next === undefined) return;
+          e.preventDefault();
+          set(next);
+        });
       })();
 
       // Xport's npm version, dependency count and unpacked size, live from the registry.
