@@ -79,15 +79,6 @@
         outline-offset: 3px;
       }
 
-      header h2 {
-        padding: 0.83em 0;
-      }
-
-      header > a {
-        color: #000;
-        text-decoration: none;
-      }
-
       nav {
         column-gap: 10px;
         display: flex;
@@ -189,6 +180,41 @@
 
       :is(#projects, #work) > ul > li > p {
         padding: 0.125rem 0;
+      }
+
+      #projects figure {
+        display: grid;
+        gap: 0.5rem;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(0, 1fr);
+        margin: 0;
+        padding: 0.5rem 0;
+      }
+
+      #projects figure > * {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin: 0;
+      }
+
+      #projects figure img {
+        border: 1px solid #ddd;
+        display: block;
+        height: auto;
+        width: 100%;
+      }
+
+      #projects figcaption,
+      #projects .stats {
+        color: #444;
+        font-size: 0.9em;
+      }
+
+      #projects .stats {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem 0;
       }
 
       main code {
@@ -318,12 +344,6 @@
     </script>
   </head>
   <body>
-    <header>
-      <a href="/" aria-label="Rustam Ashurmatov, home">
-        <h2>welcome to my corner of the internet</h2>
-      </a>
-    </header>
-
     <nav aria-label="Primary">
       <a href="/#about">about</a>
       <a href="/#contact">contact</a>
@@ -354,17 +374,48 @@
         <ul>
           <li>
             <p><strong><a href="https://github.com/frixaco/letui">LeTUI</a></strong></p>
+            <figure>
+              <img src="/letui-letty.webp" alt="Letty, the LeTUI AI agent example, answering a question about the renderer with Codex" width="1478" height="858" loading="lazy" decoding="async" />
+            </figure>
             <p>TUI library built from scratch with TypeScript and a Rust core, featuring a component-based API, signal-based state management, CSS-like styling API, a Rust-powered layout and rendering engine, and cell-based diffing.</p>
+            <div class="stats">
+              <span>frame time · ms · full-screen animation · m4 pro</span>
+              <span>p0 0.3 · p50 1.9 · p95 4.3 · p99 5.6 · max 8.7</span>
+              <span>115–453 fps · worst → avg</span>
+              <span>ts 0.6 → ffi → rust 1.2 → sync 0.1 → flush 0.3 ms</span>
+            </div>
             <p><strong>rust</strong> · <strong>typescript</strong> · <strong>bun</strong></p>
           </li>
           <li>
             <p><strong><a href="https://github.com/frixaco/senmei">Senmei</a></strong> · <a href="https://senmei.frixaco.com">senmei.frixaco.com</a></p>
+            <figure>
+              <figure>
+                <img src="/senmei-original.webp" alt="Anime frame at its source 1080p" width="720" height="394" loading="lazy" decoding="async" />
+                <figcaption>original</figcaption>
+              </figure>
+              <figure>
+                <img src="/senmei-anime4k.webp" alt="Same frame upscaled to 4K by Senmei's Anime4K pipeline" width="1440" height="788" loading="lazy" decoding="async" />
+                <figcaption>anime4k</figcaption>
+              </figure>
+            </figure>
             <p>In-browser MKV video streamer and player built from scratch, featuring real-time 4K anime upscaling powered by WGSL (WebGPU) shaders ported from Anime4K.</p>
+            <div class="stats">
+              <span>frame time · 1080p → 4k · m4 pro</span>
+              <span>32.3 ms per 4k frame · 31 fps max · film is 24 · 38 passes, 3 shaders, sequential</span>
+              <span>cpu 0.5 → upload 4.5 → passes 27.3 ms · 9.4 spare</span>
+            </div>
             <p><strong>typescript</strong> · <strong>webgpu</strong> · <strong>wgsl</strong></p>
           </li>
           <li>
             <p><strong><a href="https://github.com/frixaco/xport">Xport</a></strong> · <a href="https://xport.frixaco.com">xport.frixaco.com</a></p>
+            <figure>
+              <img src="/xport-export.webp" alt="Xport exporting @NASA posts, stopped early and downloaded as Markdown" width="1600" height="900" loading="lazy" decoding="async" />
+            </figure>
             <p>Web app and CLI for exporting X threads, articles, posts, and replies as Markdown or JSON, built around resumable jobs.</p>
+            <div class="stats">
+              <span><a href="https://www.npmjs.com/package/@frixaco/xport">@frixaco/xport</a> <span id="xport-npm"></span></span>
+              <span>lighthouse · mobile · perf 99 · a11y 100 · best pr. 100 · seo 100</span>
+            </div>
             <p><strong>tanstack start</strong> · <strong>postgresql</strong></p>
           </li>
         </ul>
@@ -460,6 +511,16 @@
         time.dateTime = date;
         time.textContent = `last updated ${date}`;
       })();
+
+      // Xport's npm version, dependency count and unpacked size, live from the registry.
+      fetch("https://registry.npmjs.org/@frixaco%2Fxport/latest")
+        .then((res) => (res.ok ? res.json() : Promise.reject()))
+        .then((pkg) => {
+          const deps = Object.keys(pkg.dependencies ?? {}).length;
+          const kb = (pkg.dist.unpackedSize / 1000).toFixed(1);
+          document.getElementById("xport-npm").textContent = `v${pkg.version} · ${deps} dependencies · ${kb} kB`;
+        })
+        .catch(() => {});
     </script>
   </body>
 </html>
