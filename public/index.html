@@ -277,15 +277,45 @@
         width: 18px;
       }
 
+      /* Measured stats: a label column and a value column (stacked on phones). */
       #projects .stats {
-        color: #444;
+        column-gap: 1.5rem;
+        display: grid;
         font-size: 0.9em;
+        font-variant-numeric: tabular-nums;
+        grid-template-columns: max-content minmax(0, 1fr);
+        margin: 0;
+        padding: 0.5rem 0;
+        row-gap: 0.25rem;
+        text-transform: none;
       }
 
-      #projects .stats {
-        display: flex;
-        flex-direction: column;
-        padding: 0.5rem 0;
+      #projects .stats > div {
+        display: contents;
+      }
+
+      #projects .stats dt {
+        color: #666;
+      }
+
+      #projects .stats dd {
+        margin: 0;
+      }
+
+      #projects .stats small {
+        color: #666;
+        font-size: inherit;
+      }
+
+      @media (max-width: 480px) {
+        #projects .stats {
+          grid-template-columns: minmax(0, 1fr);
+          row-gap: 0;
+        }
+
+        #projects .stats dd {
+          padding-bottom: 0.375rem;
+        }
       }
 
       main pre {
@@ -456,12 +486,13 @@
               </video>
             </figure>
             <p>TUI library built from scratch with TypeScript and a Rust core, featuring a component-based API, signal-based state management, CSS-like styling API, a Rust-powered layout and rendering engine, and cell-based diffing.</p>
-            <div class="stats">
-              <span>frame time · ms · full-screen animation · m4 pro</span>
-              <span>p0 0.3 · p50 1.9 · p95 4.3 · p99 5.6 · max 8.7</span>
-              <span>115–453 fps · worst → avg</span>
-              <span>ts 0.6 → ffi → rust 1.2 → sync 0.1 → flush 0.3 ms</span>
-            </div>
+            <dl class="stats">
+              <div><dt>measured on</dt><dd>full-screen animation, 176×52 terminal, m4 pro</dd></div>
+              <div><dt>typical frame</dt><dd>1.9 ms <small>(median)</small></dd></div>
+              <div><dt>slow frames</dt><dd>4.3 ms at p95, 5.6 ms at p99, 8.7 ms max</dd></div>
+              <div><dt>frame rate</dt><dd>453 fps average, 115 fps worst</dd></div>
+              <div><dt>avg frame</dt><dd>typescript 0.6 ms → rust 1.2 ms → sync 0.1 ms → flush 0.3 ms</dd></div>
+            </dl>
             <p><strong>rust</strong> · <strong>typescript</strong> · <strong>bun</strong></p>
           </li>
           <li>
@@ -476,11 +507,13 @@
               </div>
             </figure>
             <p>In-browser MKV video streamer and player built from scratch, featuring real-time 4K anime upscaling powered by WGSL (WebGPU) shaders ported from Anime4K.</p>
-            <div class="stats">
-              <span>frame time · 1080p → 4k · m4 pro</span>
-              <span>32.3 ms per 4k frame · 31 fps max · film is 24 · 38 passes, 3 shaders, sequential</span>
-              <span>cpu 0.5 → upload 4.5 → passes 27.3 ms · 9.4 spare</span>
-            </div>
+            <dl class="stats">
+              <div><dt>measured on</dt><dd>1080p → 4k upscaling, m4 pro</dd></div>
+              <div><dt>per 4k frame</dt><dd>32.3 ms</dd></div>
+              <div><dt>frame rate</dt><dd>31 fps max <small>(film is 24)</small></dd></div>
+              <div><dt>gpu work</dt><dd>38 passes from 3 shaders, run in sequence</dd></div>
+              <div><dt>frame budget</dt><dd>41.7 ms at 24 fps: cpu 0.5 ms → upload 4.5 ms → shader passes 27.3 ms, 9.4 ms spare</dd></div>
+            </dl>
             <p><strong>typescript</strong> · <strong>webgpu</strong> · <strong>wgsl</strong></p>
           </li>
           <li>
@@ -492,10 +525,10 @@
               </video>
             </figure>
             <p>Web app and CLI for exporting X threads, articles, posts, and replies as Markdown or JSON, built around resumable jobs.</p>
-            <div class="stats">
-              <span><a href="https://www.npmjs.com/package/@frixaco/xport">@frixaco/xport</a> <span id="xport-npm"></span></span>
-              <span>lighthouse · mobile · perf 99 · a11y 100 · best pr. 100 · seo 100</span>
-            </div>
+            <dl class="stats">
+              <div><dt>npm</dt><dd><a href="https://www.npmjs.com/package/@frixaco/xport">@frixaco/xport</a> <span id="xport-npm"></span></dd></div>
+              <div><dt>lighthouse</dt><dd>performance 99, accessibility 100, best practices 100, seo 100 <small>(mobile)</small></dd></div>
+            </dl>
             <p><strong>tanstack start</strong> · <strong>postgresql</strong></p>
           </li>
         </ul>
@@ -652,7 +685,7 @@
         .then((pkg) => {
           const deps = Object.keys(pkg.dependencies ?? {}).length;
           const kb = (pkg.dist.unpackedSize / 1000).toFixed(1);
-          document.getElementById("xport-npm").textContent = `v${pkg.version} · ${deps} dependencies · ${kb} kB`;
+          document.getElementById("xport-npm").textContent = `v${pkg.version}, ${deps} dependencies, ${kb} kB`;
         })
         .catch(() => {});
     </script>
