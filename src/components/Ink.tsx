@@ -59,8 +59,6 @@ const FIT_PAD_Y = 6
 const EDGE = 8
 /** Notes moved beside the title keep this far from the title's text and from each other. */
 const SLOT_GAP = 16
-/** The next mark in the group starts this share of the way into this one. */
-const LEAD: Record<string, number> = { 'blog-squiggles': 0.5 }
 
 const files = import.meta.glob<Mark>('../../content/marks/*.json', { import: 'default' })
 const loaders = new Map(Object.entries(files).map(([path, load]) => [path.slice(path.lastIndexOf('/') + 1, -5), load]))
@@ -591,28 +589,24 @@ export function Ink({ root }: { root: RefObject<HTMLElement | null> }) {
       return r.bottom < 0 || r.top > innerHeight
     }
     const wait = (ms: number) => new Promise((r) => setTimeout(r, ms))
-    const marksOf = (group: Element) => [...group.querySelectorAll('[data-mark]')].flatMap((a) => byAnchor.get(a) ?? [])
+    // In document order, except that a mark drawn around others (the blog's squiggles around its
+    // bullets) comes after them.
+    const marksOf = (group: Element) =>
+      [...group.querySelectorAll('[data-mark]')]
+        .sort((a, b) => (a.contains(b) ? 1 : b.contains(a) ? -1 : 0))
+        .flatMap((a) => byAnchor.get(a) ?? [])
     const run = async () => {
       running = true
       await ready
       while (queue.length && !gone) {
         const group = queue.shift()!
         drawing.add(group)
-        const drawn: Promise<void>[] = []
         for (const p of marksOf(group)) {
           // Scrolled past before its turn: the rest of it waits for the next time it shows.
           if (gone || (!reduced && offScreen(group))) break
-          const d = draw(p)
-          drawn.push(d)
-          const lead = reduced ? 0 : (LEAD[p.id] ?? 0)
-          const end = Math.max(0, ...p.pieces.map((pc) => pc.points.at(-1)![3]))
-          if (lead) await wait(end * lead)
-          else {
-            await d
-            if (!reduced) await wait(GAP)
-          }
+          await draw(p)
+          if (!reduced) await wait(GAP)
         }
-        await Promise.all(drawn)
         drawing.delete(group)
         check()
       }
