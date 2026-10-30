@@ -34,14 +34,27 @@ html:has(.window[data-covering]) {
   overflow: hidden;
 }
 
-/* Paper: a still noise tile (it doesn't scroll with the page) over a soft light from the top. */
-body,
+/* Paper: a still noise tile over a soft light from the top. On a fixed layer of its own rather than
+   a fixed background, so scrolling stays on the compositor (a fixed background repaints the whole
+   screen every frame, and iOS Safari doesn't fix it at all). An opened view (.window) already
+   covers the screen without moving. */
+body::before,
 .window {
-  background-color: var(--paper);
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
     radial-gradient(120% 80% at 50% 0%, var(--paper-glow) 0%, transparent 70%);
-  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.window {
+  background-color: var(--paper);
 }
 
 body {
