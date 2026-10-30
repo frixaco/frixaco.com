@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as HomeRouteImport } from './routes/_home'
 import { Route as PdfRouteImport } from './routes/pdf'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as HomeIndexRouteImport } from './routes/_home/index'
 import { Route as HomeMoreRouteImport } from './routes/_home/more'
 import { Route as HomeWorkRouteImport } from './routes/_home/work'
@@ -28,6 +29,11 @@ const HomeRoute = HomeRouteImport.update({
 const PdfRoute = PdfRouteImport.update({
   id: '/pdf',
   path: '/pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeIndexRoute = HomeIndexRouteImport.update({
@@ -79,6 +85,7 @@ const HomeProjectsRepoRoute = HomeProjectsRepoRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof HomeIndexRoute
   '/pdf': typeof PdfRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/more': typeof HomeMoreRoute
   '/work': typeof HomeWorkRoute
   '/ingest/$': typeof IngestSplatRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/pdf': typeof PdfRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/more': typeof HomeMoreRoute
   '/work': typeof HomeWorkRoute
   '/ingest/$': typeof IngestSplatRoute
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_home': typeof HomeRouteWithChildren
   '/pdf': typeof PdfRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_home/more': typeof HomeMoreRoute
   '/_home/work': typeof HomeWorkRoute
   '/ingest/$': typeof IngestSplatRoute
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/pdf'
+    | '/sitemap.xml'
     | '/more'
     | '/work'
     | '/ingest/$'
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/pdf'
+    | '/sitemap.xml'
     | '/more'
     | '/work'
     | '/ingest/$'
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_home'
     | '/pdf'
+    | '/sitemap.xml'
     | '/_home/more'
     | '/_home/work'
     | '/ingest/$'
@@ -157,6 +169,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   HomeRoute: typeof HomeRouteWithChildren
   PdfRoute: typeof PdfRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   IngestSplatRoute: typeof IngestSplatRoute
   MusicIdRoute: typeof MusicIdRoute
 }
@@ -175,6 +188,13 @@ declare module '@tanstack/react-router' {
       path: '/pdf'
       fullPath: '/pdf'
       preLoaderRoute: typeof PdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_home/': {
@@ -268,6 +288,7 @@ const HomeRouteWithChildren = HomeRoute._addFileChildren(HomeRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRouteWithChildren,
   PdfRoute: PdfRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   IngestSplatRoute: IngestSplatRoute,
   MusicIdRoute: MusicIdRoute,
 }

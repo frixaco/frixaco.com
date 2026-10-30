@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { HeadContent, Link, Outlet, Scripts, createRootRoute } from '@tanstack/react-router'
 import type { PostHogConfig } from 'posthog-js'
+import { headline } from '#/content/site'
+import { SITE } from '#/lib/head'
 import appCss from '../styles.css?url'
-
-const DESCRIPTION = 'i like engineering software: interfaces, backend and tools.'
 
 // PostHog (US Cloud). The project key is public: it ships to every browser.
 const POSTHOG_KEY = 'phc_mg6WREyxK4GiujQhjPGxEXG3i5Ko7pwdLsLFXwQmuhVF'
@@ -20,22 +20,31 @@ const POSTHOG_OPTIONS: Partial<PostHogConfig> = {
 }
 
 export const Route = createRootRoute({
+  // Defaults for every page; each page sets its own title, URL and description (lib/head.ts).
   head: () => ({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
       { name: 'theme-color', content: '#f2eee5' },
       { name: 'color-scheme', content: 'light' },
+      // iOS Safari would turn number runs (dates, stats) into phone links.
+      { name: 'format-detection', content: 'telephone=no' },
       { title: 'frixaco' },
-      { name: 'description', content: DESCRIPTION },
+      { name: 'description', content: headline },
+      { property: 'og:site_name', content: 'frixaco' },
       { property: 'og:title', content: 'frixaco' },
-      { property: 'og:description', content: DESCRIPTION },
-      { property: 'og:image', content: '/pfp.jpg' },
+      { property: 'og:description', content: headline },
+      { property: 'og:image', content: `${SITE}/pfp.jpg` },
+      { property: 'og:image:width', content: '317' },
+      { property: 'og:image:height', content: '300' },
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:creator', content: '@frixaco' },
     ],
     links: [
       { rel: 'preload', href: '/fonts/PaperMono-Variable.woff2', as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
     ],
   }),
   shellComponent: RootDocument,

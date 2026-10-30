@@ -51,7 +51,7 @@ const config = defineConfig({
       // public/ files keep their names across deploys (unlike the hashed /assets): cached for a day,
       // then revalidated in the background for a week.
       routeRules: Object.fromEntries(
-        ['/fonts/**', '/*.avif', '/*.webp', '/*.jpg', '/*.svg'].map((route) => [
+        ['/fonts/**', '/*.jpg', '/*.png', '/*.svg'].map((route) => [
           route,
           { headers: { 'cache-control': 'public, max-age=86400, stale-while-revalidate=604800' } },
         ]),

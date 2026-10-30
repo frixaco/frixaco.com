@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { pageHead } from '#/lib/head'
 
-// Scrolls Home to its section (see _home.tsx).
+// Scrolls Home to its section (see _home.tsx): the same page as /, so that is its canonical URL.
 export const Route = createFileRoute('/_home/blog/')({
-  head: () => ({ meta: [{ title: 'blog · frixaco' }] }),
+  head: () => pageHead({ title: 'blog · frixaco', path: '/' }),
 })
