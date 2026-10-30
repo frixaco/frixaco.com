@@ -18,8 +18,18 @@ import { INK_REACH, compose, render, type Brush, type Mark, type Point, type Str
 
 /** Replay speed against the recording, and the longest pause kept between two strokes (ms). */
 const SPEED = 1.5
-/** Marks replayed slower than SPEED: the intro's corners, drawn last, at the speed they were drawn. */
-const SPEEDS: Record<string, number> = { 'intro-corners': 1 }
+/** Marks replayed slower than SPEED: the intro's corners, drawn last, at the speed they were drawn;
+ *  circles take 75% longer and underlines twice as long, so a reader sees them being drawn. */
+const CIRCLE = SPEED / 1.75
+const UNDERLINE = SPEED / 2
+const SPEEDS: Record<string, number> = {
+  'intro-corners': 1,
+  'intro-circle': CIRCLE,
+  'letui-p0': CIRCLE,
+  'senmei-underline': UNDERLINE,
+  'xport-web-app': UNDERLINE,
+  'xport-cli': UNDERLINE,
+}
 const MAX_GAP = 250
 /** The pause (ms) between one mark finishing and the next one starting, across the whole page. */
 const GAP = 220
