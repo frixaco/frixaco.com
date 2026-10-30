@@ -21,6 +21,8 @@ const SPEED = 1.5
 /** Marks replayed slower than SPEED: the intro's corners, drawn last, at the speed they were drawn. */
 const SPEEDS: Record<string, number> = { 'intro-corners': 1 }
 const MAX_GAP = 250
+/** The pause (ms) between one mark finishing and the next one starting, across the whole page. */
+const GAP = 220
 /** Room in the canvas for a copy's tilt and shift. */
 const SLACK = 14
 /** This mark waves (from its lowest point, the wrist) once drawn. */
@@ -565,30 +567,56 @@ export function Ink({ root }: { root: RefObject<HTMLElement | null> }) {
         requestAnimationFrame(tick)
       })
 
-    // A group's marks, one after the other.
+    // One queue for the whole page: the groups on screen draw one after the other, top to bottom,
+    // each mark GAP after the last, so two never draw at once (the intro and a stat below it).
     const played = new WeakSet<Element>()
     const drawing = new WeakSet<Element>()
+    const queue: Element[] = []
+    let running = false
+    const offScreen = (g: Element) => {
+      const r = g.getBoundingClientRect()
+      return r.bottom < 0 || r.top > innerHeight
+    }
+    const wait = (ms: number) => new Promise((r) => setTimeout(r, ms))
     const marksOf = (group: Element) => [...group.querySelectorAll('[data-mark]')].flatMap((a) => byAnchor.get(a) ?? [])
-    const play = async (group: Element) => {
+    const run = async () => {
+      running = true
+      await ready
+      while (queue.length && !gone) {
+        const group = queue.shift()!
+        drawing.add(group)
+        const drawn: Promise<void>[] = []
+        for (const p of marksOf(group)) {
+          // Scrolled past before its turn: the rest of it waits for the next time it shows.
+          if (gone || (!reduced && offScreen(group))) break
+          const d = draw(p)
+          drawn.push(d)
+          const lead = reduced ? 0 : (LEAD[p.id] ?? 0)
+          const end = Math.max(0, ...p.pieces.map((pc) => pc.points.at(-1)![3]))
+          if (lead) await wait(end * lead)
+          else {
+            await d
+            if (!reduced) await wait(GAP)
+          }
+        }
+        await Promise.all(drawn)
+        drawing.delete(group)
+        check()
+      }
+      running = false
+    }
+    const play = (group: Element) => {
       if (played.has(group)) return
       played.add(group)
-      drawing.add(group)
-      await ready
-      const drawn: Promise<void>[] = []
-      for (const p of marksOf(group)) {
-        if (gone) break
-        const d = draw(p)
-        drawn.push(d)
-        const lead = reduced ? 0 : (LEAD[p.id] ?? 0)
-        const end = Math.max(0, ...p.pieces.map((pc) => pc.points.at(-1)![3]))
-        await (lead ? new Promise((r) => setTimeout(r, end * lead)) : d)
-      }
-      await Promise.all(drawn)
-      drawing.delete(group)
+      queue.push(group)
+      queue.sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1))
+      if (!running) void run()
     }
     // Off screen: the ink goes, so the next time the group shows it is drawn from empty.
     const erase = (group: Element) => {
       played.delete(group)
+      const q = queue.indexOf(group)
+      if (q >= 0) queue.splice(q, 1)
       for (const p of marksOf(group)) {
         p.copies = []
         p.canvas.getContext('2d')!.clearRect(0, 0, p.canvas.width, p.canvas.height)
@@ -606,12 +634,12 @@ export function Ink({ root }: { root: RefObject<HTMLElement | null> }) {
       for (const g of groups) {
         const r = g.getBoundingClientRect()
         if (played.has(g)) {
-          if (!drawing.has(g) && (r.bottom < 0 || r.top > innerHeight)) erase(g)
+          if (!drawing.has(g) && offScreen(g)) erase(g)
           continue
         }
         const unreachable = r.top + scrollY - max > innerHeight * 0.5
         if (r.bottom < 0) continue // above the screen
-        if (r.top < innerHeight * 0.5 || (unreachable && r.bottom <= innerHeight)) void play(g)
+        if (r.top < innerHeight * 0.5 || (unreachable && r.bottom <= innerHeight)) play(g)
       }
     }
     let tick = 0
@@ -621,7 +649,7 @@ export function Ink({ root }: { root: RefObject<HTMLElement | null> }) {
         check()
       })
     }
-    if (reduced) void ready.then(() => groups.forEach((g) => void play(g)))
+    if (reduced) groups.forEach(play)
     else {
       void ready.then(() => !gone && check())
       addEventListener('scroll', onScroll, { passive: true })
