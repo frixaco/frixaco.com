@@ -313,6 +313,11 @@
   gap: 4px;
 }
 
+/* Favorite shows, then movies: a list each, with room between them. */
+.more-favorites {
+  gap: 16px;
+}
+
 .more-specs > div {
   display: flex;
   align-items: baseline;

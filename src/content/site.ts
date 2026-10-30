@@ -115,7 +115,7 @@ export const more = {
   /** Follows "more" in the links that open it, for screen readers and search engines only:
    *  "more" alone doesn't say where it leads. */
   linkSuffix: 'about me',
-  lede: 'embracing ai (before it "embraces" me), self-taught, live inside my terminal, neovim btw.',
+  lede: "self-taught. embracing ai and having fun with it. lived inside my terminal (neovim btw), but nowadays i'm all over the place. i love fast, efficient things, and i like to draw.",
   pc: {
     title: 'pc (my baby)',
     specs: [
@@ -129,15 +129,51 @@ export const more = {
   },
   games: {
     title: 'favorite games',
-    titles: ['sekiro', 'osu!', 'monster hunter world', 'elden ring', 'lies of p'],
+    titles: [
+      'sekiro',
+      'osu!',
+      'monster hunter world',
+      'elden ring',
+      'lies of p',
+      'detroit: become human',
+      'metro series',
+      'sifu',
+      'valheim',
+      'wuthering waves',
+    ],
     more: 'and more',
   },
-  anime: { title: 'anime & manga', count: '272+', unit: 'anime', note: '& reading manga - very picky nowadays.' },
+  anime: {
+    title: 'anime & manga',
+    count: '272+',
+    unit: 'anime',
+    note: '& reading manga - very picky nowadays.',
+    favorites: [
+      {
+        kind: 'shows',
+        titles: [
+          're:zero',
+          'oregairu',
+          'frieren',
+          '86 (eighty six)',
+          'vinland saga',
+          'mushoku tensei',
+          'monogatari series',
+          'violet evergarden',
+          'made in abyss',
+          'your lie in april',
+          'tokyo ghoul',
+        ],
+        more: 'and more',
+      },
+      { kind: 'movies', titles: ['a silent voice'] },
+    ],
+  },
   learning: {
     title: 'learning',
     items: [
       { name: 'blender', text: 'animation project is coming along well, learning a lot about topology and shaders.' },
-      { name: 'to make music', text: 'garbage-oriented noise-driven development.' },
+      { name: 'music', text: 'garbage-oriented noise-driven development.' },
       { name: 'japanese', paused: '(on pause)', text: 'kana, ~100 vocab and base grammar are done.' },
     ],
   },

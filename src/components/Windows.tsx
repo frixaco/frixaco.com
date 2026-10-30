@@ -230,6 +230,21 @@ export function MoreWindow(presence: Presence) {
             </p>
             <p className="more-note">{anime.note}</p>
           </div>
+          <dl className="more-specs more-favorites">
+            {anime.favorites.map((f) => (
+              <div key={f.kind}>
+                <dt>{f.kind}</dt>
+                <dd>
+                  <ul className="more-games">
+                    {f.titles.map((title) => (
+                      <li key={title}>{title}</li>
+                    ))}
+                    {'more' in f ? <li className="faint">{f.more}</li> : null}
+                  </ul>
+                </dd>
+              </div>
+            ))}
+          </dl>
         </section>
 
         <section className="more-section" aria-label={learning.title}>
