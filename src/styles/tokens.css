@@ -1,6 +1,6 @@
 /*
- * Readout design tokens: the single source for the site (and Shape Lab once it is ported).
- * Exported from the Paper file "Readout" (design system page); keep names and values in sync with it.
+ * Design tokens: warm paper, dark ink, Paper Mono. The single source for every sheet; don't
+ * hard-code a color, size or curve that has a token here.
  */
 
 @font-face {
@@ -12,143 +12,54 @@
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* Surfaces */
-  --color-bg-gutter: #1b1b1b;
-  --color-bg-panel: #2b2b2b;
-  --color-bg-canvas: #343434;
-  --color-bg-raised: #3d3d3d;
-  --color-bg-hover: #4a4a4a;
-  --color-bg-field: #1f1f1f;
-  --color-bg-display: #151515;
+  /* Paper */
+  --paper: #f2eee5;
+  --paper-raised: #f8f5ee; /* popups */
+  --paper-sunk: #e9e4d8; /* code, fields, pressed rows */
+  --paper-glow: #f6f2ea; /* the light falling on the top of the page */
 
-  /* Lines */
-  --color-line: #161616;
-  --color-line-subtle: #424242;
-  --color-line-strong: #555555;
+  /* Ink */
+  --ink: #1d1b17;
+  --ink-muted: #6f6a60;
+  --ink-faint: #9a948a;
+  --rule: rgb(29 27 23 / 0.12);
+  --rule-strong: #c9c2b4;
+  --wash: rgb(29 27 23 / 0.08); /* selection, a filled bar */
+  --shadow: rgb(60 50 30 / 0.12);
 
-  /* Text */
-  --color-text: #d9d9d9;
-  --color-text-muted: #a3a3a3;
-  --color-text-faint: #7a7a7a;
-  --color-text-on-color: #161616;
-
-  /* Roles: amber = active/selected, cyan = editable value */
-  --color-accent: #ffa629;
-  --color-value: #63c7ea;
-  --color-value-fill: #2f4650;
-  --color-select: #b8a273;
-
-  /* Signals: thresholds and breaches only, never a series */
-  --color-danger: #f2584a;
-  --color-success: #a6d38c;
-  --color-warning: #dd7350;
-
-  /* Categorical */
-  --color-cat-periwinkle: #99a7ff;
-  --color-cat-orchid: #d673e4;
-  --color-cat-violet: #8f72f0;
-  --color-cat-sky: #a2d3f8;
-  --color-cat-ice: #cbeff7;
-  --color-cat-sage: #bbdc9e;
-  --color-cat-lemon: #f3eb7e;
-  --color-cat-mustard: #dba941;
-  --color-cat-blush: #e8a8a5;
-  --color-cat-stone: #ababab;
-
-  /* Charts */
-  --color-grid: #363636;
-  --color-axis: var(--color-text-faint);
-  --color-series-1: var(--color-cat-periwinkle);
-  --color-series-2: var(--color-cat-mustard);
-  --color-series-3: var(--color-cat-orchid);
-  --color-series-4: var(--color-cat-sage);
-  --color-series-5: var(--color-cat-sky);
-  --color-series-6: var(--color-cat-blush);
-  --color-series-7: var(--color-cat-violet);
-  --color-series-8: var(--color-cat-lemon);
-  --color-seq-1: #272b3d;
-  --color-seq-2: #38406b;
-  --color-seq-3: #5560a6;
-  --color-seq-4: #7f8de6;
-  --color-seq-5: #bac3ff;
-  --color-div-neg: #ee8a80;
-  --color-div-mid: #3d3d3d;
-  --color-div-pos: #7dbfea;
-
-  /* Type: Paper Mono everywhere */
-  --font-sans: "Paper Mono", ui-monospace, monospace;
+  /* Type: Paper Mono everywhere. Body text is 16px: the marks were drawn on 14px text in a 460px
+     column, so the column is wider by the same ratio and the text wraps as it did (see Ink). */
   --font-mono: "Paper Mono", ui-monospace, monospace;
-  --text-micro: 10px;
-  --text-xs: 11px;
-  --text-sm: 12px;
-  --text-base: 13px;
-  --text-lg: 16px;
-  --text-xl: 20px;
-  --text-2xl: 24px;
-  --text-display: 32px;
-  --text-hero: 56px;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --tracking-tight: -0.02em;
-  --tracking-normal: 0em;
-  --tracking-caps: 0.06em;
-  --leading-tight: 14px;
-  --leading-row: 16px;
-  --leading-body: 18px;
-  --leading-relaxed: 24px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --leading: 1.6;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --measure: calc(460px * 16 / 14);
+  --container-prose: 680px;
 
-  /* Spacing */
-  --spacing-px: 1px;
-  --spacing-2xs: 2px;
-  --spacing-xs: 4px;
-  --spacing-sm: 6px;
-  --spacing-md: 8px;
-  --spacing-lg: 12px;
-  --spacing-xl: 16px;
-  --spacing-control: 18px;
-  --spacing-row: 22px;
-  --spacing-2xl: 24px;
-  --spacing-header: 26px;
-  --spacing-3xl: 32px;
-  --spacing-4xl: 48px;
-  --spacing-5xl: 64px;
-  --spacing-6xl: 96px;
-
-  /* Radii */
+  /* Space */
+  --inset: 20px; /* edge inset on phones */
+  --page-max: 1470px; /* a 13" MacBook Air viewport: full width there, centered beyond it */
   --radius-xs: 2px;
-  --radius-sm: 3px;
-  --radius-md: 5px;
+  --radius-sm: 4px;
   --radius-pill: 999px;
 
-  /* Opacity */
-  --opacity-ghost: 20%;
-  --opacity-disabled: 40%;
-  --opacity-muted: 60%;
-
-  /* Containers and breakpoints */
-  --container-card: 240px;
-  --container-sidebar: 232px;
-  --container-inspector: 288px;
-  --container-panel: 216px;
-  --container-prose: 640px;
-  --container-page: 1200px;
-  --breakpoint-tablet: 768px;
-  --breakpoint-laptop: 1280px;
-  --breakpoint-desktop: 1512px;
-  --breakpoint-wide: 1920px;
-
-  /* Site layout (not in Paper) */
-  --page-max: 1470px; /* a 13" MacBook Air viewport: full width there, centered beyond it */
-  --inset: 20px; /* edge inset on phones */
-  --radius-panel: 0; /* panels run edge to edge on phones */
+  /* Motion (emil-design-eng) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --press: 0.97;
 }
 
 @media (min-width: 768px) {
   :root {
     --inset: 16px; /* edge inset on desktop */
-    --radius-panel: var(--radius-sm);
   }
 }

@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>sketchbook</title>
+<style>
+  @font-face { font-family: "Paper Mono"; src: url("/font.woff2") format("woff2"); font-weight: 100 800; }
+  :root {
+    --paper: #f2eee5;
+    --sheet: #f7f4ec;
+    --ink: #1d1b17;
+    --muted: #8a857b;
+    --line: rgba(29, 27, 23, 0.12);
+    --stage-w: 960px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  /* Outside the boxes, touch only scrolls: no pinch zoom, no double-tap zoom, no sideways pan. */
+  html { touch-action: pan-y; overscroll-behavior: none; }
+  body {
+    /* A resting palm must not select text or open the long-press menu. */
+    user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+    font: 14px/1.6 "Paper Mono", ui-monospace, monospace;
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  main { display: flex; flex-direction: column; gap: 240px; padding: 48px 20px 50vh; max-width: calc(var(--stage-w) + 40px); margin-inline: auto; }
+  header { display: flex; flex-direction: column; gap: 6px; }
+  h1 { font-size: 15px; font-weight: 500; margin: 0; display: flex; justify-content: space-between; gap: 16px; }
+  .muted { color: var(--muted); }
+  p { margin: 0; }
+  section { display: flex; flex-direction: column; gap: 12px; }
+  .head { display: flex; flex-direction: column; gap: 10px; }
+  .what { display: flex; flex-direction: column; gap: 2px; }
+  .what b { font-weight: 500; }
+  .num { color: var(--muted); padding-right: 10px; }
+  .tools { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  button {
+    font: inherit; font-size: 13px; color: var(--ink); background: transparent; cursor: pointer;
+    border: 1px solid var(--line); border-radius: 999px; padding: 3px 11px;
+    transition: background-color 120ms ease, border-color 120ms ease, transform 120ms ease;
+  }
+  button:hover { border-color: rgba(29, 27, 23, 0.3); }
+  button:active { transform: scale(0.97); }
+  button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+  .gap { width: 10px; }
+  .status { font-size: 12px; color: var(--muted); min-width: 64px; text-align: right; }
+  .status.error { color: #b23a2a; }
+  .scroll { overflow-x: auto; padding: 1px; } /* room for the box's shadow edge */
+  .stage {
+    position: relative; width: var(--stage-w);
+    /* The edge is a shadow, not a border: a border shrinks the canvases by 2px, and the live
+       stroke (on the full-size overlay) then jumps when it lands on the box. */
+    background: var(--sheet); box-shadow: 0 0 0 1px var(--line); border-radius: 4px;
+    touch-action: none; user-select: none; -webkit-user-select: none; cursor: crosshair; overflow: hidden;
+  }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  /* Shared by every box (sized for the tallest one): the stroke in progress, on top. */
+  .stage canvas.overlay { inset: 0 auto auto 0; width: var(--stage-w); height: calc(var(--max-h) * 1px); pointer-events: none; }
+  .guide { position: absolute; white-space: pre-wrap; pointer-events: none; color: rgba(29, 27, 23, 0.82); }
+  .guide .title { font-weight: 500; }
+  .anchor { background: rgba(29, 27, 23, 0.06); border-radius: 2px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1><span>sketchbook</span><span class="muted" id="count"></span></h1>
+    <p class="muted">draw each mark in its box, around the grey copy. the site replays your strokes at the speed you drew them. every stroke saves on its own. ⌘Z / ctrl+Z undoes the last stroke in the last box you touched.</p>
+  </header>
+  <div id="list" style="display: contents"></div>
+</main>
+
+<script type="module">
+// The brushes: the same file the site uses (src/lib/ink.ts, served with its types stripped).
+import { BRUSHES, render, compose as composeInk } from '/ink.js'
+// What to draw. Each guide is the real site copy the mark sits next to; the part in [brackets]
+// is the anchor: saved points are relative to its top left, so the site can place the mark
+// next to the same element at any layout.
+const HEADLINE = 'i like engineering software: interfaces, backend and tools.'
+const LETUI = 'TUI library built from scratch with TypeScript and a Rust core, featuring a component-based API, signal-based state management, CSS-like styling API, a Rust-powered layout and rendering engine, and cell-based diffing.'
+const SENMEI = 'In-browser MKV video streamer and player built from scratch, featuring real-time 4K anime upscaling powered by WGSL (WebGPU) shaders ported from Anime4K.'
+const XPORT = 'Web app and CLI for exporting X threads, articles, posts, and replies as Markdown or JSON, built around resumable jobs.'
+const ROLES = [
+  ['vbrato', 'vbrato · ekko', 'may 2023 - present', 'Paid music collaborations and song-cover campaigns for artists worldwide. Led frontend and backend development across both products, built the Next.js frontend from scratch, and owned payments, payouts, and mobile audio features.'],
+  ['geoalert', 'geoalert', 'dec 2022 - jun 2023', 'AI mapping platform for satellite and aerial imagery. Built high-performance React interfaces for large imagery datasets, simplified component state and data flow, and helped move users to centralized sign-in with zero downtime.'],
+  ['livereach', 'livereach', 'nov 2021 - jan 2023', 'Social content and analytics platform with shoppable feeds for brands. Led React adoption within an Angular application and improved embedded app performance for e-commerce sites across Europe.'],
+  ['hitide', 'hitide', 'dec 2020 - feb 2021', "Online clothing brand. Fully automated stock updates with a tested pipeline that transformed Airtable inventory data and stored it in the website's database."],
+  ['moishlem', 'moishlem', 'aug 2020 - oct 2021', 'Online sports insurance company for individuals, tournaments, etc. Built payment and subscription workflows and internal support tools, redesigned the PostgreSQL schema, and consolidated two backends into one codebase.'],
+]
+
+const para = (title, text) => `<span class="title">${title}</span>\n${text}`
+// ?only=<id>,<id>: just those boxes.
+const ONLY = new URLSearchParams(location.search).get('only')?.split(',')
+const MARKS = [
+  { id: 'blog-bullet', label: 'blog: a bullet point', hint: 'one bullet, drawn inside the brackets: it is scaled into the bullet place before each post title', h: 200, guide: { x: 250, y: 80, w: 460, text: '[  ] Building a TUI Library from scratch: Part 3' } },
+  { id: 'intro-corners', label: 'intro: two corners', hint: 'top left, then bottom right of the intro', h: 220, guide: { x: 230, y: 90, w: 500, text: `[${HEADLINE}]` } },
+  { id: 'intro-circle', label: 'intro: circle a word', hint: 'you said "build"; the current intro has no "build". circle the word you want and tell me which', h: 220, guide: { x: 230, y: 90, w: 500, text: `[${HEADLINE}]` } },
+  { id: 'letui-car', label: 'LeTUI: a car', hint: 'left or right of the paragraph', h: 340, guide: { x: 250, y: 100, w: 460, text: `[${para('LeTUI', LETUI)}]` } },
+  { id: 'letui-p0', label: 'LeTUI: circle p0', h: 170, guide: { x: 250, y: 70, w: 520, text: '[p0 0.31]   p50 1.9   p95 4.31   p99 5.63   max 8.69' } },
+  { id: 'senmei-underline', label: 'Senmei: underline the frame time', h: 170, guide: { x: 250, y: 70, w: 460, text: '[32.3 ms] per 4k frame' } },
+  { id: 'senmei-upscale', label: 'Senmei: soft face → arrow → sharp face', hint: 'face with airbrush, arrow with pencil, the same face again with pen. switch the brush between strokes', h: 360, brush: 'airbrush', guide: { x: 250, y: 110, w: 460, text: `[${para('Senmei', SENMEI)}]` } },
+  { id: 'xport-box', label: 'Xport: a box', hint: 'left or right of the paragraph', h: 320, guide: { x: 250, y: 110, w: 460, text: `[${para('Xport', XPORT)}]` } },
+  { id: 'xport-web-app', label: 'Xport: underline "Web app"', h: 220, guide: { x: 250, y: 80, w: 460, text: para('Xport', `[Web app] and CLI ${XPORT.slice('Web app and CLI '.length)}`) } },
+  { id: 'xport-cli', label: 'Xport: underline "CLI"', h: 220, guide: { x: 250, y: 80, w: 460, text: para('Xport', `Web app and [CLI] ${XPORT.slice('Web app and CLI '.length)}`) } },
+  ...ROLES.map(([id, names, dates, text]) => ({
+    id: `work-${id}`, label: `work: ${names}: arrow + speech bubble`, hint: 'write your words inside the bubble', h: 360,
+    guide: { x: 250, y: 120, w: 460, text: `[${para(names, `<span class="muted">${dates}</span>\n${text}`)}]` },
+  })),
+  { id: 'blog-squiggles', label: 'blog: 4-5 squiggly lines', hint: 'left or right of the list, like writing', h: 300, guide: { x: 250, y: 100, w: 460, text: `[${para('blog', 'Building a TUI Library from scratch: Part 1\nBuilding a TUI Library from scratch: Part 2\nBuilding a TUI Library from scratch: Part 3')}]` } },
+  { id: 'more-hand', label: 'more: a hand', hint: 'it will wave from the wrist, so draw the wrist at the bottom', h: 320, guide: { x: 250, y: 140, w: 460, text: '[more]' } },
+].filter((m) => !ONLY || ONLY.includes(m.id))
+
+const W = 960
+const MAX_PAUSE = 1500 // ms: a longer pause between strokes is saved as this
+const dpr = Math.min(devicePixelRatio || 1, 2)
+const MAX_H = Math.max(...MARKS.map((m) => m.h))
+
+// Shared scratch canvases, so the page holds one bitmap per box plus these two (iPad Safari
+// stops drawing canvases past its memory limit). live: the stroke in progress, solid.
+// overlay: shows the stroke in progress on top of its box.
+const scratch = (cls) => {
+  const c = document.createElement('canvas')
+  c.width = W * dpr
+  c.height = MAX_H * dpr
+  if (cls) c.className = cls
+  return c
+}
+const live = scratch()
+const lctx = live.getContext('2d')
+lctx.scale(dpr, dpr)
+const overlay = scratch('overlay')
+const ovctx = overlay.getContext('2d')
+const compose = (target, s) => composeInk(target, live, s.brush, dpr)
+const clearLive = () => lctx.clearRect(0, 0, W, MAX_H)
+const round = (n, d) => Math.round(n * d) / d
+let active = null // last box touched, for undo
+let replaying = null // the box whose replay is running
+
+const saved = await fetch('/marks').then((r) => r.json())
+await document.fonts.load('14px "Paper Mono"') // anchors are measured in the real font
+const list = document.getElementById('list')
+const count = document.getElementById('count')
+let cuts = 0 // strokes the browser cancelled
+const updateCount = () => (count.textContent = `${cuts ? `${cuts} cut by browser · ` : ''}${MARKS.filter((m) => m.strokes.length).length} / ${MARKS.length} drawn`)
+
+MARKS.forEach((mark, i) => {
+  mark.brush ??= 'pencil'
+  const el = document.createElement('section')
+  el.innerHTML = `
+    <div class="head">
+      <div class="what"><b><span class="num">${String(i + 1).padStart(2, '0')}</span>${mark.label}</b>${mark.hint ? `<span class="muted">${mark.hint}</span>` : ''}</div>
+      <div class="tools">
+        ${Object.keys(BRUSHES).map((b) => `<button data-brush="${b}">${b}</button>`).join('')}
+        <span class="gap"></span>
+        <button data-act="replay">replay</button>
+        <button data-act="undo">undo</button>
+        <button data-act="clear">clear</button>
+        <span class="status"></span>
+      </div>
+    </div>
+    <div class="scroll"><div class="stage" style="height:${mark.h}px">
+      <div class="guide" style="left:${mark.guide.x}px;top:${mark.guide.y}px;width:${mark.guide.w}px">${mark.guide.text.replace('[', '<span class="anchor">').replace(/\](?![^<]*>)/, '</span>')}</div>
+      <canvas></canvas>
+    </div></div>`
+  list.append(el)
+
+  const stage = el.querySelector('.stage')
+  const canvas = el.querySelector('canvas')
+  const status = el.querySelector('.status')
+  // Holds the finished strokes, in device pixels; the stroke in progress shows on the overlay.
+  const ctx = canvas.getContext('2d')
+  canvas.width = W * dpr
+  canvas.height = mark.h * dpr
+
+  // The anchor's box in stage coordinates.
+  const anchorEl = el.querySelector('.anchor')
+  const anchor = () => {
+    const s = stage.getBoundingClientRect()
+    const a = anchorEl.getBoundingClientRect()
+    return { x: a.left - s.left, y: a.top - s.top, w: a.width, h: a.height }
+  }
+
+  const a0 = anchor()
+  mark.strokes = (saved[mark.id]?.strokes ?? []).map((s) => ({
+    brush: s.brush,
+    points: s.points.map(([x, y, p, t]) => [x + a0.x, y + a0.y, p, t]),
+  }))
+
+  // Every stroke again: on load, undo and clear only.
+  function redraw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    for (const s of mark.strokes) {
+      clearLive()
+      render(lctx, s, 1, true)
+      compose(ctx, s)
+    }
+    clearLive()
+  }
+  // The stroke in progress: on the overlay, on top of this box.
+  function showLive(s) {
+    if (overlay.parentNode !== stage) stage.append(overlay)
+    ovctx.clearRect(0, 0, overlay.width, overlay.height)
+    compose(ovctx, s)
+  }
+  function hideLive() {
+    ovctx.clearRect(0, 0, overlay.width, overlay.height)
+    overlay.remove()
+    clearLive()
+  }
+
+  let saving = Promise.resolve()
+  function save() {
+    status.textContent = 'saving…'
+    status.classList.remove('error')
+    updateCount()
+    const a = anchor()
+    const body = JSON.stringify({
+      id: mark.id,
+      anchor: { w: round(a.w, 10), h: round(a.h, 10) },
+      strokes: mark.strokes.map((s) => ({
+        brush: s.brush,
+        points: s.points.map(([x, y, p, t]) => [round(x - a.x, 10), round(y - a.y, 10), round(p, 100), Math.round(t)]),
+      })),
+    })
+    saving = saving.then(() =>
+      fetch(`/marks/${mark.id}`, { method: 'PUT', body })
+        .then((r) => {
+          if (!r.ok) throw new Error(r.status)
+          status.textContent = 'saved'
+        })
+        .catch(() => {
+          status.textContent = 'not saved'
+          status.classList.add('error')
+        }),
+    )
+  }
+
+  // Drawing: pointer events give pen pressure (a mouse reads 0.5) and coalesced events give
+  // every sample between frames. Time runs on across strokes, with long pauses capped.
+  let stroke = null
+  let lastEnd = 0
+  const point = (e, rect) => {
+    const k = W / rect.width
+    return [round((e.clientX - rect.left) * k, 10), round((e.clientY - rect.top) * k, 10), e.pointerType === 'mouse' ? 0.5 : e.pressure || 0.5, stroke.base + e.timeStamp - stroke.t0]
+  }
+  canvas.addEventListener('contextmenu', (e) => e.preventDefault())
+  // Samples are only collected here; drawing runs once per frame, for the new samples only.
+  let frame = 0
+  const paint = () => {
+    frame = 0
+    stroke.from = render(lctx, stroke.s, stroke.from, false)
+    showLive(stroke.s)
+  }
+  canvas.addEventListener('pointerdown', (e) => {
+    // Pen (or mouse) only: touch never draws.
+    if (e.pointerType === 'touch') return
+    // A stroke whose pointerup never came must not block the next one.
+    if (stroke) finish()
+    if (e.pointerType === 'mouse' && e.button !== 0) return
+    replaying?.stop()
+    canvas.setPointerCapture(e.pointerId)
+    active = mark
+    const prev = mark.strokes.at(-1)
+    const base = prev ? prev.points.at(-1)[3] + Math.min(performance.now() - lastEnd, MAX_PAUSE) : 0
+    stroke = { id: e.pointerId, base, t0: e.timeStamp, rect: canvas.getBoundingClientRect(), from: 1, s: { brush: mark.brush, points: [] } }
+    stroke.s.points.push(point(e, stroke.rect))
+    mark.strokes.push(stroke.s)
+    clearLive()
+    frame ||= requestAnimationFrame(paint)
+  })
+  canvas.addEventListener('pointermove', (e) => {
+    if (!stroke || e.pointerId !== stroke.id) return
+    const evs = e.getCoalescedEvents?.()
+    for (const ev of evs?.length ? evs : [e]) stroke.s.points.push(point(ev, stroke.rect))
+    frame ||= requestAnimationFrame(paint)
+  })
+  const end = (e) => stroke && e.pointerId === stroke.id && finish()
+  function finish() {
+    cancelAnimationFrame(frame)
+    frame = 0
+    render(lctx, stroke.s, stroke.from, true)
+    compose(ctx, stroke.s)
+    hideLive()
+    stroke = null
+    lastEnd = performance.now()
+    save()
+  }
+  canvas.addEventListener('pointerup', end)
+  canvas.addEventListener('lostpointercapture', end)
+  // The browser took the pencil away mid-stroke. Counted in the header, so we can see if it still happens.
+  canvas.addEventListener('pointercancel', (e) => {
+    if (!stroke || e.pointerId !== stroke.id) return
+    cuts++
+    finish()
+  })
+  // iPadOS Scribble (pencil handwriting) and Safari gestures cancel pencil strokes at random
+  // unless the box claims its touches. Pointer events still arrive.
+  for (const t of ['touchstart', 'touchmove']) stage.addEventListener(t, (e) => e.preventDefault(), { passive: false })
+
+  // Tools.
+  const brushButtons = el.querySelectorAll('[data-brush]')
+  const pickBrush = (b) => {
+    mark.brush = b
+    brushButtons.forEach((btn) => btn.setAttribute('aria-pressed', String(btn.dataset.brush === b)))
+  }
+  brushButtons.forEach((btn) => btn.addEventListener('click', () => pickBrush(btn.dataset.brush)))
+  pickBrush(mark.brush)
+
+  // Replay: finished strokes go onto the box once; only the current one is drawn per frame.
+  el.querySelector('[data-act="replay"]').addEventListener('click', () => {
+    if (stroke || !mark.strokes.length) return
+    replaying?.stop()
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    clearLive()
+    const start = performance.now()
+    let i = 0
+    let from = 1
+    let raf = 0
+    const tick = () => {
+      const t = performance.now() - start
+      while (i < mark.strokes.length) {
+        const s = mark.strokes[i]
+        let n = 0
+        while (n < s.points.length && s.points[n][3] <= t) n++
+        const done = n === s.points.length
+        const view = { brush: s.brush, points: s.points.slice(0, n) }
+        if (n) from = render(lctx, view, from, done)
+        if (!done) {
+          if (n) showLive(view)
+          break
+        }
+        compose(ctx, s)
+        ovctx.clearRect(0, 0, overlay.width, overlay.height)
+        clearLive()
+        i++
+        from = 1
+      }
+      if (i < mark.strokes.length) raf = requestAnimationFrame(tick)
+      else finish()
+    }
+    const finish = () => {
+      hideLive()
+      replaying = null
+    }
+    replaying = {
+      stop() {
+        cancelAnimationFrame(raf)
+        finish()
+        redraw()
+      },
+    }
+    tick()
+  })
+  el.querySelector('[data-act="undo"]').addEventListener('click', () => {
+    if (stroke || !mark.strokes.length) return
+    replaying?.stop()
+    mark.strokes.pop()
+    redraw()
+    save()
+  })
+  el.querySelector('[data-act="clear"]').addEventListener('click', () => {
+    if (stroke || !mark.strokes.length || !confirm(`clear "${mark.label}"?`)) return
+    replaying?.stop()
+    mark.strokes = []
+    redraw()
+    save()
+  })
+  mark.undo = () => el.querySelector('[data-act="undo"]').click()
+
+  redraw()
+  if (mark.strokes.length) status.textContent = 'saved'
+})
+updateCount()
+
+document.documentElement.style.setProperty('--max-h', MAX_H)
+
+// Touch only scrolls: a finger (or palm) tap never presses a button, and Safari's pinch
+// gestures are blocked. Pen and mouse still work everywhere.
+addEventListener('click', (e) => {
+  if (e.pointerType === 'touch') {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+}, true)
+addEventListener('contextmenu', (e) => e.preventDefault())
+for (const g of ['gesturestart', 'gesturechange', 'gestureend']) addEventListener(g, (e) => e.preventDefault())
+addEventListener('touchmove', (e) => e.touches.length > 1 && e.preventDefault(), { passive: false })
+
+addEventListener('keydown', (e) => {
+  if (e.key.toLowerCase() === 'z' && (e.metaKey || e.ctrlKey) && !e.shiftKey && active) {
+    e.preventDefault()
+    active.undo()
+  }
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "project": "senmei",
+  "measured": "2026-10-11",
+  "machine": "Apple M4 Pro, Helium (WebGPU, metal-3)",
+  "workload": "data/fate08.mkv (1.44 GB) streamed over HTTP Range, 1080p -> 4K, ~25 s, 819 frames",
+  "frameMs": 32.3,
+  "fps": 31,
+  "budgetMs": 41.7,
+  "breakdownMs": { "cpu": 0.46, "upload": 4.5, "passes": 27.3, "spare": 9.4 },
+  "passes": { "count": 38, "shaders": 3, "order": "sequential: one command encoder, one submit per frame" },
+  "shaders": [
+    { "name": "Anime4K Clamp Highlights", "passes": 3 },
+    { "name": "Anime4K Restore CNN VL", "passes": 17 },
+    { "name": "Anime4K Upscale CNN x2 VL", "passes": 18 }
+  ],
+  "method": "method/README.md#senmei"
+}

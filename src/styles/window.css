@@ -1,26 +1,18 @@
-/* Opened views: a window over the page, below the app bar (full screen on phones). */
+/* Opened views (a README, a post, "more"): a sheet of the same paper over the whole page. */
 
 .window-layer {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 40;
   pointer-events: none;
 }
 
 .window {
   position: absolute;
-  top: var(--appbar-h);
-  bottom: 1px;
-  left: 0;
-  right: 0;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  width: calc(100% - 2px);
-  max-width: calc(var(--page-max) - 2px);
-  margin-inline: auto;
   overflow: clip;
-  border-radius: var(--radius-panel);
-  background: var(--color-bg-panel);
   pointer-events: auto;
   outline: none;
   will-change: transform, clip-path;
@@ -30,7 +22,7 @@
   pointer-events: none;
 }
 
-/* The card or row the window grows out of, copied over its top-left corner while it travels. */
+/* The text it grows out of, copied over its top-left corner while it travels. */
 .window-ghost {
   position: absolute;
   top: 0;
@@ -40,249 +32,233 @@
   pointer-events: none;
 }
 
-/* Same height as the project bar it grows out of. */
-.window-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: var(--spacing-header);
-  flex-shrink: 0;
-  /* The close button carries the leading inset, so its hit area reaches the edge. */
-  padding-inline: 0 var(--inset);
-  background: var(--color-bg-raised);
-  color: var(--color-text);
-}
-
-.window-bar.on-color {
-  color: var(--color-text-on-color);
-}
-
-/* Grows out of a section header ("more"): its 32px height. */
-.window-bar.section-bar {
-  height: 32px;
-}
-
-.window-close {
-  display: flex;
-  align-items: center;
-  align-self: stretch;
-  gap: 10px;
-  flex-grow: 1;
-  min-width: 0;
-  padding-left: var(--inset);
-}
-
-.window-close .icon {
-  flex-shrink: 0;
-  transition: transform 160ms var(--ease-out);
-}
-
-.window-close:active .icon {
-  transform: scale(0.85);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .window-close:hover .icon {
-    transform: scale(0.88);
-  }
-}
-
-.window-title {
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-medium);
-  line-height: 16px;
-  white-space: nowrap;
-}
-
-.window-subtitle {
-  flex-grow: 1;
-  min-width: 0;
-  overflow: hidden;
-  color: var(--color-text-muted);
-  font-size: var(--text-sm);
-  line-height: 16px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.on-color .window-subtitle {
-  color: inherit;
-  opacity: var(--opacity-muted);
-}
-
-.window-action {
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-medium);
-  line-height: 16px;
-  white-space: nowrap;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .window-action:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-}
+/* ---------- layout: the home page's, a margin column and the column of text ---------- */
 
 .window-scroll {
   flex: 1 1 0;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 40px 24px 96px;
-  scrollbar-color: var(--color-line-strong) transparent;
+  padding-inline: var(--inset);
+  scrollbar-color: var(--rule-strong) transparent;
   scrollbar-width: thin;
 }
 
-.window-body {
+.window-sheet {
   display: grid;
-  justify-items: center;
+  grid-template-columns: minmax(0, 1fr) var(--measure) minmax(0, 1fr);
 }
 
-.prose-column {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: min(760px, 100%);
-  min-width: 0;
-}
-
-/* Blog post: contents rail on the left when there's room. */
-.post-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) min(760px, 100%) minmax(0, 1fr);
-  column-gap: 24px;
-  width: 100%;
-}
-
-.post-layout .prose-column {
-  grid-column: 2;
-}
-
-.toc {
+/* Sticky, right-aligned against the text: the way back and the links on top, a post's contents
+   under them. */
+.window-aside {
   position: sticky;
-  top: 8px;
+  top: 0;
   grid-column: 1;
   grid-row: 1;
   align-self: start;
-  justify-self: start;
+  justify-self: end;
   display: flex;
   flex-direction: column;
-  width: min(248px, 100% - 16px);
-  margin: 8px 0 0 16px;
-  border-left: 1px solid var(--color-line-subtle);
+  align-items: flex-end;
+  gap: 48px;
+  width: min(100%, 240px + var(--gap));
+  max-height: 100dvh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 40px var(--gap) 40px 0;
+  text-align: right;
   font-size: var(--text-sm);
+  line-height: 20px;
 }
 
-.toc a {
+.window-dock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  color: var(--ink-muted);
+}
+
+.window-back {
+  color: var(--ink);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  line-height: 24px;
+  transition:
+    scale 160ms var(--ease-out),
+    text-decoration-color 150ms ease;
+}
+
+.window-back:active {
+  scale: var(--press);
+}
+
+.window-body {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  padding-block: 136px calc(160px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---------- a post's contents (after the home index) ---------- */
+
+.window-index {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  text-wrap: balance;
+}
+
+.window-index-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.window-index a {
+  position: relative;
+  color: var(--ink-faint);
   transition: color 150ms ease;
 }
 
-.toc-head {
-  display: block;
-  padding: 6px 0 6px 14px;
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--leading-body);
+.window-index-group[data-open] > a,
+.window-index a[aria-current] {
+  color: var(--ink);
 }
 
-.toc-items {
+.window-index-items {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 6px 0 14px;
-}
-
-.toc-items a {
-  position: relative;
-  left: -1px;
-  padding: 4px 0 4px 22px;
-  border-left: 2px solid transparent;
-  color: var(--color-text-muted);
-  line-height: 16px;
-}
-
-.toc-items a[aria-current] {
-  border-left-color: var(--color-accent);
-  color: var(--color-accent);
-}
-
-.toc-group.closed {
-  display: flex;
-  align-items: center;
-  min-height: 30px;
-  padding: 7px 0 7px 14px;
-  border-top: 1px solid var(--color-line-subtle);
-  color: var(--color-text-muted);
-  font-weight: var(--font-weight-semibold);
-  line-height: 16px;
+  align-items: flex-end;
+  gap: 6px;
+  padding-bottom: 4px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .toc-items a:not([aria-current]):hover,
-  .toc-group.closed:hover {
-    color: var(--color-text);
+  .window-index a:hover {
+    color: var(--ink);
   }
 }
 
-@media (max-width: 1279px) {
-  .post-layout {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-  }
-
-  .post-layout .prose-column {
-    grid-column: 1;
-  }
-
-  .toc {
-    display: none;
-  }
+.window-index canvas {
+  position: absolute;
+  top: calc(100% - 10px);
+  left: -6px;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  transition: opacity 300ms ease;
 }
+
+.window-index canvas[data-off] {
+  opacity: 0;
+}
+
+/* ---------- a post's header ---------- */
 
 .post-header {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   padding-bottom: 32px;
-  border-bottom: 1px solid var(--color-line-subtle);
 }
 
-.post-header time {
-  color: var(--color-text-faint);
+.post-header time,
+.post-tags {
+  color: var(--ink-faint);
   font-size: var(--text-sm);
-  line-height: 16px;
 }
 
 .post-header h1 {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  line-height: 1.35;
   text-wrap: balance;
 }
 
-.post-header p {
-  color: var(--color-text-muted);
-  font-size: var(--text-lg);
-  line-height: var(--leading-relaxed);
+.post-header p:not(.post-tags) {
+  color: var(--ink-muted);
 }
+
+/* ---------- below 1200px: the way back and the links in a dock at the bottom ---------- */
+
+@media (max-width: 1199px) {
+  .window-sheet {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .window-body {
+    grid-column: 1;
+    justify-self: center;
+    width: var(--column);
+    padding-top: 64px;
+  }
+
+  .window-aside {
+    display: contents;
+  }
+
+  .window-index {
+    display: none;
+  }
+
+  /* After the home index dock. */
+  .window-dock {
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    translate: -50% 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 8px 20px 10px;
+    border-radius: var(--radius-pill);
+    background: color-mix(in oklab, var(--paper-raised), transparent 10%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+      0 0 0 1px var(--rule),
+      0 10px 28px -10px var(--shadow);
+    font-size: var(--text-base);
+    line-height: 24px;
+    white-space: nowrap;
+  }
+}
+
+/* ---------- a README still on its way ---------- */
 
 .prose-skeleton {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: min(760px, 100%);
+  width: min(var(--container-prose), 100%);
   /* Only for a slow fetch: a README that lands while the window is still growing
      never flashes a loading state first. */
-  animation: prose-in 240ms ease-out 450ms both;
+  animation: prose-in 240ms var(--ease-out) 450ms both;
 }
 
 .prose-skeleton i {
   height: 16px;
   border-radius: var(--radius-xs);
-  background: var(--color-bg-raised);
+  background: var(--paper-sunk);
   animation: pending 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes pending {
+  to {
+    opacity: 0.5;
+  }
 }
 
 /* A README that arrives after the window opened settles in instead of popping. */
 .md.arriving {
-  animation: prose-in 280ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation: prose-in 280ms var(--ease-out) both;
 }
 
 @keyframes prose-in {
@@ -304,39 +280,23 @@
   }
 }
 
-/* ---------- more: name / details sections, like the work roles on Home ---------- */
+/* ---------- more: like the home sections, a faint label over each ---------- */
 
 .more-doc {
   display: flex;
   flex-direction: column;
-  width: min(760px, 100%);
-  min-width: 0;
-  padding-top: 8px;
-}
-
-.more-lede {
-  padding-bottom: 32px;
-  font-size: var(--text-2xl);
-  font-weight: var(--font-weight-medium);
-  line-height: 34px;
-  letter-spacing: -0.01em;
+  gap: 64px;
 }
 
 .more-section {
   display: flex;
-  align-items: flex-start;
-  gap: 24px;
-  padding-block: 20px;
-  border-top: 1px solid var(--color-line-subtle);
+  flex-direction: column;
+  gap: 16px;
 }
 
 .more-name {
-  width: 168px;
-  flex-shrink: 0;
-  color: var(--color-text-muted);
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-regular);
-  line-height: 24px;
+  color: var(--ink-faint);
+  font-weight: 400;
 }
 
 .more-body,
@@ -344,7 +304,6 @@
 .more-games,
 .more-learning {
   display: flex;
-  flex: 1 1 0;
   flex-direction: column;
   min-width: 0;
 }
@@ -354,151 +313,69 @@
   gap: 4px;
 }
 
-/* A model that wraps (narrow phones) grows its row; nothing is pinned. */
 .more-specs > div {
   display: flex;
+  align-items: baseline;
   gap: 16px;
 }
 
-/* 13px on the 16px value's baseline: 22px line + 2px top = the value's 24px line. (Baseline
-   alignment would grow every row by a pixel and break the 28px pitch.) */
 .more-specs dt {
-  width: 120px;
+  width: 136px;
   flex-shrink: 0;
-  padding-top: 2px;
-  color: var(--color-text-faint);
-  font-size: var(--text-base);
-  line-height: 22px;
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
 }
 
 .more-specs dd {
   min-width: 0;
-  font-size: var(--text-lg);
-  line-height: 24px;
-}
-
-.more-games {
-  font-size: var(--text-lg);
-  line-height: 24px;
-}
-
-/* Secondary, like every note here: 13px on the same 28px row pitch. */
-.more-games .faint {
-  font-size: var(--text-base);
 }
 
 .more-body {
-  gap: 6px;
+  gap: 4px;
 }
 
 .more-count {
   display: flex;
   gap: 8px;
-  font-size: var(--text-lg);
-  line-height: 24px;
 }
 
 .more-note,
 .more-status {
-  color: var(--color-text-muted);
-  font-size: var(--text-base);
-  line-height: 20px;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
 }
 
 .more-learning {
-  gap: 18px;
+  gap: 16px;
 }
 
 .more-learning li {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .more-item {
   display: flex;
   align-items: baseline;
   gap: 10px;
-  font-size: var(--text-lg);
-  line-height: 24px;
 }
 
 .more-item s {
-  color: var(--color-text-faint);
+  color: var(--ink-faint);
   text-decoration-thickness: 1px;
 }
 
 .more-learning .paused .more-note {
-  color: var(--color-text-faint);
+  color: var(--ink-faint);
 }
 
-@media (max-width: 767px) {
-  .window-layer {
-    z-index: 40;
+@media (max-width: 599px) {
+  .window-body {
+    padding-top: 56px;
   }
 
-  .window {
-    inset: 0;
-    width: 100%;
-    max-width: none;
-  }
-
-  .window-bar,
-  .window-bar.section-bar {
-    height: calc(40px + env(safe-area-inset-top, 0px));
-    padding-top: env(safe-area-inset-top, 0px);
-  }
-
-  .window-close svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .window-scroll {
-    padding: 24px var(--inset) calc(48px + env(safe-area-inset-bottom, 0px));
-  }
-
-  .prose-column {
-    gap: 14px;
-  }
-
-  .post-header {
-    gap: 12px;
-    padding-bottom: 22px;
-  }
-
-  /* more: each name stacks above its details. */
-  .more-doc {
-    padding-top: 4px;
-  }
-
-  .more-lede {
-    padding-bottom: 24px;
-    font-size: var(--text-xl);
-    line-height: 28px;
-  }
-
-  .more-section {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .more-name {
-    width: auto;
-    font-size: var(--text-sm);
-    line-height: 16px;
-  }
-
-  .more-body,
-  .more-specs,
-  .more-games,
-  .more-learning {
-    flex: none;
-    width: 100%;
-  }
-
-  .post-header p {
-    font-size: var(--text-base);
-    line-height: 21px;
+  .more-specs dt {
+    width: 112px;
   }
 }

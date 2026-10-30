@@ -14,7 +14,6 @@ import { Route as PdfRouteImport } from './routes/pdf'
 import { Route as HomeIndexRouteImport } from './routes/_home/index'
 import { Route as HomeMoreRouteImport } from './routes/_home/more'
 import { Route as HomeWorkRouteImport } from './routes/_home/work'
-import { Route as ClipsFileRouteImport } from './routes/clips.$file'
 import { Route as IngestSplatRouteImport } from './routes/ingest.$'
 import { Route as MusicIdRouteImport } from './routes/music.$id'
 import { Route as HomeBlogIndexRouteImport } from './routes/_home/blog.index'
@@ -45,11 +44,6 @@ const HomeWorkRoute = HomeWorkRouteImport.update({
   id: '/work',
   path: '/work',
   getParentRoute: () => HomeRoute,
-} as any)
-const ClipsFileRoute = ClipsFileRouteImport.update({
-  id: '/clips/$file',
-  path: '/clips/$file',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const IngestSplatRoute = IngestSplatRouteImport.update({
   id: '/ingest/$',
@@ -87,7 +81,6 @@ export interface FileRoutesByFullPath {
   '/pdf': typeof PdfRoute
   '/more': typeof HomeMoreRoute
   '/work': typeof HomeWorkRoute
-  '/clips/$file': typeof ClipsFileRoute
   '/ingest/$': typeof IngestSplatRoute
   '/music/$id': typeof MusicIdRoute
   '/blog/$slug': typeof HomeBlogSlugRoute
@@ -99,7 +92,6 @@ export interface FileRoutesByTo {
   '/pdf': typeof PdfRoute
   '/more': typeof HomeMoreRoute
   '/work': typeof HomeWorkRoute
-  '/clips/$file': typeof ClipsFileRoute
   '/ingest/$': typeof IngestSplatRoute
   '/music/$id': typeof MusicIdRoute
   '/': typeof HomeIndexRoute
@@ -114,7 +106,6 @@ export interface FileRoutesById {
   '/pdf': typeof PdfRoute
   '/_home/more': typeof HomeMoreRoute
   '/_home/work': typeof HomeWorkRoute
-  '/clips/$file': typeof ClipsFileRoute
   '/ingest/$': typeof IngestSplatRoute
   '/music/$id': typeof MusicIdRoute
   '/_home/': typeof HomeIndexRoute
@@ -130,7 +121,6 @@ export interface FileRouteTypes {
     | '/pdf'
     | '/more'
     | '/work'
-    | '/clips/$file'
     | '/ingest/$'
     | '/music/$id'
     | '/blog/$slug'
@@ -142,7 +132,6 @@ export interface FileRouteTypes {
     | '/pdf'
     | '/more'
     | '/work'
-    | '/clips/$file'
     | '/ingest/$'
     | '/music/$id'
     | '/'
@@ -156,7 +145,6 @@ export interface FileRouteTypes {
     | '/pdf'
     | '/_home/more'
     | '/_home/work'
-    | '/clips/$file'
     | '/ingest/$'
     | '/music/$id'
     | '/_home/'
@@ -169,7 +157,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   HomeRoute: typeof HomeRouteWithChildren
   PdfRoute: typeof PdfRoute
-  ClipsFileRoute: typeof ClipsFileRoute
   IngestSplatRoute: typeof IngestSplatRoute
   MusicIdRoute: typeof MusicIdRoute
 }
@@ -210,13 +197,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/work'
       preLoaderRoute: typeof HomeWorkRouteImport
       parentRoute: typeof HomeRoute
-    }
-    '/clips/$file': {
-      id: '/clips/$file'
-      path: '/clips/$file'
-      fullPath: '/clips/$file'
-      preLoaderRoute: typeof ClipsFileRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/ingest/$': {
       id: '/ingest/$'
@@ -288,7 +268,6 @@ const HomeRouteWithChildren = HomeRoute._addFileChildren(HomeRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRouteWithChildren,
   PdfRoute: PdfRoute,
-  ClipsFileRoute: ClipsFileRoute,
   IngestSplatRoute: IngestSplatRoute,
   MusicIdRoute: MusicIdRoute,
 }

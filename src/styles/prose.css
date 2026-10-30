@@ -1,86 +1,58 @@
-/* Rendered Markdown (blog posts, READMEs), per the mock's post and README windows. */
+/* Rendered Markdown (blog posts, READMEs). */
 
 .md {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  font-size: var(--text-lg);
-  line-height: var(--leading-relaxed);
+  gap: 20px;
+  line-height: 1.7;
+  overflow-wrap: break-word;
 }
 
-/* A post's own title (the window's header) is set like its h1. */
-.md h1,
-.post-header h1 {
-  font-size: var(--text-display);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: -0.03em;
-  line-height: 40px;
-}
-
-.md h1 {
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--color-line-subtle);
-}
-
-.md h2 {
-  padding: 16px 0 8px;
-  border-bottom: 1px solid var(--color-line-subtle);
-  font-size: var(--text-2xl);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: -0.02em;
-  line-height: 30px;
-}
-
-.readme h2 {
-  padding-top: 12px;
-}
-
-.md h3 {
-  padding-top: 4px;
-  font-size: var(--text-xl);
-  font-weight: var(--font-weight-semibold);
-  line-height: 26px;
-}
-
-.md h4,
-.md h5,
-.md h6 {
-  padding-top: 8px;
-  font-size: var(--text-lg);
-  font-weight: var(--font-weight-semibold);
-  line-height: 22px;
-}
-
-.md :is(h1, h2, h3, h4) {
+.md :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: var(--weight-medium);
+  line-height: 1.3;
+  text-wrap: balance;
   scroll-margin-top: 24px;
 }
 
+.md h1 {
+  font-size: var(--text-xl);
+}
+
+/* No rules between parts (the home page has none): space and size set them apart. */
+.md h2 {
+  padding-top: 32px;
+  font-size: var(--text-lg);
+}
+
+.md h3 {
+  padding-top: 16px;
+}
+
+.md :is(h4, h5, h6) {
+  padding-top: 8px;
+  color: var(--ink-muted);
+}
+
 .md strong {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--weight-semibold);
 }
 
 .md a {
-  color: var(--color-value);
   text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, var(--color-value), transparent 60%);
+  text-decoration-color: var(--rule-strong);
   text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-underline-offset: 0.25em;
   transition: text-decoration-color 150ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .md a:hover {
-    text-decoration-color: var(--color-value);
+    text-decoration-color: currentColor;
   }
 }
 
-.md a.pill {
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.md ul,
-.md ol {
+.md :is(ul, ol) {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -91,12 +63,12 @@
   padding-left: 28px;
 }
 
-/* Bullets are structure, not decoration: a faint dash, no color. */
+/* Bullets are structure, not decoration: a faint dash. */
 .md ul > li::before {
   content: "–";
   position: absolute;
   left: 4px;
-  color: var(--color-text-faint);
+  color: var(--ink-faint);
 }
 
 .md ol {
@@ -111,11 +83,10 @@
   content: counter(item) ".";
   position: absolute;
   left: 0;
-  color: var(--color-text-faint);
+  color: var(--ink-faint);
 }
 
-.md li > ul,
-.md li > ol {
+.md li > :is(ul, ol) {
   padding-top: 8px;
 }
 
@@ -123,62 +94,54 @@
   content: "·";
 }
 
-/* Measured values take the post's project color (see renderMarkdown). */
+/* Measured values (see renderMarkdown): numbers that line up. */
 .md .md-measure {
-  color: var(--project, inherit);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .md code {
-  padding: 0 5px;
-  border: 1px solid var(--color-line-subtle);
+  padding: 1px 5px;
   border-radius: var(--radius-xs);
-  background: var(--color-bg-display);
-  color: var(--color-value);
-  font-size: 14px;
-  line-height: 20px;
+  background: var(--paper-sunk);
+  font-size: 0.875em;
   box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 .md-code {
   display: flex;
   flex-direction: column;
   overflow: clip;
-  border: 1px solid var(--color-line-subtle);
-  border-radius: var(--radius-xs);
-  background: var(--color-bg-display);
+  border-radius: var(--radius-sm);
+  background: var(--paper-sunk);
 }
 
 .md-code-bar {
   display: flex;
   align-items: center;
-  height: 26px;
+  height: 32px;
   flex-shrink: 0;
-  padding-inline: 12px;
-  border-bottom: 1px solid var(--color-line-subtle);
-  color: var(--color-text-faint);
+  padding-inline: 16px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-faint);
   font-size: var(--text-xs);
-  line-height: 14px;
 }
 
 .md pre {
   padding: 16px;
   overflow-x: auto;
   font-size: 14px;
-  line-height: 22px;
+  line-height: 1.6;
   tab-size: 2;
   scrollbar-width: thin;
-  scrollbar-color: var(--color-line-strong) transparent;
+  scrollbar-color: var(--rule-strong) transparent;
 }
 
 .md pre code {
   padding: 0;
-  border: 0;
   background: none;
-  color: var(--color-text);
   font-size: inherit;
-  line-height: inherit;
 }
 
 .md blockquote {
@@ -186,25 +149,25 @@
   flex-direction: column;
   gap: 8px;
   padding-left: 16px;
-  border-left: 2px solid var(--color-line-strong);
-  color: var(--color-text-muted);
+  border-left: 2px solid var(--rule-strong);
+  color: var(--ink-muted);
 }
 
 .md hr {
   height: 1px;
   border: 0;
-  background: var(--color-line-subtle);
+  background: var(--rule);
 }
 
 .md img {
   max-width: 100%;
   height: auto;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-sm);
 }
 
-/* A README image still loading: its box, filled like the video frames, instead of a hole. */
+/* A README image still loading: its box, filled, instead of a hole. */
 .readme img[data-loading] {
-  background: var(--color-bg-display);
+  background: var(--paper-sunk);
 }
 
 .md p:has(> img) {
@@ -216,9 +179,8 @@
 .md-video video {
   width: 100%;
   aspect-ratio: 16 / 9;
-  border: 1px solid var(--color-line-subtle);
-  border-radius: var(--radius-xs);
-  background: var(--color-bg-display);
+  border-radius: var(--radius-sm);
+  background: var(--paper-sunk);
 }
 
 .md-table {
@@ -227,48 +189,28 @@
 
 .md table {
   border-collapse: collapse;
-  font-size: var(--text-base);
-  line-height: 20px;
+  font-size: var(--text-sm);
+  line-height: 1.5;
 }
 
-.md th,
-.md td {
-  padding: 6px 10px;
-  border: 1px solid var(--color-line-subtle);
+.md :is(th, td) {
+  padding: 6px 12px;
+  border: 1px solid var(--rule);
   text-align: left;
   vertical-align: top;
 }
 
 .md th {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--weight-semibold);
 }
 
 @media (max-width: 767px) {
   .md {
-    gap: 14px;
-    font-size: var(--text-base);
-    line-height: 21px;
-  }
-
-  .md h1,
-  .post-header h1 {
-    font-size: 26px;
-    line-height: 32px;
+    gap: 16px;
   }
 
   .md h2 {
-    padding-top: 10px;
-    font-size: var(--text-xl);
-    line-height: 26px;
-  }
-
-  .md h3 {
-    font-size: var(--text-lg);
-    line-height: 22px;
-  }
-
-  .md h4 {
-    padding-top: 4px;
+    padding-top: 24px;
   }
 
   .md li {
@@ -279,19 +221,8 @@
     left: 2px;
   }
 
-  .md code {
-    font-size: var(--text-sm);
-    line-height: 19px;
-  }
-
-  .md-code-bar {
-    height: 24px;
-    padding-inline: 10px;
-  }
-
   .md pre {
     padding: 12px;
     font-size: var(--text-sm);
-    line-height: 19px;
   }
 }

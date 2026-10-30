@@ -13,33 +13,15 @@ export const contacts = [
   { label: 'email', text: 'rr.ashurmatov.21@gmail.com', href: 'mailto:rr.ashurmatov.21@gmail.com' },
 ] as const
 
-/** Category colors (Readout tokens) for tech tags. */
-export const TAG_COLORS: Record<string, string> = {
-  rust: 'var(--color-cat-blush)',
-  typescript: 'var(--color-cat-sky)',
-  bun: 'var(--color-cat-ice)',
-  webgpu: 'var(--color-cat-sage)',
-  wgsl: 'var(--color-cat-sage)',
-  'tanstack start': 'var(--color-cat-lemon)',
-  postgresql: 'var(--color-cat-periwinkle)',
-}
-
 export type ProjectId = 'letui' | 'senmei' | 'xport'
 
 export interface Project {
   id: ProjectId
   repo: string
   name: string
-  color: string
   wip?: boolean
   description: string
   tags: string[]
-  /**
-   * Card demo clip: `/clips/<base>.webm` (AV1) and `.mp4` (H.264), served from the bucket (see
-   * clipFiles), and `/<base>.webp`, its first frame. Without one the card shows Senmei's
-   * before/after compare.
-   */
-  clip?: { base: string; label: string; width: number; height: number }
   /** Where it runs publicly (a host, served over https). */
   site?: string
 }
@@ -49,22 +31,14 @@ export const projects: Project[] = [
     id: 'letui',
     repo: 'frixaco/letui',
     name: 'LeTUI',
-    color: 'var(--color-cat-periwinkle)',
     description:
       'TUI library built from scratch with TypeScript and a Rust core, featuring a component-based API, signal-based state management, CSS-like styling API, a Rust-powered layout and rendering engine, and cell-based diffing.',
     tags: ['rust', 'typescript', 'bun'],
-    clip: {
-      base: 'letui-letty',
-      label: 'Letty, the LeTUI AI agent example, answering a question about the renderer with Codex',
-      width: 1478,
-      height: 858,
-    },
   },
   {
     id: 'senmei',
     repo: 'frixaco/senmei',
     name: 'Senmei',
-    color: 'var(--color-cat-orchid)',
     description:
       'In-browser MKV video streamer and player built from scratch, featuring real-time 4K anime upscaling powered by WGSL (WebGPU) shaders ported from Anime4K.',
     tags: ['typescript', 'webgpu', 'wgsl'],
@@ -74,22 +48,12 @@ export const projects: Project[] = [
     id: 'xport',
     repo: 'frixaco/xport',
     name: 'Xport',
-    color: 'var(--color-cat-mustard)',
     description:
       'Web app and CLI for exporting X threads, articles, posts, and replies as Markdown or JSON, built around resumable jobs.',
     tags: ['tanstack start', 'postgresql'],
-    clip: {
-      base: 'xport-export',
-      label: 'Xport exporting @NASA posts, stopped early and downloaded as Markdown',
-      width: 1600,
-      height: 900,
-    },
     site: 'xport.frixaco.com',
   },
 ]
-
-/** Every clip video file: what /clips serves and scripts/upload-clips.ts puts in the bucket. */
-export const clipFiles = projects.flatMap((p) => (p.clip ? [`${p.clip.base}.webm`, `${p.clip.base}.mp4`] : []))
 
 export const projectById = (id: string) => projects.find((p) => p.id === id)
 
@@ -103,13 +67,8 @@ export interface Role {
   /** Omitted while it's the current job. */
   end?: YM
   dates: string
-  color: string
-  /** The mock colors linked names as values (cyan); hitide has no link. */
-  linked: boolean
   text: string
 }
-
-export const timelineLabel = '2021-present'
 
 export const roles: Role[] = [
   {
@@ -119,8 +78,6 @@ export const roles: Role[] = [
     ],
     start: [2023, 5],
     dates: 'may 2023 - present',
-    color: 'var(--color-cat-violet)',
-    linked: true,
     text: 'Paid music collaborations and song-cover campaigns for artists worldwide. Led frontend and backend development across both products, built the Next.js frontend from scratch, and owned payments, payouts, and mobile audio features. Cut data processing for 1M+ artists from nine days to seven hours and roughly halved Soundcharts costs.',
   },
   {
@@ -128,8 +85,6 @@ export const roles: Role[] = [
     start: [2022, 12],
     end: [2023, 6],
     dates: 'dec 2022 - jun 2023',
-    color: 'var(--color-cat-sage)',
-    linked: true,
     text: 'AI mapping platform for satellite and aerial imagery. Built high-performance React interfaces for large imagery datasets, simplified component state and data flow, and helped move users to centralized sign-in with zero downtime.',
   },
   {
@@ -137,8 +92,6 @@ export const roles: Role[] = [
     start: [2021, 11],
     end: [2023, 1],
     dates: 'nov 2021 - jan 2023',
-    color: 'var(--color-cat-sky)',
-    linked: true,
     text: 'Social content and analytics platform with shoppable feeds for brands. Led React adoption within an Angular application and improved embedded app performance for e-commerce sites across Europe. Built a custom state manager that cut the JavaScript bundle by 20% and automated package publishing.',
   },
   {
@@ -146,8 +99,6 @@ export const roles: Role[] = [
     start: [2020, 12],
     end: [2021, 2],
     dates: 'dec 2020 - feb 2021',
-    color: 'var(--color-cat-lemon)',
-    linked: false,
     text: "Online clothing brand. Fully automated stock updates with a tested pipeline that transformed Airtable inventory data and stored it in the website's database.",
   },
   {
@@ -155,8 +106,6 @@ export const roles: Role[] = [
     start: [2020, 8],
     end: [2021, 10],
     dates: 'aug 2020 - oct 2021',
-    color: 'var(--color-cat-blush)',
-    linked: true,
     text: 'Online sports insurance company for individuals, tournaments, etc. Built payment and subscription workflows and internal support tools, redesigned the PostgreSQL schema, and consolidated two backends into one codebase.',
   },
 ]

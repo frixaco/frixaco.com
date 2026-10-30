@@ -6,8 +6,7 @@ import { formatPostDate } from '#/lib/format'
 import { readmeIfReady } from '#/lib/readme'
 import type { Heading, Rendered } from '#/server/markdown'
 import type { PostMeta } from '#/server/content'
-import { Tags } from './Home'
-import { Arrow } from './icons'
+import { Underline } from './Paper'
 import { Window } from './Window'
 
 interface Presence {
@@ -26,26 +25,20 @@ export function ProjectWindow({ id, readme, ...presence }: Presence & { id: stri
       {...presence}
       source={`project:${id}`}
       label={`${project.repo} README`}
-      barClass="on-color"
-      barStyle={{ background: project.color }}
-      title={project.repo}
-      subtitle="README.md"
-      action={
-        <a className="window-action inset-ring" href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer">
-          GitHub ↗
+      links={
+        <a className="link" href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer">
+          github ↗
         </a>
       }
     >
-      <div className="prose-column" style={{ '--project': project.color } as React.CSSProperties}>
-        {ready !== undefined ? (
-          // Already here (prefetched): part of the window's own reveal, no loading state.
-          <Readme id={id} rendered={ready} />
-        ) : (
-          <Suspense fallback={<ProseSkeleton />}>
-            <Await promise={readme}>{(r) => <Readme id={id} rendered={r} arriving />}</Await>
-          </Suspense>
-        )}
-      </div>
+      {ready !== undefined ? (
+        // Already here (prefetched): part of the window's own reveal, no loading state.
+        <Readme id={id} rendered={ready} />
+      ) : (
+        <Suspense fallback={<ProseSkeleton />}>
+          <Await promise={readme}>{(r) => <Readme id={id} rendered={r} arriving />}</Await>
+        </Suspense>
+      )}
     </Window>
   )
 }
@@ -72,9 +65,8 @@ function Readme({ id, rendered, arriving }: { id: string; rendered: Rendered | n
       <h1>{project.name}</h1>
       <p>{project.description}</p>
       <p>
-        <a className="pill" href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer">
-          <span>GitHub</span>
-          <Arrow />
+        <a className="link" href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer">
+          github ↗
         </a>
       </p>
     </article>
@@ -154,55 +146,47 @@ export function PostWindow({
       scrollRef={scroll}
       source={`blog:${post.meta.slug}`}
       label={post.meta.title}
-      title="blog"
-      subtitle={`${post.meta.slug}.md`}
-    >
-      <div className="post-layout">
-        {groups.length > 1 || (groups[0]?.items.length ?? 0) > 0 ? (
-          <nav className="toc" aria-label="Contents">
-            {groups.map((g, gi) =>
-              gi === activeGroup ? (
-                <div key={g.head.id} className="toc-group open">
-                  <a className="toc-head inset-ring" href={`#${g.head.id}`} onClick={jump(g.head.id)}>
+      nav={
+        groups.length > 1 || (groups[0]?.items.length ?? 0) > 0 ? (
+          // After the home index: faint, the current part in ink and underlined in pencil.
+          <nav className="window-index" aria-label="Contents">
+            {groups.map((g, gi) => {
+              const open = gi === activeGroup
+              return (
+                <div key={g.head.id} className="window-index-group" data-open={open || undefined}>
+                  <a href={`#${g.head.id}`} onClick={jump(g.head.id)}>
                     {g.head.text}
+                    {g.items.length ? null : <Underline on={open} />}
                   </a>
-                  {g.items.length ? (
-                    <div className="toc-items">
+                  {open && g.items.length ? (
+                    <div className="window-index-items">
                       {g.items.map((item) => (
                         <a
                           key={item.id}
-                          className="inset-ring"
                           href={`#${item.id}`}
                           onClick={jump(item.id)}
                           aria-current={item.id === current ? 'location' : undefined}
                         >
                           {item.text}
+                          <Underline on={item.id === current} />
                         </a>
                       ))}
                     </div>
                   ) : null}
                 </div>
-              ) : (
-                <a key={g.head.id} className="toc-group closed" href={`#${g.head.id}`} onClick={jump(g.head.id)}>
-                  <span className="inset-ring">{g.head.text}</span>
-                </a>
-              ),
-            )}
+              )
+            })}
           </nav>
-        ) : null}
-        <div
-          className="prose-column"
-          style={{ '--project': projectById(post.meta.project ?? '')?.color } as React.CSSProperties}
-        >
-          <header className="post-header">
-            <time dateTime={post.meta.date.slice(0, 10)}>{formatPostDate(post.meta.date)}</time>
-            <h1>{post.meta.title}</h1>
-            <Tags tags={post.meta.tags} />
-            <p>{post.meta.description}</p>
-          </header>
-          <article className="md" dangerouslySetInnerHTML={{ __html: post.html }} />
-        </div>
-      </div>
+        ) : null
+      }
+    >
+      <header className="post-header">
+        <time dateTime={post.meta.date.slice(0, 10)}>{formatPostDate(post.meta.date)}</time>
+        <h1>{post.meta.title}</h1>
+        <p>{post.meta.description}</p>
+        {post.meta.tags.length ? <p className="post-tags">{post.meta.tags.join(' · ')}</p> : null}
+      </header>
+      <article className="md" dangerouslySetInnerHTML={{ __html: post.html }} />
     </Window>
   )
 }
@@ -211,7 +195,7 @@ export function PostWindow({
 export function MoreWindow(presence: Presence) {
   const { pc, games, anime, learning } = more
   return (
-    <Window {...presence} source="more" label="more" barClass="section-bar" title="more" subtitle="">
+    <Window {...presence} source="more" label="more">
       <div className="more-doc">
         <p className="more-lede">{more.lede}</p>
 

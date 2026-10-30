@@ -1,5 +1,5 @@
-// App bar music player: previous / play-pause / next over a curated playlist.
-// It lives in the root layout, so playback continues across client-side navigation.
+// The music player: previous / play-pause / next over a curated playlist.
+// It lives on the home page, under every opened view, so playback continues across navigation.
 // The meter is a real spectrum (Web Audio analyser) while playing and rests flat otherwise.
 // The playlist popup (a seek fader, then the albums and their tracks) opens on hover with a mouse,
 // and from the title with a tap or the keyboard.
@@ -240,7 +240,7 @@ const clock = (s: number) => {
 const CLOCK_WIDTH = Math.max(4, ...playlist.map((t) => clock(t.duration).length))
 
 /**
- * The popup's seek fader: a Readout value bar (cyan edge on a dark fill) and the time.
+ * The popup's seek fader: a bar filled up to an ink edge, and the time.
  * Click or drag to seek, arrows step 5s. The fill moves per frame while playing, straight on
  * the element, so React doesn't re-render 60 times a second; the clock ticks on timeupdate.
  * Before the audio has loaded (preload="none") the length comes from the playlist.
@@ -365,7 +365,7 @@ function Seek({
 
 /**
  * The playlist: each album (cover, title, artist, track count · length), then its tracks.
- * The playing track is orange. On open, the list scrolls so the playing track is in view; the
+ * The playing track is in ink. On open, the list scrolls so the playing track is in view; the
  * fade at the bottom goes away once there's nothing more below.
  */
 function TrackList({ current, open, onPick }: { current: number; open: boolean; onPick: (i: number) => void }) {

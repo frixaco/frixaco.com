@@ -1,0 +1,380 @@
+/* The music player, in the margin column: plain prev / next, play in a hand-drawn ring, and the
+   title beside them with the meter under it. Hover (a mouse) or a tap on the title opens the
+   playlist under it. */
+
+.player {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "transport title"
+    "transport meter";
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 4px;
+  width: 240px;
+  text-align: left;
+}
+
+/* ---------- transport ---------- */
+
+.transport {
+  grid-area: transport;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.transport-button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  color: var(--ink-muted);
+  transition:
+    scale 160ms var(--ease-out),
+    color 150ms ease;
+}
+
+/* Play: in a ring that looks drawn, slightly off round and tilted. */
+.transport-button.primary {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid currentColor;
+  border-radius: 54% 46% 50% 48% / 47% 53% 46% 52%;
+  color: var(--ink);
+  rotate: -4deg;
+}
+
+.transport-button:active:not(:disabled) {
+  scale: 0.9;
+}
+
+.transport-button:disabled {
+  opacity: 0.4;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .transport-button:hover:not(:disabled) {
+    color: var(--ink);
+  }
+}
+
+/* ---------- title and meter ---------- */
+
+.track-area {
+  grid-area: title;
+  align-self: end;
+  min-width: 0;
+  color: var(--ink);
+}
+
+.title-clip {
+  position: relative;
+  height: 20px;
+  overflow: clip;
+}
+
+.title-text {
+  display: inline-block;
+  font-size: var(--text-sm);
+  line-height: 20px;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.title-clip[data-overflow="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 24px;
+  background: linear-gradient(90deg, transparent, var(--paper));
+}
+
+/* A long title scrolls back and forth while playing. */
+.title-clip[data-scrolling="true"] .title-text {
+  animation: marquee var(--marquee) linear infinite alternate;
+}
+
+@keyframes marquee {
+  0%,
+  12% {
+    translate: 0;
+  }
+  88%,
+  100% {
+    translate: calc(-1 * var(--overflow) - 24px);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .track-area:hover:not(:disabled) .title-text {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+  }
+}
+
+/* 16 bars: a live spectrum while playing, flat otherwise. */
+.meter {
+  grid-area: meter;
+  align-self: start;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 8px;
+  opacity: 0.5;
+}
+
+.meter i {
+  width: 2px;
+  height: 8px;
+  background: var(--ink);
+  transform: scaleY(0.25);
+  transform-origin: bottom;
+  transition: transform 320ms var(--ease-out);
+}
+
+.player[data-playing="true"] .meter i {
+  transition: none;
+}
+
+/* ---------- playlist ---------- */
+
+/* Stays mounted (inert while closed), so opening and closing are interruptible transitions. It
+   hangs under the player toward the empty side: left in the margin column, right on top of the
+   page. */
+.playlist {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 4px;
+  overflow: clip;
+  border-radius: var(--radius-sm);
+  background: var(--paper-raised);
+  box-shadow:
+    0 0 0 1px var(--rule),
+    0 2px 6px var(--shadow),
+    0 16px 36px -8px var(--shadow);
+  text-align: left;
+  transform-origin: top right;
+  transition:
+    opacity 180ms var(--ease-out),
+    transform 180ms var(--ease-out),
+    visibility 0s;
+}
+
+.playlist[data-open="false"] {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-4px) scale(0.97);
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease,
+    visibility 0s 120ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playlist,
+  .playlist[data-open="false"] {
+    transform: none;
+  }
+}
+
+/* Seek: a bar filled with a wash up to an ink edge, and the time. */
+.seek {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  flex-shrink: 0;
+  padding-inline: 6px;
+}
+
+.seek-bar {
+  position: relative;
+  flex: 1 1 0;
+  height: 16px;
+  overflow: clip;
+  border-radius: var(--radius-xs);
+  background: var(--paper-sunk);
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.seek-fill {
+  width: 100%;
+  height: 100%;
+  border-right: 2px solid var(--ink);
+  background: var(--wash);
+  transform: translateX(calc(-100% + 2px));
+}
+
+.seek-time {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.seek-now {
+  min-width: var(--clock);
+  text-align: right;
+}
+
+/* "/ " plus the clock. */
+.seek-total {
+  min-width: calc(var(--clock) + 2ch);
+  color: var(--ink-faint);
+}
+
+/* Tracks: a window onto the albums, with a fade while there's more below. */
+.playlist-tracks {
+  position: relative;
+  flex-shrink: 0;
+  height: 300px;
+}
+
+.playlist-scroll {
+  height: 100%;
+  padding-top: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.playlist-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.playlist-fade {
+  position: absolute;
+  inset: auto 0 0;
+  height: 32px;
+  background: linear-gradient(180deg, transparent, var(--paper-raised));
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+
+.playlist-tracks[data-end="true"] .playlist-fade {
+  opacity: 0;
+}
+
+.album {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding-inline: 6px;
+}
+
+.album-cover {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-xs);
+  object-fit: cover;
+}
+
+.album-name {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.album-title {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  line-height: 16px;
+}
+
+.album-artist,
+.album-meta {
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.album-artist {
+  color: var(--ink-muted);
+}
+
+.album-meta {
+  flex-shrink: 0;
+  color: var(--ink-faint);
+}
+
+/* A track: number and duration in fixed lanes; a long title wraps under itself. */
+.playlist-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 6px;
+  border-radius: var(--radius-xs);
+  color: var(--ink-muted);
+  font-size: var(--text-xs);
+  line-height: 16px;
+  transition: background-color 120ms ease;
+}
+
+.row-number,
+.row-duration {
+  flex-shrink: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.row-number {
+  width: 28px;
+  color: var(--ink-faint);
+}
+
+.row-title {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.row-duration {
+  width: 36px;
+  color: var(--ink-faint);
+}
+
+.playlist-row[aria-current="true"] {
+  color: var(--ink);
+  font-weight: var(--weight-medium);
+}
+
+.playlist-row:active {
+  background: var(--paper-sunk);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .playlist-row:hover {
+    background: var(--paper-sunk);
+    color: var(--ink);
+  }
+}
+
+/* ---------- on top of the page (below 1200px) ---------- */
+
+@media (max-width: 1199px) {
+  .player {
+    width: min(100%, 320px);
+  }
+
+  .playlist {
+    left: 0;
+    right: auto;
+    width: min(320px, calc(100vw - 2 * var(--inset)));
+    transform-origin: top left;
+  }
+}

@@ -1,0 +1,431 @@
+/* The home page: one column of text on paper, pencil marks around it (Ink), and the margin column
+   beside it (name, player, section index, links). Wide screens: the margin column sticks to the
+   left of the text, right-aligned against it. Below 1200px: it leads the page, and the index
+   becomes a dock at the bottom. */
+
+/* ---------- layout ---------- */
+
+.paper {
+  /* Between the margin column's text and the column's. */
+  --gap: clamp(40px, 6vw, 120px);
+  --column: min(var(--measure), 100%);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--measure) minmax(0, 1fr);
+  min-height: 100dvh;
+  padding-inline: var(--inset);
+  overflow-x: clip; /* marks drawn in the margins never widen the page */
+}
+
+.paper section[id] {
+  scroll-margin-top: 40px;
+}
+
+.paper :where(h2, h3) {
+  font-weight: var(--weight-medium);
+}
+
+/* ---------- the margin column ---------- */
+
+.paper-aside {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  grid-row: 1;
+  grid-column: 1;
+  align-self: start;
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+  width: min(100%, 240px + var(--gap));
+  height: 100dvh;
+  padding: 40px var(--gap) 40px 0;
+  text-align: right;
+  font-size: var(--text-sm);
+  line-height: 20px;
+}
+
+.paper-aside-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+/* The section index: faint, the current section in ink and underlined in pencil. */
+.paper-index {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  font-size: var(--text-base);
+  line-height: 24px;
+}
+
+.paper-index a {
+  position: relative;
+  opacity: 0.4;
+  transition:
+    opacity 200ms ease,
+    scale 160ms var(--ease-out);
+}
+
+.paper-index a[aria-current] {
+  opacity: 1;
+}
+
+.paper-index a:active {
+  scale: var(--press);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .paper-index a:hover {
+    opacity: 1;
+  }
+}
+
+.paper-index canvas {
+  position: absolute;
+  top: calc(100% - 12px);
+  left: -6px;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  transition: opacity 300ms ease;
+}
+
+.paper-index canvas[data-off] {
+  opacity: 0;
+}
+
+/* The resume, then the index under it. */
+.paper-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+.paper-resume {
+  color: var(--ink-muted);
+  font-size: var(--text-base);
+  line-height: 24px;
+}
+
+.paper-resume-intro {
+  display: none;
+}
+
+/* Links elsewhere: a column, like the index. */
+.paper-elsewhere {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  color: var(--ink-muted);
+}
+
+/* ---------- the column ---------- */
+
+/* Marks are canvases placed against this box (see Ink). */
+.paper-main {
+  position: relative;
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+  width: 100%;
+  padding-block: 136px 112px;
+}
+
+.paper-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.paper-section {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.paper-list {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+}
+
+.paper-label {
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+
+.paper-item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* What's under a description: its numbers and their caption, then its links. */
+.paper-stats {
+  padding-block: 16px 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Stats: a faint label column, then what was measured. Phones: each label over its value. */
+.paper-facts {
+  display: grid;
+  grid-template-columns: 13ch minmax(0, 1fr);
+  gap: 8px 24px;
+  line-height: 24px;
+}
+
+.paper-facts div {
+  display: contents;
+}
+
+.paper-facts dt {
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 599px) {
+  .paper-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .paper-facts div {
+    display: block;
+  }
+
+  .paper-facts dt {
+    padding-bottom: 4px;
+    line-height: 20px;
+  }
+}
+
+.paper-caption {
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+}
+
+.paper-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
+  padding-top: 16px;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+
+.paper-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* A post: its drawn bullet, the title, the date under it. */
+.paper-posts li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: start;
+}
+
+.paper-posts li > :not(.paper-bullet) {
+  grid-column: 2;
+}
+
+.paper-bullet {
+  grid-row: 1;
+  width: 20px;
+  height: 20px;
+  translate: 0 3px;
+}
+
+/* "more": the hand under the label, in the middle of the column, is the link. */
+.paper-hand {
+  align-self: center;
+  width: 160px;
+  height: 128px;
+  border-radius: var(--radius-sm);
+  transition: scale 160ms var(--ease-out);
+}
+
+.paper-hand:active {
+  scale: var(--press);
+}
+
+.paper-footer {
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+}
+
+/* ---------- marks ---------- */
+
+/* Drawn by Ink, never in the way of the text under it. */
+.paper canvas.ink {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* The hand: a few waves from the wrist, then a rest. Only while on screen. */
+.paper canvas.ink.waving {
+  animation: paper-wave 2.6s var(--ease-in-out) infinite;
+}
+
+.paper canvas.ink.waving[data-off] {
+  animation-play-state: paused;
+}
+
+@keyframes paper-wave {
+  0%,
+  62%,
+  100% {
+    rotate: 0deg;
+  }
+  10% {
+    rotate: 14deg;
+  }
+  22% {
+    rotate: -8deg;
+  }
+  34% {
+    rotate: 12deg;
+  }
+  46% {
+    rotate: -4deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper canvas.ink.waving {
+    animation: none;
+  }
+}
+
+/* ---------- below 1200px: no room for the margin column ---------- */
+
+@media (max-width: 1199px) {
+  .paper {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .paper section[id] {
+    scroll-margin-top: 24px;
+  }
+
+  /* The player, then the links, above the text. */
+  .paper-aside {
+    position: static;
+    justify-self: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 24px;
+    width: var(--column);
+    height: auto;
+    padding: 32px 0 0;
+    text-align: left;
+  }
+
+  .paper-aside-top {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+  }
+
+  /* The resume moves under the intro; the index is the dock. */
+  .paper-nav {
+    display: contents;
+  }
+
+  .paper-nav .paper-resume {
+    display: none;
+  }
+
+  .paper-resume-intro {
+    display: block;
+    align-self: start;
+  }
+
+  .paper-elsewhere {
+    flex-basis: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+  }
+
+  /* The index: a dock at the bottom, in reach of a thumb. */
+  .paper-index {
+    position: fixed;
+    z-index: 30;
+    left: 50%;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    translate: -50% 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 8px 20px 10px;
+    border-radius: var(--radius-pill);
+    background: color-mix(in oklab, var(--paper-raised), transparent 10%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+      0 0 0 1px var(--rule),
+      0 10px 28px -10px var(--shadow);
+    white-space: nowrap;
+  }
+
+  .paper-main {
+    grid-row: 2;
+    grid-column: 1;
+    justify-self: center;
+    width: var(--column);
+    padding-block: 88px 160px;
+  }
+}
+
+@media (max-width: 599px) {
+  .paper-main {
+    gap: 88px;
+    padding-top: 56px;
+  }
+
+  .paper-section {
+    gap: 24px;
+  }
+
+  .paper-list {
+    gap: 56px;
+  }
+
+  .paper-intro {
+    gap: 24px;
+  }
+
+  .paper-index {
+    gap: 16px;
+    padding-inline: 18px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 379px) {
+  .paper-index {
+    gap: 12px;
+    padding-inline: 14px;
+    font-size: var(--text-sm);
+  }
+}

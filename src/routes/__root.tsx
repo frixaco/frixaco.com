@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { HeadContent, Link, Outlet, Scripts, createRootRoute } from '@tanstack/react-router'
 import type { PostHogConfig } from 'posthog-js'
-import { AppBar } from '#/components/AppBar'
 import appCss from '../styles.css?url'
 
 const DESCRIPTION = 'i like engineering software: interfaces, backend and tools.'
@@ -25,8 +24,8 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
-      { name: 'theme-color', content: '#2b2b2b' },
-      { name: 'color-scheme', content: 'dark' },
+      { name: 'theme-color', content: '#f2eee5' },
+      { name: 'color-scheme', content: 'light' },
       { title: 'frixaco' },
       { name: 'description', content: DESCRIPTION },
       { property: 'og:title', content: 'frixaco' },
@@ -58,7 +57,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   )
 }
 
-// The app bar (and its player) sits outside the routes, so music keeps playing across navigation.
+// The player lives in the home layout (_home.tsx), so music keeps playing across its views.
 function RootLayout() {
   // Analytics in production builds only, so local dev doesn't pollute the numbers. posthog-js
   // (~100 KB gzipped) loads once the page is idle instead of in the entry bundle.
@@ -83,36 +82,12 @@ function RootLayout() {
     }
   }, [])
 
-  return (
-    <div className="page">
-      <Banner />
-      <AppBar />
-      <Outlet />
-    </div>
-  )
-}
-
-// Marquee: four copies, so half the track is wider than the page and the -50% loop is seamless.
-// Screen readers get the first copy only.
-const BANNER = '🚧 doing 14th complete redesign and will be focusing on giving more personality 🚧'
-
-function Banner() {
-  return (
-    <div className="banner">
-      <div className="banner-track">
-        {[0, 1, 2, 3].map((i) => (
-          <p key={i} aria-hidden={i > 0 || undefined}>
-            {BANNER}
-          </p>
-        ))}
-      </div>
-    </div>
-  )
+  return <Outlet />
 }
 
 function NotFound() {
   return (
-    <main className="not-found panel">
+    <main className="not-found">
       <span className="faint">404</span>
       <Link className="link" to="/">
         frixaco.com

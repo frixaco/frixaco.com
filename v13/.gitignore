@@ -1,0 +1,18 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+.env
+.nitro
+.tanstack
+.wrangler
+.output
+.vinxi
+__unconfig*
+todos.json
+.shots
+# The player's audio: lives in the "music" Railway bucket (scripts/upload-music.ts).
+music
+# Project demo clips: live in the same bucket under clips/ (scripts/upload-clips.ts).
+public/clips

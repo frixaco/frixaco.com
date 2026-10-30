@@ -1,21 +1,4 @@
-/* Base. Layout uses padding, gap and flex/grid; avoid margins. */
-
-:root {
-  /* Motion (emil-design-eng / animate skills) */
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
-  --press: scale(0.97);
-
-  /* Sticky app bar height (incl. its 1px gutters); sections scroll to just below it. */
-  --appbar-h: calc(87px + env(safe-area-inset-top, 0px));
-}
-
-@media (min-width: 768px) {
-  :root {
-    --appbar-h: 42px;
-  }
-}
+/* Base: reset, the paper itself, shared bits. Layout uses padding, gap and flex/grid; no margins. */
 
 *,
 *::before,
@@ -24,40 +7,25 @@
   margin: 0;
 }
 
-/* <picture> only picks the format: its <img> lays out as if the wrapper weren't there. */
-picture {
-  display: contents;
-}
-
-/* Otherwise an empty flex item, which takes a gap of its own. */
-picture > source {
-  display: none;
-}
-
-/* Read by screen readers and crawlers, not shown. */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
 html {
-  background: var(--color-bg-gutter);
-  color: var(--color-text);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  line-height: var(--leading-row);
+  font-size: var(--text-base);
+  line-height: var(--leading);
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
-  overflow-wrap: anywhere;
   scrollbar-gutter: stable;
-  scrollbar-color: var(--color-line-strong) var(--color-bg-gutter);
+  scrollbar-color: var(--rule-strong) var(--paper);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* An opened view covers the page; the page behind stops scrolling while it's covered
@@ -66,11 +34,18 @@ html:has(.window[data-covering]) {
   overflow: hidden;
 }
 
+/* Paper: a still noise tile (it doesn't scroll with the page) over a soft light from the top. */
+body,
+.window {
+  background-color: var(--paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(120% 80% at 50% 0%, var(--paper-glow) 0%, transparent 70%);
+  background-attachment: fixed;
+}
+
 body {
-  display: grid;
-  justify-items: center;
   min-height: 100dvh;
-  background: var(--color-bg-gutter);
 }
 
 img,
@@ -101,18 +76,20 @@ button:disabled {
 
 button,
 a,
-[role="button"],
 [role="slider"] {
   touch-action: manipulation;
 }
 
-button,
-[role="button"],
-.tab,
-.tag,
-.pill,
-.pill-accent {
+button {
   user-select: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  font: inherit;
 }
 
 ul,
@@ -121,171 +98,41 @@ ol {
   list-style: none;
 }
 
-h1,
-h2,
-h3,
-h4 {
-  font: inherit;
-}
-
 ::selection {
-  background: var(--color-value-fill);
-  color: var(--color-text);
-}
-
-/* The page fills a 13" screen and stays centered beyond it. 1px gutters between panels. */
-.page {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: var(--page-max);
-  min-width: 0;
-  padding-inline: 1px;
-}
-
-/* Redesign notice above the app bar: a looping marquee. */
-.banner {
-  overflow: hidden;
-  padding-block: var(--spacing-xl);
-  border-radius: var(--radius-panel);
-  background: var(--color-accent);
-  color: var(--color-text-on-color);
-  font-size: var(--text-2xl);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.2;
-  letter-spacing: var(--tracking-tight);
-  white-space: nowrap;
-}
-
-.banner-track {
-  display: flex;
-  width: max-content;
-  animation: banner-scroll 40s linear infinite;
-}
-
-.banner-track > p {
-  padding-inline-end: var(--spacing-4xl);
-}
-
-@keyframes banner-scroll {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .banner {
-    white-space: normal;
-  }
-
-  .banner-track {
-    width: auto;
-    padding-inline: var(--inset);
-    animation: none;
-  }
-
-  .banner-track > p[aria-hidden] {
-    display: none;
-  }
-}
-
-.panel {
-  background: var(--color-bg-panel);
-  border-radius: var(--radius-panel);
+  background: var(--wash);
+  color: var(--ink);
 }
 
 .faint {
-  color: var(--color-text-faint);
-}
-
-.muted {
-  color: var(--color-text-muted);
-}
-
-.link {
-  color: var(--color-value);
-  transition: color 150ms ease;
-}
-
-@media (min-width: 768px) {
-  .phone-only {
-    display: none !important;
-  }
-}
-
-@media (max-width: 767px) {
-  .page {
-    padding-inline: 0;
-  }
-
-  .desktop-only {
-    display: none !important;
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .link:hover {
-    color: var(--color-cat-ice);
-  }
-}
-
-/* Shared pressables */
-.pill,
-.pill-accent {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
-  transition:
-    transform 160ms var(--ease-out),
-    background-color 150ms ease;
-}
-
-.pill:active,
-.pill-accent:active {
-  transform: var(--press);
-}
-
-.pill {
-  gap: 6px;
-  height: 28px;
-  padding-inline: 14px;
-  border-radius: var(--radius-pill);
-  background: var(--color-bg-raised);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-medium);
-  line-height: 16px;
-}
-
-.pill .arrow {
-  color: var(--color-value);
-  font-weight: var(--font-weight-regular);
-}
-
-.pill-accent {
-  height: 28px;
-  padding-inline: 14px;
-  border-radius: var(--radius-pill);
-  background: var(--color-accent);
-  color: var(--color-text-on-color);
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-medium);
-  line-height: 18px;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .pill:hover {
-    background: var(--color-bg-hover);
-  }
-
-  .pill-accent:hover {
-    background: color-mix(in oklab, var(--color-accent), white 14%);
-  }
+  color: var(--ink-faint);
 }
 
 .rule {
   height: 1px;
   flex-shrink: 0;
-  background: var(--color-line-subtle);
+  background: var(--rule);
+}
+
+/* A text link: no line until hovered (a pointer) or pressed. */
+.link {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition:
+    color 150ms ease,
+    text-decoration-color 150ms ease;
+}
+
+.link:active {
+  text-decoration-color: currentColor;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    color: var(--ink);
+    text-decoration-color: currentColor;
+  }
 }
 
 .tags {
@@ -295,11 +142,12 @@ h4 {
 }
 
 .tag {
-  padding: 1px 6px;
+  padding: 0 6px;
+  border: 1px solid var(--rule);
   border-radius: var(--radius-xs);
-  color: var(--color-text-on-color);
+  color: var(--ink-muted);
   font-size: var(--text-xs);
-  line-height: 14px;
+  line-height: 18px;
   white-space: nowrap;
 }
 
@@ -308,8 +156,7 @@ h4 {
   gap: 12px;
   align-items: center;
   justify-content: center;
-  min-height: 50dvh;
-  font-size: var(--text-base);
+  min-height: 100dvh;
 }
 
 @media (prefers-reduced-motion: reduce) {

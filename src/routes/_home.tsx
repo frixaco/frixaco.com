@@ -1,8 +1,8 @@
-// Home: every section on one page, plus the opened views (README, post, more) on top of it.
+// Home: every section on one page (the paper design), plus the opened views (README, post, more) on top of it.
 // Child routes only pick the section to scroll to or the view to open.
 import { useEffect, useReducer, useRef, type ReactNode } from 'react'
 import { createFileRoute, useLocation, useMatch, useNavigate, useRouter } from '@tanstack/react-router'
-import { Home } from '#/components/Home'
+import { Paper } from '#/components/Paper'
 import { MoreWindow, PostWindow, ProjectWindow } from '#/components/Windows'
 import {
   isProgrammaticScroll,
@@ -15,23 +15,22 @@ import {
 import { getPosts, getXportNpm } from '#/server/functions'
 
 export const Route = createFileRoute('/_home')({
-  loader: async () => ({
-    posts: await getPosts(),
-    // Streams in; the card renders it with <Await>.
-    npm: getXportNpm().catch(() => null),
-  }),
+  // The npm data streams in later: the page doesn't wait for the registry.
+  loader: async () => ({ posts: await getPosts(), xportNpm: getXportNpm().catch(() => null) }),
   // Section changes are just scrolling: never re-run this loader for them.
   staleTime: Infinity,
   component: HomeRoute,
 })
 
 function HomeRoute() {
-  const { posts, npm } = Route.useLoaderData()
+  const { posts, xportNpm } = Route.useLoaderData()
   return (
     <>
       <SectionScroll />
-      <Home posts={posts} npm={npm} />
-      <WindowHost />
+      {/* Inside the paper, so the opened views take its colors. */}
+      <Paper posts={posts} xportNpm={xportNpm}>
+        <WindowHost />
+      </Paper>
     </>
   )
 }

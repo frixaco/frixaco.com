@@ -1,0 +1,27 @@
+--- a/src/metrics.ts
++++ b/src/metrics.ts
+@@ -46,7 +46,7 @@
+   worstFrame: FrameSample | null;
+ }
+ 
+-const MAX_SAMPLES = 200;
++const MAX_SAMPLES = 1_000_000;
+ 
+ let frameSamples: FrameSample[] = [];
+ let frameCount = 0;
+@@ -173,6 +173,15 @@
+ export function saveMetrics(filename: string = DEFAULT_METRICS_PATH): void {
+   ensureParentDir(filename);
+   writeFileSync(filename, formatMetrics() + "\n", "utf8");
++  const keys = ["totalMs", "jsMs", "renderMs", "syncMs", "flushMs"] as const;
++  const ps = [0, 0.5, 0.9, 0.95, 0.99, 0.999, 1];
++  const rows = keys.map((k) => {
++    const sorted = frameSamples.map((f) => f[k]).sort((a, b) => a - b);
++    const avg = sorted.reduce((a, b) => a + b, 0) / sorted.length;
++    return `${k} n=${sorted.length} avg=${avg.toFixed(3)} ` + ps.map((p) => `p${p * 100}=${percentile(sorted, p).toFixed(3)}`).join(" ");
++  });
++  writeFileSync(filename + ".pct", rows.join("\n") + "\n", "utf8");
++  writeFileSync(filename + ".raw.json", JSON.stringify(frameSamples.map((f) => [f.totalMs, f.jsMs, f.renderMs, f.syncMs, f.flushMs])), "utf8");
+ }
+ 
+ function elapsedMs(startTime: number): number {

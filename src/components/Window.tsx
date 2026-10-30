@@ -1,6 +1,6 @@
 // An opened view (project README, blog post): a window that grows out of the card or
 // row it was opened from and shrinks back into it. The page stays mounted underneath,
-// so closing returns to exactly where you were. Desktop: below the app bar; phones: full screen.
+// so closing returns to exactly where you were. It covers the whole screen.
 //
 // Motion: the window is laid out at its final size; the animation only moves it
 // (translate) and reveals it (clip-path), so text never scales. Both run on the
@@ -11,7 +11,6 @@
 // and on close the copy returns early, so the window lands as the card and hands off
 // to the real one on an identical frame. Nothing fades as it lands.
 import { useEffect, useLayoutEffect, useRef, type ReactNode } from 'react'
-import { ShrinkIcon } from './icons'
 
 export const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)' // iOS-like sheet curve
 const OPEN_MS = 460
@@ -31,11 +30,10 @@ export interface WindowProps {
   open: boolean
   onClose(): void
   onExited(): void
-  barClass?: string
-  barStyle?: React.CSSProperties
-  title: ReactNode
-  subtitle: ReactNode
-  action?: ReactNode
+  /** In the margin column on wide screens (a post's contents). */
+  nav?: ReactNode
+  /** Next to the way back: in the margin column, or the dock at the bottom on narrow screens. */
+  links?: ReactNode
   label: string
   children: ReactNode
   /** Rendered open on page load (a deep link): appear without growing out of anything. */
@@ -45,6 +43,10 @@ export interface WindowProps {
 }
 
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** The page under the windows: inert while one is open. */
+const page = (inert: boolean) =>
+  document.querySelectorAll('.paper > :not(.window-layer)').forEach((el) => el.toggleAttribute('inert', inert))
 
 /** Keyframes that place the window over the source element's box. */
 function fromSource(win: HTMLElement, source: Element | null): Keyframe | null {
@@ -57,7 +59,6 @@ function fromSource(win: HTMLElement, source: Element | null): Keyframe | null {
   const dy = a.top - b.top
   return {
     transform: `translate(${dx}px, ${dy}px)`,
-    // Start with the source's own corners (rounded project cards, square post rows).
     clipPath: `inset(0px ${Math.max(0, b.width - a.width)}px ${Math.max(0, b.height - a.height)}px 0px round ${corners(source)})`,
   }
 }
@@ -65,40 +66,23 @@ function corners(el: Element) {
   const s = getComputedStyle(el)
   return `${s.borderTopLeftRadius} ${s.borderTopRightRadius} ${s.borderBottomRightRadius} ${s.borderBottomLeftRadius}`
 }
-const FULL: Keyframe = { transform: 'translate(0px, 0px)', clipPath: 'inset(0px 0px 0px 0px round 3px)' }
+const FULL: Keyframe = { transform: 'translate(0px, 0px)', clipPath: 'inset(0px 0px 0px 0px round 0px)' }
 
 /** A static copy of the source, pixel-matched outside its page context. */
 function copyOf(source: HTMLElement) {
   const copy = source.cloneNode(true) as HTMLElement
-  freezeSubgrids(source, copy)
   copy.removeAttribute('data-window-source')
   for (const el of [copy, ...copy.querySelectorAll('[id]')]) el.removeAttribute('id')
   for (const img of copy.querySelectorAll('img')) img.loading = 'eager'
   const r = source.getBoundingClientRect()
-  const s = getComputedStyle(source)
   Object.assign(copy.style, {
     width: `${r.width}px`,
     height: `${r.height}px`,
     margin: '0',
-    // A blog row takes its fill from the panel around it, and its divider from `li + li`.
+    // The paper behind it, so the copy covers the window's own content.
     background: backdrop(source),
-    borderTop: s.borderTop,
   })
   return copy
-}
-
-/** Subgrid lanes come from the row of cards; the copy has no row, so pin its tracks. */
-function freezeSubgrids(src: Element, dst: HTMLElement) {
-  const s = getComputedStyle(src)
-  if (s.display === 'grid' && s.gridTemplateRows.startsWith('subgrid')) {
-    const gap = parseFloat(s.rowGap) || 0
-    const end = src.getBoundingClientRect().bottom - parseFloat(s.paddingBottom) - parseFloat(s.borderBottomWidth)
-    const tops = [...src.children].map((c) => c.getBoundingClientRect().top)
-    dst.style.display = 'grid'
-    dst.style.rowGap = `${gap}px`
-    dst.style.gridTemplateRows = tops.map((top, i) => `${(i + 1 < tops.length ? tops[i + 1] - gap : end) - top}px`).join(' ')
-  }
-  ;[...src.children].forEach((c, i) => freezeSubgrids(c, dst.children[i] as HTMLElement))
 }
 
 function backdrop(el: Element | null): string {
@@ -106,7 +90,7 @@ function backdrop(el: Element | null): string {
     const bg = getComputedStyle(el).backgroundColor
     if (bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') return bg
   }
-  return 'var(--color-bg-panel)'
+  return 'var(--paper)'
 }
 
 export function Window(props: WindowProps) {
@@ -121,8 +105,7 @@ export function Window(props: WindowProps) {
   // Open: grow out of the source. On a deep link (server-rendered open) just appear.
   useLayoutEffect(() => {
     const el = win.current!
-    const page = document.querySelector<HTMLElement>('.home')
-    page?.setAttribute('inert', '')
+    page(true)
     returnFocus.current = (document.activeElement as HTMLElement) ?? null
 
     // Measure the window at rest: no transform or clip left over from an earlier run.
@@ -161,7 +144,7 @@ export function Window(props: WindowProps) {
       clear()
       anim.current = null
       el.removeAttribute('data-covering')
-      page?.removeAttribute('inert')
+      page(false)
     }
     // Open once per window; `source` doesn't change for a mounted window.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -173,17 +156,16 @@ export function Window(props: WindowProps) {
     const el = win.current!
     // The page is live again as soon as closing starts (scrolls, and can take focus back).
     el.removeAttribute('data-covering')
-    document.querySelector('.home')?.removeAttribute('inert')
+    page(false)
     const sourceEl = document.querySelector<HTMLElement>(`[data-window-source="${source}"]`)
     // Opened from its card, the window lands back on it where it was: the page didn't move.
     // Only when the card's top isn't on screen (a deep link) is it brought into view first,
-    // behind the window: just below the sticky app bar, centered in the rest if it fits.
+    // behind the window: centered on screen if it fits.
     if (sourceEl) {
       const r = sourceEl.getBoundingClientRect()
-      const top = document.querySelector('.appbar')?.getBoundingClientRect().bottom ?? 0
-      if (r.top < top || r.top >= window.innerHeight) {
-        const offset = Math.max(0, (window.innerHeight - top - r.height) / 2)
-        window.scrollTo({ top: window.scrollY + r.top - top - offset, behavior: 'instant' })
+      if (r.top < 0 || r.top >= window.innerHeight) {
+        const offset = Math.max(0, (window.innerHeight - r.height) / 2)
+        window.scrollTo({ top: window.scrollY + r.top - offset, behavior: 'instant' })
       }
     }
     const current = anim.current
@@ -266,18 +248,19 @@ export function Window(props: WindowProps) {
       tabIndex={-1}
       data-open={open}
     >
-      <div className={`window-bar ${props.barClass ?? ''}`} style={props.barStyle}>
-        {/* The whole bar (but its action) shrinks the window, as the card's bar opened it. */}
-        <button type="button" className="window-close inset-ring" onClick={onClose} aria-label="Close">
-          <ShrinkIcon />
-          <span className="window-title">{props.title}</span>
-          <span className="window-subtitle">{props.subtitle}</span>
-        </button>
-        {props.action}
-      </div>
       <div ref={scroll} className="window-scroll">
-        <div className="window-body">
-          {children}
+        {/* The home page's layout: the margin column, then the column of text. */}
+        <div className="window-sheet">
+          <aside className="window-aside">
+            <div className="window-dock">
+              <button type="button" className="link window-back" onClick={onClose}>
+                home
+              </button>
+              {props.links}
+            </div>
+            {props.nav}
+          </aside>
+          <div className="window-body">{children}</div>
         </div>
       </div>
       {/* The source's copy while the window travels (filled imperatively, never by React). */}

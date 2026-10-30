@@ -41,9 +41,10 @@ export function scrollToSection(section: Section, smooth = true) {
   scrollTimer = window.setTimeout(done, behavior === 'smooth' ? 1200 : 50)
 }
 
-/** The section whose top has passed a line just under the sticky app bar. */
+/** The section whose top has passed a line a quarter of the way down the screen. The line moves
+ *  down with the first scroll, so a short intro keeps "about" at the top of the page. */
 export function sectionAtScroll(): Section {
-  const line = (document.querySelector('.appbar')?.getBoundingClientRect().bottom ?? 0) + window.innerHeight * 0.25
+  const line = Math.min(window.innerHeight * 0.25, window.scrollY)
   // At the very bottom the last section wins even if it's short.
   if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) return SCROLLED[SCROLLED.length - 1]
   let current: Section = 'about'
