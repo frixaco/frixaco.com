@@ -54,6 +54,10 @@ export function renderMarkdown(source: string, { resolve }: Options = {}): Rende
   const headings: Heading[] = []
   const used = new Map<string, number>()
   const url = (href: string, image: boolean) => (resolve && isRelative(href) ? resolve(href, image) : href)
+  // Heading levels without gaps (a post's #### right under ## is an h3), so the outline a screen
+  // reader reads has no holes: the level is how deep the heading sits under the ones before it.
+  // data-depth keeps the written depth, which the styles follow.
+  const open: number[] = []
 
   const marked = new Marked({
     gfm: true,
@@ -65,7 +69,14 @@ export function renderMarkdown(source: string, { resolve }: Options = {}): Rende
         used.set(base, n + 1)
         const id = n ? `${base}-${n}` : base
         headings.push({ depth, text: decode(inner.replace(/<[^>]+>/g, '')), id })
-        return `<h${depth} id="${id}">${inner}</h${depth}>\n`
+        while (open.length && open[open.length - 1] >= depth) open.pop()
+        open.push(depth)
+        const level = Math.min(depth, (headings[0]?.depth ?? depth) + open.length - 1)
+        return `<h${level} id="${id}" data-depth="${depth}">${inner}</h${level}>\n`
+      },
+      // A task list's box: read out as done or not.
+      checkbox({ checked }: Tokens.Checkbox) {
+        return `<input type="checkbox" disabled${checked ? ' checked' : ''} aria-label="${checked ? 'done' : 'not done'}"> `
       },
       code({ text, lang }: Tokens.Code) {
         const language = (lang ?? '').split(/\s/)[0]

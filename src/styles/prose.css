@@ -20,16 +20,16 @@
 }
 
 /* No rules between parts (the home page has none): space and size set them apart. */
-.md h2 {
+.md [data-depth="2"] {
   padding-top: 32px;
   font-size: var(--text-lg);
 }
 
-.md h3 {
+.md [data-depth="3"] {
   padding-top: 16px;
 }
 
-.md :is(h4, h5, h6) {
+.md :is([data-depth="4"], [data-depth="5"], [data-depth="6"]) {
   padding-top: 8px;
   color: var(--ink-muted);
 }
@@ -208,7 +208,7 @@
     gap: 16px;
   }
 
-  .md h2 {
+  .md [data-depth="2"] {
     padding-top: 24px;
   }
 
