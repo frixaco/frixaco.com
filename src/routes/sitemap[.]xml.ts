@@ -1,5 +1,4 @@
-// Every page with its own content, for search engines (robots.txt points here). The home sections
-// (/projects, /work, /blog) are the home page scrolled, so only "/" is listed for them.
+// Every page with its own URL, for search engines (robots.txt points here).
 import { createFileRoute } from '@tanstack/react-router'
 import { projects } from '#/content/site'
 import { SITE } from '#/lib/head'
@@ -11,6 +10,9 @@ export const Route = createFileRoute('/sitemap.xml')({
       GET: () => {
         const pages = [
           { path: '/', lastmod: __BUILD_DATE__ },
+          { path: '/projects' },
+          { path: '/work' },
+          { path: '/blog' },
           { path: '/more' },
           ...postList().map((p) => ({ path: `/blog/${p.slug}`, lastmod: p.date.slice(0, 10) })),
           ...projects.map((p) => ({ path: `/projects/${p.id}` })),

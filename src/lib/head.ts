@@ -5,7 +5,7 @@ export const SITE = 'https://frixaco.com'
 
 interface Page {
   title: string
-  /** The page's own URL path: the home sections all point at "/" (one page, scrolled). */
+  /** The page's own URL path. */
   path: string
   description?: string
   type?: 'website' | 'article'
