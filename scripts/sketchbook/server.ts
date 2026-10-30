@@ -33,7 +33,7 @@ createServer(async (req, res) => {
       return send(200, stripTypeScriptTypes(ts), 'text/javascript; charset=utf-8')
     }
     if (req.method === 'GET' && url.pathname === '/font.woff2') {
-      return send(200, await readFile(join(root, 'public/fonts/PaperMono-Variable.woff2')), 'font/woff2')
+      return send(200, await readFile(join(root, 'scripts/fonts/PaperMono-Variable.woff2')), 'font/woff2')
     }
     // Every saved mark, keyed by id.
     if (req.method === 'GET' && url.pathname === '/marks') {

@@ -13,7 +13,7 @@ The goal is to show the world who I am, both as a person and as a developer. It 
 - Right now I want to explore **industrial design**, **neo-brutalism**, and related styles to make the site more interesting and unique.
 - Avoid generic portfolio patterns and template-looking layouts.
 - Polish bar: extremely polished, Apple-level design and motion, while staying faithful to the mockup. Use the skills in `.claude/skills/` while implementing: `emil-design-eng` and `apple-design` for craft, `animate` / `review-animations` for motion, `mobile-native` for phones, `break-ui` for worst-case content.
-- Font: **Paper Mono** everywhere (self-hosted variable font in `public/fonts/`, OFL).
+- Font: **Paper Mono** everywhere (self-hosted variable font in `public/fonts/`, OFL), cut into a preloaded Latin file and the rest by `scripts/fonts/subset.sh` from the full font beside it.
 
 ## Content
 

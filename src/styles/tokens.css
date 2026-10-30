@@ -3,12 +3,25 @@
  * hard-code a color, size or curve that has a token here.
  */
 
+/* Paper Mono, cut by scripts/fonts/subset.sh: Latin (preloaded), and the rest only when a page uses it. */
 @font-face {
   font-family: "Paper Mono";
-  src: url("/fonts/PaperMono-Variable.woff2") format("woff2");
+  src: url("/fonts/PaperMono-Latin.woff2") format("woff2");
   font-weight: 100 800;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF, U+2212;
+}
+
+@font-face {
+  font-family: "Paper Mono";
+  src: url("/fonts/PaperMono-Rest.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+  /* Only the blocks it has glyphs in: Japanese in a track title must not fetch it for nothing. */
+  unicode-range: U+0100-03FF, U+0E3F, U+1E00-1EFF, U+2070-218F, U+2200-2211, U+2213-27BF, U+3003, U+301C,
+    U+A78B-A78C, U+F8FF, U+FB01-FB02;
 }
 
 :root {
