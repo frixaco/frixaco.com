@@ -5,8 +5,8 @@ export function getRouter() {
   const router = createTanStackRouter({
     routeTree,
     scrollRestoration: true,
+    // A post is fetched when a link is pointed at, and that data is what the click opens.
     defaultPreload: 'intent',
-    defaultPreloadStaleTime: 0,
   })
 
   return router
