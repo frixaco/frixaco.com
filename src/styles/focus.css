@@ -18,3 +18,13 @@
 :where([data-keys]) :is(.playlist-row, .seek-bar):focus-visible {
   outline-offset: -2px;
 }
+
+/* The compare slider is a hairline inside a clipped frame: the ring goes round the frame. */
+:where([data-keys]) .paper-compare [role="slider"]:focus-visible {
+  outline: none;
+}
+
+:where([data-keys]) .paper-compare:has(:focus-visible) {
+  outline: 1.5px solid var(--ink);
+  outline-offset: 3px;
+}

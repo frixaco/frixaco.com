@@ -15,6 +15,20 @@ export const contacts = [
 
 export type ProjectId = 'letui' | 'senmei' | 'xport'
 
+interface Picture {
+  src: string
+  width: number
+  height: number
+  alt: string
+}
+
+/** Under a project's title: a clip (/clips/<name>.webm and .mp4 from the bucket, see clipFiles;
+ *  poster public/<name>.webp),
+ *  or two frames to compare with a slider. Copy from the previous site. */
+export type Demo =
+  | { kind: 'clip'; name: string; width: number; height: number; label: string }
+  | { kind: 'compare'; label: string; before: Picture & { tag: string }; after: Picture & { tag: string } }
+
 export interface Project {
   id: ProjectId
   repo: string
@@ -23,6 +37,7 @@ export interface Project {
   tags: string[]
   /** Where it runs publicly (a host, served over https). */
   site?: string
+  demo: Demo
 }
 
 export const projects: Project[] = [
@@ -33,6 +48,13 @@ export const projects: Project[] = [
     description:
       'TUI library built from scratch with TypeScript and a Rust core, featuring a component-based API, signal-based state management, CSS-like styling API, a Rust-powered layout and rendering engine, and cell-based diffing.',
     tags: ['rust', 'typescript', 'bun'],
+    demo: {
+      kind: 'clip',
+      name: 'letui-letty',
+      width: 1478,
+      height: 858,
+      label: 'Letty, the LeTUI AI agent example, answering a question about the renderer with Codex',
+    },
   },
   {
     id: 'senmei',
@@ -42,6 +64,18 @@ export const projects: Project[] = [
       'In-browser MKV video streamer and player built from scratch, featuring real-time 4K anime upscaling powered by WGSL (WebGPU) shaders ported from Anime4K.',
     tags: ['typescript', 'webgpu', 'wgsl'],
     site: 'senmei.frixaco.com',
+    demo: {
+      kind: 'compare',
+      label: 'Compare original and anime4k',
+      before: { tag: 'original', src: '/senmei-original.webp', width: 720, height: 394, alt: 'Anime frame at its source 1080p' },
+      after: {
+        tag: 'anime4k',
+        src: '/senmei-anime4k.webp',
+        width: 1440,
+        height: 788,
+        alt: "Same frame upscaled to 4K by Senmei's Anime4K pipeline",
+      },
+    },
   },
   {
     id: 'xport',
@@ -51,10 +85,20 @@ export const projects: Project[] = [
       'Web app and CLI for exporting X threads, articles, posts, and replies as Markdown or JSON, built around resumable jobs.',
     tags: ['tanstack start', 'postgresql'],
     site: 'xport.frixaco.com',
+    demo: {
+      kind: 'clip',
+      name: 'xport-export',
+      width: 1600,
+      height: 900,
+      label: 'Xport exporting @NASA posts, stopped early and downloaded as Markdown',
+    },
   },
 ]
 
 export const projectById = (id: string) => projects.find((p) => p.id === id)
+
+/** Every demo clip file: what /clips serves and scripts/upload-clips.ts puts in the bucket. */
+export const clipFiles = projects.flatMap(({ demo }) => (demo.kind === 'clip' ? [`${demo.name}.webm`, `${demo.name}.mp4`] : []))
 
 export interface Role {
   /** Each name links to its own site when it has one. */

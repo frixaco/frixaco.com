@@ -1,6 +1,6 @@
 // The "music" Railway bucket (S3-compatible), from the MUSIC_* variables Railway references into
-// the portfolio-web service: the player's audio. Shared by the /music route, the upload script and
-// the build check.
+// the portfolio-web service: the player's audio, and the project demo clips under clips/. Shared by
+// the /music and /clips routes, the upload scripts and the build check.
 // No relative/alias imports: scripts and vite.config.ts load this file directly.
 import { AwsClient } from 'aws4fetch'
 
@@ -29,3 +29,6 @@ export function musicBucket(env: Record<string, string | undefined> = process.en
 
 /** Bucket key of a track: its id plus the file's extension. */
 export const objectKey = (id: string) => `${id}.m4a`
+
+/** Bucket key of a project demo clip file (`letui-letty.webm`). */
+export const clipKey = (file: string) => `clips/${file}`

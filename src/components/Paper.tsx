@@ -13,6 +13,7 @@ import senmei from '../../content/stats/senmei.json'
 import xport from '../../content/stats/xport.json'
 import underline from '../../content/marks/senmei-underline.json'
 import { Await, Link } from '@tanstack/react-router'
+import { Demo } from './Demo'
 import { Ink } from './Ink'
 import { Player } from './Player'
 
@@ -83,10 +84,11 @@ export function Paper({
             projects
           </h2>
           <div className="paper-list">
-          {projects.map((p) => (
+          {projects.map((p, i) => (
             <article key={p.id} className="paper-item" data-ink-group>
               <div>
                 <h3>{p.name}</h3>
+                <Demo demo={p.demo} eager={i === 0} />
                 <p>{withMarks(p.description, WORD_MARKS[p.id] ?? [])}</p>
               </div>
               {p.id === 'letui' ? <LetuiLine /> : p.id === 'senmei' ? <SenmeiLine /> : <XportLine npm={xportNpm} />}
