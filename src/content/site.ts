@@ -19,7 +19,6 @@ export interface Project {
   id: ProjectId
   repo: string
   name: string
-  wip?: boolean
   description: string
   tags: string[]
   /** Where it runs publicly (a host, served over https). */
@@ -57,15 +56,9 @@ export const projects: Project[] = [
 
 export const projectById = (id: string) => projects.find((p) => p.id === id)
 
-/** A year-month, 1-based month. */
-export type YM = readonly [year: number, month: number]
-
 export interface Role {
   /** Each name links to its own site when it has one. */
   names: Array<{ text: string; href?: string }>
-  start: YM
-  /** Omitted while it's the current job. */
-  end?: YM
   dates: string
   text: string
 }
@@ -76,35 +69,26 @@ export const roles: Role[] = [
       { text: 'vbrato', href: 'https://vbrato.com' },
       { text: 'ekko', href: 'https://ekkohq.com' },
     ],
-    start: [2023, 5],
     dates: 'may 2023 - present',
     text: 'Paid music collaborations and song-cover campaigns for artists worldwide. Led frontend and backend development across both products, built the Next.js frontend from scratch, and owned payments, payouts, and mobile audio features. Cut data processing for 1M+ artists from nine days to seven hours and roughly halved Soundcharts costs.',
   },
   {
     names: [{ text: 'geoalert', href: 'https://geoalert.io' }],
-    start: [2022, 12],
-    end: [2023, 6],
     dates: 'dec 2022 - jun 2023',
     text: 'AI mapping platform for satellite and aerial imagery. Built high-performance React interfaces for large imagery datasets, simplified component state and data flow, and helped move users to centralized sign-in with zero downtime.',
   },
   {
     names: [{ text: 'livereach', href: 'https://livereach.com' }],
-    start: [2021, 11],
-    end: [2023, 1],
     dates: 'nov 2021 - jan 2023',
     text: 'Social content and analytics platform with shoppable feeds for brands. Led React adoption within an Angular application and improved embedded app performance for e-commerce sites across Europe. Built a custom state manager that cut the JavaScript bundle by 20% and automated package publishing.',
   },
   {
     names: [{ text: 'hitide' }],
-    start: [2020, 12],
-    end: [2021, 2],
     dates: 'dec 2020 - feb 2021',
     text: "Online clothing brand. Fully automated stock updates with a tested pipeline that transformed Airtable inventory data and stored it in the website's database.",
   },
   {
     names: [{ text: 'moishlem', href: 'https://www.instagram.com/moishlem' }],
-    start: [2020, 8],
-    end: [2021, 10],
     dates: 'aug 2020 - oct 2021',
     text: 'Online sports insurance company for individuals, tournaments, etc. Built payment and subscription workflows and internal support tools, redesigned the PostgreSQL schema, and consolidated two backends into one codebase.',
   },

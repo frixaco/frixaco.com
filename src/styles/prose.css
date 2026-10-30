@@ -106,7 +106,6 @@
   background: var(--paper-sunk);
   font-size: 0.875em;
   box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 .md-code {

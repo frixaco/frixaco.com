@@ -68,6 +68,7 @@ button {
   color: inherit;
   text-align: inherit;
   cursor: pointer;
+  user-select: none;
 }
 
 button:disabled {
@@ -78,10 +79,6 @@ button,
 a,
 [role="slider"] {
   touch-action: manipulation;
-}
-
-button {
-  user-select: none;
 }
 
 h1,
@@ -133,22 +130,6 @@ ol {
     color: var(--ink);
     text-decoration-color: currentColor;
   }
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.tag {
-  padding: 0 6px;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-xs);
-  color: var(--ink-muted);
-  font-size: var(--text-xs);
-  line-height: 18px;
-  white-space: nowrap;
 }
 
 .not-found {

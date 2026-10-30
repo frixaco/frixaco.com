@@ -15,20 +15,9 @@
   overflow: clip;
   pointer-events: auto;
   outline: none;
-  will-change: transform, clip-path;
 }
 
 .window[data-open="false"] {
-  pointer-events: none;
-}
-
-/* The text it grows out of, copied over its top-left corner while it travels. */
-.window-ghost {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  opacity: 0;
   pointer-events: none;
 }
 
@@ -49,35 +38,26 @@
   grid-template-columns: minmax(0, 1fr) var(--measure) minmax(0, 1fr);
 }
 
-/* Sticky, right-aligned against the text: the way back and the links on top, a post's contents
-   under them. */
+/* Like the home page's (paper.css): the way back and the links on top, a post's contents under
+   them. */
 .window-aside {
-  position: sticky;
-  top: 0;
-  grid-column: 1;
-  grid-row: 1;
-  align-self: start;
-  justify-self: end;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 48px;
-  width: min(100%, 240px + var(--gap));
   max-height: 100dvh;
   overflow-y: auto;
   scrollbar-width: none;
-  padding: 40px var(--gap) 40px 0;
-  text-align: right;
-  font-size: var(--text-sm);
-  line-height: 20px;
 }
 
 .window-dock {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
   color: var(--ink-muted);
+}
+
+/* Below 1200px it is the dock (paper.css). */
+@media (min-width: 1200px) {
+  .window-dock {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
 }
 
 .window-back {
@@ -168,12 +148,6 @@
   padding-bottom: 32px;
 }
 
-.post-header time,
-.post-tags {
-  color: var(--ink-faint);
-  font-size: var(--text-sm);
-}
-
 .post-header h1 {
   font-size: var(--text-xl);
   font-weight: var(--weight-medium);
@@ -181,7 +155,7 @@
   text-wrap: balance;
 }
 
-.post-header p:not(.post-tags) {
+.post-header p:not(.paper-caption) {
   color: var(--ink-muted);
 }
 
@@ -207,40 +181,31 @@
     display: none;
   }
 
-  /* After the home index dock. */
+  /* The home index's dock (paper.css). */
   .window-dock {
-    position: fixed;
     z-index: 1;
-    left: 50%;
-    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-    translate: -50% 0;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-    padding: 8px 20px 10px;
-    border-radius: var(--radius-pill);
-    background: color-mix(in oklab, var(--paper-raised), transparent 10%);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow:
-      0 0 0 1px var(--rule),
-      0 10px 28px -10px var(--shadow);
     font-size: var(--text-base);
     line-height: 24px;
-    white-space: nowrap;
   }
 }
 
 /* ---------- a README still on its way ---------- */
 
+/* Two paragraphs, each a heading over its lines. */
 .prose-skeleton {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 28px;
   width: min(var(--container-prose), 100%);
-  /* Only for a slow fetch: a README that lands while the window is still growing
+  /* Only for a slow fetch: a README that lands while the window is still opening
      never flashes a loading state first. */
   animation: prose-in 240ms var(--ease-out) 450ms both;
+}
+
+.prose-skeleton div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .prose-skeleton i {
@@ -292,11 +257,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.more-name {
-  color: var(--ink-faint);
-  font-weight: 400;
 }
 
 .more-body,

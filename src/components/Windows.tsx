@@ -23,7 +23,6 @@ export function ProjectWindow({ id, readme, ...presence }: Presence & { id: stri
   return (
     <Window
       {...presence}
-      source={`project:${id}`}
       label={`${project.repo} README`}
       links={
         <a className="link" href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer">
@@ -76,12 +75,16 @@ function Readme({ id, rendered, arriving }: { id: string; rendered: Rendered | n
 function ProseSkeleton() {
   return (
     <div className="prose-skeleton" aria-busy="true" aria-label="Loading README">
-      <i style={{ width: '32%', height: 32 }} />
-      <i style={{ width: '88%' }} />
-      <i style={{ width: '64%' }} />
-      <i style={{ width: '24%', height: 24, marginTop: 16 }} />
-      <i style={{ width: '80%' }} />
-      <i style={{ width: '56%' }} />
+      <div>
+        <i style={{ width: '32%', height: 32 }} />
+        <i style={{ width: '88%' }} />
+        <i style={{ width: '64%' }} />
+      </div>
+      <div>
+        <i style={{ width: '24%', height: 24 }} />
+        <i style={{ width: '80%' }} />
+        <i style={{ width: '56%' }} />
+      </div>
     </div>
   )
 }
@@ -111,7 +114,9 @@ export function PostWindow({
     const el = scroll.current
     if (!el) return
     const ids = groups.flatMap((g) => [g.head.id, ...g.items.map((i) => i.id)])
+    let frame = 0
     const update = () => {
+      frame = 0
       const top = el.getBoundingClientRect().top + 96
       // Before any heading has passed, the first section is current.
       let id: string | null = groups[0]?.items[0]?.id ?? null
@@ -121,9 +126,16 @@ export function PostWindow({
       }
       setCurrent(id)
     }
+    // At most once a frame.
+    const onScroll = () => {
+      frame ||= requestAnimationFrame(update)
+    }
     update()
-    el.addEventListener('scroll', update, { passive: true })
-    return () => el.removeEventListener('scroll', update)
+    el.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      el.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(frame)
+    }
   }, [groups])
 
   const activeGroup = Math.max(
@@ -144,7 +156,6 @@ export function PostWindow({
     <Window
       {...presence}
       scrollRef={scroll}
-      source={`blog:${post.meta.slug}`}
       label={post.meta.title}
       nav={
         groups.length > 1 || (groups[0]?.items.length ?? 0) > 0 ? (
@@ -181,10 +192,10 @@ export function PostWindow({
       }
     >
       <header className="post-header">
-        <time dateTime={post.meta.date.slice(0, 10)}>{formatPostDate(post.meta.date)}</time>
+        <time className="paper-caption" dateTime={post.meta.date.slice(0, 10)}>{formatPostDate(post.meta.date)}</time>
         <h1>{post.meta.title}</h1>
         <p>{post.meta.description}</p>
-        {post.meta.tags.length ? <p className="post-tags">{post.meta.tags.join(' · ')}</p> : null}
+        {post.meta.tags.length ? <p className="paper-caption">{post.meta.tags.join(' · ')}</p> : null}
       </header>
       <article className="md" dangerouslySetInnerHTML={{ __html: post.html }} />
     </Window>
@@ -195,12 +206,12 @@ export function PostWindow({
 export function MoreWindow(presence: Presence) {
   const { pc, games, anime, learning } = more
   return (
-    <Window {...presence} source="more" label="more">
+    <Window {...presence} label="more">
       <div className="more-doc">
         <p className="more-lede">{more.lede}</p>
 
         <section className="more-section" aria-label={pc.title}>
-          <h3 className="more-name">{pc.title}</h3>
+          <h3 className="paper-label">{pc.title}</h3>
           <dl className="more-specs">
             {pc.specs.map((spec) => (
               <div key={spec.part}>
@@ -212,7 +223,7 @@ export function MoreWindow(presence: Presence) {
         </section>
 
         <section className="more-section" aria-label={games.title}>
-          <h3 className="more-name">{games.title}</h3>
+          <h3 className="paper-label">{games.title}</h3>
           <ul className="more-games">
             {games.titles.map((title) => (
               <li key={title}>{title}</li>
@@ -222,7 +233,7 @@ export function MoreWindow(presence: Presence) {
         </section>
 
         <section className="more-section" aria-label={anime.title}>
-          <h3 className="more-name">{anime.title}</h3>
+          <h3 className="paper-label">{anime.title}</h3>
           <div className="more-body">
             <p className="more-count">
               <span>{anime.count}</span>
@@ -248,7 +259,7 @@ export function MoreWindow(presence: Presence) {
         </section>
 
         <section className="more-section" aria-label={learning.title}>
-          <h3 className="more-name">{learning.title}</h3>
+          <h3 className="paper-label">{learning.title}</h3>
           <ul className="more-learning">
             {learning.items.map((item) => (
               <li key={item.name} className={item.paused ? 'paused' : undefined}>

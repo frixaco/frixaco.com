@@ -27,10 +27,11 @@
 
 /* ---------- the margin column ---------- */
 
-.paper-aside {
+/* Also an opened view's (window.css): sticky, right-aligned against the text. */
+.paper-aside,
+.window-aside {
   position: sticky;
   top: 0;
-  z-index: 20;
   grid-row: 1;
   grid-column: 1;
   align-self: start;
@@ -38,14 +39,18 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: space-between;
   gap: 48px;
   width: min(100%, 240px + var(--gap));
-  height: 100dvh;
   padding: 40px var(--gap) 40px 0;
   text-align: right;
   font-size: var(--text-sm);
   line-height: 20px;
+}
+
+.paper-aside {
+  z-index: 20;
+  justify-content: space-between;
+  height: 100dvh;
 }
 
 .paper-aside-top {
@@ -169,14 +174,11 @@
   flex-direction: column;
 }
 
-/* What's under a description: its numbers and their caption, then its links. */
-.paper-stats {
+/* Under a description, before its links: a faint label column, then what was measured. Phones:
+   each label over its value. */
+.paper-facts {
   padding-block: 16px 4px;
   font-variant-numeric: tabular-nums;
-}
-
-/* Stats: a faint label column, then what was measured. Phones: each label over its value. */
-.paper-facts {
   display: grid;
   grid-template-columns: 13ch minmax(0, 1fr);
   gap: 8px 24px;
@@ -367,10 +369,10 @@
     gap: 4px 16px;
   }
 
-  /* The index: a dock at the bottom, in reach of a thumb. */
-  .paper-index {
+  /* The index (and an opened view's way back, window.css): a dock at the bottom, in reach of a thumb. */
+  .paper-index,
+  .window-dock {
     position: fixed;
-    z-index: 30;
     left: 50%;
     bottom: calc(12px + env(safe-area-inset-bottom, 0px));
     translate: -50% 0;
@@ -381,11 +383,14 @@
     border-radius: var(--radius-pill);
     background: color-mix(in oklab, var(--paper-raised), transparent 10%);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     box-shadow:
       0 0 0 1px var(--rule),
       0 10px 28px -10px var(--shadow);
     white-space: nowrap;
+  }
+
+  .paper-index {
+    z-index: 30;
   }
 
   .paper-main {

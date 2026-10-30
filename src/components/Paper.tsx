@@ -5,6 +5,7 @@ import { Suspense, useEffect, useRef, useState, type MouseEvent, type ReactNode 
 import { RESUME_URL, SECTIONS, contacts, headline, more, projects, roles, type ProjectId, type Section } from '#/content/site'
 import { formatKB, formatPostDate } from '#/lib/format'
 import { compose, render, type Mark, type Point } from '#/lib/ink'
+import { sectionAtScroll } from '#/lib/sections'
 import type { PostMeta } from '#/server/content'
 import type { NpmInfo } from '#/server/functions'
 import letui from '../../content/stats/letui.json'
@@ -194,7 +195,7 @@ const ms = (n: number) => `${n.toFixed(1)}\u00a0ms`
 /** A project's measured stats: a label, then what was measured, row by row (the live site's copy). */
 function Facts({ rows }: { rows: Array<[label: string, value: ReactNode]> }) {
   return (
-    <dl className="paper-stats paper-facts">
+    <dl className="paper-facts">
       {rows.map(([label, value]) => (
         <div key={label}>
           <dt>{label}</dt>
@@ -294,17 +295,8 @@ function Index() {
     let timer = 0
     const sync = () => {
       frame = 0
-      if (jumping.current) return
-      // The line moves down with the first scroll, so a short intro keeps "about" at the top.
-      const line = Math.min(innerHeight * 0.4, scrollY)
-      let at: Section = 'about'
-      for (const s of SECTIONS) {
-        const el = document.getElementById(s)
-        if (el && el.getBoundingClientRect().top <= line) at = s
-      }
       // "more" is short and last: it never reaches the line, so the bottom of the page counts.
-      if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) at = SECTIONS[SECTIONS.length - 1]
-      setCurrent(at)
+      if (!jumping.current) setCurrent(sectionAtScroll(0.4, SECTIONS))
     }
     const onScroll = () => {
       frame ||= requestAnimationFrame(sync)
