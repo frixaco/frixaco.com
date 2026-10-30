@@ -1,4 +1,4 @@
-// A project's demo, under its title: a clip that plays muted while on screen, or Senmei's
+// A project's demo, under its title: a clip that plays when the visitor starts it, or Senmei's
 // before/after frames with a slider between them.
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
 import type { Demo as DemoData } from '#/content/site'
@@ -22,49 +22,8 @@ export function Demo({ demo, eager }: { demo: DemoData; eager: boolean }) {
 }
 
 function Clip({ clip, near }: { clip: Extract<DemoData, { kind: 'clip' }>; near: boolean }) {
-  const ref = useRef<HTMLVideoElement>(null)
-  // Plays while on screen, once the visitor has scrolled (a visit that never scrolls doesn't
-  // download the clip), and not with reduced motion; the controls always work. A pause the
-  // visitor chose sticks; a pause from scrolling away doesn't.
-  useEffect(() => {
-    const video = ref.current!
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    video.muted = true // React doesn't render the attribute, and only a muted clip may play by itself
-    let scrolledAway = false
-    let chosen = false
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (!e.isIntersecting) {
-          if (!video.paused) {
-            scrolledAway = true
-            video.pause()
-          }
-        } else if (!chosen) void video.play().catch(() => {})
-      },
-      { threshold: 0.35 },
-    )
-    const onPause = () => {
-      if (scrolledAway) scrolledAway = false
-      else chosen = true
-    }
-    const onPlay = () => {
-      chosen = false
-    }
-    const watch = () => io.observe(video)
-    if (scrollY > 0) watch()
-    else addEventListener('scroll', watch, { once: true, passive: true })
-    video.addEventListener('pause', onPause)
-    video.addEventListener('play', onPlay)
-    return () => {
-      removeEventListener('scroll', watch)
-      io.disconnect()
-      video.removeEventListener('pause', onPause)
-      video.removeEventListener('play', onPlay)
-    }
-  }, [])
   return (
     <video
-      ref={ref}
       poster={near ? `/${clip.name}.webp` : undefined}
       width={clip.width}
       height={clip.height}
