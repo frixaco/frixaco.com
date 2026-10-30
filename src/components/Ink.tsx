@@ -59,6 +59,8 @@ const FIT_PAD_Y = 6
 const EDGE = 8
 /** Notes moved beside the title keep this far from the title's text and from each other. */
 const SLOT_GAP = 16
+/** The next mark on the page starts this share of the way into this one, not after it. */
+const LEAD: Record<string, number> = { 'blog-squiggles': 1 / 3 }
 
 const files = import.meta.glob<Mark>('../../content/marks/*.json', { import: 'default' })
 const loaders = new Map(Object.entries(files).map(([path, load]) => [path.slice(path.lastIndexOf('/') + 1, -5), load]))
@@ -601,13 +603,21 @@ export function Ink({ root }: { root: RefObject<HTMLElement | null> }) {
       while (queue.length && !gone) {
         const group = queue.shift()!
         drawing.add(group)
+        const drawn: Promise<void>[] = []
         for (const p of marksOf(group)) {
           // Scrolled past before its turn: the rest of it waits for the next time it shows.
           if (gone || (!reduced && offScreen(group))) break
-          await draw(p)
-          if (!reduced) await wait(GAP)
+          const d = draw(p)
+          drawn.push(d)
+          const lead = reduced ? 0 : (LEAD[p.id] ?? 0)
+          if (lead) await wait(lead * Math.max(0, ...p.pieces.map((pc) => pc.points.at(-1)![3])))
+          else {
+            await d
+            if (!reduced) await wait(GAP)
+          }
         }
-        drawing.delete(group)
+        // Still drawing (a lead): it can't be erased yet, but the next group can start.
+        void Promise.all(drawn).then(() => drawing.delete(group))
         check()
       }
       running = false
