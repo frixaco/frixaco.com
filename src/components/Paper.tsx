@@ -38,6 +38,10 @@ export function Paper({
   const main = useRef<HTMLElement>(null)
   return (
     <div className="paper">
+      {/* The first Tab: past the player and the links, straight to the text. */}
+      <a className="skip-link" href="#about">
+        skip to content
+      </a>
       {/* The margin (after meodai's sticky intro column), right next to the text and aligned to
           it: the player, the resume over the section index, links. Phones and tablets: player,
           then links, on top; the resume under the intro; the index in a dock at the bottom (see paper.css). */}

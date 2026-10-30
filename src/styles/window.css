@@ -28,7 +28,7 @@
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding-inline: var(--inset);
+  padding-inline: var(--inset-left) var(--inset-right);
   scrollbar-color: var(--rule-strong) transparent;
   scrollbar-width: thin;
 }

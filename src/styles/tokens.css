@@ -46,6 +46,9 @@
 
   /* Space */
   --inset: 20px; /* edge inset on phones */
+  /* The page's sides: the inset, or more beside a notch (a phone held sideways). */
+  --inset-left: max(var(--inset), env(safe-area-inset-left, 0px));
+  --inset-right: max(var(--inset), env(safe-area-inset-right, 0px));
   --page-max: 1470px; /* a 13" MacBook Air viewport: full width there, centered beyond it */
   --radius-xs: 2px;
   --radius-sm: 4px;
