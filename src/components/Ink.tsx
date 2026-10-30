@@ -298,16 +298,18 @@ export function Ink({ root }: { root: RefObject<HTMLElement | null> }) {
           return k >= MIN_SCALE || !p.slot ? Math.max(k, 0.3) : 0
         })
         p.notes.forEach((n, i) => {
-          if (p.fit[i] || !p.slot) return
+          if (p.fit[i] || !p.slot || p.slot.tagName === 'H2') return
           const b = slotBox(n)
           slotHeight.set(p.slot, Math.max(slotHeight.get(p.slot) ?? 0, (b.y1 - b.y0) * slotScale(n, p.slot, zoom)))
         })
       }
       // Every title with notes grows to the tallest note beside any title, the title in the middle
       // of its row: the space under a title is the same everywhere, whether its own notes moved or not.
+      // A section label (h2) doesn't grow: its notes rise into the space above it instead, so the
+      // label stays as far from its content as every other label.
       const tallest = Math.max(0, ...slotHeight.values())
       for (const p of all) {
-        if (!p.slot || !p.notes.length) continue
+        if (!p.slot || !p.notes.length || p.slot.tagName === 'H2') continue
         const line = parseFloat(getComputedStyle(p.slot).lineHeight)
         const pad = tallest ? `${Math.max(0, Math.ceil((tallest - line) / 2))}px` : ''
         if (p.slot.style.paddingBlock !== pad) p.slot.style.paddingBlock = pad
@@ -404,8 +406,9 @@ export function Ink({ root }: { root: RefObject<HTMLElement | null> }) {
             slotUsed.set(p.slot!, used + w + SLOT_GAP)
             const cx = (n.box.x0 + n.box.x1) / 2
             const cy = (n.box.y0 + n.box.y1) / 2
+            const top = p.slot!.tagName === 'H2' ? S.bottom - (b.y1 - b.y0) * s : S.top
             m = new DOMMatrix()
-              .translate(S.right - used - w - H.left, S.top - H.top)
+              .translate(S.right - used - w - H.left, top - H.top)
               .scale(s)
               .translate(-b.x0, -b.y0)
               .translate(cx, cy)
