@@ -131,8 +131,12 @@ export function Paper({
         </section>
 
         <section id="blog" className="paper-section" data-ink-group aria-labelledby="blog-title">
-          <div data-mark="blog-squiggles">
-            <h2 id="blog-title">blog</h2>
+          {/* The squiggles were drawn around the label and the list together, so both are their
+              anchor; the anchor spaces them as the other sections do. */}
+          <div className="paper-section" data-mark="blog-squiggles">
+            <h2 id="blog-title" className="paper-label">
+              blog
+            </h2>
             <ol className="paper-posts">
               {posts.map((post) => (
                 <li key={post.slug}>
